@@ -1,0 +1,7242 @@
+[
+  {
+    "companyName": "圆通速递",
+    "companyCode": "yuantong",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "韵达快递",
+    "companyCode": "yunda",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "中通快递",
+    "companyCode": "zhongtong",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "申通快递",
+    "companyCode": "shentong",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "极兔速递",
+    "companyCode": "jtexpress",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "邮政快递包裹",
+    "companyCode": "youzhengguonei",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "顺丰速运",
+    "companyCode": "shunfeng",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "EMS",
+    "companyCode": "ems",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "京东物流",
+    "companyCode": "jd",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "邮政标准快递",
+    "companyCode": "youzhengbk",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "德邦快递",
+    "companyCode": "debangkuaidi",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "百世快递",
+    "companyCode": "huitongkuaidi",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "德邦",
+    "companyCode": "debangwuliu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "丰网速运",
+    "companyCode": "fengwang",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "中通国际",
+    "companyCode": "zhongtongguoji",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "韩国邮政",
+    "companyCode": "koreapostcn",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "中通快运",
+    "companyCode": "zhongtongkuaiyun",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "安能快运",
+    "companyCode": "annengwuliu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "京东快运",
+    "companyCode": "jingdongkuaiyun",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "韵达快运",
+    "companyCode": "yundakuaiyun",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "优速快递",
+    "companyCode": "youshuwuliu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "百世快运",
+    "companyCode": "baishiwuliu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "跨越速运",
+    "companyCode": "kuayue",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "宅急送",
+    "companyCode": "zhaijisong",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "联昊通",
+    "companyCode": "lianhaowuliu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "安得物流",
+    "companyCode": "annto",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "日日顺物流",
+    "companyCode": "rrs",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "国际包裹",
+    "companyCode": "youzhengguoji",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "顺心捷达",
+    "companyCode": "sxjdfreight",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "速必达",
+    "companyCode": "subida",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "中远快运",
+    "companyCode": "zy100",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "UPS-全球件",
+    "companyCode": "upsen",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "EWE全球快递",
+    "companyCode": "ewe",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "壹米滴答",
+    "companyCode": "yimidida",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "特急送",
+    "companyCode": "lntjs",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "加运美",
+    "companyCode": "jiayunmeiwuliu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "丹鸟",
+    "companyCode": "danniao",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "海信物流",
+    "companyCode": "savor",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "京广速递",
+    "companyCode": "jinguangsudikuaijian",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "春风物流",
+    "companyCode": "spring56",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "顺丰快运",
+    "companyCode": "shunfengkuaiyun",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "DHL-中国件",
+    "companyCode": "dhl",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Titan泰坦国际速递",
+    "companyCode": "timelytitan",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "FedEx-国际件",
+    "companyCode": "fedex",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "USPS",
+    "companyCode": "usps",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "递四方",
+    "companyCode": "disifang",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "中远e环球",
+    "companyCode": "cosco",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "信丰物流",
+    "companyCode": "xinfengwuliu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "D速快递",
+    "companyCode": "dsukuaidi",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "汇森速运",
+    "companyCode": "huisenky",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "UPS",
+    "companyCode": "ups",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "DHL-全球件",
+    "companyCode": "dhlen",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "世通物流",
+    "companyCode": "worldex",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "芝麻开门",
+    "companyCode": "zhimakaimen",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "EMS-国际件",
+    "companyCode": "emsguoji",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "申通国际",
+    "companyCode": "stosolution",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "顺昌国际",
+    "companyCode": "shunchangguoji",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "韵达国际",
+    "companyCode": "udalogistic",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "鑫正一快递",
+    "companyCode": "zhengyikuaidi",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "耀飞同城快递",
+    "companyCode": "yaofeikuaidi",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "美快国际物流",
+    "companyCode": "meiquick",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "安能快递",
+    "companyCode": "ane66",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "拉火速运",
+    "companyCode": "lahuoex",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "DPD",
+    "companyCode": "dpd",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "转运四方",
+    "companyCode": "zhuanyunsifang",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "中铁快运",
+    "companyCode": "ztky",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "宇鑫物流",
+    "companyCode": "yuxinwuliu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "黑猫宅急便",
+    "companyCode": "tcat",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "同城快寄",
+    "companyCode": "shpost",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "联邦快递",
+    "companyCode": "lianbangkuaidi",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "威时沛运货运",
+    "companyCode": "wtdchina",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "速腾快递",
+    "companyCode": "suteng",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "宏递快运",
+    "companyCode": "hd",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "燕文物流",
+    "companyCode": "yw56",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "CJ物流",
+    "companyCode": "doortodoor",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "易客满",
+    "companyCode": "ecmscn",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "苏宁物流",
+    "companyCode": "suning",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "天翼快递",
+    "companyCode": "tykd",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "天地华宇",
+    "companyCode": "tiandihuayu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "威盛快递",
+    "companyCode": "wherexpess",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "SYNSHIP快递",
+    "companyCode": "synship",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "YunExpress",
+    "companyCode": "yuntrack",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "澳邮中国快运",
+    "companyCode": "auexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "富吉速运",
+    "companyCode": "fujisuyun",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "盛辉物流",
+    "companyCode": "shenghuiwuliu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "嘉里大通",
+    "companyCode": "jialidatong",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "安迅物流",
+    "companyCode": "anxl",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "天天快递",
+    "companyCode": "tiantian",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "德坤物流",
+    "companyCode": "dekuncn",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "TNT",
+    "companyCode": "tnt",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "UBI Australia",
+    "companyCode": "gotoubi",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "优邦速运",
+    "companyCode": "ubonex",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "平安达腾飞",
+    "companyCode": "pingandatengfei",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "DPD Germany",
+    "companyCode": "dpdgermany",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "天马迅达",
+    "companyCode": "tianma",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "斑马物流",
+    "companyCode": "banma",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "澳洲飞跃物流",
+    "companyCode": "rlgaus",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "顺达快递",
+    "companyCode": "sundarexpress",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "三态速递",
+    "companyCode": "santaisudi",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "Fedex-国际件-中文",
+    "companyCode": "fedexcn",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "佳怡物流",
+    "companyCode": "jiayiwuliu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "递四方美国",
+    "companyCode": "disifangus",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "邦泰快运",
+    "companyCode": "btexpress",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "速通物流",
+    "companyCode": "sut56",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "时安达速递",
+    "companyCode": "goex",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "Xlobo贝海国际",
+    "companyCode": "xlobo",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "日本（Japan Post）",
+    "companyCode": "japanposten",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "荣庆物流",
+    "companyCode": "rokin",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "泰进物流",
+    "companyCode": "taijin",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "COE",
+    "companyCode": "coe",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "富腾达国际货运",
+    "companyCode": "ftd",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "盛丰物流",
+    "companyCode": "sfwl",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "景光物流",
+    "companyCode": "jgwl",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "方舟速递",
+    "companyCode": "arkexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "宅急便",
+    "companyCode": "zhaijibian",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "如家国际快递",
+    "companyCode": "homecourier",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "金岸物流",
+    "companyCode": "jinan",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "四季安物流",
+    "companyCode": "sja56",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "EMS包裹",
+    "companyCode": "emsbg",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "新顺丰（NSF）",
+    "companyCode": "nsf",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "黄马甲",
+    "companyCode": "huangmajia",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "九曳供应链",
+    "companyCode": "jiuyescm",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "速邮达",
+    "companyCode": "suyoda",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "安信达",
+    "companyCode": "anxindakuaixi",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "科捷物流",
+    "companyCode": "kejie",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "佐川急便",
+    "companyCode": "sagawa",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "国通快递",
+    "companyCode": "guotongkuaidi",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "明通国际快递",
+    "companyCode": "tnjex",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "叁虎物流",
+    "companyCode": "sanhuwuliu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "卓志速运",
+    "companyCode": "chinaicip",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "TNT-全球件",
+    "companyCode": "tnten",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "转运中国",
+    "companyCode": "uszcn",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "圆通国际",
+    "companyCode": "yuantongguoji",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Hermes",
+    "companyCode": "hermes",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "安鲜达",
+    "companyCode": "exfresh",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "联合速递",
+    "companyCode": "lhexpressus",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "中铁飞豹",
+    "companyCode": "zhongtiewuliu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "中速快递",
+    "companyCode": "zhongsukuaidi",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "CK物流",
+    "companyCode": "ckexpress",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "家家通快递",
+    "companyCode": "newsway",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "诚和通",
+    "companyCode": "cht361",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "微特派",
+    "companyCode": "weitepai",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "中迅三方",
+    "companyCode": "cd3fwl",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "Superb Express",
+    "companyCode": "superb",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "联合速运",
+    "companyCode": "unitedex",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "新杰物流",
+    "companyCode": "sunjex",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "澳天速运",
+    "companyCode": "aotsd",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "日本郵便",
+    "companyCode": "japanpost",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Aramex",
+    "companyCode": "aramex",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "中国邮政（CHINA POST）",
+    "companyCode": "chinapost",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "MoreLink",
+    "companyCode": "morelink56",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "速递中国",
+    "companyCode": "sendtochina",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "快捷速递",
+    "companyCode": "kuaijiesudi",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "三象速递",
+    "companyCode": "sxexpress",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "泛捷国际速递",
+    "companyCode": "epanex",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "DPD UK",
+    "companyCode": "dpduk",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "源安达",
+    "companyCode": "yuananda",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "商桥物流",
+    "companyCode": "shangqiao56",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "铁中快运",
+    "companyCode": "tzky",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "飞鹰物流",
+    "companyCode": "hnfy",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "出口易",
+    "companyCode": "chukou1",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "全联速运",
+    "companyCode": "guexp",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "DHL-德国件（DHL Deutschland）",
+    "companyCode": "dhlde",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "OCS",
+    "companyCode": "ocs",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "速尔快递",
+    "companyCode": "suer",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "鼎润物流",
+    "companyCode": "la911",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "美七国际快递",
+    "companyCode": "usa7ex",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "城晓国际快递",
+    "companyCode": "ckeex",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "安达速递",
+    "companyCode": "adapost",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "大田物流",
+    "companyCode": "datianwuliu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "比利时（Bpost）",
+    "companyCode": "bpost",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "泰嘉物流",
+    "companyCode": "takesend",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "众邮快递",
+    "companyCode": "zhongyouex",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "贰仟家物流",
+    "companyCode": "erqianjia56",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "AAE-中国件",
+    "companyCode": "aae",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "百腾物流",
+    "companyCode": "baitengwuliu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "皇家国际速运",
+    "companyCode": "royal",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "万家物流",
+    "companyCode": "wanjiawuliu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "极地快递",
+    "companyCode": "polarexpress",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "E2G速递",
+    "companyCode": "express2global",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "商壹国际物流",
+    "companyCode": "com1express",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "荷兰邮政(PostNL international registered mail)",
+    "companyCode": "postnl",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "中华邮政",
+    "companyCode": "postserv",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "澳德物流",
+    "companyCode": "auod",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "无忧物流",
+    "companyCode": "aliexpress",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "三志物流",
+    "companyCode": "sanzhi56",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "程光快递",
+    "companyCode": "flyway",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "昌宇国际",
+    "companyCode": "changwooair",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "51跨境通",
+    "companyCode": "wykjt",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "中邮速递",
+    "companyCode": "wondersyd",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "新西兰（New Zealand Post）",
+    "companyCode": "newzealand",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "远航国际快运",
+    "companyCode": "yuanhhk",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "华翰物流",
+    "companyCode": "huahanwuliu",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "鸿泰物流",
+    "companyCode": "hnht56",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "全球特快",
+    "companyCode": "global99",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "行云物流",
+    "companyCode": "xyb2b",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "加拿大龙行速运",
+    "companyCode": "longcps",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "速达通",
+    "companyCode": "sdto",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "丹递56",
+    "companyCode": "dande56",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "嘉贤物流",
+    "companyCode": "jiaxianwuliu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "YDH",
+    "companyCode": "ydhex",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "聚盟共建",
+    "companyCode": "jumstc",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "海外环球",
+    "companyCode": "haiwaihuanqiu",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "优优速递",
+    "companyCode": "youyou",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "顺丰-荷兰",
+    "companyCode": "shunfengnl",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "迅达速递",
+    "companyCode": "xdexpress",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "三真驿道",
+    "companyCode": "zlink",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "中集冷云",
+    "companyCode": "cccc58",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "GLS",
+    "companyCode": "gls",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "亚洲顺物流",
+    "companyCode": "yzswuliu",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "CCES/国通快递",
+    "companyCode": "cces",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "成都立即送",
+    "companyCode": "lijisong",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "长江国际速递",
+    "companyCode": "changjiang",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "City-Link",
+    "companyCode": "citylink",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "速派快递",
+    "companyCode": "fastgoexpress",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "beiou express",
+    "companyCode": "beiou",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "澳大利亚(Australia Post)",
+    "companyCode": "auspost",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "亚马逊中国",
+    "companyCode": "yamaxunwuliu",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "直德邮",
+    "companyCode": "zdepost",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "EMS-国际件-英文",
+    "companyCode": "emsinten",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "佰麒快递",
+    "companyCode": "beckygo",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "洋包裹",
+    "companyCode": "yangbaoguo",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "美乐维冷链物流",
+    "companyCode": "mlw",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "达发物流",
+    "companyCode": "dfwl",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "欧亚专线",
+    "companyCode": "euasia",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "TNT Italy",
+    "companyCode": "tntitaly",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "运通中港",
+    "companyCode": "yuntongkuaidi",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "海带宝",
+    "companyCode": "haidaibao",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "百福东方",
+    "companyCode": "baifudongfang",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "签收快递",
+    "companyCode": "signedexpress",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "中邮物流",
+    "companyCode": "zhongyouwuliu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "泰实货运",
+    "companyCode": "tjkjwl",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "Kerry Express-泰国",
+    "companyCode": "kerrythailanden",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "J&T Express 泰国",
+    "companyCode": "jtexpressth",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "明达国际速递",
+    "companyCode": "tmwexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "顺丰-繁体",
+    "companyCode": "shunfenghk",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "美通",
+    "companyCode": "valueway",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "全际通",
+    "companyCode": "quanjitong",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "北京EMS",
+    "companyCode": "bjemstckj",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "番薯国际货运",
+    "companyCode": "koali",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "快捷快物流",
+    "companyCode": "gdkjk56",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "海欣斯快递",
+    "companyCode": "highsince",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "EASY EXPRESS",
+    "companyCode": "easyexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "加拿大(Canada Post)",
+    "companyCode": "canpost",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "中环快递",
+    "companyCode": "zhonghuan",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "驿将快运",
+    "companyCode": "yijiangky",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "汇达物流",
+    "companyCode": "hdcexpress",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "汇峰物流",
+    "companyCode": "huif56",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "安捷物流",
+    "companyCode": "anjie88",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "西班牙(Correos de Espa?a)",
+    "companyCode": "correosdees",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "永昌物流",
+    "companyCode": "yongchangwuliu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "人人转运",
+    "companyCode": "renrenex",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "法国(La Poste)",
+    "companyCode": "csuivi",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "顺捷美中速递",
+    "companyCode": "passerbyaexpress",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "友家速递",
+    "companyCode": "youjia",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "法国大包、EMS-法文（Chronopost France）",
+    "companyCode": "chronopostfra",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "万象物流",
+    "companyCode": "wanxiangwuliu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "德国(Deutsche Post)",
+    "companyCode": "deutschepost",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "西游寄",
+    "companyCode": "xiyoug",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "J&T Express 马来西亚",
+    "companyCode": "jtexpressmy",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "一智通",
+    "companyCode": "1ziton",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "星云速递",
+    "companyCode": "nebuex",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "淘特物流快递",
+    "companyCode": "taote",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "新元国际",
+    "companyCode": "xynyc",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "恒路物流",
+    "companyCode": "hengluwuliu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "能达速递",
+    "companyCode": "ganzhongnengda",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "飞远配送",
+    "companyCode": "feiyuanvipshop",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "荷兰邮政-中国件",
+    "companyCode": "postnlchina",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "中健云康",
+    "companyCode": "concare",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "DHL HK",
+    "companyCode": "dhlhk",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "佳吉快运",
+    "companyCode": "jiajiwuliu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "顺捷达",
+    "companyCode": "shunjieda",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "一正达速运",
+    "companyCode": "yizhengdasuyun",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "airpak expresss",
+    "companyCode": "airpak",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "EMS物流",
+    "companyCode": "emswuliu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "百世国际",
+    "companyCode": "baishiguoji",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "哪吒速运",
+    "companyCode": "nezhasuyun",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "承诺达",
+    "companyCode": "ytchengnuoda",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "中国香港(HongKong Post)",
+    "companyCode": "hkpost",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "锦程快递",
+    "companyCode": "hrex",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "无限速递",
+    "companyCode": "igcaexpress",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "皮牙子快递",
+    "companyCode": "bazirim",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "联运通物流",
+    "companyCode": "szuem",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "亚风速递",
+    "companyCode": "yafengsudi",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "迅速快递",
+    "companyCode": "xunsuexpress",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "华欣物流",
+    "companyCode": "chinastarlogistics",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "南方传媒物流",
+    "companyCode": "ndwl",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "乌克兰邮政包裹",
+    "companyCode": "ukrpostcn",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "EMS-英文",
+    "companyCode": "emsen",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "货拉拉物流",
+    "companyCode": "huolalawuliu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "TransRush",
+    "companyCode": "transrush",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "武汉优进汇",
+    "companyCode": "yjhgo",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "黑猫同城送",
+    "companyCode": "ynztsy",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "泰国138国际物流",
+    "companyCode": "sd138",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "原飞航",
+    "companyCode": "yuanfeihangwuliu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "集先锋快递",
+    "companyCode": "jxfex",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "帮帮发",
+    "companyCode": "bangbangpost",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "传喜物流",
+    "companyCode": "chuanxiwuliu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "世华通物流",
+    "companyCode": "szshihuatong56",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "汇通天下物流",
+    "companyCode": "httx56",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "次晨达物流",
+    "companyCode": "ccd",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "大韩通运",
+    "companyCode": "cjkoreaexpress",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "品骏快递",
+    "companyCode": "pjbest",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "永邦国际物流",
+    "companyCode": "yongbangwuliu",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "宇佳物流",
+    "companyCode": "yujiawl",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "全速物流",
+    "companyCode": "quansu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "德国优拜物流",
+    "companyCode": "ubuy",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Ninja Van ",
+    "companyCode": "ninjavan",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "全一快递",
+    "companyCode": "quanyikuaidi",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "快卡",
+    "companyCode": "kuaika",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "申通新西兰",
+    "companyCode": "stonewzealand",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "邮邦国际",
+    "companyCode": "youban",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "中宏物流",
+    "companyCode": "zhonghongwl",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "广东邮政",
+    "companyCode": "guangdongyouzhengwuliu",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "景顺物流",
+    "companyCode": "jingshun",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "韩国（Korea Post）",
+    "companyCode": "koreapost",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "新易泰",
+    "companyCode": "lnet",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "7E速递",
+    "companyCode": "qesd",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "全峰快递",
+    "companyCode": "quanfengkuaidi",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "转瞬达集运",
+    "companyCode": "zsda56",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "飞力士物流",
+    "companyCode": "flysman",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "新西兰中通",
+    "companyCode": "nzzto",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "一速递",
+    "companyCode": "oneexpress",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "远盾物流",
+    "companyCode": "yuandun",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "Flash Express-英文",
+    "companyCode": "flashexpressen",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "想乐送",
+    "companyCode": "leshines",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "中外运速递",
+    "companyCode": "zhongwaiyun",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "CDEK",
+    "companyCode": "cdek",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "疯狂快递",
+    "companyCode": "crazyexpress",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "递四方澳洲",
+    "companyCode": "disifangau",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "FedEx-美国件",
+    "companyCode": "fedexus",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "英国大包、EMS（Parcel Force）",
+    "companyCode": "parcelforce",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "上大物流",
+    "companyCode": "shangda",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "飞洋快递",
+    "companyCode": "shipgce",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "远成物流",
+    "companyCode": "yuanchengwuliu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "ABF",
+    "companyCode": "abf",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "北美国际物流",
+    "companyCode": "bmxps",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "城际快递",
+    "companyCode": "chengji",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "递五方云仓",
+    "companyCode": "di5pll",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "好来运",
+    "companyCode": "hlyex",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "快服务",
+    "companyCode": "kfwnet",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "神骏物流",
+    "companyCode": "shenjun",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "百米快运",
+    "companyCode": "100mexpress",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "海星桥快递",
+    "companyCode": "haixingqiao",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "JDIEX",
+    "companyCode": "jdiex",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "秦邦快运",
+    "companyCode": "qbexpress",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "快弟来了",
+    "companyCode": "xlair",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "运通中港快递",
+    "companyCode": "ytkd",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "CNE",
+    "companyCode": "cnexps",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "DHL Benelux",
+    "companyCode": "dhlbenelux",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "凤凰快递",
+    "companyCode": "fenghuangkuaidi",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "环球速运",
+    "companyCode": "huanqiu",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "6LS EXPRESS",
+    "companyCode": "lsexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "丰通快运",
+    "companyCode": "ftky365",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "久久物流",
+    "companyCode": "jiujiuwl",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "易达通快递",
+    "companyCode": "qexpress",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "彪记快递",
+    "companyCode": "biaojikuaidi",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "汇捷物流",
+    "companyCode": "hjwl",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "意大利(Poste Italiane)",
+    "companyCode": "italiane",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "山西建华",
+    "companyCode": "shanxijianhua",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "合众速递(UCS）",
+    "companyCode": "ucs",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "UParcel",
+    "companyCode": "uparcel",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "洋口岸",
+    "companyCode": "ykouan",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "A2U速递",
+    "companyCode": "a2u",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "捷记方舟",
+    "companyCode": "ajexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "飞豹快递",
+    "companyCode": "feibaokuaidi",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "globaltracktrace",
+    "companyCode": "globaltracktrace",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "广州安能聚创物流",
+    "companyCode": "gzanjcwl",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "黑猫速运",
+    "companyCode": "heimao56",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "美西快递",
+    "companyCode": "meixi",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "葡萄牙（Portugal CTT）",
+    "companyCode": "portugalctt",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "TNT Australia",
+    "companyCode": "tntau",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "TST速运通",
+    "companyCode": "tstexp",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "中通冷链",
+    "companyCode": "ztocc",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "Fastway Ireland",
+    "companyCode": "fastway",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "飞康达",
+    "companyCode": "feikangda",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "秦远物流",
+    "companyCode": "qinyuan",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "CNUP 中联邮",
+    "companyCode": "cnup",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "EFS Post（平安快递）",
+    "companyCode": "efs",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "佳吉快递",
+    "companyCode": "jiajikuaidi",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "快捷物流",
+    "companyCode": "kuaijiewuliu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "荷兰邮政-中文(PostNL international registered mail)",
+    "companyCode": "postnlcn",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "秦岭智能速运",
+    "companyCode": "qinling",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "远成快运",
+    "companyCode": "ycgky",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "心怡物流",
+    "companyCode": "alog",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "DPD Poland",
+    "companyCode": "dpdpoland",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Toll",
+    "companyCode": "dpexen",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "联合快递",
+    "companyCode": "gslhkd",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "中国香港(HongKong Post)英文",
+    "companyCode": "hkposten",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "晟邦物流",
+    "companyCode": "nanjingshengbang",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "OnTrac",
+    "companyCode": "ontrac",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Safexpress",
+    "companyCode": "safexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "增益速递",
+    "companyCode": "zengyisudi",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "360 Lion Express",
+    "companyCode": "360lion",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "全球快运",
+    "companyCode": "abcglobal",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "安世通快递",
+    "companyCode": "astexpress",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "大道物流",
+    "companyCode": "dadaoex",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "7号速递",
+    "companyCode": "express7th",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "共速达",
+    "companyCode": "gongsuda",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "GSM",
+    "companyCode": "gsm",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "上海航瑞货运",
+    "companyCode": "hangrui",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "汇强快递",
+    "companyCode": "huiqiangkuaidi",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "领送送",
+    "companyCode": "lingsong",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "速通鸿达",
+    "companyCode": "sutonghongda",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "TRAKPAK",
+    "companyCode": "trakpak",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "中途速递",
+    "companyCode": "ztcce",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "ADP国际快递",
+    "companyCode": "adp",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "安时递",
+    "companyCode": "anshidi",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "比利时(Belgium Post)",
+    "companyCode": "belgiumpost",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "比利时国际(Bpost international)",
+    "companyCode": "bpostinter",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "CHS中环国际快递",
+    "companyCode": "chszhonghuanguoji",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "速舟物流",
+    "companyCode": "cnspeedster",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "澳州顺风快递",
+    "companyCode": "emms",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "嘉诚速达",
+    "companyCode": "jcsuda",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "极兔快递埃及站",
+    "companyCode": "jtexpresseg",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "泰国邮政（Thailand Thai Post）",
+    "companyCode": "thailand",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "伍圆速递",
+    "companyCode": "wuyuansudi",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "宜送物流",
+    "companyCode": "yiex",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "奔腾物流",
+    "companyCode": "benteng",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "上海缤纷物流",
+    "companyCode": "bflg",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "银雁专送",
+    "companyCode": "cfss",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "法国小包（colissimo）",
+    "companyCode": "colissimo",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "哥斯达黎加(Correos de Costa Rica)",
+    "companyCode": "correos",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "大洋物流",
+    "companyCode": "dayangwuliu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "深圳德创物流",
+    "companyCode": "dechuangwuliu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "瀚朝物流",
+    "companyCode": "hac56",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "佳辰国际速递",
+    "companyCode": "jiachenexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "佳成快递 ",
+    "companyCode": "jiacheng",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "联邦快递-英文",
+    "companyCode": "lianbangkuaidien",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "LUCFLOW EXPRESS",
+    "companyCode": "longfx",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "腾达速递",
+    "companyCode": "nntengda",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "瑞典（Sweden Post）",
+    "companyCode": "ruidianyouzheng",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "易境达国际物流",
+    "companyCode": "uscbexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "宇航通物流",
+    "companyCode": "yhtlogistics",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "中技物流",
+    "companyCode": "zhongjiwuliu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "八达通",
+    "companyCode": "bdatong",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "BHT",
+    "companyCode": "bht",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "创一快递",
+    "companyCode": "chuangyi",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "小飞侠速递",
+    "companyCode": "cyxfx",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "FedRoad 联邦转运",
+    "companyCode": "fedroad",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "安的快递",
+    "companyCode": "gda",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "GTS快递",
+    "companyCode": "gts",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "急先达",
+    "companyCode": "jixianda",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "LWE",
+    "companyCode": "lwe",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "民航快递",
+    "companyCode": "minghangkuaidi",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "明亮物流",
+    "companyCode": "mingliangwuliu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "丹麦(Post Denmark)",
+    "companyCode": "postdanmarken",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "荷兰包裹(PostNL International Parcels)",
+    "companyCode": "postnlpacle",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "全日通",
+    "companyCode": "quanritongkuaidi",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "尚橙物流",
+    "companyCode": "shangcheng",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "新速航",
+    "companyCode": "sunspeedy",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "Toll Priority(Toll Online)",
+    "companyCode": "tollpriority",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "三三国际物流",
+    "companyCode": "zenzen",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "创运物流",
+    "companyCode": "zjcy56",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "明大快递",
+    "companyCode": "adaexpress",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "青岛安捷快递",
+    "companyCode": "anjiekuaidi",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "邦送物流",
+    "companyCode": "bangsongwuliu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "百通物流",
+    "companyCode": "buytong",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "法国大包、EMS-英文(Chronopost France)",
+    "companyCode": "chronopostfren",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "澳通华人物流",
+    "companyCode": "cllexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "哥伦比亚(4-72 La Red Postal de Colombia)",
+    "companyCode": "colombia",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "颿达国际快递",
+    "companyCode": "fardarww",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "日日顺智慧物联",
+    "companyCode": "gooday365",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "华企快运",
+    "companyCode": "huaqikuaiyun",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "爱拜物流",
+    "companyCode": "ibuy8",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "聚鼎物流",
+    "companyCode": "juding",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "魔速达",
+    "companyCode": "mosuda",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "丰程物流",
+    "companyCode": "sccod",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "圣安物流",
+    "companyCode": "shenganwuliu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "红马甲物流",
+    "companyCode": "sxhongmajia",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "云达通",
+    "companyCode": "ydglobe",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "中环转运",
+    "companyCode": "zhonghuanus",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "中天万运",
+    "companyCode": "zhongtianwanyun",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "AAA Cooper Transportation",
+    "companyCode": "aaacooper",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "百事亨通",
+    "companyCode": "bsht",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "鑫宸物流",
+    "companyCode": "cdxinchen56",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "DPEX",
+    "companyCode": "dpex",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "林道国际快递-英文",
+    "companyCode": "ldxpres",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "力展物流",
+    "companyCode": "lizhan",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "巴基斯坦(Pakistan Post)",
+    "companyCode": "pakistan",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "英国邮政大包EMS",
+    "companyCode": "parcelforcecn",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "PostNord(Posten AB)",
+    "companyCode": "postenab",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "顺捷丰达",
+    "companyCode": "shunjiefengda",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "嗖一下同城快递",
+    "companyCode": "sofast56",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "穗佳物流",
+    "companyCode": "suijiawuliu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "瑞士(Swiss Post)",
+    "companyCode": "swisspost",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "UEQ快递",
+    "companyCode": "ueq",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "新宁物流",
+    "companyCode": "xinning",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "英超物流",
+    "companyCode": "yingchao",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "元智捷诚",
+    "companyCode": "yuanzhijiecheng",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "苏通快运",
+    "companyCode": "zjstky",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "安达易国际速递",
+    "companyCode": "adiexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "德方物流",
+    "companyCode": "ahdf",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "阿森迪亚",
+    "companyCode": "asendia",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "奥地利(Austrian Post)",
+    "companyCode": "austria",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "锋鸟物流",
+    "companyCode": "beebird",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "贝业物流",
+    "companyCode": "boyol",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "加拿大邮政",
+    "companyCode": "canpostfr",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "捷祥物流",
+    "companyCode": "cdjx56",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "华中快递",
+    "companyCode": "cpsair",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "云南诚中物流",
+    "companyCode": "czwlyn",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "达方物流",
+    "companyCode": "dfpost",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "dhl小包",
+    "companyCode": "dhlecommerce",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "大亿快递",
+    "companyCode": "dyexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "E速达",
+    "companyCode": "exsuda",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "海联快递",
+    "companyCode": "hltop",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "海派国际速递",
+    "companyCode": "hpexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "鸿远物流",
+    "companyCode": "hyeship",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "印度(India Post)",
+    "companyCode": "india",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "金大物流",
+    "companyCode": "jindawuliu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "JNE",
+    "companyCode": "jne",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "时达通",
+    "companyCode": "jssdt56",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "快速递",
+    "companyCode": "ksudi",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "龙枫国际快递",
+    "companyCode": "lfexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "鲁通快运",
+    "companyCode": "lutong",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "民邦速递",
+    "companyCode": "minbangsudi",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "坦桑尼亚（Tanzania Posts Corporation）",
+    "companyCode": "posta",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "急顺通",
+    "companyCode": "pzhjst",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "雪域易购",
+    "companyCode": "qhxyyg",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "全时速运",
+    "companyCode": "runhengfeng",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "十方通物流",
+    "companyCode": "sfift",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "南非（South African Post Office）",
+    "companyCode": "southafrican",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "美国申通",
+    "companyCode": "stoexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "GPI",
+    "companyCode": "tcxbthai",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "万家康物流",
+    "companyCode": "wjkwl",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "耀奇物流",
+    "companyCode": "yaoqi",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "忠信达",
+    "companyCode": "zhongxinda",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "中融泰隆",
+    "companyCode": "zrtl",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "加拿大民航快递",
+    "companyCode": "airgtc",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "amazon-国际订单",
+    "companyCode": "amusorder",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "AOL澳通速递",
+    "companyCode": "aolau",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "澳世速递",
+    "companyCode": "ausexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "阿塞拜疆EMS(EMS AzerExpressPost)",
+    "companyCode": "azerbaijan",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "百世云配",
+    "companyCode": "baishiyp",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "城市映急",
+    "companyCode": "city56",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "长吉物流",
+    "companyCode": "cjqy",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "泰国中通CTO",
+    "companyCode": "ctoexp",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "德中快递",
+    "companyCode": "decnlh",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "成都东骏物流",
+    "companyCode": "dongjun",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "艾菲尔国际速递",
+    "companyCode": "eiffel",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "阿联酋(Emirates Post)",
+    "companyCode": "emirates",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "飛斯特運通",
+    "companyCode": "exbtr",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "凡宇快递",
+    "companyCode": "fanyukuaidi",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "飞狐快递",
+    "companyCode": "feihukuaidi",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "飞快达",
+    "companyCode": "feikuaida",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "Gati-英文",
+    "companyCode": "gatien",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "冠捷物流 ",
+    "companyCode": "gjwl",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "高捷快运",
+    "companyCode": "goldjet",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "海红网送",
+    "companyCode": "haihongwangsong",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "飞豹速递",
+    "companyCode": "hkeex",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "华美快递",
+    "companyCode": "hmus",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "宏捷国际物流",
+    "companyCode": "hongjie",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "iMile",
+    "companyCode": "imile",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "印度尼西亚EMS(Pos Indonesia-EMS)",
+    "companyCode": "indonesia",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "晋越快递",
+    "companyCode": "jinyuekuaidi",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "骏丰国际速递",
+    "companyCode": "junfengguoji",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "KCS",
+    "companyCode": "kcs",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "快达物流",
+    "companyCode": "kuaidawuliu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "拉脱维亚(Latvijas Pasts)",
+    "companyCode": "latvia",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "\"马来西亚大包、EMS（Malaysia Post(parcel,EMS)）\"",
+    "companyCode": "malaysiaems",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "浩博物流",
+    "companyCode": "njhaobo",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "配思货运",
+    "companyCode": "peisihuoyunkuaidi",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "菲律宾（Philippine Postal）",
+    "companyCode": "phlpost",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "Purolator",
+    "companyCode": "purolator",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "全川摩运",
+    "companyCode": "quanchuan56",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "全之鑫物流",
+    "companyCode": "qzx56",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "上海快通",
+    "companyCode": "shanghaikuaitong",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "阳光快递",
+    "companyCode": "shiningexpress",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "skynet",
+    "companyCode": "skynet",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "顺通快递",
+    "companyCode": "stkd",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "优联吉运",
+    "companyCode": "uluckex",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "越南EMS(VNPost Express)",
+    "companyCode": "vnpost",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "文捷航空",
+    "companyCode": "wenjiesudi",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "优速通达",
+    "companyCode": "yousutongda",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "越丰物流",
+    "companyCode": "yuefengwuliu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "智通物流",
+    "companyCode": "ztong",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "澳捷物流",
+    "companyCode": "ajlogistics",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Asendia USA",
+    "companyCode": "asendiausa",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "澳货通",
+    "companyCode": "auex",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "中联速递",
+    "companyCode": "auvanda",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "AUV国际快递",
+    "companyCode": "auvexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "孟加拉国(EMS)",
+    "companyCode": "bangladesh",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "笨鸟国际",
+    "companyCode": "benniao",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "巴西(Brazil Post/Correios)",
+    "companyCode": "brazilposten",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "保加利亚（Bulgarian Posts）",
+    "companyCode": "bulgarian",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "捷克（?eská po?ta）",
+    "companyCode": "ceskaposta",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "中邮电商",
+    "companyCode": "chinapostcb",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "中骅物流",
+    "companyCode": "chunghwa56",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "CNAIR",
+    "companyCode": "cnair",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "邦通国际",
+    "companyCode": "comexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "DHL-荷兰（DHL Netherlands）",
+    "companyCode": "dhlnetherlands",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "递达速运",
+    "companyCode": "didasuyun",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "ECMS Express",
+    "companyCode": "ecmsglobal",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "龙象国际物流",
+    "companyCode": "edragon",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "e直运",
+    "companyCode": "edtexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "希腊EMS（ELTA Courier）",
+    "companyCode": "eltahell",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "波兰小包(Poczta Polska)",
+    "companyCode": "emonitoring",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "东方汇",
+    "companyCode": "est365",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "易达国际速递",
+    "companyCode": "eta100",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "ETEEN专线",
+    "companyCode": "eteenlog",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "泛远国际物流",
+    "companyCode": "farlogistis",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "加拿大联通快运",
+    "companyCode": "fastontime",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "飞邦快递",
+    "companyCode": "fbkd",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "全速快递",
+    "companyCode": "fsexp",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "Gati-KWE",
+    "companyCode": "gatikwe",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "GIZTIX",
+    "companyCode": "giztix",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "哥士传奇速递",
+    "companyCode": "gscq365",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "海盟速递",
+    "companyCode": "haimengsudi",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "汉邦国际速递",
+    "companyCode": "handboy",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "黑豹物流",
+    "companyCode": "heibaowuliu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "合心速递",
+    "companyCode": "hexinexpress",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "环国运物流",
+    "companyCode": "hgy56",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "Hi淘易快递",
+    "companyCode": "hitaoe",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "云邮跨境快递",
+    "companyCode": "hkems",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "河南全速通",
+    "companyCode": "hnqst",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "宏品物流",
+    "companyCode": "hongpinwuliu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "皇家云仓",
+    "companyCode": "hotwms",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "高铁速递",
+    "companyCode": "hre",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "汇霖大货网",
+    "companyCode": "huilin56",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "恒宇运通",
+    "companyCode": "hyytes",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "logen路坚",
+    "companyCode": "ilogen",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "捷运达快递",
+    "companyCode": "interjz",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "Italy SDA",
+    "companyCode": "italysad",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "骏达快递",
+    "companyCode": "jdexpressusa",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "加州猫速递",
+    "companyCode": "jiazhoumao",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "捷邦物流",
+    "companyCode": "jieborne",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "考拉国际速递",
+    "companyCode": "kaolaexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "嘉里大荣物流",
+    "companyCode": "kerrytj",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "柬埔寨中通",
+    "companyCode": "khzto",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "跨跃国际",
+    "companyCode": "kyue",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "LaserShip",
+    "companyCode": "lasership",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Linex",
+    "companyCode": "linex",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "隆浪快递",
+    "companyCode": "longlangkuaidi",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "恒通快递",
+    "companyCode": "lqht",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "陆本速递 LUBEN EXPRESS",
+    "companyCode": "luben",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "敏華物流",
+    "companyCode": "manwah",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "木春货运",
+    "companyCode": "mchy",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "美邦国际快递",
+    "companyCode": "meibang",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "美国快递",
+    "companyCode": "meiguokuaidi",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "美泰物流",
+    "companyCode": "meitai",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "NAQEL Express",
+    "companyCode": "naqel",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "偌亚奥国际快递",
+    "companyCode": "nuoyaao",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "OC-Post",
+    "companyCode": "ocpost",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "PCA Express",
+    "companyCode": "pcaexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "鹏远国际速递",
+    "companyCode": "pengyuanexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "龙行天下",
+    "companyCode": "pmt0704be",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "挪威（Posten Norge）",
+    "companyCode": "postennorge",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "千顺快递",
+    "companyCode": "qskdyxgs",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "全速通",
+    "companyCode": "quansutong",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "睿和泰速运",
+    "companyCode": "rhtexpress",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "rpx",
+    "companyCode": "rpx",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "赛澳递",
+    "companyCode": "saiaodi",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "赛澳递for买卖宝",
+    "companyCode": "saiaodimmb",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "中加国际快递",
+    "companyCode": "scic",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "速呈",
+    "companyCode": "sczpds",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "International Seur",
+    "companyCode": "seur",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "上海无疆for买卖宝",
+    "companyCode": "shanghaiwujiangmmb",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "闪货极速达",
+    "companyCode": "shanhuodidi",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "神马快递",
+    "companyCode": "shenma",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "林道国际快递",
+    "companyCode": "shlindao",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "顺丰冷链",
+    "companyCode": "shunfenglengyun",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "顺士达速运",
+    "companyCode": "shunshid",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "斯洛文尼亚(Slovenia Post)",
+    "companyCode": "slovenia",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "申必达",
+    "companyCode": "speedoex",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "星速递",
+    "companyCode": "starex",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "速风快递",
+    "companyCode": "sufengkuaidi",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "速通国际快运",
+    "companyCode": "sutongst",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "深圳DPEX",
+    "companyCode": "szdpex",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "万家通快递",
+    "companyCode": "timedg",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "天联快运",
+    "companyCode": "tlky",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "通和天下",
+    "companyCode": "tonghetianxia",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "中运全速",
+    "companyCode": "topspeedex",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "优海国际速递",
+    "companyCode": "uhi",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "速翼快递",
+    "companyCode": "usasueexpress",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "维普恩物流",
+    "companyCode": "vps",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "豌豆物流",
+    "companyCode": "wandougongzhu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "wedepot物流",
+    "companyCode": "wedepot",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "祥龙运通物流",
+    "companyCode": "xianglongyuntong",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "翔腾物流",
+    "companyCode": "xiangteng",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "鑫梦成",
+    "companyCode": "xinmengcheng",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "西邮寄",
+    "companyCode": "xipost",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "鑫通宝物流",
+    "companyCode": "xtb",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "鑫远东速运",
+    "companyCode": "xyd666",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "一辉物流",
+    "companyCode": "yatfai",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "一邦速递",
+    "companyCode": "yibangwuliu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "驿递汇速递",
+    "companyCode": "yidihui",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "亿领速运",
+    "companyCode": "yilingsuyun",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "美国云达",
+    "companyCode": "yundaexus",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "韵丰物流",
+    "companyCode": "yunfeng56",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "中汲物流",
+    "companyCode": "zhongji",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "卓实快运",
+    "companyCode": "zhuoshikuaiyun",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "中粮鲜到家物流",
+    "companyCode": "zlxdjwl",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "明辉物流",
+    "companyCode": "zsmhwl",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "ZTE中兴物流",
+    "companyCode": "zteexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "ABS courier & freight system",
+    "companyCode": "abs",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "ABX Express",
+    "companyCode": "abxexpress_my",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "aCommerce",
+    "companyCode": "acommerce",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "ACS Courier",
+    "companyCode": "acscourier",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "德国雄鹰速递",
+    "companyCode": "adlerlogi",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "ADSone",
+    "companyCode": "adsone",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "安达信",
+    "companyCode": "advancing",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "阿富汗(Afghan Post)",
+    "companyCode": "afghan",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "AFL",
+    "companyCode": "afl",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Agility Logistics",
+    "companyCode": "agility",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "全程快递",
+    "companyCode": "agopost",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "卡邦配送",
+    "companyCode": "ahkbps",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "奥兰群岛",
+    "companyCode": "aland",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "阿尔巴尼亚(Posta shqipatre)",
+    "companyCode": "albania",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "AlfaTrex",
+    "companyCode": "alfatrex",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Algeria",
+    "companyCode": "algeria",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "ALLIED",
+    "companyCode": "alliedexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Swiship UK",
+    "companyCode": "amazon_fba_swiship",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "亚马逊中国订单",
+    "companyCode": "amazoncnorder",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "amazon-国内订单",
+    "companyCode": "amcnorder",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "安家同城快运",
+    "companyCode": "anjiatongcheng",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "Anjun Logistics",
+    "companyCode": "anjun_logistics",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "新干线快递",
+    "companyCode": "anlexpress",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "爱尔兰(An Post)",
+    "companyCode": "anposten",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "Anteraja",
+    "companyCode": "anteraja",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "澳速物流",
+    "companyCode": "aosu",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "APC Postal Logistics",
+    "companyCode": "apc",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "apgecommerce",
+    "companyCode": "apgecommerce",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "美国汉邦快递",
+    "companyCode": "aplus100",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "ARC",
+    "companyCode": "arc",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "艾瑞斯远",
+    "companyCode": "ariesfar",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "阿鲁巴[荷兰]（Post Aruba）",
+    "companyCode": "aruba",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "Asendia HK",
+    "companyCode": "asendiahk",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "澳达国际物流",
+    "companyCode": "auadexpress",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "澳邦国际物流",
+    "companyCode": "ausbondexpress",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "Austa国际速递",
+    "companyCode": "austa",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "澳新物流",
+    "companyCode": "axexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "巴林(Bahrain Post)",
+    "companyCode": "bahrain",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "宝通快递",
+    "companyCode": "baotongkd",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "报通快递",
+    "companyCode": "baoxianda",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "巴巴多斯(Barbados Post)",
+    "companyCode": "barbados",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "BCWELT",
+    "companyCode": "bcwelt",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "BDC快递",
+    "companyCode": "bdcgcc",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "蜜蜂速递",
+    "companyCode": "bee001",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "BEE express",
+    "companyCode": "beeexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "伯利兹(Belize Postal)",
+    "companyCode": "belize",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "白俄罗斯(Belpochta)",
+    "companyCode": "belpost",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "贝宁",
+    "companyCode": "benin",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "飛斯特",
+    "companyCode": "bester",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "東邮寄",
+    "companyCode": "betterlife",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "不丹邮政 Bhutan Post",
+    "companyCode": "bhutan",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "青云物流",
+    "companyCode": "bjqywl",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "鑫锐达",
+    "companyCode": "bjxsrd",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "远通盛源",
+    "companyCode": "bjytsywl",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "佰乐捷通",
+    "companyCode": "bljt56",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "BlueDart",
+    "companyCode": "bluedart",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "标杆物流",
+    "companyCode": "bmlchina",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "波黑(JP BH Posta)",
+    "companyCode": "bohei",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "玻利维亚",
+    "companyCode": "bolivia",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "BorderGuru",
+    "companyCode": "borderguru",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "堡昕德速递",
+    "companyCode": "bosind",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "Bosta",
+    "companyCode": "bosta",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "博茨瓦纳",
+    "companyCode": "botspost",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "BOXC",
+    "companyCode": "boxc",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "速方(Sufast)",
+    "companyCode": "bphchina",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "百千诚物流",
+    "companyCode": "bqcwl",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "Bridge Express ",
+    "companyCode": "bridgeexpress ",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "宏桥国际物流",
+    "companyCode": "briems",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "BRT",
+    "companyCode": "brt",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "文莱(Brunei Postal)",
+    "companyCode": "brunei",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "1688国际物流",
+    "companyCode": "buyer1688",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Buylogic",
+    "companyCode": "buylogic",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "展勤快递",
+    "companyCode": "byht",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "新喀里多尼亚[法国](New Caledonia)",
+    "companyCode": "caledonia",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "柬埔寨(Cambodia Post)",
+    "companyCode": "cambodia",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "到了港",
+    "companyCode": "camekong",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "喀麦隆(CAMPOST)",
+    "companyCode": "cameroon",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "Campbell’s Express",
+    "companyCode": "campbellsexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "能装能送",
+    "companyCode": "canhold",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "Canpar",
+    "companyCode": "canpar",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "卢森堡航空",
+    "companyCode": "cargolux",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "CBL Logistica",
+    "companyCode": "cbl",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "CBL Logistics",
+    "companyCode": "cbl_logistica",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "广州信邦",
+    "companyCode": "cbllogistics",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "钏博物流",
+    "companyCode": "cbo56",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "CEVA Logistics",
+    "companyCode": "ceva",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "CEVA Logistic",
+    "companyCode": "cevalogistics",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "城铁速递",
+    "companyCode": "cex",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "成达国际速递",
+    "companyCode": "chengda",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "城宁供应链",
+    "companyCode": "chengning",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "河北橙配",
+    "companyCode": "chengpei",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "城通物流",
+    "companyCode": "chengtong",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "智利(Correos Chile)",
+    "companyCode": "chile",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "荣通国际",
+    "companyCode": "chinaqingguan",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "SQK国际速递",
+    "companyCode": "chinasqk",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "同舟行物流",
+    "companyCode": "chinatzx",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "嘉荣物流",
+    "companyCode": "chllog",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "中翼国际物流",
+    "companyCode": "chnexp",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Chronopost Portugal",
+    "companyCode": "chronopostport",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "中国香港骏辉物流",
+    "companyCode": "chunfai",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "citysprint",
+    "companyCode": "citysprint",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "CE易欧通国际速递",
+    "companyCode": "cloudexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "群航国际物流",
+    "companyCode": "cloudlogistics365",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "CL日中速运",
+    "companyCode": "clsp",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "中澳速递",
+    "companyCode": "cnausu",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "C&C国际速递",
+    "companyCode": "cncexp",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "中欧物流",
+    "companyCode": "cneulogistics",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "CNPEX中邮快递",
+    "companyCode": "cnpex",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "中国翼",
+    "companyCode": "cnws",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Collect+",
+    "companyCode": "collectplus",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Corporate couriers logistics",
+    "companyCode": "corporatecouriers",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "莫桑比克（Correios de Mo?ambique）",
+    "companyCode": "correios",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "乌拉圭（Correo Uruguayo）",
+    "companyCode": "correo",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "阿根廷(Correo Argentina)",
+    "companyCode": "correoargentino",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Correos Express",
+    "companyCode": "correosexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "CourierPost",
+    "companyCode": "courierpost",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Couriers Please",
+    "companyCode": "couriersplease",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "重庆星程快递",
+    "companyCode": "cqxingcheng",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "环旅快运",
+    "companyCode": "crossbox",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "新时速物流",
+    "companyCode": "csxss",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "塞浦路斯(Cyprus Post)",
+    "companyCode": "cypruspost",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "DACHSER",
+    "companyCode": "dachser",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "达速物流",
+    "companyCode": "dasu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "DCS",
+    "companyCode": "dcs",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "叮当同城",
+    "companyCode": "ddotbase",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "Delhivery",
+    "companyCode": "delhivery",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Delivery Station",
+    "companyCode": "deliverystations",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Deltec Courier",
+    "companyCode": "deltec",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Deploy",
+    "companyCode": "deployeg",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "澳行快递",
+    "companyCode": "desworks",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "东风全球速递",
+    "companyCode": "dfglobalex",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "DHL-波兰（DHL Poland）",
+    "companyCode": "dhlpoland",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "dhluk",
+    "companyCode": "dhluk",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "云南滇驿物流",
+    "companyCode": "dianyi",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "叮咚澳洲转运",
+    "companyCode": "dindon",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "叮咚快递",
+    "companyCode": "dingdong",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "Direct Link",
+    "companyCode": "directlink",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "吉布提",
+    "companyCode": "djibouti",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "天翔东捷运",
+    "companyCode": "djy56",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "东瀚物流",
+    "companyCode": "donghanwl",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "东红物流",
+    "companyCode": "donghong",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "Dotzot",
+    "companyCode": "dotzot",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "DPD Ireland",
+    "companyCode": "dpd_ireland",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "DPE Express",
+    "companyCode": "dpe_express",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "dreevo",
+    "companyCode": "dreevo",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "老司机国际快递",
+    "companyCode": "driverfastgo",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "DSV",
+    "companyCode": "dsv",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "德淘邦",
+    "companyCode": "dt8ang",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "DTD",
+    "companyCode": "dtd",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "DTDC India",
+    "companyCode": "dtdcindia",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "多道供应链",
+    "companyCode": "duodao56",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "东方航空物流",
+    "companyCode": "ealceair",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "E跨通",
+    "companyCode": "ecallturn",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "EC-Firstclass",
+    "companyCode": "ecfirstclass",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Echo",
+    "companyCode": "echo",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Ecom Express",
+    "companyCode": "ecomexpress",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "东西E全运",
+    "companyCode": "ecotransite",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "厄瓜多尔(Correos del Ecuador)",
+    "companyCode": "ecuador",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "易达快运",
+    "companyCode": "edaeuexpress",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "EFSPOST",
+    "companyCode": "efspost",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "EGY Express Logistics",
+    "companyCode": "egyexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "埃及（Egypt Post）",
+    "companyCode": "egypt",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "Egypt Express",
+    "companyCode": "egyptexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Ekart",
+    "companyCode": "ekart",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "易联通达",
+    "companyCode": "el56",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "希腊包裹（ELTA Hellenic Post）",
+    "companyCode": "elta",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "阿联酋(Emirates Post)",
+    "companyCode": "emiratesen",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "波兰小包(Poczta Polska)",
+    "companyCode": "emonitoringen",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "高考通知书",
+    "companyCode": "emsluqu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "南非EMS",
+    "companyCode": "emssouthafrica",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "乌克兰EMS(EMS Ukraine)",
+    "companyCode": "emsukraine",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "乌克兰EMS-中文(EMS Ukraine)",
+    "companyCode": "emsukrainecn",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "\"英国(大包,EMS)\"",
+    "companyCode": "england",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "联众国际",
+    "companyCode": "epspost",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Equick China",
+    "companyCode": "equick_cn",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "厄立特里亚",
+    "companyCode": "eripostal",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "俄顺达",
+    "companyCode": "eshunda",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "中外运",
+    "companyCode": "esinotrans",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Estafeta",
+    "companyCode": "estafeta",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Estes",
+    "companyCode": "estes",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "埃塞俄比亚(Ethiopian postal)",
+    "companyCode": "ethiopia",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "埃塞俄比亚(Ethiopian Post)",
+    "companyCode": "ethiopian",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "E通速递",
+    "companyCode": "etong",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "中欧国际物流",
+    "companyCode": "eucnrail",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "德国 EUC POST",
+    "companyCode": "eucpost",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "EU-EXPRESS",
+    "companyCode": "euexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "易邮国际",
+    "companyCode": "euguoji",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "易优包裹",
+    "companyCode": "eupackage",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "败欧洲",
+    "companyCode": "europe8",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "europeanecom",
+    "companyCode": "europeanecom",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "优莎速运",
+    "companyCode": "eusacn",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "可可树美中速运",
+    "companyCode": "excocotree",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "Expeditors",
+    "companyCode": "expeditors",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "探路速运",
+    "companyCode": "explorer56",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "澳洲新干线快递",
+    "companyCode": "expressplus",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "易转运",
+    "companyCode": "ezhuanyuan",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "颿达国际快递-英文",
+    "companyCode": "fandaguoji",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Fastway New Zealand",
+    "companyCode": "fastway_nz",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Fastway South Africa",
+    "companyCode": "fastway_za",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "正途供应链",
+    "companyCode": "fastzt",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "FDS",
+    "companyCode": "fds",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "FedEx-英国件（FedEx UK)",
+    "companyCode": "fedexuk",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "FedEx-英国件",
+    "companyCode": "fedexukcn",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "奉天物流",
+    "companyCode": "fengtianexpress",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "丰羿",
+    "companyCode": "fengyee",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "斐济(Fiji Post)",
+    "companyCode": "fiji",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "芬兰(Itella Posti Oy)",
+    "companyCode": "finland",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "First Flight",
+    "companyCode": "firstflight",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "First Logistics",
+    "companyCode": "firstlogistics",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Flash Express",
+    "companyCode": "flashexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Flextock",
+    "companyCode": "flextock",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "花瓣转运",
+    "companyCode": "flowerkd",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "FODEL",
+    "companyCode": "fodel",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "四方格",
+    "companyCode": "fourpxus",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "FOX国际快递",
+    "companyCode": "fox",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "FQ狂派速递",
+    "companyCode": "freakyquick",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "法翔速运",
+    "companyCode": "ftlexpress",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "飞云快递系统",
+    "companyCode": "fyex",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "高铁快运",
+    "companyCode": "gaotieex",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "Gati-中文",
+    "companyCode": "gaticn",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "广东诚通物流",
+    "companyCode": "gdct56",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "GDEX",
+    "companyCode": "gdex",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "全网物流",
+    "companyCode": "gdqwwl",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "容智快运",
+    "companyCode": "gdrz58",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "新鹏快递",
+    "companyCode": "gdxp",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "GE2D跨境物流",
+    "companyCode": "ge2d",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "格鲁吉亚(Georgian Pos）",
+    "companyCode": "georgianpost",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "G EXpress",
+    "companyCode": "gexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "加纳",
+    "companyCode": "ghanapost",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "环创物流",
+    "companyCode": "ghl",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "GHT物流",
+    "companyCode": "ghtexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "直布罗陀[英国]( Royal Gibraltar Post)",
+    "companyCode": "gibraltar",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "GLS Italy",
+    "companyCode": "gls_italy",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "英脉物流",
+    "companyCode": "gml",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "GOGOX",
+    "companyCode": "gogox",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "gojavas",
+    "companyCode": "gojavas",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Grab",
+    "companyCode": "grab",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "格陵兰[丹麦]（TELE Greenland A/S）",
+    "companyCode": "greenland",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "潍鸿",
+    "companyCode": "grivertek",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "德尚国际速递",
+    "companyCode": "gslexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "万通快递",
+    "companyCode": "gswtkd",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "GT国际快运",
+    "companyCode": "gtgogo",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "GTT EXPRESS快递",
+    "companyCode": "gttexpress",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "广东通路",
+    "companyCode": "guangdongtonglu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "永邦快递",
+    "companyCode": "guangdongyongbang",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "冠庭国际物流",
+    "companyCode": "guanting",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "根西岛",
+    "companyCode": "guernsey",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "天天快物流",
+    "companyCode": "guoeryue",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "国顺达物流",
+    "companyCode": "guoshunda",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "国送快运",
+    "companyCode": "guosong",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "圭亚那",
+    "companyCode": "guyana",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "宏观国际快递",
+    "companyCode": "gvpexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "光线速递",
+    "companyCode": "gxwl",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "贵州星程快递",
+    "companyCode": "gzxingcheng",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "货六六",
+    "companyCode": "h66",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "海红for买卖宝",
+    "companyCode": "haihongmmb",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "海中转运",
+    "companyCode": "haizhongzhuanyun",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "翰丰快递",
+    "companyCode": "hanfengjl",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "航宇快递",
+    "companyCode": "hangyu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "汉信快递",
+    "companyCode": "hanxin",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "豪翔物流",
+    "companyCode": "haoxiangwuliu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "好又快物流",
+    "companyCode": "haoyoukuai",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "开心快递",
+    "companyCode": "happylink",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "亚美尼亚(Haypost-Armenian Postal)",
+    "companyCode": "haypost",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "恒瑞物流",
+    "companyCode": "hengrui56",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "Hermes Germany",
+    "companyCode": "hermes_de",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Hermesworld",
+    "companyCode": "hermesworld",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "华瀚快递",
+    "companyCode": "hhair56",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "Highway",
+    "companyCode": "highway",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "猴急送",
+    "companyCode": "hjs",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "互联快运",
+    "companyCode": "hlkytj",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "共联配",
+    "companyCode": "hlpgyl",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "顺时达物流",
+    "companyCode": "hnssd56",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "中强物流",
+    "companyCode": "hnzqwl",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "Holisol",
+    "companyCode": "holisollogistics",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "居家通",
+    "companyCode": "homexpress",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "洪都拉斯",
+    "companyCode": "honduras",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "红背心",
+    "companyCode": "hongbeixin",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "红远物流",
+    "companyCode": "hongywl",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "环球通达 ",
+    "companyCode": "hqtd",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "速远同城快递",
+    "companyCode": "hrbsydrd",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "卓烨快递",
+    "companyCode": "hrbzykd",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "克罗地亚（Hrvatska Posta）",
+    "companyCode": "hrvatska",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "寰世达国际物流",
+    "companyCode": "hsdexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "海硕高铁速递",
+    "companyCode": "hsgtsd",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "海淘物流",
+    "companyCode": "ht22",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "华通快运",
+    "companyCode": "htongexpress",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "华通务达物流",
+    "companyCode": "htwd",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "华达快运",
+    "companyCode": "huada",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "环东物流",
+    "companyCode": "huandonglg",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "中国香港环球快运",
+    "companyCode": "huanqiuabc",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "华夏货运",
+    "companyCode": "huaxiahuoyun",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "驼峰国际",
+    "companyCode": "humpline",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "匈牙利（Magyar Posta）",
+    "companyCode": "hungary",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "hunter Express",
+    "companyCode": "hunterexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "兰州伙伴物流",
+    "companyCode": "huoban",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "户通物流",
+    "companyCode": "hutongwuliu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "上海昊宏国际货物",
+    "companyCode": "hyk",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "华航快递",
+    "companyCode": "hzpl",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "IB Courier",
+    "companyCode": "ibcourier",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "冰岛(Iceland Post)",
+    "companyCode": "iceland",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "大达物流",
+    "companyCode": "idada",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "大马鹿",
+    "companyCode": "idamalu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "ID Express",
+    "companyCode": "idexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "泛太优达",
+    "companyCode": "iex",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "iExpress",
+    "companyCode": "iexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "ILYANG",
+    "companyCode": "ilyang",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "艾姆勒",
+    "companyCode": "imlb2c",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "INDOPAKET",
+    "companyCode": "indopaket",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "多米尼加（INPOSDOM – Instituto Postal Dominicano）",
+    "companyCode": "inposdom",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "InPost Paczkomaty",
+    "companyCode": "inpost_paczkomaty",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Interlink Express",
+    "companyCode": "interlink",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Interparcel",
+    "companyCode": "interparcel",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "UPS i-parcel",
+    "companyCode": "iparcel",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "伊朗（Iran Post）",
+    "companyCode": "iran",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "以色列(Israel Post)",
+    "companyCode": "israelpost",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "IXPRESS",
+    "companyCode": "ixpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "驿扬国际速运",
+    "companyCode": "iyoungspeed",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "牙买加（Jamaica Post）",
+    "companyCode": "jamaicapost",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "janio",
+    "companyCode": "janio",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "jcex",
+    "companyCode": "jcex",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "急递",
+    "companyCode": "jdpplus",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "泽西岛",
+    "companyCode": "jerseypost",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "极兔国际",
+    "companyCode": "jet",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Jet Express",
+    "companyCode": "jetexpresseg",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "澳速通国际速递",
+    "companyCode": "jetexpressgroup",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "J&T Express",
+    "companyCode": "jetexpresszh",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "捷仕",
+    "companyCode": "jetstarexp",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "佳家通货运",
+    "companyCode": "jiajiatong56",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "加佳物流",
+    "companyCode": "jiajiawl",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "捷安达",
+    "companyCode": "jieanda",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "极光转运",
+    "companyCode": "jiguang",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "锦程物流",
+    "companyCode": "jinchengwuliu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "近端",
+    "companyCode": "jinduan",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "劲通快递",
+    "companyCode": "jintongkd",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "冀速物流",
+    "companyCode": "jisu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "九宫物流",
+    "companyCode": "jiugong",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "久易快递",
+    "companyCode": "jiuyicn",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "吉祥邮（澳洲）",
+    "companyCode": "jixiangyouau",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "佳捷翔物流",
+    "companyCode": "jjx888",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "约旦(Jordan Post)",
+    "companyCode": "jordan",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "骏绅物流",
+    "companyCode": "jsexpress",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "J&T Express 菲律宾",
+    "companyCode": "jtexpressph",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "J&T Express 新加坡",
+    "companyCode": "jtexpresssg",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Jumia",
+    "companyCode": "jumia",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "聚物物流",
+    "companyCode": "juwu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "聚中大",
+    "companyCode": "juzhongda",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "Kaha Epress",
+    "companyCode": "kahaexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Kangaroo Express",
+    "companyCode": "kangaroo",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "哈萨克斯坦(Kazpost)",
+    "companyCode": "kazpost",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "肯尼亚(POSTA KENYA)",
+    "companyCode": "kenya",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "Kerry Express",
+    "companyCode": "kerryexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Kerry Express-泰国",
+    "companyCode": "kerrythailand",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "启邦国际物流",
+    "companyCode": "keypon",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "货运皇",
+    "companyCode": "kingfreight",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "跨境直邮通",
+    "companyCode": "kjde",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Kuehne + Nagel",
+    "companyCode": "kn",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "考拉速递",
+    "companyCode": "koalaexp",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "韩国邮政韩文",
+    "companyCode": "koreapostkr",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "淘韩国际快递",
+    "companyCode": "krtao",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "快8速运",
+    "companyCode": "kuai8",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "快淘快递",
+    "companyCode": "kuaitao",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "四川快优达速递",
+    "companyCode": "kuaiyouda",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "Kuehne+Nagel",
+    "companyCode": "kuehnenagel",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "KURASI",
+    "companyCode": "kurasi",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "凯信达",
+    "companyCode": "kxda",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "吉尔吉斯斯坦(Kyrgyz Post)",
+    "companyCode": "kyrgyzpost",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "蓝镖快递",
+    "companyCode": "lanbiaokuaidi",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "Landmark Global",
+    "companyCode": "landmarkglobal",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "蓝弧快递",
+    "companyCode": "lanhukuaidi",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "老挝(Lao Express) ",
+    "companyCode": "lao",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "塞内加尔",
+    "companyCode": "laposte",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "林安物流",
+    "companyCode": "lasy56",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "拉脱维亚(Latvijas Pasts)",
+    "companyCode": "latviaen",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "立白宝凯物流",
+    "companyCode": "lbbk",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "两点之间",
+    "companyCode": "ldzy168",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "乐达全球速递",
+    "companyCode": "ledaexpress",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "楽道物流",
+    "companyCode": "ledaowuliu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "乐递供应链",
+    "companyCode": "ledii",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "云豹国际货运",
+    "companyCode": "leopard",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "莱索托(Lesotho Post)",
+    "companyCode": "lesotho",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "美联快递",
+    "companyCode": "letseml",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "Laxship",
+    "companyCode": "lexship",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "lazada",
+    "companyCode": "lgs",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "联运快递",
+    "companyCode": "lianyun",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "黎巴嫩(Liban Post)",
+    "companyCode": "libanpost",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "一号线",
+    "companyCode": "lineone",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Lion Parcel",
+    "companyCode": "lionparcel",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "丽狮物流",
+    "companyCode": "lishi",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "立陶宛（Lietuvos pa?tas）",
+    "companyCode": "lithuania",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "小熊物流",
+    "companyCode": "littlebearbear",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "润禾物流",
+    "companyCode": "liujiashen",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "良藤国际速递",
+    "companyCode": "lmfex",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Loadbugs",
+    "companyCode": "loadbugs",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "華信物流WTO",
+    "companyCode": "logistics",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "长风物流",
+    "companyCode": "longvast",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "Loomis Express",
+    "companyCode": "loomisexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "乐天速递",
+    "companyCode": "ltexp",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "联通快递",
+    "companyCode": "ltparcel",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "路邦物流",
+    "companyCode": "lubang56",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "吉捷国际速递",
+    "companyCode": "luckyfastex",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "论道国际物流",
+    "companyCode": "lundao",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "卢森堡(Luxembourg Post)",
+    "companyCode": "luxembourg",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "卢森堡(Luxembourg Post)",
+    "companyCode": "luxembourgde",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "卢森堡(Luxembourg Post)",
+    "companyCode": "luxembourgfr",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "路遥物流",
+    "companyCode": "luyao",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "路尊物流",
+    "companyCode": "luzun",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "中国澳门(Macau Post)",
+    "companyCode": "macao",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "马其顿(Macedonian Post)",
+    "companyCode": "macedonia",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "Maersk",
+    "companyCode": "maersk",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "mailamericas",
+    "companyCode": "mailamericas",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "麦力快递",
+    "companyCode": "mailikuaidi",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "迈隆递运",
+    "companyCode": "mailongdy",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "Mainfreight",
+    "companyCode": "mainfreight",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "马来西亚小包（Malaysia Post(Registered)）",
+    "companyCode": "malaysiapost",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "马尔代夫(Maldives Post)",
+    "companyCode": "maldives",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "马耳他（Malta Post）",
+    "companyCode": "malta",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "芒果速递",
+    "companyCode": "mangguo",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "今枫国际快运",
+    "companyCode": "mapleexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "MAS Courier Servic",
+    "companyCode": "mascourierservice",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Matkahuolto",
+    "companyCode": "matkahuolto",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "毛里求斯(Mauritius Post)",
+    "companyCode": "mauritius",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "澳洲迈速快递",
+    "companyCode": "maxeedexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Middle East Courier service",
+    "companyCode": "mecs",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "美达快递",
+    "companyCode": "meidaexpress",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "Merage ",
+    "companyCode": "merage",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "墨西哥（Correos de Mexico）",
+    "companyCode": "mexico",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "Mexico Senda Express",
+    "companyCode": "mexicodenda",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "名航速运",
+    "companyCode": "mhsy",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "银河物流",
+    "companyCode": "milkyway",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "美龙快递",
+    "companyCode": "mjexp",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "猛犸速递",
+    "companyCode": "mmlogi",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Mitsui OSK Lines",
+    "companyCode": "mol",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "摩尔多瓦(Posta Moldovei)",
+    "companyCode": "moldova",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "蒙古国(Mongol Post) ",
+    "companyCode": "mongolpost",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "黑山(Posta Crne Gore)",
+    "companyCode": "montenegro",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "摩洛哥 ( Morocco Post )",
+    "companyCode": "morocco",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "MRW",
+    "companyCode": "mrw",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Mexico Multipack",
+    "companyCode": "multipack",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "中俄速通（淼信）",
+    "companyCode": "mxe56",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "MyHermes",
+    "companyCode": "myhermes",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "mylerz",
+    "companyCode": "mylerz",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "新亚物流",
+    "companyCode": "nalexpress",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "纳米比亚(NamPost)",
+    "companyCode": "namibia",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "NandanCourier",
+    "companyCode": "nandan",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Nationex",
+    "companyCode": "nationex",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "早道佳",
+    "companyCode": "nbhtt",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "红马速递",
+    "companyCode": "nedahm",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "荷兰速递(Nederland Post)",
+    "companyCode": "nederlandpost",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "尼尔快递",
+    "companyCode": "nell",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "尼泊尔（Nepal Postal Services）",
+    "companyCode": "nepalpost",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "Network Courier",
+    "companyCode": "networkcourier",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Newgistics",
+    "companyCode": "newgistics",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "尼日利亚(Nigerian Postal)",
+    "companyCode": "nigerianpost",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "ninja xpress",
+    "companyCode": "ninjaxpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Nippon Express",
+    "companyCode": "nipponexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "牛仔速运",
+    "companyCode": "niuzaiexpress",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "NLE",
+    "companyCode": "nle",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "亚欧专线",
+    "companyCode": "nlebv",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "华赫物流",
+    "companyCode": "nmhuahe",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "Nok Courier",
+    "companyCode": "nokcourier",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Norsk Global",
+    "companyCode": "norsk_global",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Nova Poshta",
+    "companyCode": "novaposhta",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "诺尔国际物流",
+    "companyCode": "nuoer",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "NYK Line",
+    "companyCode": "nyk",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "OCA Argentina",
+    "companyCode": "ocaargen",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "?OCS ANA Group",
+    "companyCode": "ocsindia",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "阿曼(Oman Post)",
+    "companyCode": "oman",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "无限配",
+    "companyCode": "omni2",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "Omni Parcel",
+    "companyCode": "omniparcel",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "爱沙尼亚(Eesti Post)",
+    "companyCode": "omniva",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "一号仓",
+    "companyCode": "onehcang",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "One World Express",
+    "companyCode": "oneworldexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "昂威物流",
+    "companyCode": "onway",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "OPEK",
+    "companyCode": "opek",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "OPEX",
+    "companyCode": "opex",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "波音速递",
+    "companyCode": "overseaex",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "Packlink",
+    "companyCode": "packlink",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "巴拿马",
+    "companyCode": "panama",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "Pandu Logistics",
+    "companyCode": "pandulogistics",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "巴拉圭(Correo Paraguayo)",
+    "companyCode": "paraguay",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "parcel2go",
+    "companyCode": "parcel2go",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "诚一物流",
+    "companyCode": "parcelchina",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Park N Pracel",
+    "companyCode": "parknparcel",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "paxel",
+    "companyCode": "paxel",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "paxelen",
+    "companyCode": "paxelen",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "普畅物流",
+    "companyCode": "pcwl56",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "全球速递",
+    "companyCode": "pdstow",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "派尔快递",
+    "companyCode": "peex",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "陪行物流",
+    "companyCode": "peixingwuliu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "鹏程快递",
+    "companyCode": "pengcheng",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "Perfect Service",
+    "companyCode": "perfectservice",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "秘鲁(SERPOST)",
+    "companyCode": "peru",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "Presto",
+    "companyCode": "pesto",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "皇家物流",
+    "companyCode": "pfcexpress",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "Parcel Freight Logistics",
+    "companyCode": "pflogistics",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "pickupp",
+    "companyCode": "pickupp",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "品速心达快递",
+    "companyCode": "pinsuxinda",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "品信快递",
+    "companyCode": "pinxinkuaidi",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "先锋国际快递",
+    "companyCode": "pioneer",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "俄罗斯邮政(Russian Post)",
+    "companyCode": "pochta",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "北极星快运",
+    "companyCode": "polarisexpress",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "葡萄牙（Portugal CTT）",
+    "companyCode": "portugalctten",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Portugal Seur",
+    "companyCode": "portugalseur",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "POS INDONESIA",
+    "companyCode": "posindonesia",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "PostElbe",
+    "companyCode": "postelbe",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "PostNord Logistics",
+    "companyCode": "postnord",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "巴布亚新几内亚(PNG Post)",
+    "companyCode": "postpng",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "PT Prima Multi Cipta",
+    "companyCode": "primamulticipta",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "土耳其",
+    "companyCode": "ptt",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "ANTS EXPRESS",
+    "companyCode": "qdants",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "雪域快递",
+    "companyCode": "qhxykd",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "千里速递",
+    "companyCode": "qianli",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "启辰国际速递",
+    "companyCode": "qichen",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "卡塔尔（Qatar Post）",
+    "companyCode": "qpost",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "Quantium",
+    "companyCode": "quantium",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "全通快运",
+    "companyCode": "quantwl",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "全信通快递",
+    "companyCode": "quanxintong",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "Qxpress",
+    "companyCode": "qxpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "R2S Logistics",
+    "companyCode": "r2slogistics",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "RAM",
+    "companyCode": "ramgroup_za",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Rapido Cargo Egypt",
+    "companyCode": "rapidocargoeg",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Red Express",
+    "companyCode": "redexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Redur",
+    "companyCode": "redur",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Redur Spain",
+    "companyCode": "redur_es",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "叙利亚(Syrian Post)",
+    "companyCode": "republic",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "日昱物流",
+    "companyCode": "riyuwuliu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "RL Carriers",
+    "companyCode": "rl_carriers",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "罗马尼亚（Posta Romanian）",
+    "companyCode": "romanian",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "日日顺快线",
+    "companyCode": "rrskx",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "日日通国际",
+    "companyCode": "rrthk",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "瑞典（Sweden Post）",
+    "companyCode": "ruidianyouzhengen",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "润百特货",
+    "companyCode": "runbail",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "卢旺达(Rwanda i-posita)",
+    "companyCode": "rwanda",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "S2C",
+    "companyCode": "s2c",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "佐川急便-英文",
+    "companyCode": "sagawaen",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Correo El Salvador",
+    "companyCode": "salvador",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "萨摩亚(Samoa Post)",
+    "companyCode": "samoa",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "三盛快递",
+    "companyCode": "sanshengco",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "SAP EXPRESS",
+    "companyCode": "sapexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "沙特阿拉伯(Saudi Post)",
+    "companyCode": "saudipost",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "SCCS",
+    "companyCode": "sccs",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "SCG",
+    "companyCode": "scglogistics",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "速佳达快运",
+    "companyCode": "scsujiada",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "四川星程快递",
+    "companyCode": "scxingcheng",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "首达速运",
+    "companyCode": "sdsy888",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "Selektvracht",
+    "companyCode": "selektvracht",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "森鼎国际物流",
+    "companyCode": "sendinglog",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Sendle",
+    "companyCode": "sendle",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "塞尔维亚(PE Post of Serbia)",
+    "companyCode": "serbia",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "澳丰速递",
+    "companyCode": "sfau",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "SFC",
+    "companyCode": "sfc",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "SFC Service",
+    "companyCode": "sfcservice",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "圣飞捷快递",
+    "companyCode": "sfjhd",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "曹操到",
+    "companyCode": "sfpost",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Shadowfax",
+    "companyCode": "shadowfax",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "穗航物流",
+    "companyCode": "shallexp",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "衫达快运",
+    "companyCode": "shanda56",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "尚途国际货运",
+    "companyCode": "shangtuguoji",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "捎客物流",
+    "companyCode": "shaoke",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "杰响物流",
+    "companyCode": "shbwch",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "商海德物流",
+    "companyCode": "shd56",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "盛通快递",
+    "companyCode": "shengtongscm",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "ShipBlu",
+    "companyCode": "shipblu",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "王牌快递",
+    "companyCode": "shipbyace",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "苏豪快递",
+    "companyCode": "shipsoho",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "世运快递",
+    "companyCode": "shiyunkuaidi",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "SHL畅灵国际物流",
+    "companyCode": "shlexp",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "wish邮",
+    "companyCode": "shpostwish",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "shreeanjanicourier",
+    "companyCode": "shreeanjanicourier",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "双鹤物流",
+    "companyCode": "shuanghe",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "顺邦国际物流",
+    "companyCode": "shunbang",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "SiCepat Ekspres",
+    "companyCode": "sicepat",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "四海快递",
+    "companyCode": "sihaiet",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "四海捷运",
+    "companyCode": "sihiexpress",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "新加坡小包(Singapore Post)",
+    "companyCode": "singpost",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "中外运空运",
+    "companyCode": "sinoairinex",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "中外运速递-中文",
+    "companyCode": "sinoex",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Siodemka",
+    "companyCode": "siodemka",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "易普递",
+    "companyCode": "sixroad",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "Sky Express",
+    "companyCode": "skyexpresseg",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "SkyNet Malaysia",
+    "companyCode": "skynetmalaysia",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "skynetworldwide",
+    "companyCode": "skynetworldwide",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "荷兰Sky Post",
+    "companyCode": "skypost",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "Asendia HK (LATAM)",
+    "companyCode": "skypostal",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "斯洛伐克(Slovenská Posta)",
+    "companyCode": "slovak",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "斯里兰卡(Sri Lanka Post)",
+    "companyCode": "slpost",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "SMSA Express",
+    "companyCode": "smsaexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "所罗门群岛",
+    "companyCode": "solomon",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "布基纳法索",
+    "companyCode": "sonapost",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "行必达",
+    "companyCode": "speeda",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "Speedaf",
+    "companyCode": "speedaf",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": " Speed Shipping Company",
+    "companyCode": "speedegypt",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "SpeedEx",
+    "companyCode": "speedex",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "新加坡EMS、大包(Singapore Speedpost)",
+    "companyCode": "speedpost",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "Spoton",
+    "companyCode": "spoton",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Sprint",
+    "companyCode": "sprint",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "速速达",
+    "companyCode": "ssd",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "首通快运",
+    "companyCode": "staky",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "星运快递",
+    "companyCode": "staryvr",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "圣卢西亚",
+    "companyCode": "stlucia",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "智德物流",
+    "companyCode": "stzd56",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "速豹",
+    "companyCode": "subaoex",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "速呈宅配",
+    "companyCode": "sucheng",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "特急便物流",
+    "companyCode": "sucmj",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "苏丹（Sudapost）",
+    "companyCode": "sudapost",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "郑州速捷",
+    "companyCode": "sujievip",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "速配欧翼",
+    "companyCode": "superoz",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "速品快递",
+    "companyCode": "supinexpress",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "苏里南",
+    "companyCode": "surpost",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "圣文森特和格林纳丁斯",
+    "companyCode": "svgpost",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "斯威士兰",
+    "companyCode": "swaziland",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "Amazon FBA Swiship",
+    "companyCode": "swiship",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "瑞士邮政",
+    "companyCode": "swisspostcn",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "顺友物流",
+    "companyCode": "sypost",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "深圳邮政",
+    "companyCode": "szyouzheng",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "天美快递",
+    "companyCode": "taimek",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "Talabat ",
+    "companyCode": "talabat",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "坦桑尼亚(Tanzania Posts)",
+    "companyCode": "tanzania",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "淘布斯国际物流",
+    "companyCode": "taoplus",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "TCI XPS",
+    "companyCode": "tcixps",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "TD Cargo",
+    "companyCode": "tdcargo",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "The BlueBhell Couriers",
+    "companyCode": "thebluebhellcouriers",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "The Courier Guy",
+    "companyCode": "thecourierguy",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "加拿大雷霆快递",
+    "companyCode": "thunderexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "天翔快递",
+    "companyCode": "tianxiang",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "天纵物流",
+    "companyCode": "tianzong",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "TiKi",
+    "companyCode": "tiki",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "TIPSA",
+    "companyCode": "tipsa",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Shree Tirupati",
+    "companyCode": "tirupati",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "老扬州物流",
+    "companyCode": "tjlyz56",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "株式会社T.M.G",
+    "companyCode": "tmg",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "TNT Post",
+    "companyCode": "tntpostcn",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "TNT UK",
+    "companyCode": "tntuk",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "TNY物流",
+    "companyCode": "tny",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "多哥",
+    "companyCode": "togo",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "通达兴物流",
+    "companyCode": "tongdaxing",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "顶世国际物流",
+    "companyCode": "topshey",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "The Professional Couriers",
+    "companyCode": "tpcindia",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "track-parcel",
+    "companyCode": "trackparcel",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Trans Kargo",
+    "companyCode": "transkargologistics",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Transporter Egypt",
+    "companyCode": "transporter",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "天天欧洲物流",
+    "companyCode": "ttkeurope",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "突尼斯EMS(Rapid-Poste)",
+    "companyCode": "tunisia",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "Turbo",
+    "companyCode": "turbo",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "海龟国际快递",
+    "companyCode": "turtle",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "天翼物流",
+    "companyCode": "tywl99",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "UBX",
+    "companyCode": "ubx",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "UEX国际物流",
+    "companyCode": "uex",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "欧洲UEX",
+    "companyCode": "uexiex",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "Ufelix",
+    "companyCode": "ufelix",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "乌干达(Posta Uganda)",
+    "companyCode": "uganda",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "邮鸽速运",
+    "companyCode": "ugoexpress",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "乌克兰小包、大包(UkrPoshta)",
+    "companyCode": "ukraine",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "乌克兰小包、大包(UkrPost)",
+    "companyCode": "ukrpost",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "Uni Express",
+    "companyCode": "uniexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Union Courier SAE",
+    "companyCode": "unioncourier",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "United express courier service",
+    "companyCode": "unitedexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "UPS Freight",
+    "companyCode": "upsfreight",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "UPS Mail Innovations",
+    "companyCode": "upsmailinno",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "华夏国际速递",
+    "companyCode": "uschuaxia",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "USPSCN",
+    "companyCode": "uspscn",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "UTAO优到",
+    "companyCode": "utaoscm",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "乌兹别克斯坦(Post of Uzbekistan)",
+    "companyCode": "uzbekistan",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "万庚国际速递",
+    "companyCode": "vangenexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "瓦努阿图(Vanuatu Post)",
+    "companyCode": "vanuatu",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "越中国际物流",
+    "companyCode": "vctrans",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "越南小包(Vietnam Posts)",
+    "companyCode": "vietnam",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "鹰运国际速递",
+    "companyCode": "vipexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Voo",
+    "companyCode": "voo",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Wadily",
+    "companyCode": "wadily",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Wahana",
+    "companyCode": "wahana",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "万博快递",
+    "companyCode": "wanboex",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "宁夏万家通",
+    "companyCode": "wanjiatong",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "WassalNow",
+    "companyCode": "wassalnow",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "万达美",
+    "companyCode": "wdm",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "Wedel",
+    "companyCode": "wedel",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "世航通运",
+    "companyCode": "welogistics",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "西翼物流",
+    "companyCode": "westwing",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "威速递",
+    "companyCode": "wexpress",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "香港伟豪国际物流",
+    "companyCode": "whgjkd",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Whistl",
+    "companyCode": "whistl",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "万邑通",
+    "companyCode": "winit",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "凡仕特物流",
+    "companyCode": "wlfast",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "万理诺物流",
+    "companyCode": "wln",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "星空国际",
+    "companyCode": "wlwex",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "渥途国际速运",
+    "companyCode": "wotu",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "wowexpress",
+    "companyCode": "wowexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "沃埃家",
+    "companyCode": "wowvip",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "WTD海外通",
+    "companyCode": "wtdex",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "臣邦同城",
+    "companyCode": "wto56kj",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "五六快运",
+    "companyCode": "wuliuky",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "万运国际快递",
+    "companyCode": "wygj168",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "微转运",
+    "companyCode": "wzhaunyun",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "国晶物流",
+    "companyCode": "xdshipping",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "蓝天物流",
+    "companyCode": "xflt56",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "鑫宏福物流",
+    "companyCode": "xhf56",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "西安城联速递",
+    "companyCode": "xianchengliansudi",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "湘达物流",
+    "companyCode": "xiangdawuliu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "西安喜来快递",
+    "companyCode": "xilaikd",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "新元快递",
+    "companyCode": "xingyuankuaidi",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "新颜物流",
+    "companyCode": "xinyan",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "雄达国际物流",
+    "companyCode": "xiongda",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "Xpert Delivery",
+    "companyCode": "xpertdelivery",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "XpressBees",
+    "companyCode": "xpressbees",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "鑫世锐达",
+    "companyCode": "xsrd",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "迅选物流",
+    "companyCode": "xunxuan",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "西游寄速递",
+    "companyCode": "xyjexpress",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "YCG物流",
+    "companyCode": "ycgglobal",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "易达丰国际速递",
+    "companyCode": "ydfexpress",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "也门(Yemen Post)",
+    "companyCode": "yemen",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "易达通",
+    "companyCode": "yidatong",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "艺凡快递",
+    "companyCode": "yifankd",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "易航物流",
+    "companyCode": "yihangmall",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "yikonn",
+    "companyCode": "yikonn",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "银捷速递",
+    "companyCode": "yinjiesudi",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "易欧洲国际物流",
+    "companyCode": "yiouzhou",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "一柒国际物流",
+    "companyCode": "yiqiguojiwuliu",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "一起送",
+    "companyCode": "yiqisong",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "亿顺航",
+    "companyCode": "yishunhang",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "宜送",
+    "companyCode": "yisong",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "易通达",
+    "companyCode": "yitongda",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "易邮速运",
+    "companyCode": "yiyou",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "益加盛快递",
+    "companyCode": "yjs",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "YODEL",
+    "companyCode": "yodel",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "优胜国际速递",
+    "companyCode": "yoseus",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "邮来速递",
+    "companyCode": "youlai",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "雅澳物流",
+    "companyCode": "yourscm",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "邮驿帮高铁速运",
+    "companyCode": "youyibang",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "壹品速递",
+    "companyCode": "ypsd",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "鼹鼠快送",
+    "companyCode": "ysexpress",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "运通快运",
+    "companyCode": "ytky168",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "玥玛速运",
+    "companyCode": "yue777",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "御风速运",
+    "companyCode": "yufeng",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "宇捷通",
+    "companyCode": "yujtong",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "蕴国物流",
+    "companyCode": "yunguo56",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "运通速运",
+    "companyCode": "yuntong",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "Yusen Logistics",
+    "companyCode": "yusen",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "远为快递",
+    "companyCode": "ywexpress",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "西安运逸快递",
+    "companyCode": "yyexp",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "一运全成物流",
+    "companyCode": "yyqc56",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "赞比亚",
+    "companyCode": "zampost",
+    "companyType": "INTERNATIONAL_EMS"
+  },
+  {
+    "companyName": "俄顺物流",
+    "companyCode": "zesexpress",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "珠峰速运",
+    "companyCode": "zf365",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "招金精炼",
+    "companyCode": "zhaojin",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "众辉达物流",
+    "companyCode": "zhdwl",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "智谷特货",
+    "companyCode": "zhiguil",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "志腾物流",
+    "companyCode": "zhitengwuliu",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "众川国际",
+    "companyCode": "zhongchuan",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "众派速递",
+    "companyCode": "zhpex",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "振捷国际货运",
+    "companyCode": "zjgj56",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "准实快运",
+    "companyCode": "zsky123",
+    "companyType": "NATIONAL"
+  },
+  {
+    "companyName": "泰捷达国际物流",
+    "companyCode": "ztjieda",
+    "companyType": "INTERNATIONAL"
+  },
+  {
+    "companyName": "增速跨境 ",
+    "companyCode": "zyzoom",
+    "companyType": "INTERNATIONAL"
+  }
+]

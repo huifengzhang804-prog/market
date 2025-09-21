@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.overview.service.mp.withdraw.mapper.OverviewWithdrawMapper">
+
+    <select id="platformOrderQuery" resultMap="platformOrderQueryMap">
+        SELECT
+        withdraw.source_type AS sourceType,
+        withdraw.`no` AS `no`,
+        withdraw.`offline` AS offline,
+        withdraw.`status` AS `status`,
+        withdraw.owner_type AS ownerType,
+        withdraw.owner_id AS ownerId,
+        withdraw.contract AS contract,
+        withdraw.draw_type AS drawType,
+        withdraw.reason AS reason,
+        withdraw.remark AS remark,
+        withdraw.trade_no AS tradeNo,
+        withdraw.trade_time AS tradeTime,
+        withdraw.create_time AS createTime,
+        withdraw.audit_user_id as auditUserId,
+        withdraw.audit_user_phone as auditUserPhone,
+        withdraw.apply_user_phone as applyUserPhone,
+        withdraw.audit_time AS auditTime,
+        withdraw.payment_voucher as paymentVoucher,
+        (
+        CASE
+        WHEN withdraw.owner_type in
+        (
+        ${@com.medusa.gruul.overview.api.enums.OwnerType @SHOP.value},
+        ${@com.medusa.gruul.overview.api.enums.OwnerType @SUPPLIER.value}
+        )
+        THEN shop.shop_name
+        ELSE consumer.`name` END
+        ) AS ownerName,
+        (
+        CASE
+        WHEN withdraw.owner_type in
+        (
+        ${@com.medusa.gruul.overview.api.enums.OwnerType @SHOP.value},
+        ${@com.medusa.gruul.overview.api.enums.OwnerType @SUPPLIER.value}
+        )
+        THEN shop.shop_logo
+        ELSE consumer.avatar END
+        ) AS ownerAvatar
+
+        FROM t_overview_withdraw AS withdraw
+        LEFT JOIN t_overview_user AS consumer ON withdraw.owner_type NOT IN (
+        ${@com.medusa.gruul.overview.api.enums.OwnerType @SHOP.value},
+        ${@com.medusa.gruul.overview.api.enums.OwnerType @SUPPLIER.value}
+        ) AND consumer.user_id = withdraw.owner_id
+        LEFT JOIN t_overview_shop AS shop ON withdraw.owner_type IN (
+        ${@com.medusa.gruul.overview.api.enums.OwnerType @SHOP.value},
+        ${@com.medusa.gruul.overview.api.enums.OwnerType @SUPPLIER.value}
+        ) AND shop.shop_id = withdraw.owner_id
+        WHERE withdraw.deleted = FALSE
+        <if test="query.status!=null">
+            AND withdraw.`status` = #{query.status.value}
+        </if>
+        <!--打款方式-->
+        <if test="query.offline != null">
+            and withdraw.`offline` = #{query.offline}
+        </if>
+        <!--申请人手机号-->
+        <if test="query.applyUserPhone != null and query.applyUserPhone !='' ">
+            AND (
+            withdraw.apply_user_phone =#{query.applyUserPhone}
+            or withdraw.contract = #{query.applyUserPhone}
+            )
+        </if>
+        <!--审核人手机号-->
+        <if test="query.auditUserPhone != null and query.auditUserPhone !='' ">
+            AND withdraw.audit_user_phone =#{query.auditUserPhone}
+        </if>
+        <!--交易时间-->
+        <if test="query.tradeStartTime != null">
+            AND withdraw.trade_time >= #{query.tradeStartTime}
+        </if>
+        <if test="query.tradeEndTime != null">
+            AND #{query.tradeEndTime} >= withdraw.trade_time
+        </if>
+        <if test="query.exportNos!=null and query.exportNos.size()>0">
+            and withdraw.no in
+            <foreach collection="query.exportNos" open="(" close=")" separator="," item="no" >
+                #{no}
+            </foreach>
+        </if>
+        <if test="query.id != null and query.id != ''">
+            AND withdraw.`no` LIKE CONCAT('%',#{query.id},'%')
+        </if>
+        <if test="query.type != null">
+            AND withdraw.owner_type = #{query.type.value}
+        </if>
+        <if test="query.startDate != null">
+            AND withdraw.create_time >= #{query.startTime}
+        </if>
+        <if test="query.endDate != null">
+            AND #{query.endTime} >= withdraw.create_time
+        </if>
+        <if test="query.sortEnum != null">
+            ORDER BY
+            <choose>
+                <when test="query.sortEnum == @com.medusa.gruul.overview.api.enums.SortEnum @APPLY_TIME_ASC">
+                    withdraw.create_time ASC
+                </when>
+                <when test="query.sortEnum == @com.medusa.gruul.overview.api.enums.SortEnum @APPLY_TIME_DESC">
+                    withdraw.create_time DESC
+                </when>
+                <when test="query.sortEnum == @com.medusa.gruul.overview.api.enums.SortEnum @AUDIT_TIME_ASC">
+                    withdraw.trade_time asc
+                </when>
+                <when test="query.sortEnum == @com.medusa.gruul.overview.api.enums.SortEnum @AUDIT_TIME_DESC">
+                    withdraw.trade_time DESC
+                </when>
+                <when test="query.sortEnum == @com.medusa.gruul.overview.api.enums.SortEnum @WITHDRAW_AMOUNT_ASC">
+                    JSON_EXTRACT(draw_type, '$.amount') ASC
+                </when>
+                <when test="query.sortEnum == @com.medusa.gruul.overview.api.enums.SortEnum @WITHDRAW_AMOUNT_DESC">
+                    JSON_EXTRACT(draw_type, '$.amount') DESC
+                </when>
+
+            </choose>
+        </if>
+        <!--默认排序规则-->
+        <if test="query.sortEnum == null">
+            ORDER BY withdraw.create_time DESC
+        </if>
+
+    </select>
+    <resultMap id="platformOrderQueryMap" type="com.medusa.gruul.overview.api.entity.OverviewWithdraw">
+        <result column="sourceType" property="sourceType"/>
+        <result column="no" property="no"/>
+        <result column="offline" property="offline"/>
+        <result column="status" property="status"/>
+        <result column="ownerType" property="ownerType"/>
+        <result column="ownerId" property="ownerId"/>
+        <result column="contract" property="contract"/>
+        <result column="drawType" property="drawType"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+        <result column="reason" property="reason"/>
+        <result column="remark" property="remark"/>
+        <result column="tradeNo" property="tradeNo"/>
+        <result column="tradeTime" property="tradeTime"/>
+        <result column="ownerName" property="ownerName"/>
+        <result column="ownerAvatar" property="ownerAvatar"/>
+        <result column="createTime" property="createTime"/>
+        <result column="auditUserId" property="auditUserId"/>
+        <result column="auditUserPhone" property="auditUserPhone"/>
+        <result column="applyUserPhone" property="applyUserPhone"/>
+        <result column="auditTime" property="auditTime"/>
+        <result column="paymentVoucher" property="paymentVoucher"/>
+    </resultMap>
+    <select id="distributorStatistics"
+            resultType="com.medusa.gruul.overview.service.model.vo.WithdrawDistributorStatistic">
+        SELECT
+        SUM(IF(withdraw.`status` =
+        ${@com.medusa.gruul.overview.api.enums.WithdrawOrderStatus @APPLYING.value},JSON_EXTRACT(withdraw.draw_type,'$.amount'),
+        0))AS applying,
+        SUM(IF(withdraw.`status` =
+        ${@com.medusa.gruul.overview.api.enums.WithdrawOrderStatus @SUCCESS.value},JSON_EXTRACT(withdraw.draw_type,'$.amount'),
+        0))AS success,
+        (
+        SELECT SUM(JSON_EXTRACT(withdraw.draw_type,'$.amount')) FROM t_overview_withdraw AS withdraw
+        WHERE
+        <include refid="distributorStatisticsWhere"/>
+        AND withdraw.`status` = ${@com.medusa.gruul.overview.api.enums.WithdrawOrderStatus @SUCCESS.value}
+        ) AS total
+        FROM t_overview_withdraw AS withdraw
+        WHERE
+        <include refid="distributorStatisticsWhere"/>
+        <if test="param.startTime!= null">
+            AND withdraw.create_time >= #{param.startTime}
+        </if>
+        <if test="param.endTime!= null">
+            AND #{param.endTime} >= withdraw.create_time
+        </if>
+    </select>
+    <!--  @formatter:off  -->
+    <sql id="distributorStatisticsWhere">
+        withdraw.deleted = FALSE AND withdraw.owner_id = #{param.ownerId}
+        <if test="param.ownerType == @com.medusa.gruul.overview.api.enums.OwnerType @DISTRIBUTOR">
+            AND withdraw.owner_type = ${@com.medusa.gruul.overview.api.enums.OwnerType @DISTRIBUTOR.value}
+        </if>
+        <if test="param.ownerType == @com.medusa.gruul.overview.api.enums.OwnerType @REBATE">
+            AND withdraw.owner_type = ${@com.medusa.gruul.overview.api.enums.OwnerType @REBATE.value}
+        </if>
+        <if test="param.withdrawSourceType == @com.medusa.gruul.overview.api.enums.WithdrawSourceType @DISTRIBUTE">
+            AND withdraw.source_type = ${@com.medusa.gruul.overview.api.enums.WithdrawSourceType @DISTRIBUTE.value}
+        </if>
+        <if test="param.withdrawSourceType == @com.medusa.gruul.overview.api.enums.WithdrawSourceType @CONSUMPTION_REBATE">
+            AND withdraw.source_type = ${@com.medusa.gruul.overview.api.enums.WithdrawSourceType @CONSUMPTION_REBATE.value}
+        </if>
+    </sql>
+
+    <select id="getTotalAmountByStatus" resultType="java.lang.Long">
+        SELECT
+            IFNULL(SUM(json_extract(draw_type, '$.amount')), 0) AS amount
+        FROM
+            t_overview_withdraw
+        WHERE
+            owner_id = #{ownerId}
+          AND `status` = #{status}
+    </select>
+</mapper>

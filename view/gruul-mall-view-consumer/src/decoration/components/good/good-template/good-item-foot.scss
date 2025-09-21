@@ -1,0 +1,116 @@
+.goods-item {
+    &__foot {
+        padding: 20rpx;
+        background-color: #fff;
+    }
+    &__name {
+        vertical-align: middle;
+        line-height: 44rpx;
+        // height: 44rpx;
+        max-height: 88rpx;
+        font-size: 32rpx;
+        font-weight: 400;
+        overflow: hidden;
+        font-size: 28rpx;
+        color: #333;
+        &--main {
+            line-height: 44rpx;
+        }
+    }
+    &__salepoints {
+        margin-top: 20rpx;
+        color: rgba(224, 145, 4, 0.91);
+        font-size: 24rpx;
+        font-weight: 400;
+    }
+    &__price {
+        @include flex(space-between);
+        @include m(content) {
+            flex: 1;
+            margin-left: 6rpx;
+        }
+        @include m(free) {
+            font-size: 20rpx;
+            color: #999;
+        }
+    }
+    &__coupon {
+        margin-top: 7rpx;
+        width: 100%;
+        height: 32rpx;
+        &_container {
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: center;
+        }
+        &--list {
+            margin-left: 4rpx;
+            padding: 0 7rpx;
+            font-size: 20rpx;
+            color: #fb232f;
+            border-radius: 5rpx;
+            border: 1rpx solid #fa3534;
+            border-width: 0.5rpx;
+            font-family: Arial;
+            font-weight: 400;
+            flex-shrink: 0;
+        }
+        .ml0 {
+            margin-left: 0;
+        }
+    }
+    &__history {
+        color: rgba(224, 145, 4, 0.91);
+        margin-top: 20rpx;
+        font-size: 24rpx;
+        line-height: 32rpx;
+    }
+    &__shop {
+        @include flex(space-between, center);
+        margin-top: 14rpx;
+        .label {
+            padding: 1rpx 7rpx;
+            border-radius: 4rpx;
+            color: #fff;
+            font-size: 20rpx;
+            line-height: 28rpx;
+            margin-right: 12rpx;
+        }
+        .label-red {
+            background-color: #fb232f;
+        }
+        .label-yellow {
+            background-color: #8239f6;
+        }
+        &--name {
+            color: #666;
+            font-size: 24rpx;
+            flex: 1;
+            line-height: 32rpx;
+            height: 32rpx;
+            overflow: hidden;
+        }
+    }
+}
+
+.tag {
+    background-color: #f54319;
+    color: #fff;
+    font-size: 20rpx;
+    line-height: 32rpx;
+    height: 32rpx;
+    padding: 2rpx 8rpx;
+    border-radius: 4rpx;
+    vertical-align: middle;
+    margin-right: 10rpx;
+    position: relative;
+    top: -2rpx;
+}
+
+.double {
+    height: 88rpx;
+}
+
+.cancel-double {
+    height: 44rpx;
+}

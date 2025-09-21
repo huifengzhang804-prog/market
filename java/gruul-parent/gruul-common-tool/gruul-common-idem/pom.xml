@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>gruul-common-tool</artifactId>
+        <groupId>com.medusa.gruul</groupId>
+        <version>2022.2</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>gruul-common-idem</artifactId>
+    <description>幂等性校验工具 - 基于redis与拦截器</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>gruul-common-system-context</artifactId>
+        </dependency>
+    </dependencies>
+
+
+</project>

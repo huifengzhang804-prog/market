@@ -1,0 +1,33 @@
+{
+  "extends": "@vue/tsconfig/tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "allowJs": true,
+    "sourceMap": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@plugin/*": ["src/pages/plugin/*"],
+      "@decoration/*": ["src/decoration/*"],
+      "@pluginPackage/*": ["src/pluginPackage/*"],
+      "@/utils/*": ["src/utils/*"],
+      "qrcode-reader-vue3": ["./types/qrcode-reader-vue3.d.ts"]
+    },
+    "lib": ["esnext", "dom"],
+    "typeRoots": ["./node_modules/@types/", "types"]
+  },
+  "exclude": ["src/uni_modules/*", "node_modules"],
+  "include": [
+    "tests/**/*.test.ts",
+    "shims-vue.d.ts",
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "types/*.d.ts",
+    "deletHeaderNotes.js",
+    "src/scripts/removeLive.js",
+    "vite.config.ts",
+    "buildmp.js"
+  ]
+}

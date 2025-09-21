@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>gruul-common-data</artifactId>
+        <groupId>com.medusa.gruul</groupId>
+        <version>2022.2</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>gruul-common-redis</artifactId>
+
+    <dependencies>
+        <!-- redisson -->
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+        </dependency>
+        <!-- fastjons2 -->
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>gruul-common-fastjson2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>gruul-common-model</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.medusa.gruul.global</groupId>
+            <artifactId>gruul-global-config</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

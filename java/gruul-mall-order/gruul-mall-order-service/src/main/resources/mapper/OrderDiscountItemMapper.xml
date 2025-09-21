@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.order.service.mp.mapper.OrderDiscountItemMapper">
+
+
+    <select id="getItem" resultType="com.medusa.gruul.order.api.entity.OrderDiscountItem">
+        SELECT
+            item.*
+        FROM t_order_discount_item AS item
+        INNER JOIN t_order_discount AS discount ON discount.id = item.discount_id AND discount.order_no =#{orderNo} AND discount.deleted = FALSE
+        WHERE item.deleted = FALSE
+        AND item.shop_id = #{shopId}
+        AND item.item_id = #{itemId}
+    </select>
+</mapper>

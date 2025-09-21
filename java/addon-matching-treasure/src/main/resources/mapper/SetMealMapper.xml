@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.addon.matching.treasure.mp.mapper.SetMealMapper">
+    <sql id="statisticsPeopleNum">
+        (SELECT COUNT(DISTINCT user_id) FROM t_set_meal_payment_info
+           WHERE id = activity_id AND deleted = 0) AS people_num,
+    </sql>
+
+    <sql id="statisticsAmountReceivable">
+        (SELECT SUM(amount_receivable) FROM t_set_meal_payment_info
+           WHERE id  = activity_id AND deleted = 0) AS amount_receivable,
+    </sql>
+
+    <select id="pageSetMeal" resultType="com.medusa.gruul.addon.matching.treasure.model.vo.SetMealVO">
+        SELECT
+        setMeal.id,
+        setMeal.shop_id,
+        setMeal.shop_name,
+        setMeal.set_meal_name,
+        setMeal.set_meal_description,
+        setMeal.start_time,
+        setMeal.end_time,
+        setMeal.set_meal_main_picture,
+        setMeal.set_meal_type,
+        setMeal.violation_explain ,
+        <include refid="statisticsPeopleNum"/>
+        <include refid="statisticsAmountReceivable"/>
+        setMeal.set_meal_status
+        FROM
+        t_set_meal AS setMeal
+
+        <where>
+            setMeal.deleted = 0
+            <if test="setMealQuery != null">
+                <if test="setMealQuery.shopId != null">
+                    AND setMeal.shop_id = #{setMealQuery.shopId}
+                </if>
+                <if test="setMealQuery.keyword != null and setMealQuery.keyword != ''">
+                    AND (setMeal.set_meal_name LIKE CONCAT('%',#{setMealQuery.keyword},'%') OR setMeal.shop_name LIKE
+                    CONCAT('%',#{setMealQuery.keyword},'%'))
+                </if>
+
+                <if test="setMealQuery.setMealStatus != null">
+                    <choose>
+                        <when test="setMealQuery.setMealStatus == @com.medusa.gruul.addon.matching.treasure.model.enums.SetMealStatus @ILLEGAL_SELL_OFF or setMealQuery.setMealStatus == @com.medusa.gruul.addon.matching.treasure.model.enums.SetMealStatus @MERCHANT_SELL_OFF">
+                            AND setMeal.set_meal_status = #{setMealQuery.setMealStatus}
+                        </when>
+                        <otherwise>
+                            AND setMeal.set_meal_status != ${@com.medusa.gruul.addon.matching.treasure.model.enums.SetMealStatus @ILLEGAL_SELL_OFF.value}
+                            AND setMeal.set_meal_status != ${@com.medusa.gruul.addon.matching.treasure.model.enums.SetMealStatus @MERCHANT_SELL_OFF.value}
+                            <choose>
+                                <when test="setMealQuery.setMealStatus == @com.medusa.gruul.addon.matching.treasure.model.enums.SetMealStatus @NOT_STARTED">
+                                    AND NOW() <![CDATA[<]]>  setMeal.start_time
+                                </when>
+
+                                <when test="setMealQuery.setMealStatus == @com.medusa.gruul.addon.matching.treasure.model.enums.SetMealStatus @PROCESSING">
+                                    AND NOW() >= setMeal.start_time AND NOW() <![CDATA[<=]]>  setMeal.end_time
+                                </when>
+                                <when test="setMealQuery.setMealStatus == @com.medusa.gruul.addon.matching.treasure.model.enums.SetMealStatus @OVER">
+                                    AND setMeal.end_time <![CDATA[<=]]> NOW()
+                                </when>
+                            </choose>
+                        </otherwise>
+                    </choose>
+                </if>
+            </if>
+        </where>
+        ORDER BY setMeal.start_time DESC
+
+    </select>
+
+</mapper>

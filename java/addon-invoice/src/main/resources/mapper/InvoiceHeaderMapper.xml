@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.addon.invoice.mp.mapper.InvoiceHeaderMapper">
+
+    <select id="pageInvoiceHeader" resultType="com.medusa.gruul.addon.invoice.model.vo.InvoiceHeadVO">
+        SELECT
+            invoiceheader.id,
+            invoiceheader.type as invoiceHeaderType,
+            invoiceheader.owner_id,
+            invoiceheader.owner_type,
+            invoiceheader.is_default,
+            invoiceheader.header,
+            invoiceheader.tax_ident_no,
+            invoiceheader.opening_bank,
+            invoiceheader.bank_account_no,
+            invoiceheader.enterprise_phone,
+            invoiceheader.enterprise_address,
+            invoiceheader.email
+        FROM
+            t_invoice_header AS invoiceheader
+        WHERE
+            deleted = FALSE
+        <if test="invoiceHeaderQuery != null">
+            <if test="invoiceHeaderQuery.ownerType != null">
+                AND invoiceheader.owner_type = #{invoiceHeaderQuery.ownerType}
+            </if>
+            <if test="invoiceHeaderQuery.ownerId != null">
+                AND invoiceheader.owner_id = #{invoiceHeaderQuery.ownerId}
+            </if>
+        </if>
+
+    </select>
+</mapper>

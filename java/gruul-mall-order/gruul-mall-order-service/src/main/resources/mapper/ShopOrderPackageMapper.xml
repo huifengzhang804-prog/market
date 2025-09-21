@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.order.service.mp.mapper.ShopOrderPackageMapper">
+
+    <select id="deliveredPackages" resultType="com.medusa.gruul.order.api.entity.ShopOrderPackage">
+        SELECT
+        package.*
+        FROM t_shop_order_package AS package
+        WHERE package.order_no = #{orderNo}
+        AND package.deleted = 0
+        <if test="query.packageId != null">
+            AND package.id = #{query.packageId}
+        </if>
+        <if test="query.shopId != null">
+            AND package.shop_id = #{query.shopId}
+        </if>
+        <if test="query.supplierId != null or query.sellType != null">
+            AND EXISTS(
+            SELECT item.id FROM t_shop_order_item AS item WHERE item.package_id = package.id
+            <if test="query.supplierId != null">
+                AND item.supplier_id = #{query.supplierId}
+            </if>
+            <if test="query.sellType != null">
+                AND item.sell_type = #{query.sellType.value}
+            </if>
+            AND item.deleted = 0
+            )
+        </if>
+        <if test="query.shopOrderNo != null">
+            AND EXISTS(
+            SELECT shopOrder.id FROM t_shop_order AS shopOrder WHERE shopOrder.`no` = #{query.shopOrderNo} AND
+            shopOrder.order_no = package.order_no AND shopOrder.deleted = 0
+            )
+        </if>
+        <if test="query.buyerId != null">
+            AND EXISTS(
+            SELECT ord.id FROM t_order AS ord WHERE ord.`no` = package.order_no AND ord.buyer_id = #{query.buyerId} AND
+            ord.deleted = 0
+            )
+        </if>
+        ORDER BY package.create_time
+        <if test="query.limitOne != null and query.limitOne">
+            LIMIT 1
+        </if>
+    </select>
+</mapper>

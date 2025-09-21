@@ -1,0 +1,109 @@
+<script setup lang="ts">
+import { useRouter } from 'vue-router'
+import { useCardInfo } from '@/store/modules/cart'
+import { useUserStore } from '@/store/modules/user'
+import QIcon from '@/components/q-icon/q-icon.vue'
+import Storage from '@/libs/storage'
+import { usePropertiesListStore } from '@/store/modules/propertiesList'
+import { useRouterNewWindow } from '@/utils/useRouter'
+import { storeToRefs } from 'pinia'
+
+const { getterPropertiesList } = storeToRefs(usePropertiesListStore())
+const { openNewWindow } = useRouterNewWindow()
+const storage = new Storage()
+const $cardInfo = useCardInfo()
+const $router = useRouter()
+const toTop = () => {
+  document.querySelector(`#toTop`)?.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' })
+}
+
+const $userStore = useUserStore()
+
+const toCar = () => {
+  if (!$userStore.getterToken) {
+    $userStore.loginTypeTrue()
+    return
+  }
+
+  $router.push({
+    path: '/shoppingcart',
+    query: {},
+  })
+}
+
+/**
+ * @description: 客服
+ */
+const gotoCustomerService = () => {
+  openNewWindow('/personalcenter/set/customerservice')
+}
+
+const otherData = ref()
+otherData.value = getterPropertiesList.value
+</script>
+<template>
+  <div class="sidebar">
+    <div v-if="otherData?.otherData?.service" class="sidebar__service cp" @click="gotoCustomerService">
+      <q-icon name="icon-lianxikefu" color="#F54319" size="28px"></q-icon>
+      <div class="m-t-10">联系客服</div>
+    </div>
+    <div v-if="otherData?.otherData?.car" class="sidebar__car cp" @click="toCar">
+      <div class="sidebar__car--line"></div>
+      <el-badge v-if="$cardInfo.count" :max="99" :value="$cardInfo.count">
+        <q-icon name="icon-gouwuche6" size="28px"></q-icon>
+      </el-badge>
+      <q-icon v-else name="icon-gouwuche6" size="28px"></q-icon>
+      <div class="m-t-10">购物车</div>
+    </div>
+    <div class="sidebar__top cp" @click="toTop">
+      <q-icon name="icon-Top" color="#F54319" size="28px"></q-icon>
+      <div class="m-t-10">Top</div>
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@include b(sidebar) {
+  position: fixed;
+  top: 65%;
+  right: 0px;
+  width: 76px;
+  padding: 12px 10px;
+  background-color: #fff;
+  z-index: 3;
+  text-align: center;
+  border-radius: 0px 0px 2px 2px;
+  box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.05);
+  font-size: 14px;
+  color: #888;
+  z-index: 10;
+  cursor: pointer;
+  @include e(service) {
+    padding-bottom: 14px;
+  }
+  @include e(car) {
+    position: relative;
+    padding: 16px 0;
+
+    @include m(line) {
+      position: absolute;
+      width: 26px;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      transform: translateX(-50%);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-left: none;
+      border-right: none;
+    }
+  }
+
+  @include e(top) {
+    color: #f54319;
+    padding-top: 16px;
+  }
+}
+.m-t-10 {
+  margin-top: 10px;
+}
+</style>

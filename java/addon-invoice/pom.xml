@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>gruul-mall-parent</artifactId>
+        <groupId>com.medusa.gruul</groupId>
+        <version>2022.2</version>
+    </parent>
+
+    <artifactId>addon-invoice</artifactId>
+    <version>1.0</version>
+
+    <dependencies>
+        <!-- shop api -->
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>gruul-mall-shop-api</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <!-- order api -->
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>gruul-mall-order-api</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <!-- uaa api -->
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>gruul-mall-uaa-api</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <!--afs api-->
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>gruul-mall-afs-api</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <!-- 插件驱动器 -->
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>gruul-common-addon-supporter</artifactId>
+        </dependency>
+
+        <!-- mq -->
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>gruul-common-mq-rabbit</artifactId>
+        </dependency>
+        <!-- module -->
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>gruul-common-module-addon</artifactId>
+        </dependency>
+        <!-- test -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-generator</artifactId>
+            <version>${mybatis-plus.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity-engine-core</artifactId>
+            <version>2.3</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>config/</exclude>
+                    </excludes>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.medusa.gruul.addon.invoice.AddonInvoiceApplication</mainClass>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                        </manifest>
+                        <manifestEntries>
+                            <Class-Path>./</Class-Path>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                            <excludeTransitive>false</excludeTransitive>
+                            <stripVersion>false</stripVersion>
+                            <includeScope>runtime</includeScope>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/resources</directory>
+                                    <includes>
+                                        <include>config/**</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                            <outputDirectory>${project.build.directory}</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.github.shalousun</groupId>
+                <artifactId>smart-doc-maven-plugin</artifactId>
+                <configuration>
+                    <configFile>./src/main/resources/smart-doc.json</configFile>
+                    <excludes>
+                        <exclude>com.google.guava:guava</exclude>
+                    </excludes>
+                    <includes>
+                        <include>com.medusa.gruul:.*</include>
+                        <include>com.medusa.gruul.global:.*</include>
+                        <include>com.baomidou:mybatis-plus-extension</include>
+                        <include>com.baomidou:mybatis-plus-core</include>
+                        <include>cn.hutool:hutool-all</include>
+                    </includes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>html</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>17</source>
+                    <target>17</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

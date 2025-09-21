@@ -1,0 +1,33 @@
+@import '../mixins/mixins';
+@import '../mixins/utils.scss';
+
+@include b(item) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 48px;
+    margin-bottom: 5px;
+    color: #303133;
+    cursor: pointer;
+    border-bottom: 1px solid #ebeef5;
+    background-color: #ffffff;
+    padding:0 15px;
+    font-size: 13px;
+    font-weight: 500;
+    transition: border-bottom-color 0.3s;
+    outline: 0;
+    @include e(left) {
+      @include flex()
+    }
+
+    @include e(img) {
+        width: 25px;
+        height: 25px;
+        margin-right: 15px;
+    }
+
+    @include e(text) {
+        font-size: 14px;
+        color: #45403c;
+    }
+}

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.addon.live.mp.mapper.BaseLiveMapper">
+
+    <resultMap id="livePageMap" type="com.medusa.gruul.addon.live.vo.LiveRoomVO">
+        <result column="id" property="id"/>
+        <result column="anchor_id" property="anchorId"/>
+        <result column="shop_id" property="shopId"/>
+        <result column="shop_name" property="shopName"/>
+        <result column="shop_type" property="shopType"/>
+        <result column="live_title" property="liveTitle"/>
+        <result column="live_synopsis" property="liveSynopsis"/>
+        <result column="pic" property="pic"/>
+        <result column="push_address" property="pushAddress"/>
+        <result column="pull_address" property="pullAddress"/>
+        <result column="begin_time" property="beginTime"/>
+        <result column="end_time" property="endTime"/>
+        <result column="status" property="status"/>
+
+        <result column="viewership" property="viewership"/>
+        <result column="duration" property="duration"/>
+
+        <collection property="anchor" column="anchor_id" ofType="com.medusa.gruul.addon.live.mp.entity.Anchor">
+            <result column="user_id" property="userId"/>
+            <result column="anchor_nickname" property="anchorNickname"/>
+            <result column="phone" property="phone"/>
+            <result column="anchor_icon" property="anchorIcon"/>
+            <result column="anchor_status" property="status"/>
+        </collection>
+    </resultMap>
+
+    <sql id="livePageSql">
+    live.id, live.shop_id, live.shop_name, live.shop_type, live.live_title, live.pic, live.live_synopsis, live.`status`, live.anchor_id, live.begin_time, live.end_time,
+    live.push_address, live.pull_address,
+    anchor.anchor_nickname, anchor.phone, anchor.user_id, anchor.`anchor_icon`, anchor.`status` AS anchor_status,
+    IFNULL(extend.duration,0) AS duration, IFNULL(extend.viewership,0) AS viewership
+    </sql>
+
+
+    <select id="liveAnchorList" resultType="com.medusa.gruul.addon.live.vo.LiveAnchorVO">
+        SELECT live.id   AS id,
+               anchor.id AS anchorId,
+               anchor.user_id,
+               live.live_title,
+               live.shop_id,
+               live.`pic`,
+               live.live_synopsis,
+               live.push_address,
+               live.pull_address,
+               live.begin_time,
+               live.end_time,
+               live.`status`,
+               live.create_time,
+               live.update_time
+        FROM t_anchor anchor
+        INNER JOIN t_base_live live ON anchor.id = live.anchor_id AND live.deleted = 0
+        WHERE anchor.user_id = #{userId}
+          AND anchor.deleted = 0
+        ORDER BY live.create_time DESC
+    </select>
+
+    <select id="livePage" resultMap="livePageMap">
+        SELECT
+        <include refid="livePageSql"/>
+        FROM
+        t_base_live live
+        LEFT JOIN t_live_extend extend ON live.id = extend.live_id AND extend.deleted = 0
+        LEFT JOIN t_anchor anchor ON live.anchor_id = anchor.id AND anchor.deleted = 0
+        <where>
+            live.`deleted` = 0
+            <if test="liveRoomParam.beginTime !=null and liveRoomParam.endTime !=null">
+                AND (DATE_FORMAT(live.begin_time,'%Y-%m-%d') BETWEEN #{liveRoomParam.beginTime} AND
+                #{liveRoomParam.endTime})
+            </if>
+            <if test="liveRoomParam.liveTitle != null and liveRoomParam.liveTitle != ''">
+                AND live.`live_title` LIKE CONCAT('%',#{liveRoomParam.liveTitle},'%')
+            </if>
+            <if test="liveRoomParam.liveId !=null ">
+                AND live.`id` = #{liveRoomParam.liveId}
+            </if>
+            <if test="liveRoomParam.anchorNickname !=null and liveRoomParam.anchorNickname !=''">
+                AND anchor.`anchor_nickname` LIKE CONCAT('%',#{liveRoomParam.anchorNickname},'%')
+            </if>
+            <if test="liveRoomParam.phone !=null and liveRoomParam.phone !=''">
+                AND anchor.`phone` LIKE CONCAT('%',#{liveRoomParam.phone}, '%')
+            </if>
+            <if test="liveRoomParam.shopId != 0">
+                AND live.`shop_id` = #{liveRoomParam.shopId}
+            </if>
+            <if test="liveRoomParam.shopName !=null and liveRoomParam.shopName !=''">
+                AND live.`shop_name` LIKE CONCAT ('%', #{liveRoomParam.shopName}, '%')
+            </if>
+            <if test="liveRoomParam.status!=null">
+                <choose>
+                    <when test="liveRoomParam.status == @com.medusa.gruul.addon.live.enums.LiveRoomStatus @NOT_STARTED">
+                        AND live.`status` = ${@com.medusa.gruul.addon.live.enums.LiveRoomStatus @NOT_STARTED.value}
+                    </when>
+                    <when test="liveRoomParam.status == @com.medusa.gruul.addon.live.enums.LiveRoomStatus @PROCESSING">
+                        AND live.`status` = ${@com.medusa.gruul.addon.live.enums.LiveRoomStatus @PROCESSING.value}
+                    </when>
+                    <when test="liveRoomParam.status == @com.medusa.gruul.addon.live.enums.LiveRoomStatus @OVER">
+                        AND live.`status` = ${@com.medusa.gruul.addon.live.enums.LiveRoomStatus @OVER.value}
+                    </when>
+                    <when test="liveRoomParam.status == @com.medusa.gruul.addon.live.enums.LiveRoomStatus @ILLEGAL_SELL_OFF">
+                        AND live.`status` = ${@com.medusa.gruul.addon.live.enums.LiveRoomStatus @ILLEGAL_SELL_OFF.value}
+                    </when>
+                </choose>
+            </if>
+            ORDER BY live.`create_time` DESC
+        </where>
+    </select>
+
+    <select id="isBeginLive" resultType="java.lang.Boolean">
+        SELECT COUNT(live.id) > 0
+        FROM t_base_live live
+        WHERE live.`status` = ${@com.medusa.gruul.addon.live.enums.LiveRoomStatus @PROCESSING.value}
+          AND EXISTS(
+                SELECT anchor.id
+                FROM t_anchor anchor
+                WHERE anchor.id = live.anchor_id
+                  AND anchor.user_id = #{userId}
+                  AND anchor.deleted = 0
+            )
+    </select>
+
+    <select id="detail" resultMap="livePageMap">
+        SELECT
+        <include refid="livePageSql"/>
+        FROM
+        t_base_live live
+        LEFT JOIN t_live_extend extend ON live.id = extend.live_id AND extend.deleted = 0
+        LEFT JOIN t_anchor anchor ON live.anchor_id = anchor.id AND anchor.deleted = 0
+        <where>
+            live.`id` = #{id}
+        </where>
+    </select>
+
+
+    <select id="randomView" resultMap="livePageMap">
+        SELECT
+        <include refid="livePageSql"/>
+        FROM
+        t_base_live live
+        LEFT JOIN t_live_extend extend ON live.id = extend.live_id AND extend.deleted = 0
+        LEFT JOIN t_anchor anchor ON live.anchor_id = anchor.id AND anchor.deleted = 0
+        <where>
+            live.`id` != #{id}
+            AND
+            live.`status` = ${@com.medusa.gruul.addon.live.enums.LiveRoomStatus @PROCESSING.value}
+            ORDER BY RAND() LIMIT 1
+        </where>
+    </select>
+
+
+    <select id="getLiveRoom" resultType="com.medusa.gruul.addon.live.mp.entity.BaseLive">
+        SELECT live.*
+        FROM t_base_live live
+        INNER JOIN t_anchor anchor ON live.anchor_id = anchor.id AND anchor.deleted = 0
+        WHERE anchor.user_id = #{userId}
+          AND live.deleted = 0
+          AND live.id = #{liveId}
+    </select>
+
+</mapper>

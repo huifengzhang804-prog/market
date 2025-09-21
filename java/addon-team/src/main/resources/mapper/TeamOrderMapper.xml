@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.addon.team.mp.mapper.TeamOrderMapper">
+    <select id="teamOrderCounts" resultType="com.medusa.gruul.addon.team.model.count.TeamOrderCount">
+        SELECT
+            ANY_VALUE(ord.shop_id) AS shopId,
+            ANY_VALUE(ord.activity_id) AS activityId,
+            <!-- SUM(ord.amount) AS amount,-->
+            COUNT(ord.order_no) AS orders
+        FROM t_team_order AS ord
+        WHERE (ord.shop_id,ord.activity_id) IN
+        <foreach collection="keys" item="key" open="(" separator="," close=")">
+            (#{key.shopId},#{key.activityId})
+        </foreach>
+        GROUP BY ord.shop_id,ord.activity_id
+    </select>
+    <select id="orderPage" resultType="com.medusa.gruul.addon.team.model.vo.TeamOrderPageVO">
+        SELECT
+            ANY_VALUE(ord.activity_id) AS activityId,
+            ANY_VALUE(ord.team_no) AS teamNo,
+            MAX(CASE WHEN ord.commander THEN ord.order_no END) AS orderNo,
+            MAX(CASE WHEN ord.commander THEN ord.user_id END) AS commanderId,
+            MAX(CASE WHEN ord.commander THEN ord.avatar END) AS commanderAvatar,
+            MAX(CASE WHEN ord.commander THEN ord.nickname END) AS commanderNickname,
+            ANY_VALUE(ord.shop_id) AS shopId,
+            ANY_VALUE(ord.product_id) AS productId,
+            ANY_VALUE(ord.open_time) AS openTime,
+            COUNT(DISTINCT ord.order_no) AS currentNum,
+            ANY_VALUE(ord.num) AS totalNum,
+            SUM(ord.amount) AS amount,
+            ANY_VALUE(ord.effect_timeout) AS effectTimeout,
+            ANY_VALUE(ord.`status`) AS `status`
+        FROM t_team_order AS ord
+        WHERE ord.shop_id = #{query.shopId}
+        <if test="query.activityId != null">
+            AND ord.activity_id = #{query.activityId}
+        </if>
+        <if test="query.productId != null">
+            AND ord.product_id = #{query.productId}
+        </if>
+        <if test="query.productName != null and query.productName != ''">
+            AND EXISTS(
+                SELECT product.id FROM t_team_product AS product
+                WHERE product.product_id = ord.product_id AND product.activity_id = ord.activity_id
+                AND product.shop_id = ord.shop_id AND product.deleted = FALSE
+                AND product.product_name LIKE CONCAT('%',#{query.productName},'%')
+            )
+        </if>
+        <if test="query.status != null">
+            AND ord.`status` = #{query.status.value}
+        </if>
+        GROUP BY ord.team_no
+        <if test="query.commander != null and query.commander != ''">
+            HAVING commanderNickname LIKE CONCAT('%',#{query.commander},'%')
+        </if>
+        ORDER BY
+            <if test="query.teamNo != null and query.teamNo != ''">
+                ord.team_no = ${query.teamNo} DESC,
+            </if>
+            ord.open_time DESC
+    </select>
+    <select id="getOrderSummary" resultType="com.medusa.gruul.addon.team.model.vo.TeamOrderSummaryVO">
+        SELECT
+            ANY_VALUE(activity.`name`) AS  `name`,
+            ANY_VALUE(ord.activity_id) AS activityId,
+            MAX(CASE WHEN ord.commander THEN ord.order_no END) AS orderNo,
+            MAX(CASE WHEN ord.commander THEN ord.user_id END) AS commanderId,
+            MAX(CASE WHEN ord.commander THEN ord.avatar END) AS commanderAvatar,
+            MAX(CASE WHEN ord.commander THEN ord.nickname END) AS commanderNickname,
+            ANY_VALUE(ord.shop_id) AS shopId,
+            ANY_VALUE(ord.product_id) AS productId,
+            SUM(ord.product_num) AS buyNum,
+            ANY_VALUE(ord.open_time) AS openTime,
+            COUNT(ord.id) AS currentNum,
+            ANY_VALUE(ord.num) AS totalNum,
+            SUM(ord.amount) AS totalAmount,
+            ANY_VALUE(ord.effect_timeout) AS effectTimeout,
+            MAX(CASE WHEN ord.commander THEN ord.`status` END) AS `status`
+        FROM t_team_order AS ord
+        INNER JOIN t_team_activity AS activity ON activity.id = ord.activity_id
+        <where>
+            <if test="query.teamNo != null and query.teamNo != ''">
+                ord.team_no = #{query.teamNo}
+            </if>
+            <if test="query.orderNo != null and query.orderNo != ''">
+             EXISTS(
+                SELECT ord2.order_no FROM t_team_order AS ord2
+                WHERE ord2.team_no = ord.team_no
+                AND ord2.order_no = #{query.orderNo}
+                )
+            </if>
+            <if test="query.shopId != null">
+                 ord.shop_id = #{query.shopId}
+            </if>
+        </where>
+        GROUP BY ord.team_no
+    </select>
+</mapper>

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.addon.team.mp.mapper.TeamActivityMapper">
+    <resultMap id="activityPageMap" type="com.medusa.gruul.addon.team.model.vo.TeamPageVO">
+        <id column="id" property="id"/>
+        <result column="shopId" property="shopId"/>
+        <result column="name" property="name"/>
+        <result column="status" property="status"/>
+        <result column="startTime" property="startTime"/>
+        <result column="endTime" property="endTime"/>
+        <result column="mode" property="mode"/>
+    </resultMap>
+    <select id="activityPage" resultMap="activityPageMap">
+        SELECT
+        activity.id AS id,
+        activity.shop_id AS shopId,
+        activity.name AS name,
+        (
+        CASE
+        <!--违规下架-->
+        WHEN activity.status = ${@com.medusa.gruul.addon.team.model.enums.TeamStatus @VIOLATION.value}
+        THEN ${@com.medusa.gruul.addon.team.model.enums.TeamStatus @VIOLATION.value}
+        <!--下架-->
+        WHEN activity.status = ${@com.medusa.gruul.addon.team.model.enums.TeamStatus @SHOP_OFF_SHELF.value}
+        THEN ${@com.medusa.gruul.addon.team.model.enums.TeamStatus @SHOP_OFF_SHELF.value}
+        <!-- 是否违规 WHEN activity.violated THEN ${@com.medusa.gruul.addon.team.model.enums.TeamStatus @VIOLATION.value}  -->
+        <!-- 是否已结束 -->
+        WHEN NOW() > activity.end_time THEN ${@com.medusa.gruul.addon.team.model.enums.TeamStatus @FINISHED.value}
+        <!-- 是否已开始 -->
+        WHEN NOW() >= activity.start_time THEN ${@com.medusa.gruul.addon.team.model.enums.TeamStatus @OPEN.value}
+        <!--未开始-->
+        WHEN NOW() &lt; activity.start_time THEN ${@com.medusa.gruul.addon.team.model.enums.TeamStatus @OPENING.value}
+
+        END
+        ) AS `status`,
+        activity.start_time AS startTime,
+        activity.end_time AS endTime,
+        activity.mode as mode
+        FROM
+        t_team_activity AS activity
+        WHERE activity.deleted = FALSE
+        <if test="shopId != null">
+            AND activity.shop_id = #{shopId}
+        </if>
+        <!-- 活动名称模糊搜索 -->
+        <if test="query.keyword!= null and query.keyword!= ''">
+            AND activity.name LIKE CONCAT('%',#{query.keyword},'%')
+        </if>
+        <if test="query.status!= null">
+            AND
+            <choose>
+              <!--违规下架  -->
+              <when test="query.status == @com.medusa.gruul.addon.team.model.enums.TeamStatus @VIOLATION">
+                activity.status = #{query.status}
+              </when>
+              <!--下架  -->
+              <when test="query.status == @com.medusa.gruul.addon.team.model.enums.TeamStatus @SHOP_OFF_SHELF">
+                activity.status = #{query.status}
+              </when>
+
+                <!--已结束-->
+                <when test="query.status == @com.medusa.gruul.addon.team.model.enums.TeamStatus @FINISHED">
+                    NOW() > activity.end_time
+                  AND activity.status not in
+                  (
+                  ${@com.medusa.gruul.addon.team.model.enums.TeamStatus @VIOLATION.value},
+                  ${@com.medusa.gruul.addon.team.model.enums.TeamStatus @SHOP_OFF_SHELF.value}
+                  )
+                </when>
+                <!--进行中 -->
+                <when test="query.status == @com.medusa.gruul.addon.team.model.enums.TeamStatus @OPEN">
+                    NOW() >= activity.start_time AND activity.end_time >= NOW()
+                  AND activity.status not in
+                  (
+                  ${@com.medusa.gruul.addon.team.model.enums.TeamStatus @VIOLATION.value},
+                  ${@com.medusa.gruul.addon.team.model.enums.TeamStatus @SHOP_OFF_SHELF.value}
+                  )
+                </when>
+
+              <!--未开始 -->
+              <when test="query.status == @com.medusa.gruul.addon.team.model.enums.TeamStatus @OPENING">
+                activity.start_time > NOW()
+                AND activity.status not in
+                (
+                ${@com.medusa.gruul.addon.team.model.enums.TeamStatus @VIOLATION.value},
+                ${@com.medusa.gruul.addon.team.model.enums.TeamStatus @SHOP_OFF_SHELF.value}
+                )
+              </when>
+
+            </choose>
+        </if>
+        ORDER BY activity.create_time DESC
+    </select>
+
+    <resultMap id="productTeamStatusMap" type="com.medusa.gruul.addon.team.model.vo.TeamProductVO">
+        <result column="activityId" property="activityId"/>
+        <result column="effectTimeout" property="effectTimeout"/>
+        <result column="mode" property="mode"/>
+        <result column="users" property="users"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+
+        <result column="huddle" property="huddle"/>
+        <result column="startTime" property="startTime"/>
+        <result column="endTime" property="endTime"/>
+        <result column="stackable" property="stackable" typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+    </resultMap>
+    <select id="productTeamStatus" resultMap="productTeamStatusMap">
+        SELECT activity.id             AS activityId,
+               activity.effect_timeout AS effectTimeout,
+
+               activity.mode           AS mode,
+               activity.users          AS users,
+
+               activity.huddle         AS huddle,
+               activity.start_time     AS startTime,
+               activity.end_time       AS endTime,
+               activity.stackable      AS stackable
+        FROM t_team_activity AS activity
+        WHERE activity.deleted = FALSE
+          AND activity.status not in
+          (
+            ${@com.medusa.gruul.addon.team.model.enums.TeamStatus @VIOLATION.value},
+            ${@com.medusa.gruul.addon.team.model.enums.TeamStatus @SHOP_OFF_SHELF.value}
+            )
+          AND activity.shop_id = #{shopId}
+          AND activity.end_time >= NOW()
+          AND EXISTS(SELECT product.id
+                     FROM t_team_product AS product
+                     WHERE activity.id = product.activity_id
+                       AND product.deleted = FALSE
+                       AND product.product_id = #{productId}
+                       AND product.shop_id = activity.shop_id)
+        ORDER BY (activity.start_time - NOW())
+        LIMIT 1
+
+    </select>
+</mapper>

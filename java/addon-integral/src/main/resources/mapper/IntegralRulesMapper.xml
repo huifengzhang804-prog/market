@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.addon.integral.mp.mapper.IntegralRulesMapper">
+
+
+    <resultMap id="BaseResultVOMap" type="com.medusa.gruul.addon.integral.model.vo.IntegralRulesVO">
+        <result column="use_rule" property="useRule"/>
+        <result column="indate" property="indate"/>
+        <result column="rule_info" property="ruleInfo"/>
+        <collection property="integralGainRule"
+                    ofType="com.medusa.gruul.addon.integral.model.dto.IntegralGainRuleDTO">
+            <result column="open" property="open"/>
+            <result column="gain_rule_type" property="gainRuleType"/>
+            <result column="rules_parameter" property="rulesParameter"
+                    typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+        </collection>
+    </resultMap>
+    <select id="getIntegralRule" resultMap="BaseResultVOMap">
+        SELECT
+            use_rule, indate, rule_info, `open`, gain_rule_type, rules_parameter
+        FROM
+            t_integral_rules
+        WHERE
+            deleted = 0
+    </select>
+
+
+    <resultMap id="integralRulesMap" type="com.medusa.gruul.addon.integral.mp.entity.IntegralRules">
+        <result column="id" property="id"/>
+        <result column="use_rule" property="useRule"/>
+        <result column="indate" property="indate"/>
+        <result column="rule_info" property="ruleInfo"/>
+        <result column="rules_parameter" property="rulesParameter"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+        <result column="gain_rule_type" property="gainRuleType"/>
+        <result column="open" property="open"/>
+    </resultMap>
+
+    <select id="getIntegralRuleByRuleType"
+            resultMap="integralRulesMap">
+        SELECT
+            id,
+            use_rule,
+            indate,
+            rule_info,
+            rules_parameter,
+            gain_rule_type,
+            `open`
+        FROM
+            t_integral_rules
+        WHERE
+            deleted = 0
+        AND
+            gain_rule_type = #{query.value}
+    </select>
+
+
+</mapper>

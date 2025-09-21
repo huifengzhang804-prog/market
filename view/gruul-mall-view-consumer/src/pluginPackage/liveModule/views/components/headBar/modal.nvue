@@ -1,0 +1,127 @@
+<script setup lang="ts">
+import { ref, type PropType } from 'vue'
+
+const $props = defineProps({
+  modelValue: {
+    type: Boolean,
+    default: false,
+  },
+  title: {
+    type: String,
+    default: '提示',
+  },
+  context: {
+    type: String,
+    default: '观众正在赶来的路上确定要下播吗？',
+  },
+  closeBtnText: {
+    type: String,
+    default: '取消',
+  },
+  confirmBtnText: {
+    type: String,
+    default: '下播',
+  },
+})
+const emit = defineEmits(['close', 'confirm', 'update:modelValue'])
+
+const livePusherLayout = ref({
+  width: 0,
+  height: 0,
+})
+uni.getSystemInfo({
+  success: (res) => {
+    const { windowWidth, screenHeight } = res
+    livePusherLayout.value.width = windowWidth
+    livePusherLayout.value.height = screenHeight
+  },
+})
+
+const handleClick = () => {
+  emit('update:modelValue', false)
+}
+const handleClose = (type: 'close' | 'confirm') => {
+  emit('update:modelValue', false)
+  emit(type)
+}
+</script>
+
+<template>
+  <view
+    v-if="$props.modelValue"
+    class="container-modal"
+    :style="{ height: livePusherLayout.height + 'px', width: livePusherLayout.width + 'px' }"
+    @click="handleClick"
+  >
+    <view class="modal">
+      <text class="close">x</text>
+      <text class="modal__title">{{ title }}</text>
+      <text class="modal__context">{{ context }}</text>
+      <view class="modal__footer">
+        <text class="modal__footer--left" @click="handleClose('close')">{{ closeBtnText }}</text>
+        <text class="modal__footer--right" @click="handleClose('confirm')">{{ confirmBtnText }}</text>
+      </view>
+    </view>
+  </view>
+</template>
+
+<style scoped>
+.container-modal {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 999;
+}
+.modal {
+  position: relative;
+  background: #fff;
+  border-radius: 30rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  height: 350rpx;
+  padding: 0 50rpx;
+}
+.close {
+  position: absolute;
+  right: 40rpx;
+  top: 30rpx;
+  line-height: 36rpx;
+  font-size: 36rpx;
+  color: #666666;
+}
+
+.modal__title {
+  font-size: 34rpx;
+  color: #333;
+  font-weight: 500;
+}
+.modal__context {
+  color: #666666;
+  font-size: 32rpx;
+}
+.modal__footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 500rpx;
+}
+.modal__footer--left {
+  padding: 15rpx 25rpx;
+  background: #fff;
+  color: #000;
+  border-radius: 15rpx;
+}
+.modal__footer--right {
+  padding: 15rpx 25rpx;
+  color: #fd284f;
+  border-radius: 15rpx;
+}
+</style>

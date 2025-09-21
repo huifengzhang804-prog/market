@@ -1,0 +1,61 @@
+{
+  "distance": 1668,
+  "expiresIn": 1200,
+  "needPayMoney": 850,
+  "originId": "SS12345678",
+  "priceToken": "636a7d0639cb4411811f7beefc7ea7c3",
+  "totalMoney": 850,
+  "totalPriceOff": 0,
+  "feeDetailList": [
+    {
+      "fee": 0,
+      "name": "区域溢价费",
+      "type": 2
+    },
+    {
+      "fee": 0,
+      "name": "保价费",
+      "type": 3
+    },
+    {
+      "fee": 100,
+      "name": "夜间费",
+      "type": 4
+    },
+    {
+      "fee": 0,
+      "name": "续重费",
+      "type": 5
+    },
+    {
+      "fee": 0,
+      "name": "预约费",
+      "type": 6
+    },
+    {
+      "fee": 660,
+      "name": "起步价",
+      "type": 7
+    },
+    {
+      "fee": 90,
+      "name": "里程费",
+      "type": 8
+    },
+    {
+      "fee": 0,
+      "name": "小费",
+      "type": 9
+    },
+    {
+      "fee": 0,
+      "name": "跨江费",
+      "type": 10
+    },
+    {
+      "fee": 0,
+      "name": "交通工具费",
+      "type": 11
+    }
+  ]
+}

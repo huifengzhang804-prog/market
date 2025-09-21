@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.goods.service.mp.mapper.ProductCategoryMapper">
+  <!-- 通用查询映射结果 -->
+  <resultMap id="BaseResultMap" type="com.medusa.gruul.goods.api.entity.ProductCategory">
+    <result column="id" property="id"/>
+    <result column="create_time" property="createTime"/>
+    <result column="update_time" property="updateTime"/>
+    <result column="version" property="version"/>
+    <result column="deleted" property="deleted"/>
+    <result column="parent_id" property="parentId"/>
+  </resultMap>
+
+  <resultMap id="BaseNameResultMap" type="com.medusa.gruul.goods.api.model.vo.CategoryLevelName">
+    <result column="oneName" property="oneName"/>
+    <result column="twoName" property="twoName"/>
+    <result column="threeName" property="threeName"/>
+  </resultMap>
+
+  <!-- 通用查询结果列 -->
+  <select id="queryCategoryLevelName" resultMap="BaseNameResultMap">
+    SELECT one.NAME   AS oneName,
+           two.NAME   AS twoName,
+           three.NAME AS threeName
+    FROM t_product_category one
+           JOIN t_product_category two ON one.id = two.parent_id
+           JOIN t_product_category three ON two.id = three.parent_id
+    WHERE one.id IN (#{shopCategory.one}, #{shopCategory.two}, #{shopCategory.three})
+    ORDER BY CASE
+             <!--保证需要的数据排在第一位-->
+               WHEN three.id = #{shopCategory.three} THEN 1
+               ELSE 2
+               END
+    LIMIT 1
+  </select>
+  <select id="queryProductCategoriesByLevel" resultMap="BaseResultMap">
+    select *
+    from t_product_category
+    where shop_id = #{shopID}
+      and level = #{level.value}
+  </select>
+
+  <!--获取与店铺ID匹配的category数据-->
+  <select id="queryProductCategoriesByShopIDList"
+    resultType="com.medusa.gruul.goods.api.model.vo.ShopProductCategoryLevel1WithNumVO">
+    SELECT
+    y.shop_id as shopID,
+    y.category_id_1 as id,
+    y.NAME as name,
+    sum(y.cnt) as productNum
+    FROM
+    (
+    SELECT
+    a.shop_id,
+    a.id AS category_id_1,
+    b.id AS category_id_2,
+    c.id AS category_id_3,
+    a.NAME,
+    (SELECT count(*) FROM t_product x WHERE x.shop_id = a.shop_id AND x.category_id = c.id AND x.deleted = FALSE) AS cnt
+    FROM t_product_category a,
+    t_product_category b,
+    t_product_category c
+    WHERE a.shop_id = b.shop_id
+    AND b.shop_id = c.shop_id
+    AND a.parent_id = 0
+    AND b.parent_id = a.id
+    AND c.parent_id = b.id
+    ORDER BY
+    a.shop_id
+    ) y
+    WHERE y.shop_id in
+    <foreach close=")" collection="shopIDList" index="index" item="item" open="(" separator=",">
+      #{item}
+    </foreach>
+    GROUP BY
+    y.shop_id,
+    y.category_id_1,
+    y.NAME
+  </select>
+
+  <!--获取指定的店铺集合所对应的一级分类下，所有三级分类的商品数量.-->
+  <sql id="Base_Column_List">
+    id,
+        create_time,
+        update_time,
+        version,
+        deleted,
+        parent_id
+  </sql>
+</mapper>

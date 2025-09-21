@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.carrier.pigeon.service.mp.mapper.MessageUserMapper">
+
+    <resultMap id="messageUserPageMap" type="com.medusa.gruul.carrier.pigeon.service.model.vo.MessageUserVO">
+        <id column="id" property="id"/>
+        <result column="userId" property="userId"/>
+        <result column="userNickName" property="nickname"/>
+        <result column="userAvatar" property="avatar"/>
+        <result column="lastTime" property="lastTime"/>
+        <result column="showNotice" property="show"/>
+        <result column="handled" property="handled"/>
+        <association property="lastMessage" javaType="com.medusa.gruul.carrier.pigeon.service.mp.entity.Message">
+            <id column="msgId" property="id"/>
+            <result column="msgShopId" property="shopId"/>
+            <result column="msgAdminId" property="adminId"/>
+            <result column="msgUserId" property="userId"/>
+            <result column="msgSenderType" property="senderType"/>
+            <result column="msgReceiverType" property="receiverType"/>
+            <result column="msgMessageType" property="messageType"/>
+            <result column="msgMessage" property="message"/>
+            <result column="msgRead" property="read"/>
+            <result column="msgCreateTime" property="createTime"/>
+        </association>
+    </resultMap>
+    <select id="messageUserPage" resultMap="messageUserPageMap">
+        SELECT
+            msgUser.id AS id,
+            msgUser.user_id AS userId,
+            msgUser.nickname AS userNickName,
+            msgUser.avatar AS userAvatar,
+            message.create_time AS lastTime,
+            (
+                message.sender_type = ${@com.medusa.gruul.carrier.pigeon.api.enums.UserType @CONSUMER.value}
+                    AND message.`read` = 0
+                    AND (message.admin_id IS NULL OR message.admin_id = #{adminId})
+            ) AS showNotice,
+            message.admin_id IS NOT NULL AS handled,
+            message.id AS msgId,
+            message.shop_id AS msgShopId,
+            message.admin_id AS msgAdminId,
+            message.user_id AS msgUserId,
+            message.sender_type AS msgSenderType,
+            message.receiver_type AS msgReceiverType,
+            message.message_type AS msgMessageType,
+            message.message AS msgMessage,
+            message.`read` AS msgRead,
+            message.create_time AS msgCreateTime
+        FROM t_message_user AS msgUser
+        INNER JOIN ( SELECT temp2.* FROM t_message AS temp2 WHERE temp2.id IN ( ( SELECT MAX( temp1.id ) FROM t_message AS temp1 WHERE temp1.shop_id = #{query.shopId} AND ( temp1.admin_id=#{adminId} OR temp1.admin_id IS NULL) GROUP BY temp1.user_id ) ) ) AS message ON message.user_id = msgUser.user_id
+        WHERE msgUser.deleted = 0
+        <if test="query.keywords != null and query.keywords !=''">
+            AND msgUser.nickname LIKE CONCAT('%',#{query.keywords},'%')
+        </if>
+        AND
+        NOT EXISTS(
+        select 1 from t_unshown_user_message as unshown
+        where unshown.shop_id=#{query.shopId} AND msgUser.user_id = unshown.user_id
+        AND unshown.sender_type = ${@com.medusa.gruul.carrier.pigeon.api.enums.UserType @CONSUMER.value}
+        AND unshown.receiver_type = ${@com.medusa.gruul.carrier.pigeon.api.enums.UserType @SHOP_ADMIN.value}
+        AND unshown.admin_id=#{adminId}
+        AND unshown.deleted=0
+        )
+        ORDER BY showNotice DESC,handled ASC,message.admin_id = #{adminId} DESC, lastTime DESC
+
+    </select>
+</mapper>

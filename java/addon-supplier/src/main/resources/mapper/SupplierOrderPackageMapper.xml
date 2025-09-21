@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.addon.supplier.mp.mapper.SupplierOrderPackageMapper">
+
+    <resultMap id="deliveryPackagesMap" type="com.medusa.gruul.addon.supplier.mp.entity.SupplierOrderPackage">
+        <id column="id" property="id"/>
+        <result column="status" property="status"/>
+        <result column="type" property="type"/>
+        <result column="express" property="express" typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+        <result column="receiver" property="receiver" typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+        <result column="createTime" property="createTime"/>
+        <collection property="orderItems" ofType="com.medusa.gruul.addon.supplier.mp.entity.SupplierOrderItem">
+            <id column="itemId" property="id"/>
+            <result column="productId" property="productId"/>
+            <result column="productName" property="productName"/>
+            <result column="specs" property="specs" typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+            <result column="image" property="image"/>
+            <result column="num" property="num"/>
+        </collection>
+    </resultMap>
+
+    <select id="deliveryPackages" resultMap="deliveryPackagesMap">
+        SELECT
+        pack.id AS id,
+        pack.`status` AS `status`,
+        pack.type AS type,
+        pack.express AS express,
+        pack.receiver AS receiver,
+        pack.create_time AS createTime,
+        item.id AS itemId,
+        item.product_id AS productId,
+        item.product_name AS productName,
+        item.specs AS specs,
+        item.image AS image,
+        item.num AS num
+        FROM
+        t_supplier_order_package AS pack
+        INNER JOIN t_supplier_order_item AS item ON item.package_id = pack.id AND item.deleted = FALSE
+        WHERE pack.deleted = FALSE AND pack.order_no = #{query.orderNo}
+        <if test="query.supplierId != null">
+            AND pack.supplier_id = #{query.supplierId}
+        </if>
+        <if test="query.shopId != null">
+            AND EXISTS(
+            SELECT ord.`no` FROM t_supplier_order AS ord WHERE ord.`no` = pack.order_no
+            AND ord.supplier_id = pack.supplier_id AND ord.shop_id = #{query.shopId}
+            )
+        </if>
+
+    </select>
+</mapper>

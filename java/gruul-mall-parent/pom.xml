@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.medusa.gruul</groupId>
+        <artifactId>gruul-parent</artifactId>
+        <version>2022.2</version>
+    </parent>
+
+    <artifactId>gruul-mall-parent</artifactId>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>gruul-mall-common-model</module>
+        <module>gruul-mall-common-custom-aggregation</module>
+        <module>gruul-mall-common-modules</module>
+        <module>gruul-mall-common-app</module>
+        <module>gruul-mall-common-security</module>
+        <module>gruul-mall-common-tool</module>
+    </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>gruul-common-mybatis-plus-global</artifactId>
+            <version>2022.2</version>
+        </dependency>
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <artifactId>gruul-common-module-api</artifactId>
+                <groupId>com.medusa.gruul</groupId>
+                <version>${gruul-parent.version}</version>
+            </dependency>
+            <dependency>
+                <artifactId>gruul-common-module-service</artifactId>
+                <groupId>com.medusa.gruul</groupId>
+                <version>${gruul-parent.version}</version>
+            </dependency>
+            <dependency>
+                <artifactId>gruul-common-module-addon</artifactId>
+                <groupId>com.medusa.gruul</groupId>
+                <version>${gruul-parent.version}</version>
+            </dependency>
+            <dependency>
+                <artifactId>gruul-common-module-single</artifactId>
+                <groupId>com.medusa.gruul</groupId>
+                <version>${gruul-parent.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.medusa.gruul</groupId>
+                <artifactId>gruul-mall-common-custom-aggregation</artifactId>
+                <version>${gruul-parent.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.medusa.gruul</groupId>
+                <artifactId>gruul-mall-common-model</artifactId>
+                <version>${gruul-parent.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.medusa.gruul</groupId>
+                <artifactId>gruul-mall-common-shop</artifactId>
+                <version>${gruul-parent.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.medusa.gruul</groupId>
+                <artifactId>gruul-mall-common-afs</artifactId>
+                <version>${gruul-parent.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.medusa.gruul</groupId>
+                <artifactId>gruul-mall-common-conf</artifactId>
+                <version>${gruul-parent.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.medusa.gruul</groupId>
+                <artifactId>gruul-mall-common-security</artifactId>
+                <version>${gruul-parent.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>

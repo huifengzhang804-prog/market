@@ -1,0 +1,74 @@
+{
+  "addTime": "2024-08-12 16:40:30",
+  "cancelFee": 0,
+  "cancelReason": "",
+  "cancelTime": "1900-01-01 00:00:00",
+  "confirmCode": "6803",
+  "deliveryPhoto": "",
+  "distance": 1668,
+  "driverJobNum": "",
+  "driverLastLoc": "",
+  "driverMobile": "",
+  "driverName": "",
+  "expectedArriveTime": "2024-08-12 16:48:30",
+  "feeDetailList": [
+    {
+      "fee": 0,
+      "name": "保价费",
+      "type": 3
+    },
+    {
+      "fee": 0,
+      "name": "续重费",
+      "type": 5
+    },
+    {
+      "fee": 0,
+      "name": "小费",
+      "type": 9
+    },
+    {
+      "fee": 0,
+      "name": "区域溢价费",
+      "type": 2
+    },
+    {
+      "fee": 100,
+      "name": "夜间费",
+      "type": 4
+    },
+    {
+      "fee": 0,
+      "name": "预约费",
+      "type": 6
+    },
+    {
+      "fee": 0,
+      "name": "跨江费",
+      "type": 10
+    },
+    {
+      "fee": 0,
+      "name": "交通工具费",
+      "type": 11
+    }
+  ],
+  "finishTime": "1900-01-01 00:00:00",
+  "fromAddress": "金水路与玉凤路交汇处浦发国际金融中心($)21层2111房间",
+  "fromLocation": "113.7174200,34.7679950",
+  "lastLocationUpdateTime": "",
+  "note": "【测试订单无需配送,勿接】",
+  "orderCode": "240812164010379000014456",
+  "orderPrice": 850,
+  "originId": "SS12345678",
+  "pickupCode": "4599",
+  "priceOff": 0,
+  "receiver": "",
+  "receiverPhone": "17621228898",
+  "sendType": 0,
+  "senderPhone": "13733810000",
+  "state": 1,
+  "takePhoto": "",
+  "toAddress": "郑州市金水区金水路226号楷林国际($)四楼",
+  "toLocation": "113.7241480,34.7687880"
+}

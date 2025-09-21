@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.shop.service.mp.mapper.ShopDecorationTemplateMapper">
+
+    <!--获取与{@code shopModes}匹配的所有店铺已经启用的装修模板集合-->
+    <select id="queryEnabledTemplatesOfAllShop"
+            resultType="com.medusa.gruul.shop.service.mp.entity.ShopDecorationTemplate">
+        select
+            *
+        from
+            t_shop_decoration_template a inner join t_shop b on a.shop_id = b.id
+        where
+            a.enabled = true and a.business_type = #{businessType} and a.deleted = 0
+            and b.shop_mode in
+            <foreach collection="shopModes" item="shopMode" open="(" close=")" separator=",">
+                #{shopMode.value}
+            </foreach>
+    </select>
+</mapper>

@@ -1,0 +1,435 @@
+server:
+  port: 7998
+spring:
+  # 高德key配置
+  gd:
+    key: # 高德key
+    url: "https://restapi.amap.com/v3/ip?ip={}&output=json&key={}"
+    ip:  # ip138.com查对应公网地址 用于高德获取地址失败时的默认地址
+  messages:
+    basename: i18n/messages
+    encoding: UTF-8
+    use-code-as-default-message: true
+  mvc:
+    static-path-pattern: /public/**
+  web:
+    resources:
+      static-locations: classpath:config/public/
+  servlet:
+    multipart:
+      # 文件上传大小限制
+      max-file-size: 20MB
+      max-request-size: 25MB
+  application:
+    name: gruul-mall-single-b2b2c
+  main:
+    allow-circular-references: true
+    allow-bean-definition-overriding: true
+  profiles:
+    active: single-s2b2c    # 项目命名空间
+  datasource:
+    dynamic:
+      strict: false
+      hikari:
+        connection-timeout: 15000
+        idle-timeout: 0
+        max-lifetime: 28000000
+        max-pool-size: 45
+      # Mysql连接参数
+      datasource:
+        master:
+          url: jdbc:mysql://mysqlIp:3305/gruul-mall-single-s2b2c?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true
+          username: mysqlUsername
+          password: mysqlPassword
+  # redis 缓存
+  cache:
+    type: redis
+  data:
+    redis:
+      database: 1
+      host: redisIp
+      password: testpassWord
+      port: 6378
+      timeout: 60s
+      lettuce:
+        pool:
+          max-idle: 3
+          max-active: 3
+  # security 安全配置
+  security:
+    # 参数加解密
+    crypt:
+      # 是否启用参数加解密
+      enable: true
+      # 用于解密参数 RSA 私钥
+      private-key: MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAJu3OYTLvMRQOyyQ4cjxMUYEb+yWBci/PM7ttx6MvISJIxtO1kw2AYV7ClgZoBvV8IxNS5zkdCsrHhP+qvYLaeTDRaOugTlSvKRhqDqqCnHZZdzrz5yfSY4OBp5zNae3SCMKpGf6UTU73DE9snAvzlkfnxxYWOFrUAx516HmWD2JAgMBAAECgYAjBkpswTrbWUSGGKyAeyffHN5j87anWcR+st9ugq9gjEwWN1xiVf9vm6ZO/KyTtkJd/IDWcFhk4VTpoG2p3BVcInKgAA15YMQPuLHAhdosjTRuk2VNmrBFFqjR/YiFuPUar408iJ8Bgiwye0qLRWBOGII8OJJKFyRCcgR/OkJzVQJBAMe1QFryn/d6tySOz24FNJ29Wl9PzHzMEag6qpQkLOaWvXzhTW79KS++YTZQV0mzZ/T7hBuTR8qIHw9Ex34ZrsMCQQDHm4eO/pIpncmFHC0n7sKILOqK51W8TsYaOBmeu9dInKHtAGOA5iZAFQxr0DncpdlGAMDg4G/w3ou5ik3343XDAkBLip4bSOeFn1+jbnm8Li/m8vc6Ul8RXcfYEMjxXHW3i5GFqVu2/gAUVTlEaEN8V2adXn5sR9vCGpdVGTk009YtAkEAmsfUpyJqLpEnCevebB+tgzDpMorOJbYj0YL9AuR/vNOQkJoDjplowbpQpm2R4LJOOAUvi3Ed/HZlfJtteDJORwJAHfhGxk9+zWV8o/u1omsxiVRXgrhvPqLLyJyjxRJu0o35R2TFiHCKJVSUKACNEPFglF4lZMQFT/2g4UAm3fku8Q==
+      # 用于前端加密参数 RSA 公钥
+      public-key: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCbtzmEy7zEUDsskOHI8TFGBG/slgXIvzzO7bcejLyEiSMbTtZMNgGFewpYGaAb1fCMTUuc5HQrKx4T/qr2C2nkw0WjroE5UrykYag6qgpx2WXc68+cn0mODgaeczWnt0gjCqRn+lE1O9wxPbJwL85ZH58cWFjha1AMedeh5lg9iQIDAQAB
+    # 认证服务端
+    server:
+      #允许重复登录
+      repeat-login: true
+      #token 过期时间
+      token-expired: 2h
+      #用于token 签名的私钥
+      private-key: MEECAQAwEwYHKoZIzj0CAQYIKoZIzj0DAQcEJzAlAgEBBCDKjbCZZrpKHegS3nB+AAGK6/k2lQfYHMOLCvyB48s98w==
+      # 鉴权客户端
+    client:
+      # 用于加解密payload 的密钥
+      payload-key: 1aXTEPkAhu7fh8e1T94qPw==
+      # 用于token验签的公钥
+      public-key: MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAECOWjyG5vrLGgBNmaqsSL7mhf/c+pD5SVagsKlbW1KPMBBhX/MEX/rDhT2VnwUZ9ksnywG+psjTjLCogjzcBQvA==
+  # mq 连接参数
+  rabbitmq:
+    host: rabbitmqIp
+    port: 5673
+    username: ${spring.profiles.active}stomp
+    password: ${spring.profiles.active}stompadmin
+    virtual-host: /${spring.profiles.active}stomp
+    listener:
+      simple:
+        retry:
+          enabled: true # 开启消费者进行重试
+          max-attempts: 1 # 最大重试次数
+          initial-interval: 3000 # 重试时间间隔
+        acknowledge-mode: manual #消费手动应答
+    stomp:
+      host: rabbitmqIp
+      username: ${spring.profiles.active}stomp
+      password: ${spring.profiles.active}stompadmin
+      virtual-host: /${spring.profiles.active}stomp
+  # 邮箱服务
+  mail:
+    username: test
+    password: test
+    host: 127.0.0.1
+    port: 21
+    protocol:
+#mybatis plus
+mybatis-plus:
+  global-config:
+    banner: false
+  type-handlers-package: com.medusa.gruul.common.geometry
+  configuration:
+    default-enum-type-handler: com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler
+    shrink-whitespaces-in-sql: true
+sms:
+  conf: TENCENT
+easy-es:
+  keep-alive-millis: 18000 # 心跳策略时间 单位:ms
+  connect-timeout: 5000
+  socket-timeout: 5000
+  connection-request-timeout: 5000
+  max-conn-total: 100
+  max-conn-per-route: 100
+  banner: false
+  enable: true #是否开启EE自动配置
+  address: 8.130.102.229:9199 # es连接地址+端口 格式必须为ip:port,如果是集群则可用逗号隔开
+  schema: http # 默认为http
+  username: elastic #如果无账号密码则可不配置此行
+  password: tn7aBJeumblYlhuol20H #如果无账号密码则可不配置此行
+  global-config:
+    distributed: true
+    db-config:
+      index-prefix: ${spring.profiles.active}-3.0.1_ #索引名前缀
+      field-strategy: not_null
+logging:
+  config: classpath:config/logback-spring.xml
+  level:
+    com.medusa.gruul: debug
+    com.ibatis: debug
+management:
+  health:
+    elasticsearch:
+      enabled: false
+gruul:
+  # 单体架构
+  single: true
+  # 自动填充短信验证码配置
+  uaa:
+    sms-simulation: false
+    # 推广码配置
+    h5-url: https://域名/h5
+    extension:
+      defaultConsumerAvatar: https://medusa-small-file-1253272780.cos.ap-shanghai.myqcloud.com/head_portrait%20/images%20(3).png
+  base-url: https://域名/api/
+  addon:
+    ic:
+      open-api-test: true
+  thread-pool:
+    core-pool-size: 18 # 核心线程数
+    max-pool-size: 30 # 最大线程数
+    queue-capacity: 1000 #线程任务队列容量
+  # 支付回调配置
+  pay:
+    #支付回调前缀
+    notify-url-prefix: https://域名/api/gruul-mall-payment
+    #h5支付跳转url 需要在 h5url后面拼接参数 redirect_url=${return-url}
+    return-url: https://域名/h5/#/basePackage/pages/pay/Index
+    #是否开启服务商模式 微信服务商文档地址https://pay.weixin.qq.com/wiki/doc/apiv3_partner/apis/chapter11_1_1.shtml
+    enable-service-mode: true
+    #服务商模式配置
+    wx-service-conf:
+      #需要和通用配置的appid保持一致 否则 用户openid对应不上
+      appid: ${gruul.wechat.app-id}
+      #(商户进件时使用) 微信开放平台支付app的 appid app支付使用
+      #open-appid: wxxxxxxxxx
+      #(商户进件时使用) 网站域名 native支付使用
+      domain: https://域名
+      mch-id: xxxxxxxx
+      #自营特约商户号
+      self-sub-mchid:
+      api-v3-key: xxxxxxxxxxxx
+      key-path: classpath:cert/xxxxx.p12
+      private-cert-path: classpath:cert/xxxxxxx.pem
+      private-key-path: classpath:cert/xxxxxxxx.pem
+  #小程序配置
+  wechat:
+    app-id: wxexxxxxxxxx
+    app-secret: xxxxxxxxxx
+    # 小程序发货配置
+    mini-app-deliver: false
+  # 一键复制
+  goods:
+    copy-api-key: 1AC16C2E5B312B6E15ABDC05A77F9AA0
+  single-config:
+    addons:
+      - addon-coupon
+      - gruul-mall-addon-platform
+      - addon-bargain
+      - addon-live
+      - addon-invoice
+      - addon-shop-store
+      - addon-team
+      - addon-distribute
+      - addon-coupon
+      - addon-matching-treasure
+      - addon-rebate
+      - addon-integral
+      - addon-supplier
+      - addon-full-reduction
+      - addon-intra-city-distribution
+      - gruul-mall-freight
+      - addon-member
+      #xxl-job
+  xxl-job:
+    admin:
+      admin-addresses: http://xxlJobIp:9010/xxl-job-admin
+    executor:
+      id: 15
+      access-token: 3l8jomjpbjti
+      router-address: https://single-b2b2c.superprism.cn/api/
+      log-path: /tmp/logs/${gruul.xxl-job.executor.app-name}/xxl-job
+      log-retention-days: 30
+  tenant:
+    enable-multi-shop: true
+    ignore-shop-id-tables:
+      - t_shop
+      - t_auth_client
+      - t_menu
+      - t_menu_addon
+      - t_user
+      - t_user_data
+      - t_user_account
+      - t_storage_sku
+      - t_storage_sku_stock_record
+      - t_storage_spec
+      - t_storage_spec_group
+      - t_file
+      - t_member_rights
+      - t_user_address
+      - t_user_collect
+      - t_user_deal_detail
+      - t_user_foot_mark
+      - t_user_free_member
+      - t_user_member_card
+      - t_user_member_relevancy_rights
+      - t_user_saving_rule
+      - t_user_tag
+      - t_user_tag_group
+      - t_order
+      - t_order_payment
+      - t_order_receiver
+      - t_order_discount
+      - t_order_discount_item
+      - t_shop_follow
+      - t_shop_follow_new_products
+      - t_basics_info
+      - t_file
+      - t_sms_conf
+      - t_system_conf
+      - t_afs_history
+      - t_afs_history_package
+      - t_afs_order_item
+      - t_afs_order_receiver
+      - t_afs_package
+      - t_pigeon_message
+      - t_message_user
+      - t_sms_template
+      - t_sms_sign
+      - t_sms_record
+      - t_deal_ranking
+      - t_overview_distributor
+      - t_overview_shop
+      - t_overview_shop_balance
+      - t_overview_statement
+      - t_overview_user
+      - t_overview_withdraw
+      - t_platform_decoration
+      - t_platform_decoration_details
+      - t_platform_category
+      - t_platform_client_config
+      - merchant_details
+      - t_payment_record
+      - t_payment_history
+      - t_payment_info
+      - t_payment_merchant_config
+      - t_payment_refund
+      - t_coupon
+      - t_coupon_calculate
+      - t_coupon_order_record
+      - t_coupon_product
+      - t_coupon_user
+      - t_distribute_conf
+      - t_distribute_product
+      - t_distribute_shop
+      - t_distributor
+      - t_distributor_order
+      - t_seckill_product
+      - t_seckill_promotion
+      - t_paid_member
+      - t_paid_member_relevancy_rights
+      - t_live_goods_examine
+      - t_live_member
+      - t_live_room
+      - t_wechat_room
+      - t_wechat_call_number
+      - t_live_room_goods
+      - t_order_timeout
+      - t_search_brand
+      - t_shop_store
+      - t_platform_shop_signing_category
+      - t_platform_category
+      - t_integral_rules
+      - t_user_growth_value_settings
+      - t_rebate_order
+      - t_full_reduction
+      - t_shop_user_account
+      - t_rebate_transactions
+      - t_supplier_goods
+      - t_supplier_goods_publish
+      - t_supplier_info
+      - t_supplier_order
+      - t_supplier_order_item
+      - t_supplier_order_package
+      - t_supplier_storage_record
+      - t_rebate_accounts
+      - t_rebate_conf
+      - t_rebate_details
+      - t_rebate_order
+      - t_rebate_payment
+      - t_rebate_transactions
+      - t_bargain
+      - t_bargain_help_people
+      - t_bargain_order
+      - t_bargain_payment_info
+      - t_bargain_product
+      - t_full_reduction
+      - t_full_reduction_payment_info
+      - t_full_reduction_product
+      - t_integral_behavior
+      - t_integral_consume_order
+      - t_integral_order
+      - t_integral_order_payment
+      - t_integral_order_receiver
+      - t_integral_product
+      - t_integral_rules
+      - t_integral_setting
+      - t_intra_city_distribution_config
+      - t_anchor
+      - t_anchor_follow
+      - t_base_live
+      - t_live_audience
+      - t_live_extend
+      - t_live_order
+      - t_live_product
+      - t_product_explanation
+      - t_prohibited
+      - t_reservation
+      - t_set_meal
+      - t_set_meal_payment_info
+      - t_set_meal_product
+      - t_paid_member
+      - t_paid_member_relevancy_rights
+      - t_platform_category
+      - t_platform_client_config
+      - t_platform_decoration
+      - t_platform_decoration_details
+      - t_platform_privacy_agreement
+      - t_platform_shop_signing_category
+      - t_rebate_accounts
+      - t_rebate_conf
+      - t_rebate_details
+      - t_rebate_order
+      - t_rebate_payment
+      - t_rebate_transactions
+      - t_seckill_payment_info
+      - t_seckill_product
+      - t_seckill_promotion
+      - t_shop_assistant
+      - t_shop_store
+      - t_shop_store_order
+      - t_supplier_goods
+      - t_supplier_goods_publish
+      - t_supplier_info
+      - t_supplier_order
+      - t_supplier_order_item
+      - t_supplier_order_package
+      - t_supplier_storage_record
+      - t_team_activity
+      - t_team_order
+      - t_team_product
+      - t_search_brand
+      - t_search_brand_follow
+      - t_member_rights
+      - t_shop_user_account
+      - t_user_account
+      - t_user_address
+      - t_user_collect
+      - t_user_deal_detail
+      - t_user_foot_mark
+      - t_user_free_member
+      - t_user_growth_value_settings
+      - t_user_integral_detail
+      - t_user_member_card
+      - t_user_member_relevancy_rights
+      - t_user_saving_rule
+      - t_user_tag
+      - t_user_tag_group
+      - t_invoice_attachment
+      - t_invoice_header
+      - t_invoice_request
+      - t_invoice_settings
+      - t_decoration_page
+      - t_decoration_template
+      - t_member_purchase_history
+      - t_overview_withdraw_accounts
+      - t_search_user_action
+      - t_oss_conf
+      - t_user_balance_history
+      - t_payment_sharing_record
+      - t_web_param_config
+      - t_home_page_win
+      - t_splash_ad
+      - t_order
+      - t_order_payment
+      - t_order_receiver
+      - t_order_discount
+      - t_order_discount_item
+      - t_order_form
+      - t_order_timeout
+      - t_printer
+      - t_print_template
+      - t_print_task
+      - t_seckill_activity
+

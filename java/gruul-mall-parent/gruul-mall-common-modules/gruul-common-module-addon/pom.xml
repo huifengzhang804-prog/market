@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>gruul-mall-common-modules</artifactId>
+        <groupId>com.medusa.gruul</groupId>
+        <version>2022.2</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>gruul-common-module-addon</artifactId>
+
+    <dependencies>
+<!--    mall model    -->
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>gruul-mall-common-model</artifactId>
+        </dependency>
+        <!-- mq -->
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>gruul-common-mq-rabbit</artifactId>
+        </dependency>
+        <!-- dubbo rpc -->
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>gruul-common-dubbo-rpc</artifactId>
+        </dependency>
+        <!-- 幂等性校验 -->
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>gruul-common-idem</artifactId>
+        </dependency>
+        <!-- 安全认证 资源服务-->
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>gruul-mall-common-security</artifactId>
+        </dependency>
+        <!-- 插件相关 -->
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>gruul-common-addon-provider</artifactId>
+        </dependency>
+        <!-- web -->
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>gruul-common-web</artifactId>
+        </dependency>
+        <!-- 日志打印 -->
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>gruul-common-log</artifactId>
+        </dependency>
+        <!-- aop -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
+        <!--数据库相关-->
+        <!-- datasource  -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>dynamic-datasource-spring-boot3-starter</artifactId>
+        </dependency>
+        <!-- mybatis plus -->
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>gruul-common-mybatis-plus-config</artifactId>
+        </dependency>
+        <!-- mysql -->
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+        </dependency>
+        <!-- bootstrap -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bootstrap</artifactId>
+        </dependency>
+        <!--注册中心客户端-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+        <!--配置中心客户端-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+        <!-- 负载均衡 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

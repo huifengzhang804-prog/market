@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.overview.service.mp.base.mapper.OverviewShopBalanceMapper">
+
+    <update id="decrementUndrawnOfShop">
+        update
+            t_overview_shop_balance
+        set
+            undrawn = undrawn - #{shopBalance.undrawn}, update_time = sysdate(), version = version + 1
+        where
+            shop_id = #{shopBalance.shopId} and undrawn >= #{shopBalance.undrawn} and version = #{shopBalance.version}
+    </update>
+</mapper>

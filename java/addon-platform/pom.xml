@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>gruul-mall-parent</artifactId>
+        <groupId>com.medusa.gruul</groupId>
+        <version>2022.2</version>
+    </parent>
+
+    <artifactId>addon-platform</artifactId>
+    <version>1.0</version>
+    <dependencies>
+        <!-- 接口幂等性校验 -->
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>gruul-common-idem</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>33.1.0-jre</version>
+        </dependency>
+        <!-- 物理坐标系 -->
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>gruul-common-geometry</artifactId>
+        </dependency>
+
+        <!-- 插件依赖 -->
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>gruul-common-module-addon</artifactId>
+        </dependency>
+
+        <!--商品服务api -->
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>gruul-mall-goods-api</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <!-- storage -->
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>gruul-mall-storage-api</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <!--shop api-->
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>gruul-mall-shop-api</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <!--search api-->
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>gruul-mall-search-api</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <!-- test -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-generator</artifactId>
+            <version>${mybatis-plus.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity-engine-core</artifactId>
+            <version>2.3</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>gruul-common-addon-supporter</artifactId>
+        </dependency>
+
+       <!--<dependency>
+            <groupId>cn.bgniao</groupId>
+            <artifactId>bgniao-client-rep-info</artifactId>
+            <version>1.0.0</version>
+        </dependency>-->
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>config/</exclude>
+                    </excludes>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.medusa.gruul.addon.platform.AddonPlatformApplication</mainClass>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                            <useUniqueVersions>false</useUniqueVersions>
+                        </manifest>
+                        <manifestEntries>
+                            <Class-Path>./</Class-Path>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                            <excludeTransitive>false</excludeTransitive>
+                            <stripVersion>false</stripVersion>
+                            <includeScope>runtime</includeScope>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/resources</directory>
+                                    <includes>
+                                        <include>config/**</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                            <outputDirectory>${project.build.directory}</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.github.shalousun</groupId>
+                <artifactId>smart-doc-maven-plugin</artifactId>
+                <configuration>
+                    <configFile>./src/main/resources/smart-doc.json</configFile>
+                    <excludes>
+                        <exclude>com.google.guava:guava</exclude>
+                    </excludes>
+                    <includes>
+                        <include>com.medusa.gruul:.*</include>
+                        <include>com.medusa.gruul.global:.*</include>
+                        <include>com.baomidou:mybatis-plus-extension</include>
+                        <include>com.baomidou:mybatis-plus-core</include>
+                        <include>cn.hutool:hutool-all</include>
+                    </includes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>html</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+   <!--<repositories>
+        <repository>
+            <id>nexus-snapshots</id>
+            <url>http://8.130.102.229:8999/repository/maven-snapshots/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+        <repository>
+            <id>nexus-releases</id>
+            <url>http://8.130.102.229:8999/repository/maven-releases/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+        <repository>
+            <id>nexus-aliyun</id>
+            <url>http://maven.aliyun.com/nexus/content/groups/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+    </repositories>-->
+
+</project>

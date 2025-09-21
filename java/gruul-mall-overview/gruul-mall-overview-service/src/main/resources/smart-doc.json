@@ -1,0 +1,20 @@
+
+
+{
+  "outPath": "./smart-doc",
+  "appToken": "4131c7a9dff646efb5a2acde199d5703",
+  "openUrl": "http://192.168.1.129:7700/api",
+  "allInOneDocFileName": "index.md",
+  "debugEnvUrl": "http://192.168.1.129:9999",
+  "pathPrefix": "gruul-mall-overview",
+  "isStrict": false,
+  "packageFilters": "",
+  "debugEnvName": "开发环境",
+  "replace": true,
+  "allInOne": true,
+  "inlineEnum": true,
+  "style": "xt256"
+}
+
+
+

@@ -1,0 +1,32 @@
+package com.medusa.gruul.addon.freight.config;
+
+import com.medusa.gruul.goods.api.rpc.GoodsRpcService;
+import com.medusa.gruul.user.api.rpc.UserRpcService;
+import org.apache.dubbo.config.annotation.DubboReference;
+import org.apache.dubbo.config.spring.ReferenceBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+/**
+ * @author xiaoq
+ */
+@Configuration
+@ConditionalOnProperty(prefix = "gruul", name = "single", havingValue = "false", matchIfMissing = true)
+public class DubboConfig {
+
+
+    @Bean
+    @DubboReference
+    public ReferenceBean<GoodsRpcService> goodsRpcServiceReferenceBean() {
+        return new ReferenceBean<>();
+    }
+
+    @Bean
+    @DubboReference
+    public ReferenceBean<UserRpcService> userRpcServiceReferenceBean() {
+        return new ReferenceBean<>();
+    }
+
+
+}

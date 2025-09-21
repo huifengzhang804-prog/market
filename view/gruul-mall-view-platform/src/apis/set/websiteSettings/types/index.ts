@@ -1,0 +1,20 @@
+export interface SaveOrUpdateData {
+    COPYRIGHT_INFO: string // 版权信息
+    COPYRIGHT_URL: string // 版权链接地址
+    LOGIN_LOGO: string // 登录页logo
+    PLATFORM_LOGIN_PAGE_BG: string // 平台登录页背景
+    PLATFORM_LOGO: string // 平台logo
+    PLATFORM_NAME: string // 平台名称
+    PLATFORM_WEB_SIT_NAME: string // 平台网站名称
+    RECORDER_INFO: string // 备案信息
+    RECORDER_URL: string // 备案链接地址
+    SHOP_LOGIN_PAGE_BG: string // 商家登录页背景图
+    SHOP_WEB_SIT_NAME: string // 店铺网站名称
+    SUPPLIER_LOGIN_PAGE_BG: string // 供应商登录页背景图
+    SUPPLIER_WEB_SIT_NAME: string // 供应商网站名称
+    WEB_SIT_ICON: string // 网站图标
+    H5_MALL_NAME: string // 网站图标
+    PC_MALL_NAME: string // 网站图标
+    SHOP_MOBILE_NAME: string // 网站图标
+    STORE_MOBILE_NAME: string // 网站图标
+}

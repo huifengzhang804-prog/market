@@ -1,0 +1,539 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.addon.coupon.mp.mapper.CouponMapper">
+    <resultMap id="couponPageMap" type="com.medusa.gruul.addon.coupon.mp.entity.Coupon">
+        <id column="id" property="id"/>
+        <result column="shopId" property="shopId"/>
+        <result column="name" property="name"/>
+        <result column="type" property="type"/>
+        <result column="status" property="status"/>
+        <result column="num" property="num"/>
+        <result column="stock" property="stock"/>
+        <result column="limit" property="limit"/>
+        <result column="effectType" property="effectType"/>
+        <result column="days" property="days"/>
+        <result column="startDate" property="startDate"/>
+        <result column="endDate" property="endDate"/>
+        <result column="requiredAmount" property="requiredAmount"/>
+        <result column="amount" property="amount"/>
+        <result column="discount" property="discount"/>
+        <result column="productType" property="productType"/>
+        <result column="usedCount" property="usedCount"/>
+        <result column="createTime" property="createTime"/>
+    </resultMap>
+
+    <select id="couponPage" resultMap="couponPageMap">
+        SELECT
+        coupon.id AS id,
+        coupon.shop_id AS shopId,
+        coupon.`name` AS `name`,
+        coupon.type AS type,
+        coupon.`status` AS `status`,
+        coupon.num AS num,
+        coupon.stock AS stock,
+        coupon.`limit` AS `limit`,
+        coupon.effect_type AS effectType,
+        coupon.days AS days,
+        coupon.start_date AS startDate,
+        coupon.end_date AS endDate,
+        coupon.required_amount AS requiredAmount,
+        coupon.amount AS amount,
+        coupon.discount AS discount,
+        coupon.product_type AS productType,
+        (
+        SELECT COUNT(*) FROM t_coupon_user AS usr WHERE usr.used = TRUE AND usr.shop_id = coupon.shop_id AND
+        usr.coupon_id = coupon.id AND usr.deleted = FALSE
+        ) AS usedCount,
+        coupon.create_time AS createTime
+        FROM t_coupon AS coupon
+
+        <where>
+            deleted=0
+
+
+            <if test="shopId == null">
+                <!--平台赠送的优惠券 店铺id为 0-->
+                AND coupon.shop_id != 0
+            </if>
+            <if test="shopId != null">
+                AND coupon.shop_id = #{shopId}
+            </if>
+            <!-- 活动名称关键词搜索-->
+            <if test="query.keywords != null and query.keywords!=''">
+                AND coupon.`name` LIKE CONCAT('%',#{query.keywords},'%')
+            </if>
+            <!-- 优惠券类型-->
+
+
+            <if test="query.type != null">
+                AND coupon.type =
+                <choose>
+                    <when test="query.type == @com.medusa.gruul.addon.coupon.model.enums.CouponType @PRICE_REDUCE">
+                        ${@com.medusa.gruul.addon.coupon.model.enums.CouponType @PRICE_REDUCE.value}
+                    </when>
+                    <when test="query.type == @com.medusa.gruul.addon.coupon.model.enums.CouponType @PRICE_DISCOUNT">
+                        ${@com.medusa.gruul.addon.coupon.model.enums.CouponType @PRICE_DISCOUNT.value}
+                    </when>
+                    <when test="query.type == @com.medusa.gruul.addon.coupon.model.enums.CouponType @REQUIRED_PRICE_REDUCE">
+                        ${@com.medusa.gruul.addon.coupon.model.enums.CouponType @REQUIRED_PRICE_REDUCE.value}
+                    </when>
+                    <otherwise>
+                        ${@com.medusa.gruul.addon.coupon.model.enums.CouponType @REQUIRED_PRICE_DISCOUNT.value}
+                    </otherwise>
+                </choose>
+            </if>
+            <!--优惠券状态 -->
+            <if test="query.status != null">
+                <choose>
+                    <!-- 平台违规下架-->
+                    <when test="query.status == @com.medusa.gruul.addon.coupon.model.enums.QueryStatus @BANED">
+                        AND coupon.`status` = ${@com.medusa.gruul.addon.coupon.model.enums.CouponStatus @BANED.value}
+                    </when>
+                    <!--店铺下架-->
+                    <when test="query.status == @com.medusa.gruul.addon.coupon.model.enums.QueryStatus @SHOP_BANED">
+                        AND coupon.`status` =
+                        ${@com.medusa.gruul.addon.coupon.model.enums.CouponStatus @SHOP_BANED.value}
+                    </when>
+                    <otherwise>
+                        <!--优惠券状态为正常 -->
+                        AND coupon.`status` = ${@com.medusa.gruul.addon.coupon.model.enums.CouponStatus @OK.value}
+                        <!--进行中
+                            立即生效类型的优惠券 库存要大于0
+                            固定日期类型的优惠券 库存要大于0 且在指定的时间段内
+                        -->
+                        <if test="query.status == @com.medusa.gruul.addon.coupon.model.enums.QueryStatus @OPEN">
+                            AND(
+                            (coupon.effect_type =
+                            ${@com.medusa.gruul.addon.coupon.model.enums.EffectType @IMMEDIATELY.value}
+                            AND coupon.stock > 0)
+                            OR
+                            (CURDATE() BETWEEN coupon.start_date AND coupon.end_date AND coupon.stock > 0)
+                            )
+                        </if>
+                        <!--未开始
+                          立即生效类型的优惠券 当前时间没有到达开始时间
+                        -->
+                        <if test="query.status == @com.medusa.gruul.addon.coupon.model.enums.QueryStatus @NOT_OPEN">
+                            AND coupon.effect_type = ${@com.medusa.gruul.addon.coupon.model.enums.EffectType @PERIOD.value}
+                            AND coupon.start_date > CURDATE()
+                        </if>
+                        <!--已结束
+                            库存小于1 或者当前时间已经小于结束时间
+                        -->
+                        <if test="query.status == @com.medusa.gruul.addon.coupon.model.enums.QueryStatus @CLOSED">
+                            AND (
+                            CURDATE() > coupon.end_date
+                            OR 1 > coupon.stock
+                            )
+                        </if>
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+        ORDER BY coupon.create_time DESC
+    </select>
+
+    <resultMap id="consumerCouponPageMap" type="com.medusa.gruul.addon.coupon.model.vo.CouponVO">
+        <result column="id" property="id"/>
+        <result column="couponUserId" property="couponUserId"/>
+        <result column="shopId" property="shopId"/>
+        <result column="name" property="name"/>
+        <result column="type" property="type"/>
+        <result column="effectType" property="effectType"/>
+        <result column="days" property="days"/>
+        <result column="startDate" property="startDate"/>
+        <result column="endDate" property="endDate"/>
+        <result column="requiredAmount" property="requiredAmount"/>
+        <result column="amount" property="amount"/>
+        <result column="discount" property="discount"/>
+        <result column="productType" property="productType"/>
+        <result column="productIds" property="productIds"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+        <result column="discountAmount" property="discountAmount"/>
+        <result column="createTime" property="createTime"/>
+        <result column="claimedStatus" property="claimedStatus"/>
+        <result column="rowNum" property="rowNum"/>
+        <collection property="couponProductList" ofType="com.medusa.gruul.addon.coupon.mp.entity.CouponProduct">
+            <result column="productId" property="productId"/>
+            <result column="couponId" property="couponId"/>
+        </collection>
+    </resultMap>
+
+
+    <sql id="claimedStatusSql">
+        IF(
+        0 >= coupon.stock,
+        3,
+        <if test="userId != null">
+            IF(
+            (
+            SELECT COUNT(*) AS total
+            FROM t_coupon_user AS usr
+            WHERE usr.user_id = #{userId} AND usr.shop_id = coupon.shop_id AND usr.coupon_id = coupon.id AND usr.deleted
+            = FALSE
+            GROUP BY usr.coupon_id
+            ) >= coupon.limit,
+            2,
+            1
+            )
+        </if>
+        <if test="userId == null">
+            1
+        </if>
+        )
+    </sql>
+    <select id="consumerCouponPage" resultMap="consumerCouponPageMap">
+        <choose>
+            <when test="userId == null or query.status == @com.medusa.gruul.addon.coupon.model.enums.ConsumerQueryStatus @UNCLAIMED">
+                SELECT
+                coupon.shop_id AS shopId,
+                coupon.id AS id,
+                coupon.stock AS stock,
+                coupon.`name` AS `name`,
+                coupon.type AS type,
+                coupon.effect_type AS effectType,
+                coupon.days AS days,
+                coupon.start_date AS startDate,
+                coupon.end_date AS endDate,
+                coupon.required_amount AS requiredAmount,
+                coupon.amount AS amount,
+                coupon.discount AS discount,
+                coupon.product_type AS productType,
+                coupon.create_time AS createTime,
+                <include refid="claimedStatusSql"/>
+                AS claimedStatus
+                FROM t_coupon AS coupon
+
+                WHERE coupon.stock > 0 AND coupon.deleted = FALSE
+
+                AND coupon.shop_id != 0
+
+                <if test="query.shopId != null">
+                    AND coupon.shop_id = #{query.shopId}
+                </if>
+                AND coupon.`status` = ${@com.medusa.gruul.addon.coupon.model.enums.CouponStatus @OK.value}
+                AND IF(coupon.effect_type = ${@com.medusa.gruul.addon.coupon.model.enums.EffectType @PERIOD.value},
+                coupon.end_date >= CURDATE(), TRUE)
+                ORDER BY
+                <include refid="claimedStatusSql"/>
+                ASC , coupon.create_time DESC
+            </when>
+            <otherwise>
+                SELECT
+                usr.id AS couponUserId,
+                usr.shop_id AS shopId,
+                usr.coupon_id AS id,
+                usr.`name` AS `name`,
+                1 AS stock,
+                usr.type AS type,
+                usr.effect_type AS effectType,
+                usr.start_date AS startDate,
+                usr.end_date AS endDate,
+                usr.required_amount AS requiredAmount,
+                usr.amount AS amount,
+                usr.discount AS discount,
+                usr.product_type AS productType,
+                <if test="query.status == @com.medusa.gruul.addon.coupon.model.enums.ConsumerQueryStatus @UNUSED">
+                    usr.product_ids AS productIds,
+                </if>
+                usr.create_time AS createTime,
+                2 AS claimedStatus
+                FROM t_coupon_user AS usr
+                WHERE usr.user_id = #{userId}
+                <if test="query.isPlatform">
+                    AND usr.shop_id = 0
+                </if>
+                <if test="!query.isPlatform">
+                    AND usr.shop_id != 0
+                </if>
+                <if test="query.shopId != null">
+                    AND usr.shop_id = #{query.shopId}
+                </if>
+                AND usr.used =
+                <choose>
+                    <when test="query.status == @com.medusa.gruul.addon.coupon.model.enums.ConsumerQueryStatus @USED">
+                        TRUE
+                    </when>
+                    <otherwise>
+                        FALSE
+                    </otherwise>
+                </choose>
+                <if test="query.status == @com.medusa.gruul.addon.coupon.model.enums.ConsumerQueryStatus @UNUSED">
+                    AND usr.end_date >= CURDATE()
+                </if>
+                <if test="query.status == @com.medusa.gruul.addon.coupon.model.enums.ConsumerQueryStatus @EXPIRED">
+                    AND CURDATE() > usr.end_date
+                </if>
+                ORDER BY usr.create_time DESC ,usr.id DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="orderShopCouponPage" resultMap="consumerCouponPageMap">
+        SELECT
+        usr.id AS couponUserId,
+        usr.shop_id AS shopId,
+        usr.coupon_id AS id,
+        usr.`name` AS `name`,
+        usr.type AS type,
+        usr.effect_type AS effectType,
+        usr.start_date AS startDate,
+        usr.end_date AS endDate,
+        usr.required_amount AS requiredAmount,
+        <!-- 满足条件的商品总价 -->
+        @qualifiedAmount:=(
+        SELECT SUM( cacu.amount ) AS totalAmount
+        FROM t_coupon_calculate AS cacu
+        WHERE cacu.shop_id = usr.shop_id AND cacu.bid = #{bid}
+        AND (
+        CASE usr.product_type
+        WHEN ${@com.medusa.gruul.addon.coupon.model.enums.CouponProductType @ASSIGNED.value} THEN JSON_CONTAINS(
+        usr.product_ids, JSON_ARRAY(cacu.product_id ))
+        WHEN ${@com.medusa.gruul.addon.coupon.model.enums.CouponProductType @ASSIGNED_NOT.value} THEN NOT JSON_CONTAINS(
+        usr.product_ids, JSON_ARRAY(cacu.product_id) )
+        ELSE TRUE
+        END
+        )
+        ) AS qualifiedAmount,
+        CAST(
+        IF(
+        <!-- 现金券 -->
+        usr.type = ${@com.medusa.gruul.addon.coupon.model.enums.CouponType @PRICE_REDUCE.value} OR usr.type =
+        ${@com.medusa.gruul.addon.coupon.model.enums.CouponType @REQUIRED_PRICE_REDUCE.value},
+        IF( @qualifiedAmount >= usr.amount, usr.amount, @qualifiedAmount),
+        <!-- 折扣券 -->
+        @qualifiedAmount * (10 - usr.discount) / 10
+        ) AS DECIMAL
+        ) AS discountAmount,
+        usr.amount AS amount,
+        usr.discount AS discount,
+        usr.product_type AS productType,
+        usr.product_ids AS productIds,
+        usr.create_time AS createTime
+        FROM
+        t_coupon_user AS usr
+        WHERE
+        usr.shop_id = #{query.shopId}
+        AND usr.user_id = #{userId}
+        AND usr.used = FALSE
+        AND CURDATE() BETWEEN usr.start_date AND usr.end_date AND usr.deleted = FALSE
+        AND ( <!-- 1. 全部商品可用 -->
+        (
+        ( usr.product_type = ${@com.medusa.gruul.addon.coupon.model.enums.CouponProductType @ALL.value} OR usr.product_type
+        = ${@com.medusa.gruul.addon.coupon.model.enums.CouponProductType @SHOP_ALL.value} )
+        AND (
+        <!-- 无门槛 -->
+        usr.type = ${@com.medusa.gruul.addon.coupon.model.enums.CouponType @PRICE_REDUCE.value} OR usr.type =
+        ${@com.medusa.gruul.addon.coupon.model.enums.CouponType @PRICE_DISCOUNT.value}
+        <!-- 有门槛 -->
+        OR EXISTS ( SELECT SUM( cacu.amount ) AS totalAmount FROM t_coupon_calculate AS cacu WHERE cacu.shop_id =
+        usr.shop_id AND cacu.bid = #{bid} HAVING totalAmount >= usr.required_amount )
+        )
+        )
+        <!-- 2.指定商品可用 -->
+        OR (
+        usr.product_type = ${@com.medusa.gruul.addon.coupon.model.enums.CouponProductType @ASSIGNED.value}
+        AND (
+        <!-- 无门槛 -->
+        (
+        ( usr.type = ${@com.medusa.gruul.addon.coupon.model.enums.CouponType @PRICE_REDUCE.value} OR usr.type =
+        ${@com.medusa.gruul.addon.coupon.model.enums.CouponType @PRICE_DISCOUNT.value} )
+        AND EXISTS ( SELECT cacu.bid FROM t_coupon_calculate AS cacu WHERE cacu.shop_id = usr.shop_id AND cacu.bid =
+        #{bid} AND JSON_CONTAINS( usr.product_ids, JSON_ARRAY(cacu.product_id) ) )
+        )
+        <!-- 有门槛 -->
+        OR EXISTS ( SELECT SUM( cacu.amount ) AS totalAmount FROM t_coupon_calculate AS cacu WHERE cacu.shop_id =
+        usr.shop_id AND cacu.bid = #{bid} AND JSON_CONTAINS( usr.product_ids, JSON_ARRAY(cacu.product_id) ) HAVING
+        totalAmount >= usr.required_amount )
+        )
+        )
+        <!-- 3.指定商品不可用 -->
+        OR (
+        usr.product_type = ${@com.medusa.gruul.addon.coupon.model.enums.CouponProductType @ASSIGNED_NOT.value}
+        AND (
+        <!-- 无门槛 -->
+        (
+        ( usr.type = ${@com.medusa.gruul.addon.coupon.model.enums.CouponType @PRICE_REDUCE.value} OR usr.type =
+        ${@com.medusa.gruul.addon.coupon.model.enums.CouponType @PRICE_DISCOUNT.value} )
+        AND EXISTS ( SELECT cacu.bid FROM t_coupon_calculate AS cacu WHERE cacu.shop_id = usr.shop_id AND cacu.bid =
+        #{bid} AND NOT JSON_CONTAINS( usr.product_ids, JSON_ARRAY(cacu.product_id) ) )
+        )
+        <!-- 有门槛 -->
+        OR EXISTS ( SELECT SUM( cacu.amount ) AS totalAmount FROM t_coupon_calculate AS cacu WHERE cacu.shop_id =
+        usr.shop_id AND cacu.bid = #{bid} AND NOT JSON_CONTAINS( usr.product_ids, JSON_ARRAY(cacu.product_id) ) HAVING
+        totalAmount >= usr.required_amount )
+        )
+        )
+        )
+        ORDER BY discountAmount DESC, (-amount) DESC
+    </select>
+
+    <select id="productShopCouponPage" resultMap="consumerCouponPageMap">
+        (
+        SELECT
+        NULL AS couponUserId,
+        coupon.id AS id,
+        coupon.shop_id AS shopId,
+        coupon.`name` AS `name`,
+        coupon.type AS type,
+        coupon.effect_type AS effectType,
+        coupon.days AS days,
+        coupon.start_date AS startDate,
+        coupon.end_date AS endDate,
+        coupon.required_amount AS requiredAmount,
+        CAST(
+        IF(
+        coupon.type = ${@com.medusa.gruul.addon.coupon.model.enums.CouponType @PRICE_REDUCE.value} OR coupon.type =
+        ${@com.medusa.gruul.addon.coupon.model.enums.CouponType @REQUIRED_PRICE_REDUCE.value},
+        IF(#{query.amount} >= coupon.amount, coupon.amount, #{query.amount}),
+        #{query.amount}*(10 - coupon.discount)/10
+        ) AS DECIMAL
+        ) AS discountAmount,
+        coupon.amount AS amount,
+        coupon.discount AS discount,
+        coupon.product_type AS productType,
+        coupon.create_time AS createTime
+        FROM t_coupon AS coupon
+        WHERE coupon.shop_id = #{query.shopId}
+        AND coupon.`status` = ${@com.medusa.gruul.addon.coupon.model.enums.CouponStatus @OK.value}
+        AND coupon.deleted = FALSE
+        <!-- 是否失效 -->
+        AND (
+        coupon.stock > 0
+        AND IF(
+        coupon.effect_type = ${@com.medusa.gruul.addon.coupon.model.enums.EffectType @IMMEDIATELY.value},
+        TRUE,
+        (CURDATE() BETWEEN coupon.start_date AND coupon.end_date)
+        )
+        )
+        <!-- 是否满足门槛 -->
+        AND IF(
+        coupon.type = ${@com.medusa.gruul.addon.coupon.model.enums.CouponType @PRICE_REDUCE.value}
+        OR coupon.type = ${@com.medusa.gruul.addon.coupon.model.enums.CouponType @PRICE_DISCOUNT.value},
+        TRUE,
+        #{query.amount} >= coupon.required_amount
+        )
+        <!-- 商品类型 -->
+        AND (
+        CASE coupon.product_type
+        WHEN ${@com.medusa.gruul.addon.coupon.model.enums.CouponProductType @ASSIGNED.value} THEN EXISTS(
+        SELECT product.product_id
+        FROM t_coupon_product AS product
+        WHERE product.deleted = FALSE AND product.coupon_id = coupon.id AND product.shop_id = coupon.shop_id
+        AND product.product_id = #{query.productId}
+        )
+        WHEN ${@com.medusa.gruul.addon.coupon.model.enums.CouponProductType @ASSIGNED_NOT.value} THEN NOT EXISTS(
+        SELECT product.product_id
+        FROM t_coupon_product AS product
+        WHERE product.deleted = FALSE AND product.coupon_id = coupon.id AND product.shop_id = coupon.shop_id
+        AND product.product_id = #{query.productId}
+        )
+        ELSE TRUE
+        END
+        )
+        <if test="userId != null">
+            AND NOT EXISTS (
+            SELECT COUNT(*) AS total
+            FROM t_coupon_user AS usr
+            WHERE usr.user_id = #{userId} AND usr.shop_id = coupon.shop_id AND usr.coupon_id = coupon.id AND usr.deleted
+            = FALSE
+            GROUP BY usr.coupon_id
+            HAVING total >= coupon.`limit`
+            )
+        </if>
+        )
+        <if test="userId != null">
+            UNION (
+            SELECT
+            usr.id AS couponUserId,
+            usr.coupon_id AS id,
+            usr.shop_id AS shopId,
+            usr.`name` AS `name`,
+            usr.type AS type,
+            usr.effect_type AS effectType,
+            NULL AS days,
+            usr.start_date AS startDate,
+            usr.end_date AS endDate,
+            usr.required_amount AS requiredAmount,
+            IF(
+            usr.type = ${@com.medusa.gruul.addon.coupon.model.enums.CouponType @PRICE_REDUCE.value} OR usr.type =
+            ${@com.medusa.gruul.addon.coupon.model.enums.CouponType @REQUIRED_PRICE_REDUCE.value},
+            IF(#{query.amount} >= usr.amount, usr.amount, #{query.amount}),
+            #{query.amount}*(10 - usr.discount)/10
+            ) AS discountAmount,
+            usr.amount AS amount,
+            usr.discount AS discount,
+            usr.product_type AS productType,
+            usr.create_time AS createTime
+            FROM t_coupon_user AS usr
+            WHERE usr.shop_id = #{query.shopId}
+            AND usr.used = FALSE
+            AND usr.deleted = FALSE
+            AND usr.user_id = #{userId}
+            <!-- 是否失效 -->
+            AND (CURDATE() BETWEEN usr.start_date AND usr.end_date)
+            <!-- 是否满足门槛 -->
+            AND IF(
+            usr.type = ${@com.medusa.gruul.addon.coupon.model.enums.CouponType @PRICE_REDUCE.value}
+            OR usr.type = ${@com.medusa.gruul.addon.coupon.model.enums.CouponType @PRICE_DISCOUNT.value},
+            TRUE,
+            #{query.amount} >= usr.required_amount
+            )
+            AND (
+            CASE usr.product_type
+            WHEN ${@com.medusa.gruul.addon.coupon.model.enums.CouponProductType @ASSIGNED.value} THEN
+            JSON_CONTAINS(usr.product_ids,JSON_ARRAY(#{query.productId}))
+            WHEN ${@com.medusa.gruul.addon.coupon.model.enums.CouponProductType @ASSIGNED_NOT.value} THEN NOT
+            JSON_CONTAINS(usr.product_ids,JSON_ARRAY(#{query.productId}))
+            ELSE TRUE
+            END
+            )
+            )
+        </if>
+        ORDER BY discountAmount DESC,(-amount) DESC
+    </select>
+
+    <select id="getCouponList" resultMap="consumerCouponPageMap">
+        SELECT t.*, couponProduct.product_id AS productId, couponProduct.coupon_id as couponId FROM (
+        SELECT cp.* FROM (
+        SELECT
+        coupon.id AS id,
+        coupon.shop_id AS shopId,
+        coupon.`name` AS `name`,
+        coupon.type AS type,
+        coupon.`status` AS `status`,
+        coupon.num AS num,
+        coupon.stock AS stock,
+        coupon.`limit` AS `limit`,
+        coupon.effect_type AS effectType,
+        coupon.days AS days,
+        coupon.start_date AS startDate,
+        coupon.end_date AS endDate,
+        coupon.required_amount AS requiredAmount,
+        coupon.amount AS amount,
+        coupon.discount AS discount,
+        coupon.product_type AS productType,
+        coupon.create_time AS createTime,
+        row_number() over (partition BY shop_id ORDER BY TYPE ASC) AS rowNum
+        FROM t_coupon coupon
+        WHERE coupon.shop_id IN
+        <foreach collection="shopIds" item="shopId" open="(" separator="," close=")">
+            #{shopId}
+        </foreach>
+        and coupon.`status` not in(
+        ${@com.medusa.gruul.addon.coupon.model.enums.CouponStatus @BANED.value},
+        ${@com.medusa.gruul.addon.coupon.model.enums.CouponStatus @SHOP_BANED.value}
+
+        )
+        AND coupon.deleted = FALSE
+        AND (
+        (stock <![CDATA[>]]> 0 AND effect_type = ${@com.medusa.gruul.addon.coupon.model.enums.EffectType @PERIOD.value} AND
+        start_date <![CDATA[<=]]> now() AND end_date <![CDATA[>=]]> now())
+        OR (stock <![CDATA[>]]> 0 AND effect_type =
+        ${@com.medusa.gruul.addon.coupon.model.enums.EffectType @IMMEDIATELY.value})
+        )
+        ) cp
+        WHERE cp.rowNum <![CDATA[<=]]> 3
+        ) t LEFT JOIN t_coupon_product couponProduct ON t.id = couponProduct.coupon_id AND couponProduct.deleted = FALSE
+    </select>
+</mapper>

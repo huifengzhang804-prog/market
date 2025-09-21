@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.addon.rebate.mp.mapper.RebateOrderMapper">
+
+    <resultMap id="rebateOrderResultMap" type="com.medusa.gruul.addon.rebate.mp.entity.RebateOrder">
+        <id column="ids" property="ids"/>
+        <result column="status" property="status"/>
+        <result column="order_no" property="orderNo"/>
+        <result column="buyer_id" property="buyerId"/>
+        <result column="buyer_nickname" property="buyerNickname"/>
+        <result column="shop_id" property="shopId"/>
+        <result column="shop_name" property="shopName"/>
+        <result column="create_time" property="orderTime"/>
+        <result column="shopTotalRebate" property="shopTotalRebate"/>
+        <result column="settled" property="settled"/>
+        <result column="pendingSettlement" property="pendingSettlement"/>
+        <result column="expired" property="expired"/>
+    </resultMap>
+
+
+    <resultMap id="rebateOrderItemResultMap" type="com.medusa.gruul.addon.rebate.mp.entity.RebateOrderItem">
+        <result column="id" property="orderItemId"/>
+        <result column="order_no" property="orderNo"/>
+        <result column="shop_id" property="shopId"/>
+        <result column="product_id" property="productId"/>
+        <result column="product_name" property="productName"/>
+        <result column="sku_id" property="skuId"/>
+        <result column="image" property="image"/>
+        <result column="specs" property="specs"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+        <result column="num" property="num"/>
+        <result column="sale_price" property="salePrice"/>
+        <result column="deal_price" property="dealPrice"/>
+        <result column="platform_service_fee" property="platformServiceFee"/>
+        <result column="rebate_calculation" property="rebateCalculation"/>
+        <result column="settlement_status" property="settlementStatus"/>
+        <result column="estimated_rebate" property="estimatedRebate"/>
+        <result column="totalRebate" property="totalRebate"/>
+        <result column="product_type" property="productType"/>
+    </resultMap>
+
+    <select id="pageRebateOrder" resultMap="rebateOrderResultMap">
+        SELECT
+        GROUP_CONCAT(rebateOrder.id) AS ids,
+        ANY_VALUE(rebateOrder.status) AS `status`,
+        rebateOrder.order_no,
+        rebateOrder.buyer_id,
+        rebateOrder.buyer_nickname,
+        rebateOrder.shop_id,
+        rebateOrder.shop_name,
+        rebateOrder.create_time ,
+        SUM(rebateOrder.estimated_rebate) AS shopTotalRebate,
+        SUM(CASE WHEN rebateOrder.`settlement_status` =
+        ${@com.medusa.gruul.addon.rebate.model.enums.SettlementStatus @SETTLED.value} THEN rebateOrder.estimated_rebate
+        ELSE 0 END) AS settled,
+        SUM(CASE WHEN rebateOrder.`settlement_status` =
+        ${@com.medusa.gruul.addon.rebate.model.enums.SettlementStatus @PENDING_SETTLEMENT.value} THEN
+        rebateOrder.estimated_rebate ELSE 0 END) AS pendingSettlement,
+        SUM(CASE WHEN rebateOrder.`settlement_status` =
+        ${@com.medusa.gruul.addon.rebate.model.enums.SettlementStatus @EXPIRED.value} THEN rebateOrder.estimated_rebate
+        * rebateOrder.num ELSE 0 END) AS expired
+        FROM
+        t_rebate_order AS rebateOrder
+        WHERE
+        rebateOrder.deleted = 0
+        <if test="rebateOrderQuery.exportOrderNos!=null and rebateOrderQuery.exportOrderNos.size()>0">
+            AND rebateOrder.order_no IN
+            <foreach collection="rebateOrderQuery.exportOrderNos" item="orderNo" open="(" separator="," close=")">
+                #{orderNo}
+            </foreach>
+        </if>
+        <if test="rebateOrderQuery.orderNo != null and rebateOrderQuery.orderNo != ''">
+            AND rebateOrder.order_no LIKE CONCAT('%',#{rebateOrderQuery.orderNo},'%')
+        </if>
+        <if test="rebateOrderQuery.status != null">
+            <choose>
+                <when test="rebateOrderQuery.status == @com.medusa.gruul.addon.rebate.model.enums.RebateOrderStatus @PAID">
+                    AND rebateOrder.`status` =
+                    ${@com.medusa.gruul.addon.rebate.model.enums.RebateOrderStatus @PAID.value}
+                </when>
+                <when test="rebateOrderQuery.status == @com.medusa.gruul.addon.rebate.model.enums.RebateOrderStatus @COMPLETED">
+                    AND rebateOrder.`status` =
+                    ${@com.medusa.gruul.addon.rebate.model.enums.RebateOrderStatus @COMPLETED.value}
+                </when>
+                <when test="rebateOrderQuery.status == @com.medusa.gruul.addon.rebate.model.enums.RebateOrderStatus @UNPAID">
+                    AND rebateOrder.`status` =
+                    ${@com.medusa.gruul.addon.rebate.model.enums.RebateOrderStatus @UNPAID.value}
+                </when>
+                <otherwise>
+                    AND rebateOrder.`status` =
+                    ${@com.medusa.gruul.addon.rebate.model.enums.RebateOrderStatus @CLOSED.value}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="rebateOrderQuery.buyerNickname != null and rebateOrderQuery.buyerNickname != ''">
+            AND rebateOrder.buyer_nickname LIKE CONCAT('%',#{rebateOrderQuery.buyerNickname},'%')
+        </if>
+        <if test="rebateOrderQuery.shopName != null and rebateOrderQuery.shopName != ''">
+            AND rebateOrder.shop_name LIKE CONCAT('%',#{rebateOrderQuery.shopName},'%')
+        </if>
+        <if test="rebateOrderQuery.productName != null and rebateOrderQuery.productName != ''">
+            AND rebateOrder.product_name LIKE CONCAT('%',#{rebateOrderQuery.productName},'%')
+        </if>
+        <if test="rebateOrderQuery.keyword != null and rebateOrderQuery.keyword != ''">
+            AND (rebateOrder.order_no LIKE CONCAT('%',#{rebateOrderQuery.keyword},'%') OR
+            rebateOrder.product_name LIKE CONCAT('%',#{rebateOrderQuery.keyword},'%'))
+        </if>
+        <if test="rebateOrderQuery.orderCreateTime != null and rebateOrderQuery.orderCreateTime != ''">
+            AND rebateOrder.create_time >= #{rebateOrderQuery.orderCreateTime}
+        </if>
+        <if test="rebateOrderQuery.orderEndTime != null and rebateOrderQuery.orderEndTime != ''">
+            AND rebateOrder.create_time &lt;= #{rebateOrderQuery.orderEndTime}
+        </if>
+        <if test="rebateOrderQuery.monthOrders != null">
+            <if test="rebateOrderQuery.monthOrders == @com.medusa.gruul.addon.rebate.model.enums.MonthsOrder @ONE_MONTH_AGO">
+                AND rebateOrder.create_time >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)
+            </if>
+            <if test="rebateOrderQuery.monthOrders == @com.medusa.gruul.addon.rebate.model.enums.MonthsOrder @THREE_MONTHS_AGO">
+                AND rebateOrder.create_time >= DATE_SUB(CURDATE(), INTERVAL 3 MONTH)
+            </if>
+        </if>
+        <if test="rebateOrderQuery.userId != null">
+            AND rebateOrder.buyer_id = #{rebateOrderQuery.userId}
+        </if>
+        GROUP BY rebateOrder.order_no,rebateOrder.shop_id
+        ORDER BY create_time DESC
+    </select>
+
+    <select id="pageRebateOrderItem" resultMap="rebateOrderItemResultMap">
+        SELECT
+        id,
+        order_no,
+        shop_id,
+        product_id,
+        product_name,
+        sku_id,
+        image,
+        specs,
+        num,
+        sale_price,
+        deal_price,
+        platform_service_fee,
+        rebate_calculation,
+        settlement_status,
+        estimated_rebate,
+        product_type ,
+        CASE
+        WHEN rebateOrder.`settlement_status` =1
+        THEN rebateOrder.estimated_rebate
+        ELSE 0
+        END AS totalRebate
+        FROM
+        t_rebate_order AS rebateOrder
+        WHERE
+        rebateOrder.deleted = 0
+        <if test="keyword != null and keyword != ''">
+            AND (
+            rebateOrder.order_no LIKE CONCAT('%',#{keyword},'%') OR
+            rebateOrder.product_name LIKE CONCAT('%',#{keyword},'%')
+            )
+        </if>
+        <if test="orderNos.size > 0">
+            AND rebateOrder.order_no IN
+            <foreach collection="orderNos" open="(" close=")" item="orderNo" separator=",">
+                #{orderNo}
+            </foreach>
+        </if>
+    </select>
+
+
+    <select id="pageRebateOrder_back" resultMap="rebateOrderResultMap">
+        SELECT
+        rebateOrder.id,
+        rebateOrder.status,
+        rebateOrder.order_no,
+        rebateOrder.buyer_id,
+        rebateOrder.buyer_nickname,
+        rebateOrder.shop_id,
+        rebateOrder.shop_name,
+        rebateOrder.order_item_id,
+        rebateOrder.product_id,
+        rebateOrder.product_name,
+        rebateOrder.sku_id,
+        rebateOrder.specs,
+        rebateOrder.sale_price,
+        rebateOrder.deal_price,
+        rebateOrder.num,
+        rebateOrder.image,
+        rebateOrder.rebate_percentage,
+        rebateOrder.platform_service_fee,
+        rebateOrder.rebate_calculation,
+        rebateOrder.settlement_status,
+        rebateOrder.estimated_rebate,
+        rebateOrder.create_time,
+
+        s.shopDealPrice,
+        s.settled,
+        s.expired,
+        s.pendingSettlement
+
+        FROM
+        t_rebate_order AS rebateOrder
+        JOIN (
+        SELECT
+        shop_id,
+        SUM(deal_price) AS shopDealPrice,
+        SUM(CASE WHEN `settlement_status` =
+        ${@com.medusa.gruul.addon.rebate.model.enums.SettlementStatus @SETTLED.value} THEN estimated_rebate
+        * num ELSE 0 END) AS settled,
+
+        SUM(CASE WHEN `settlement_status` =
+        ${@com.medusa.gruul.addon.rebate.model.enums.SettlementStatus @EXPIRED.value} THEN estimated_rebate
+        * num ELSE 0 END) AS expired,
+
+        SUM(CASE WHEN `settlement_status` =
+        ${@com.medusa.gruul.addon.rebate.model.enums.SettlementStatus @PENDING_SETTLEMENT.value} THEN
+        estimated_rebate * num ELSE 0 END) AS pendingSettlement,
+
+        SUM(estimated_rebate * num) AS shopTotalRebate
+        FROM
+        t_rebate_order
+        WHERE
+        deleted = 0
+        <if test="rebateOrderQuery.orderNo != null and rebateOrderQuery.orderNo != ''">
+            AND order_no LIKE CONCAT('%',#{rebateOrderQuery.orderNo},'%')
+        </if>
+        <if test="rebateOrderQuery.status != null">
+            <choose>
+                <when test="rebateOrderQuery.status == @com.medusa.gruul.addon.rebate.model.enums.RebateOrderStatus @PAID">
+                    AND `status` =
+                    ${@com.medusa.gruul.addon.rebate.model.enums.RebateOrderStatus @PAID.value}
+                </when>
+                <when test="rebateOrderQuery.status == @com.medusa.gruul.addon.rebate.model.enums.RebateOrderStatus @COMPLETED">
+                    AND `status` =
+                    ${@com.medusa.gruul.addon.rebate.model.enums.RebateOrderStatus @COMPLETED.value}
+                </when>
+                <otherwise>
+                    AND `status` =
+                    ${@com.medusa.gruul.addon.rebate.model.enums.RebateOrderStatus @CLOSED.value}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="rebateOrderQuery.buyerNickname != null and rebateOrderQuery.buyerNickname != ''">
+            AND buyer_nickname LIKE CONCAT('%',#{rebateOrderQuery.buyerNickname},'%')
+        </if>
+        <if test="rebateOrderQuery.shopName != null and rebateOrderQuery.shopName != ''">
+            AND shop_name LIKE CONCAT('%',#{rebateOrderQuery.shopName},'%')
+        </if>
+        <if test="rebateOrderQuery.productName != null and rebateOrderQuery.productName != ''">
+            AND product_name LIKE CONCAT('%',#{rebateOrderQuery.productName},'%')
+        </if>
+        <if test="rebateOrderQuery.keyword != null and rebateOrderQuery.keyword != ''">
+            AND (order_no LIKE CONCAT('%',#{rebateOrderQuery.keyword},'%') OR
+            product_name LIKE CONCAT('%',#{rebateOrderQuery.keyword},'%'))
+        </if>
+        <if test="rebateOrderQuery.orderCreateTime != null and rebateOrderQuery.orderCreateTime != ''">
+            AND create_time >= #{rebateOrderQuery.orderCreateTime}
+        </if>
+        <if test="rebateOrderQuery.orderEndTime != null and rebateOrderQuery.orderEndTime != ''">
+            AND create_time &lt;= #{rebateOrderQuery.orderEndTime}
+        </if>
+        <if test="rebateOrderQuery.monthOrders != null">
+            <if test="rebateOrderQuery.monthOrders == @com.medusa.gruul.addon.rebate.model.enums.MonthsOrder @ONE_MONTH_AGO">
+                AND create_time >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)
+            </if>
+            <if test="rebateOrderQuery.monthOrders == @com.medusa.gruul.addon.rebate.model.enums.MonthsOrder @THREE_MONTHS_AGO">
+                AND create_time >= DATE_SUB(CURDATE(), INTERVAL 3 MONTH)
+            </if>
+        </if>
+        <if test="rebateOrderQuery.userId != null">
+            AND buyer_id = #{rebateOrderQuery.userId}
+        </if>
+        GROUP BY shop_id
+        ) AS s ON rebateOrder.shop_id = s.shop_id
+        WHERE
+        rebateOrder.deleted = 0
+        <if test="rebateOrderQuery.orderNo != null and rebateOrderQuery.orderNo != ''">
+            AND rebateOrder.order_no LIKE CONCAT('%',#{rebateOrderQuery.orderNo},'%')
+        </if>
+        <if test="rebateOrderQuery.status != null">
+            <choose>
+                <when test="rebateOrderQuery.status == @com.medusa.gruul.addon.rebate.model.enums.RebateOrderStatus @PAID">
+                    AND rebateOrder.`status` =
+                    ${@com.medusa.gruul.addon.rebate.model.enums.RebateOrderStatus @PAID.value}
+                </when>
+                <when test="rebateOrderQuery.status == @com.medusa.gruul.addon.rebate.model.enums.RebateOrderStatus @COMPLETED">
+                    AND rebateOrder.`status` =
+                    ${@com.medusa.gruul.addon.rebate.model.enums.RebateOrderStatus @COMPLETED.value}
+                </when>
+                <otherwise>
+                    AND rebateOrder.`status` =
+                    ${@com.medusa.gruul.addon.rebate.model.enums.RebateOrderStatus @CLOSED.value}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="rebateOrderQuery.buyerNickname != null and rebateOrderQuery.buyerNickname != ''">
+            AND rebateOrder.buyer_nickname LIKE CONCAT('%',#{rebateOrderQuery.buyerNickname},'%')
+        </if>
+        <if test="rebateOrderQuery.shopName != null and rebateOrderQuery.shopName != ''">
+            AND rebateOrder.shop_name LIKE CONCAT('%',#{rebateOrderQuery.shopName},'%')
+        </if>
+        <if test="rebateOrderQuery.productName != null and rebateOrderQuery.productName != ''">
+            AND rebateOrder.product_name LIKE CONCAT('%',#{rebateOrderQuery.productName},'%')
+        </if>
+        <if test="rebateOrderQuery.keyword != null and rebateOrderQuery.keyword != ''">
+            AND (rebateOrder.order_no LIKE CONCAT('%',#{rebateOrderQuery.keyword},'%') OR
+            rebateOrder.product_name LIKE CONCAT('%',#{rebateOrderQuery.keyword},'%'))
+        </if>
+        <if test="rebateOrderQuery.orderCreateTime != null and rebateOrderQuery.orderCreateTime != ''">
+            AND rebateOrder.create_time >= #{rebateOrderQuery.orderCreateTime}
+        </if>
+        <if test="rebateOrderQuery.orderEndTime != null and rebateOrderQuery.orderEndTime != ''">
+            AND rebateOrder.create_time &lt;= #{rebateOrderQuery.orderEndTime}
+        </if>
+        <if test="rebateOrderQuery.monthOrders != null">
+            <if test="rebateOrderQuery.monthOrders == @com.medusa.gruul.addon.rebate.model.enums.MonthsOrder @ONE_MONTH_AGO">
+                AND rebateOrder.create_time >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)
+            </if>
+            <if test="rebateOrderQuery.monthOrders == @com.medusa.gruul.addon.rebate.model.enums.MonthsOrder @THREE_MONTHS_AGO">
+                AND rebateOrder.create_time >= DATE_SUB(CURDATE(), INTERVAL 3 MONTH)
+            </if>
+        </if>
+        <if test="rebateOrderQuery.userId != null">
+            AND rebateOrder.buyer_id = #{rebateOrderQuery.userId}
+        </if>
+        ORDER BY create_time DESC
+    </select>
+
+
+    <select id="pageRebateOrder_back_" resultMap="rebateOrderResultMap">
+        SELECT
+        rebateOrder.id,
+        rebateOrder.status,
+        rebateOrder.order_no,
+        rebateOrder.buyer_id,
+        rebateOrder.buyer_nickname,
+        rebateOrder.shop_id,
+        rebateOrder.shop_name,
+        rebateOrder.order_item_id,
+        rebateOrder.product_id,
+        rebateOrder.product_name,
+        rebateOrder.sku_id,
+        rebateOrder.specs,
+        rebateOrder.sale_price,
+        rebateOrder.deal_price,
+        rebateOrder.num,
+        rebateOrder.image,
+        rebateOrder.rebate_percentage,
+        rebateOrder.platform_service_fee,
+        rebateOrder.rebate_calculation,
+        rebateOrder.settlement_status,
+        rebateOrder.estimated_rebate,
+        rebateOrder.create_time,
+        SUM(rebateOrder.deal_price) AS shopDealPrice,
+        SUM(CASE WHEN rebateOrder.`settlement_status` =
+        ${@com.medusa.gruul.addon.rebate.model.enums.SettlementStatus @SETTLED.value} THEN rebateOrder.estimated_rebate
+        * rebateOrder.num ELSE 0 END) AS settled,
+        SUM(CASE WHEN rebateOrder.`settlement_status` =
+        ${@com.medusa.gruul.addon.rebate.model.enums.SettlementStatus @EXPIRED.value} THEN rebateOrder.estimated_rebate
+        * rebateOrder.num ELSE 0 END) AS expired,
+        SUM(CASE WHEN rebateOrder.`settlement_status` =
+        ${@com.medusa.gruul.addon.rebate.model.enums.SettlementStatus @PENDING_SETTLEMENT.value} THEN
+        rebateOrder.estimated_rebate * rebateOrder.num ELSE 0 END) AS pendingSettlement,
+        SUM(rebateOrder.estimated_rebate * rebateOrder.num) AS shopTotalRebate
+        FROM
+        t_rebate_order AS rebateOrder
+        WHERE
+        rebateOrder.deleted = 0
+        <if test="rebateOrderQuery.orderNo != null and rebateOrderQuery.orderNo != ''">
+            AND rebateOrder.order_no LIKE CONCAT('%',#{rebateOrderQuery.orderNo},'%')
+        </if>
+        <if test="rebateOrderQuery.status != null">
+            <choose>
+                <when test="rebateOrderQuery.status == @com.medusa.gruul.addon.rebate.model.enums.RebateOrderStatus @PAID">
+                    AND rebateOrder.`status` =
+                    ${@com.medusa.gruul.addon.rebate.model.enums.RebateOrderStatus @PAID.value}
+                </when>
+                <when test="rebateOrderQuery.status == @com.medusa.gruul.addon.rebate.model.enums.RebateOrderStatus @COMPLETED">
+                    AND rebateOrder.`status` =
+                    ${@com.medusa.gruul.addon.rebate.model.enums.RebateOrderStatus @COMPLETED.value}
+                </when>
+                <otherwise>
+                    AND rebateOrder.`status` =
+                    ${@com.medusa.gruul.addon.rebate.model.enums.RebateOrderStatus @CLOSED.value}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="rebateOrderQuery.buyerNickname != null and rebateOrderQuery.buyerNickname != ''">
+            AND rebateOrder.buyer_nickname LIKE CONCAT('%',#{rebateOrderQuery.buyerNickname},'%')
+        </if>
+        <if test="rebateOrderQuery.shopName != null and rebateOrderQuery.shopName != ''">
+            AND rebateOrder.shop_name LIKE CONCAT('%',#{rebateOrderQuery.shopName},'%')
+        </if>
+        <if test="rebateOrderQuery.productName != null and rebateOrderQuery.productName != ''">
+            AND rebateOrder.product_name LIKE CONCAT('%',#{rebateOrderQuery.productName},'%')
+        </if>
+        <if test="rebateOrderQuery.keyword != null and rebateOrderQuery.keyword != ''">
+            AND (rebateOrder.order_no LIKE CONCAT('%',#{rebateOrderQuery.keyword},'%') OR
+            rebateOrder.product_name LIKE CONCAT('%',#{rebateOrderQuery.keyword},'%'))
+        </if>
+        <if test="rebateOrderQuery.orderCreateTime != null and rebateOrderQuery.orderCreateTime != ''">
+            AND rebateOrder.create_time >= #{rebateOrderQuery.orderCreateTime}
+        </if>
+        <if test="rebateOrderQuery.orderEndTime != null and rebateOrderQuery.orderEndTime != ''">
+            AND rebateOrder.create_time &lt;= #{rebateOrderQuery.orderEndTime}
+        </if>
+        <if test="rebateOrderQuery.monthOrders != null">
+            <if test="rebateOrderQuery.monthOrders == @com.medusa.gruul.addon.rebate.model.enums.MonthsOrder @ONE_MONTH_AGO">
+                AND rebateOrder.create_time >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)
+            </if>
+            <if test="rebateOrderQuery.monthOrders == @com.medusa.gruul.addon.rebate.model.enums.MonthsOrder @THREE_MONTHS_AGO">
+                AND rebateOrder.create_time >= DATE_SUB(CURDATE(), INTERVAL 3 MONTH)
+            </if>
+        </if>
+        <if test="rebateOrderQuery.userId != null">
+            AND rebateOrder.buyer_id = #{rebateOrderQuery.userId}
+        </if>
+        GROUP BY rebateOrder.status, rebateOrder.order_no, rebateOrder.buyer_id, rebateOrder.buyer_nickname,
+        rebateOrder.shop_id, rebateOrder.shop_name, rebateOrder.create_time
+        ORDER BY create_time DESC
+    </select>
+    <select id="rebateOrderStatistic"
+            resultType="com.medusa.gruul.addon.rebate.model.vo.RebateOrderStatistic">
+        SELECT
+        SUM(CASE WHEN rebateOrder.`settlement_status` =
+        ${@com.medusa.gruul.addon.rebate.model.enums.SettlementStatus @SETTLED.value} THEN rebateOrder.estimated_rebate
+        ELSE 0 END) AS totalRebate,
+        SUM(CASE WHEN rebateOrder.`settlement_status` =
+        ${@com.medusa.gruul.addon.rebate.model.enums.SettlementStatus @EXPIRED.value} THEN rebateOrder.estimated_rebate
+        ELSE 0 END) AS totalExpired,
+        SUM(CASE WHEN rebateOrder.`settlement_status` =
+        ${@com.medusa.gruul.addon.rebate.model.enums.SettlementStatus @PENDING_SETTLEMENT.value} THEN
+        rebateOrder.estimated_rebate ELSE 0 END) AS totalPendingSettlement
+        FROM
+        t_rebate_order AS rebateOrder
+        WHERE
+        rebateOrder.deleted = 0
+        <if test="rebateOrderIds.size > 0">
+            AND rebateOrder.id IN
+            <foreach collection="rebateOrderIds" open="(" close=")" item="id" separator=",">
+                #{id}
+            </foreach>
+        </if>
+    </select>
+</mapper>

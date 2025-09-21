@@ -1,0 +1,30 @@
+.df {
+  display: flex;
+}
+.fdc {
+  display: flex;
+  flex-direction: column;
+}
+.f1 {
+  flex: 1;
+}
+.fdc1 {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.fcenter {
+  display: flex;
+  align-items: center;
+}
+.ccenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.cup {
+  cursor: pointer;
+}
+.overh {
+  overflow: hidden;
+}

@@ -1,0 +1,80 @@
+{
+  "code": {
+    "desc": "牛怎么叫",
+    "type": "QR_CODE",
+    "content": "哞哞"
+  },
+  "desc": "全鸡配汉堡，华莱士吃好",
+  "title": {
+    "style": [
+      "SIZE_2",
+      "ALIGN_CENTER"
+    ],
+    "pickupCode": true,
+    "platformName": true
+  },
+  "products": {
+    "type": "SPACE_BETWEEN",
+    "skuId": false,
+    "specs": true,
+    "productName": true
+  },
+  "shopName": {
+    "style": [
+      "ALIGN_CENTER"
+    ],
+    "selected": true
+  },
+  "orderInfo": {
+    "orderNo": {
+      "style": [],
+      "selected": true
+    },
+    "payTime": {
+      "style": [],
+      "selected": true
+    },
+    "payType": {
+      "style": [],
+      "selected": true
+    },
+    "orderTime": {
+      "style": [],
+      "selected": true
+    }
+  },
+  "targetInfo": {
+    "name": {
+      "style": [],
+      "selected": true
+    },
+    "mobile": {
+      "style": [],
+      "selected": true
+    },
+    "address": {
+      "style": [],
+      "selected": true
+    }
+  },
+  "orderRemark": {
+    "style": [
+      "WEIGHT_2"
+    ],
+    "selected": true
+  },
+  "orderStatistic": {
+    "freight": true,
+    "payPrice": {
+      "style": [
+        "SIZE_2"
+      ],
+      "selected": true
+    },
+    "productNum": true,
+    "totalPrice": true,
+    "shopDiscount": true,
+    "totalDiscount": true,
+    "platformDiscount": true
+  }
+}

@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.user.service.mp.mapper.UserAccountMapper">
+
+
+    <resultMap id="userPageMap" type="com.medusa.gruul.user.service.model.vo.UserListVO">
+        <id column="id" property="id"/>
+        <result column="userId" property="userId"/>
+        <result column="userName" property="userName"/>
+        <result column="birthday" property="birthday"/>
+        <result column="avatar" property="userHeadPortrait"/>
+        <result column="nickname" property="userNickname"/>
+        <result column="gender" property="gender"/>
+        <result column="phone" property="userPhone"/>
+        <result column="balance" property="balance"/>
+        <result column="growthValue" property="growthValue"/>
+        <result column="dealMoney" property="dealTotalMoney"/>
+        <result column="createTime" property="createTime"/>
+        <result column="lastDealTime" property="lastDealTime"/>
+    </resultMap>
+
+
+    <resultMap id="rankedMemberMap" type="com.medusa.gruul.user.service.model.vo.RankedMemberVO">
+        <result column="user_id" property="userId"/>
+        <result column="growth_value" property="growthValue"/>
+        <result column="freeMember_id" property="freeMemberId"/>
+        <result column="rankCode" property="rankCode"/>
+    </resultMap>
+
+    <select id="userPage" resultMap="userPageMap">
+        SELECT
+        subquery.id AS id,
+        subquery.user_id AS userId,
+        subquery.user_name AS userName,
+        subquery.memberType AS memberType,
+        subquery.rankCode AS rankCode,
+        subquery.birthday AS birthday,
+        subquery.user_head_portrait AS avatar,
+        subquery.user_nickname AS nickname,
+        subquery.gender AS gender,
+        subquery.user_phone AS phone,
+        subquery.balance AS balance,
+        subquery.growth_value AS growthValue,
+        subquery.deal_total_money AS dealMoney,
+        subquery.integral_total AS integralTotal,
+        subquery.create_time AS createTime,
+        subquery.last_deal_time as lastDealTime
+        FROM
+        (
+        SELECT
+        IF(card.member_card_status =
+        ${@com.medusa.gruul.user.api.enums.MemberCardStatus @NORMAL.value},${@com.medusa.gruul.user.api.enums.MemberType @PAID_MEMBER.value},
+        ${@com.medusa.gruul.user.api.enums.MemberType @FREE_MEMBER.value}) AS memberType,
+        CASE
+        WHEN
+        card.member_card_status = ${@com.medusa.gruul.user.api.enums.MemberCardStatus @NORMAL.value} THEN card.rankCode
+        ELSE
+        COALESCE(
+        (
+        SELECT
+        freeMember.rank_code
+        FROM
+        t_user_free_member freeMember
+        WHERE
+        freeMember.need_value <![CDATA[<=]]> usr.growth_value
+        AND freeMember.deleted = 0
+        ORDER BY
+        rank_code DESC
+        LIMIT 1
+        ),
+        1)
+        END rankCode,
+        usr.id,
+        usr.user_id,
+        usr.user_name,
+        usr.birthday,
+        usr.user_head_portrait,
+        usr.user_nickname,
+        usr.gender,
+        usr.user_phone,
+        usr.balance,
+        usr.growth_value,
+        usr.deal_total_money,
+        usr.integral_total,
+        usr.create_time,
+        usr.last_deal_time
+        FROM t_user_account AS usr
+        LEFT JOIN
+        (
+        SELECT MAX(card.rank_code) AS rankCode,
+        user_id,
+        member_card_status
+        FROM t_user_member_card card
+        WHERE card.deleted = 0
+        AND card.member_card_status = ${@com.medusa.gruul.user.api.enums.MemberCardStatus @NORMAL.value}
+        AND card.member_card_valid_time > NOW()
+        GROUP BY card.user_id
+        ) card ON card.user_id = usr.user_id
+        WHERE usr.deleted = FALSE
+        AND usr.user_authority IS NULL
+        <if test="query.userNickname != null and query.userNickname != ''">
+            AND usr.user_nickname LIKE CONCAT('%',#{query.userNickname},'%')
+        </if>
+        <if test="query.userPhone != null and query.userPhone != ''">
+            AND usr.user_phone LIKE CONCAT('%',#{query.userPhone},'%')
+        </if>
+        <if test="query.tagId != null ">
+            AND EXISTS(
+            SELECT tagGroup.id FROM t_user_tag_group AS tagGroup WHERE tagGroup.user_id = usr.user_id
+            AND tagGroup.user_tag_id = #{query.tagId} AND tagGroup.deleted = 0
+            )
+        </if>
+        <if test="query.registrationStartTime != null and query.registrationStartTime != ''">
+            AND DATE_FORMAT(usr.create_time,'%Y-%m-%d') <![CDATA[>=]]> #{query.registrationStartTime}
+        </if>
+        <if test="query.registrationEndTime != null and query.registrationEndTime != ''">
+            AND DATE_FORMAT(usr.create_time,'%Y-%m-%d') <![CDATA[<=]]> #{query.registrationEndTime}
+        </if>
+        <if test="query.birthdayStartTime != null and query.birthdayStartTime != ''">
+            AND DATE_FORMAT(usr.birthday,'%Y-%m-%d') <![CDATA[>=]]> #{query.birthdayStartTime}
+        </if>
+        <if test="query.birthdayEndTime != null and query.birthdayEndTime != ''">
+            AND DATE_FORMAT(usr.birthday,'%Y-%m-%d') <![CDATA[<=]]>  #{query.birthdayEndTime}
+        </if>
+        <if test="query.ids != null">
+            <foreach collection="query.ids" open="AND usr.id IN (" close=")" item="id" separator=",">
+                #{id}
+            </foreach>
+        </if>
+        <!--排序-->
+        <if test="query.sortType != null">
+            ORDER by
+            <choose>
+                <when test="query.sortType==@com.medusa.gruul.user.service.model.enums.UserSortEnum @BALANCE_ASC">
+                    usr.balance ASC
+                </when>
+                <when test="query.sortType==@com.medusa.gruul.user.service.model.enums.UserSortEnum @BALANCE_DESC">
+                    usr.balance desc
+                </when>
+                <when test="query.sortType==@com.medusa.gruul.user.service.model.enums.UserSortEnum @REGISTER_TIME_ASC">
+                    usr.create_time ASC
+                </when>
+                <when test="query.sortType==@com.medusa.gruul.user.service.model.enums.UserSortEnum @REGISTER_TIME_DESC">
+                    usr.create_time desc
+                </when>
+                <when test="query.sortType==@com.medusa.gruul.user.service.model.enums.UserSortEnum @RECENT_CONSUME_TIME_ASC">
+                    usr.last_deal_time ASC
+                </when>
+                <when test="query.sortType==@com.medusa.gruul.user.service.model.enums.UserSortEnum @RECENT_CONSUME_TIME_DESC">
+                    usr.last_deal_time desc
+                </when>
+            </choose>
+        </if>
+        ) subquery
+        <where>
+            <if test="query.memberType != null">
+                <if test="query.memberType == @com.medusa.gruul.user.api.enums.MemberType @FREE_MEMBER">
+                    AND subquery.memberType = ${@com.medusa.gruul.user.api.enums.MemberType @FREE_MEMBER.value}
+                </if>
+                <if test="query.memberType == @com.medusa.gruul.user.api.enums.MemberType @PAID_MEMBER">
+                    AND subquery.memberType = ${@com.medusa.gruul.user.api.enums.MemberType @PAID_MEMBER.value}
+                </if>
+            </if>
+            <if test="query.rankCode != null and query.rankCode != ''">
+                AND subquery.rankCode = #{query.rankCode}
+            </if>
+        </where>
+    </select>
+
+
+    <select id="memberCardByUserId" resultType="com.medusa.gruul.user.service.mp.entity.UserMemberCard">
+        SELECT
+        card.user_id AS userId,
+        MAX(card.rank_code) AS rankCode
+        FROM
+        t_user_member_card AS card
+        WHERE
+        card.deleted = 0
+        AND card.user_id IN
+        <foreach collection="userIds" open="(" close=")" item="userId" separator=",">#{userId}</foreach>
+        AND card.member_card_status = ${@com.medusa.gruul.user.api.enums.MemberCardStatus @NORMAL.value}
+        GROUP BY card.user_id
+    </select>
+
+    <resultMap id="userListMap" type="com.medusa.gruul.user.service.model.vo.UserListVO">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="user_head_portrait" property="userHeadPortrait"/>
+        <result column="user_nickname" property="userNickname"/>
+        <result column="gender" property="gender"/>
+        <result column="user_authority" property="userAuthority"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+        <result column="user_phone" property="userPhone"/>
+        <result column="explain" property="explain"/>
+        <result column="balance" property="balance"/>
+        <result column="birthday" property="birthday"/>
+        <result column="growth_value" property="growthValue"/>
+        <result column="deal_total_money" property="dealTotalMoney"/>
+        <result column="integral_total" property="integralTotal"/>
+        <result column="create_time" property="createTime"/>
+        <association property="member" javaType="com.medusa.gruul.user.service.model.vo.UserListVO$MemberVO"
+                     column="{userId=user_id}" select="queryMemberInfo">
+            <result column="member_type" property="memberType"/>
+            <result column="rank_code" property="rankCode"/>
+        </association>
+        <collection property="userTagVOList" javaType="java.util.List"
+                    ofType="com.medusa.gruul.user.service.model.vo.UserListVO$TagVO">
+            <result column="tagId" property="tagId"/>
+            <result column="tagName" property="tagName"/>
+        </collection>
+    </resultMap>
+
+
+    <select id="getUserList" resultMap="userListMap">
+        SELECT
+        user.id,
+        user.user_id,
+        user.user_head_portrait,
+        user.user_nickname,
+        user.gender,
+        user.user_phone,
+        user.balance,
+        user.growth_value,
+        user.deal_total_money,
+        user.create_time,
+
+        userTag.id tagId,
+        userTag.tag_name tagName
+
+        FROM t_user_account `user`
+        LEFT JOIN (
+        SELECT
+        userTag.id,
+        userTagGroup.user_id userId,
+        userTag.tag_name
+        FROM t_user_tag userTag
+        LEFT JOIN
+        t_user_tag_group userTagGroup ON userTag.id = userTagGroup.user_tag_id
+        AND
+        userTag.deleted = 0
+        AND
+        userTagGroup.deleted = 0
+        ) userTag ON `user`.user_id = userTag.userId
+        <where>
+            user.deleted = 0 AND
+            user_authority IS NULL
+            <if test="userQuery != null">
+                <if test="userQuery.userNickname != null and userQuery.userNickname != ''">
+                    AND user.user_nickname LIKE CONCAT('%',#{userQuery.userNickname},'%')
+                </if>
+                <if test="userQuery.tagId != null and userQuery.tagId != '' ">
+                    AND userTag.id = #{userQuery.tagId}
+                </if>
+                <if test="userQuery.registrationStartTime != null and userQuery.registrationStartTime != ''">
+                    AND user.create_time <![CDATA[>=]]> #{userQuery.registrationStartTime}
+                </if>
+                <if test="userQuery.registrationEndTime != null and userQuery.registrationEndTime != ''">
+                    AND user.create_time <![CDATA[<=]]> #{userQuery.registrationEndTime}
+                </if>
+            </if>
+        </where>
+        <choose>
+            <when test="userQuery.sortType==1">
+                order by user.deal_total_money desc
+            </when>
+            <when test="userQuery.sortType==2">
+                order by user.deal_total_money
+            </when>
+            <when test="userQuery.sortType==3">
+                order by user.create_time
+            </when>
+            <otherwise>
+                order by user.create_time desc
+            </otherwise>
+        </choose>
+    </select>
+    <select id="getUserParticulars" resultMap="userListMap">
+        SELECT
+        user.id,
+        user.user_id,
+        user.user_name,
+        user.birthday,
+        user.user_head_portrait,
+        user.user_nickname,
+        user.gender,
+        user.user_phone,
+        user.balance,
+        user.growth_value,
+        user.deal_total_money,
+        user.integral_total,
+        user.create_time,
+        user.birthday,
+        userTag.id tagId,
+        userTag.tag_name tagName
+        FROM t_user_account `user`
+        LEFT JOIN (
+        SELECT
+        userTag.id,
+        userTagGroup.user_id userId,
+        userTag.tag_name
+        FROM t_user_tag userTag
+        INNER JOIN
+        t_user_tag_group userTagGroup ON userTag.id = userTagGroup.user_tag_id
+        AND
+        userTag.shop_id = 0 AND userTagGroup.shop_id = 0
+        AND
+        userTag.deleted = 0
+        AND
+        userTagGroup.deleted = 0
+        ) userTag ON `user`.user_id = userTag.userId
+        <where>
+            user.deleted = 0
+            AND
+            user_authority IS NULL
+            AND
+            user.user_id = #{userId}
+        </where>
+    </select>
+
+
+    <select id="queryMemberInfo" resultType="com.medusa.gruul.user.service.model.vo.UserListVO$MemberVO">
+
+        SELECT member_type,
+               rank_code
+        FROM t_user_member_card
+        WHERE deleted = 0
+          AND user_id = #{userId}
+          AND member_card_status = ${@com.medusa.gruul.user.api.enums.MemberCardStatus @NORMAL.value}
+        ORDER BY member_type desc, rank_code desc
+        LIMIT 1
+    </select>
+    <select id="getUserBlacklist" resultMap="userListMap">
+        SELECT
+        user.id,
+        user.user_id,
+        user.user_head_portrait,
+        user.user_nickname,
+        user.gender,
+        user.user_authority,
+        user.user_phone,
+        user.`explain`,
+        user.balance,
+        user.growth_value,
+        user.deal_total_money,
+        user.create_time
+        FROM
+        t_user_account `user`
+        <where>
+            user.deleted = 0
+            <if test="userBlacklistQuery != null">
+                <if test="userBlacklistQuery.userNickname != null and userBlacklistQuery.userNickname != ''">
+                    AND user.user_nickname LIKE CONCAT('%',#{userBlacklistQuery.userNickname},'%')
+                </if>
+                <if test="userBlacklistQuery.roles != null ">
+                    AND user.user_authority LIKE CONCAT('%',#{userBlacklistQuery.roles},'%')
+                </if>
+                <if test="userBlacklistQuery.roles == null ">
+                    AND user_authority IS NOT NULL
+                </if>
+            </if>
+        </where>
+
+
+    </select>
+
+    <resultMap id="getUserMemberInfoByUserIdMap" type="com.medusa.gruul.user.service.mp.entity.UserAccount">
+        <id column="id" property="id"/>
+        <result column="userId" property="userId"/>
+        <result column="nickname" property="userNickname"/>
+        <result column="avatar" property="userHeadPortrait"/>
+        <result column="growthValue" property="growthValue"/>
+        <collection property="memberCards" ofType="com.medusa.gruul.user.service.mp.entity.UserMemberCard">
+            <id column="cardId" property="id"/>
+            <result column="rankCode" property="rankCode"/>
+            <result column="memberId" property="memberId"/>
+            <result column="memberCardValidTime" property="memberCardValidTime"/>
+        </collection>
+    </resultMap>
+    <select id="getUserMemberInfoByUserId" resultMap="getUserMemberInfoByUserIdMap">
+        SELECT usr.id                      AS id,
+               usr.user_id                 AS userId,
+               usr.user_nickname           AS nickname,
+               usr.user_head_portrait      AS avatar,
+               usr.growth_value            AS growthValue,
+               card.id                     AS cardId,
+               card.rank_code              AS rankCode,
+               card.member_id              AS memberId,
+               card.member_card_valid_time AS memberCardValidTime
+        FROM t_user_account AS usr
+                 LEFT JOIN t_user_member_card AS card ON usr.user_id = card.user_id
+            AND card.deleted = FALSE
+            AND card.member_type = ${@com.medusa.gruul.user.api.enums.MemberType @PAID_MEMBER.value}
+            AND card.member_card_status = ${@com.medusa.gruul.user.api.enums.MemberCardStatus @NORMAL.value}
+            AND card.member_card_valid_time >= CURDATE()
+        WHERE usr.deleted = FALSE
+          AND usr.user_id = #{userId}
+        ORDER BY card.rank_code DESC
+    </select>
+    <resultMap id="getTagsMapByUserIdsMap" type="com.medusa.gruul.user.service.model.vo.UserTagMapVO">
+        <result column="userId" property="userId"/>
+        <result column="tagId" property="tagId"/>
+        <result column="tagName" property="tagName"/>
+    </resultMap>
+    <select id="getTagsMapByUserIds" resultMap="getTagsMapByUserIdsMap">
+        SELECT
+        tagGroup.user_id AS userId,
+        tag.id AS tagId,
+        tag.tag_name AS tagName
+        FROM t_user_tag_group AS tagGroup
+        INNER JOIN t_user_tag AS tag ON tag.id = tagGroup.user_tag_id
+        AND tag.shop_id = 0 AND tagGroup.shop_id = 0
+        AND tag.deleted = FALSE
+        WHERE tagGroup.deleted = FALSE
+        AND tagGroup.user_id IN
+        <foreach collection="userIds" open="(" separator="," close=")" item="userId">#{userId}</foreach>
+
+    </select>
+    <select id="queryRankedMember" resultMap="rankedMemberMap">
+        WITH RankedMembers AS (
+            SELECT
+                account.user_id,
+                account.growth_value,
+                freeMember.id AS freeMember_id,
+                freeMember.rank_code,
+                /**
+                  * ROW_NUMBER() 窗口含数
+                 */
+                ROW_NUMBER() OVER (PARTITION BY account.user_id ORDER BY freeMember.rank_code DESC) AS rn
+            FROM
+                t_user_account account  JOIN t_user_free_member freeMember
+                    ON account.growth_value >= freeMember.need_value
+            WHERE
+        freeMember.deleted=0 and
+                account.user_id IN
+        <foreach collection="userIds" open="(" separator="," close=")" item="userId">#{userId}</foreach>
+        )
+        SELECT
+            user_id,
+            growth_value,
+            freeMember_id,
+            rank_code
+        FROM
+            RankedMembers
+        WHERE
+            rn = 1;
+    </select>
+
+</mapper>

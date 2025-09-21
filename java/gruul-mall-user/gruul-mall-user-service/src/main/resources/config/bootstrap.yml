@@ -1,0 +1,20 @@
+server:
+  port: 8724
+spring:
+  application:
+    name: gruul-mall-user
+  main:
+    allow-circular-references: true
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      server-addr: localhost:8848
+      discovery:
+        namespace: ${spring.profiles.active}
+        ip: localhost #192.168.1.50
+      config:
+        namespace: ${spring.profiles.active}
+        file-extension: yml
+        shared-configs:
+          - dataId: application-common.${spring.cloud.nacos.config.file-extension}

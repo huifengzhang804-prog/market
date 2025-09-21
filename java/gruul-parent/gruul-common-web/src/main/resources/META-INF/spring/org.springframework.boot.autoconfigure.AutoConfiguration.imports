@@ -1,0 +1,3 @@
+com.medusa.gruul.common.web.WebAutoconfigure
+com.medusa.gruul.common.web.UndertowAutoconfigure
+com.medusa.gruul.common.web.FastJson2MvcAdapter

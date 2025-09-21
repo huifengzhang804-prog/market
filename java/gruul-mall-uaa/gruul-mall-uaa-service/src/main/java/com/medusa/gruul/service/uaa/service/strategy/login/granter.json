@@ -1,0 +1,26 @@
+[
+  //用户名密码登录
+  {
+    "grant_type": "password",
+    "username": "用户名/手机号",
+    "password": "账号密码"
+  },
+  //短信验证码登录
+  {
+    "grant_type": "sms_code",
+    "mobile": "手机号",
+    "code": "短信验证码"
+  },
+  //切换店铺登录
+  {
+    "grant_type": "switch_shop",
+    "shopId": "目标店铺 id",
+    "Client-Type": "切换登录的目标客户端类型，可为空，当用户端切换登录其它客户端时必传 "
+  },
+  {
+    // 微信小程序登录
+    "grant_type": "wechat_code",
+    "login_code": "登录授权code",
+    "mobile_code": "手机号授权 code"
+  }
+]

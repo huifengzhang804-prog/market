@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.carrier.pigeon.service.mp.mapper.PigeonMessageMapper">
+
+    <select id="pageNotice" resultType="com.medusa.gruul.carrier.pigeon.service.model.vo.PigeonNoticeVO">
+        SELECT
+            notice.id AS id,
+            ( CASE shop.`read` WHEN 1 THEN 1 ELSE 0 END ) AS `read`,
+            notice.type AS type,
+            notice.send_type AS sendType,
+            notice.channel AS channel,
+            notice.msg_type AS msgType,
+            notice.title AS title,
+            notice.content AS content,
+            notice.summary AS summary,
+            notice.`url` AS url,
+            IF((ISNULL(notice.`url`) || LENGTH(trim(notice.`url`))=0), notice.content, '') AS content,
+            notice.create_by AS createBy,
+            notice.update_by AS updateBy,
+            notice.create_time AS createTime,
+            notice.update_time AS updateTime,
+            notice.version AS version
+        FROM
+            `t_pigeon_message` AS notice
+                LEFT JOIN t_pigeon_shop_message AS shop ON shop.message_id = notice.id AND shop.deleted = 0
+        <where>
+            notice.pushed = 1
+            AND notice.deleted = 0
+            AND (notice.type = 0 or shop.id is not null)
+            <if test="page.keywords != null and page.keywords != ''">
+                AND notice.title LIKE CONCAT('%',#{page.keywords},'%')
+            </if>
+            <if test="page.type != null">
+                AND notice.type = #{page.type.value}
+            </if>
+            <if test="page.read != null">
+                <if test="page.read">
+                    AND shop.`read` = 1
+                </if>
+                <if test="!page.read">
+                    AND(shop.`read`= 0 or shop.`read` IS NULL)
+                </if>
+            </if>
+        </where>
+        ORDER BY
+            `read` ASC,
+            notice.update_time DESC
+    </select>
+</mapper>

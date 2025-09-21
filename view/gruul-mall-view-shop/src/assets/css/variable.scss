@@ -1,0 +1,161 @@
+.f12 {
+    font-size: 12px;
+}
+.f14 {
+    font-size: 14px;
+}
+.f16 {
+    font-size: 16px;
+}
+.f18 {
+    font-size: 18px;
+}
+.f20 {
+    font-size: 20px;
+}
+.f22 {
+    font-size: 22px;
+}
+.f24 {
+    font-size: 24px;
+}
+.f26 {
+    font-size: 26px;
+}
+.m-r-2 {
+    margin-right: 2px;
+}
+
+.m-r-6 {
+    margin-right: 6px;
+}
+
+.m-r-8 {
+    margin-right: 8px;
+}
+
+.m-r-10 {
+    margin-right: 10px;
+}
+
+.m-r-16 {
+    margin-right: 16px;
+}
+
+.m-r-30 {
+    margin-right: 30px;
+}
+
+.m-t-2 {
+    margin-top: 2px;
+}
+
+.m-t-8 {
+    margin-top: 8px;
+}
+
+.m-t-10 {
+    margin-top: 10px;
+}
+
+.m-t-12 {
+    margin-top: 12px;
+}
+
+.m-t-16 {
+    margin-top: 16px;
+}
+
+.m-l-4 {
+    margin-left: 4px;
+}
+
+.m-l-6 {
+    margin-left: 6px;
+}
+
+.m-l-10 {
+    margin-left: 10px;
+}
+
+.m-l-12 {
+    margin-left: 12px;
+}
+
+.m-l-16 {
+    margin-left: 16px;
+}
+
+.m-l-20 {
+    margin-left: 20px;
+}
+
+.m-l-32 {
+    margin-left: 32px;
+}
+
+.m-b-16 {
+    margin-bottom: 16px;
+}
+
+.cp {
+    cursor: pointer;
+}
+
+.dialog-scroll {
+    margin-right: -20px;
+    padding-right: 10px;
+}
+
+.center__dialog-footer {
+    display: flex;
+    justify-content: center;
+    .el-button + .el-button {
+        margin-left: 16px;
+    }
+    .el-button {
+        font-weight: 400;
+    }
+}
+
+.ellipsis {
+    @include utils-ellipsis;
+}
+
+.edit-scrollbar {
+    &::-webkit-scrollbar-thumb {
+        background-color: #0003;
+        border-radius: 10px;
+        transition: all 0.2s ease-in-out;
+        cursor: pointer;
+    }
+
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+    &::-webkit-scrollbar-track {
+        border-radius: 10px;
+    }
+}
+
+.icon-top-2 {
+    top: 2px;
+}
+
+.icon-top-3 {
+    top: 3px;
+}
+
+.un-goods {
+    position: relative;
+    &::before {
+        position: absolute;
+        inset: 0;
+        background-color: #33333380;
+        content: '商品不可用';
+        font-size: 14px;
+        color: #fff;
+        line-height: 105px;
+        text-align: center;
+    }
+}

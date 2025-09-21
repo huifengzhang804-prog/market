@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.service.uaa.service.mp.mapper.ShopUserDataMapper">
+
+    <resultMap id="shopUserDataPageMap" type="com.medusa.gruul.service.uaa.service.model.vo.ShopUserDataVO">
+        <id column="id" property="id"/>
+        <result column="nickname" property="nickname"/>
+        <result column="mobile" property="mobile"/>
+        <result column="email" property="email"/>
+        <result column="createTime" property="createTime"/>
+        <result column="updateTime" property="updateTime"/>
+        <result column="version" property="version"/>
+        <association property="userRole" javaType="com.medusa.gruul.service.uaa.service.model.vo.UserRoleVO">
+            <id column="userRoleId" property="id"/>
+            <result column="enable" property="enable"/>
+            <association property="user" javaType="com.medusa.gruul.service.uaa.service.model.vo.UserVO">
+                <id column="userId" property="id"/>
+                <result column="username" property="username"/>
+            </association>
+            <association property="role" javaType="com.medusa.gruul.service.uaa.service.model.vo.RoleVO">
+                <id column="roleId" property="id"/>
+                <result column="role" property="value"/>
+                <result column="roleName" property="name"/>
+                <result column="roleEnabled" property="enable"/>
+            </association>
+        </association>
+
+
+    </resultMap>
+    <select id="shopUserDataPage" resultMap="shopUserDataPageMap">
+        SELECT
+        userData.id AS id,
+        userData.user_id AS userId,
+        userData.nickname AS nickname,
+        userData.mobile AS mobile,
+        userData.email AS email,
+        userData.create_time AS createTime,
+        userData.update_time AS updateTime,
+        userData.version AS version,
+        userRole.id AS userRoleId,
+        userRole.enable as enable,
+        usr.id AS userId,
+        usr.username AS username,
+        role.id AS roleId,
+        role.`value` AS role,
+        role.`name` AS roleName,
+        role.`enabled` as roleEnabled
+        FROM
+        `t_shop_user_data` AS userData
+        INNER JOIN t_user AS usr ON usr.id = userData.user_id AND usr.deleted = 0
+        INNER JOIN t_user_role AS userRole ON userRole.user_id = usr.id AND userRole.deleted = 0
+        left outer JOIN t_role AS role ON role.id = userRole.role_id AND role.deleted = 0
+        AND role.`value` = #{page.roles.value}
+        WHERE
+        userData.deleted = 0
+        <if test="page.currentUserId != null">
+            AND userData.user_id <![CDATA[ <> ]]> #{page.currentUserId}
+        </if>
+        <if test="page.nickname!=null and page.nickname!=''">
+            AND userData.nickname LIKE CONCAT('%',#{page.nickname},'%')
+        </if>
+        <if test="page.mobile!=null and page.mobile!=''">
+            AND usr.mobile LIKE CONCAT('%',#{page.mobile},'%')
+        </if>
+        <if test="page.enable!=null">
+            AND userRole.enable = #{page.enable}
+        </if>
+
+    </select>
+
+    <select id="shopUserDataById" resultMap="shopUserDataPageMap">
+        SELECT userData.id          AS id,
+               userData.user_id     AS userId,
+               userData.nickname    AS nickname,
+               userData.mobile      AS mobile,
+               userData.email       AS email,
+               userData.create_time AS createTime,
+               userData.update_time AS updateTime,
+               userData.version     AS version,
+               userRole.id          AS userRoleId,
+               userRole.enable      as enable,
+               usr.id               AS userId,
+               usr.username         AS username,
+               role.id              AS roleId,
+               role.`value`         AS role,
+               role.`name`          AS roleName
+        FROM `t_shop_user_data` AS userData
+                 INNER JOIN t_user AS usr ON usr.id = userData.user_id AND usr.deleted = 0
+                 INNER JOIN t_user_role AS userRole ON userRole.user_id = usr.id AND userRole.deleted = 0
+                 INNER JOIN t_role AS role ON role.id = userRole.role_id AND role.deleted = 0
+        WHERE userData.id = #{dataId}
+          AND userData.deleted = 0
+        and role.`value` in
+            <foreach collection="clientRoleValues" item="clientRoleValue" open="(" separator="," close=")">
+                #{clientRoleValue}
+            </foreach>
+    </select>
+</mapper>

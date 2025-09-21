@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" id="website_icon" href="" type="image/x-icon" />
+    <link rel="dns-prefetch" href="http://at.alicdn.com" />
+    <link rel="dns-prefetch" href="https://oss-tencent.bgniao.cn" />
+    <link rel="dns-prefetch" href="https://pro.bgniao.cn" />
+    <link rel="dns-prefetch" href="https://img.alicdn.com" />
+    <link rel="dns-prefetch" href="https://medusa-small-file-1253272780.cos.ap-shanghai.myqcloud.com" />
+    <link rel="dns-prefetch" href="http://img30.360buyimg.com" />
+    <link rel="dns-prefetch" href="https://qiniu-app.qtshe.com" />
+    <link rel="preconnect" href="https://oss-tencent.bgniao.cn" crossorigin />
+    <link rel="preconnect" href="https://medusa-small-file-1253272780.cos.ap-shanghai.myqcloud.com" crossorigin />
+    <link rel="preconnect" href="https://qiniu-app.qtshe.com" crossorigin />
+    <link rel="preconnect" href="http://at.alicdn.com" crossorigin />
+    <link rel="prefetch" href="//at.alicdn.com/t/c/font_3399301_3axuz67wahi.woff2?t=1690181826563" as="font" type="font/woff2" crossorigin />
+    <link rel="prefetch" href="//at.alicdn.com/t/c/font_3399301_3axuz67wahi.woff?t=1690181826563" as="font" type="font/woff" crossorigin />
+    <link rel="prefetch" href="//at.alicdn.com/t/c/font_3399301_3axuz67wahi.ttf?t=1690181826563" as="font" type="font/ttf" crossorigin />
+    <title></title>
+    <style>
+      html {
+        overflow: hidden;
+      }
+      body::after {
+        content: none !important;
+        animation: none !important;
+      }
+    </style>
+    <!--app-context-->
+    <script>
+      var coverSupport = 'CSS' in window && typeof CSS.supports === 'function' && (CSS.supports('top: env(a)') || CSS.supports('top: constant(a)'))
+      document.head.innerHTML +=
+        '<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0' +
+        (coverSupport ? ', viewport-fit=cover' : '') +
+        '" />'
+    </script>
+  </head>
+
+  <body>
+    <div id="app">
+      <!--app-html-->
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+    <script src="//at.alicdn.com/t/c/font_3399301_3axuz67wahi.js"></script>
+  </body>
+</html>

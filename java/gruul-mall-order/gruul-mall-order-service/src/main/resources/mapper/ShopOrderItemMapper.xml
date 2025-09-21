@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.order.service.mp.mapper.ShopOrderItemMapper">
+
+    <select id="undelivered" resultType="com.medusa.gruul.order.api.entity.ShopOrderItem">
+        SELECT item.*
+        FROM t_shop_order_item AS item
+        INNER JOIN t_shop_order AS shopOrder ON item.shop_id = shopOrder.shop_id AND shopOrder.order_no = item.order_no
+        INNER JOIN t_order AS ord ON ord.`no` = item.order_no
+        WHERE item.order_no = #{query.orderNo}
+        AND item.`status` = ${@com.medusa.gruul.order.api.enums.ItemStatus @OK.value}
+        AND item.package_id IS NULL AND shopOrder.deleted = 0
+        AND shopOrder.`status` = ${@com.medusa.gruul.order.api.enums.ShopOrderStatus @OK.value}
+        AND ord.deleted = 0 AND ord.`status` = ${@com.medusa.gruul.order.api.enums.OrderStatus @PAID.value}
+        <if test="query.shopOrderNo !=null and query.shopOrderNo !=''">
+            AND shopOrder.`no` = #{query.shopOrderNo}
+        </if>
+        <if test="query.sellType!=null">
+            AND item.sell_type = #{query.sellType.value}
+        </if>
+        <if test="query.supplierId != null">
+            AND item.supplier_id = #{query.supplierId}
+        </if>
+        <if test="query.shopId != null">
+            AND item.shop_id = #{query.shopId}
+        </if>
+    </select>
+
+    <resultMap id="getCompleteItemMap" type="com.medusa.gruul.order.api.entity.ShopOrderItem">
+        <id column="itemId" property="id"/>
+        <result column="itemProductType" property="productType"/>
+        <result column="itemSupplierId" property="supplierId"/>
+        <result column="itemSellType" property="sellType"/>
+        <result column="itemShopId" property="shopId"/>
+        <result column="itemStatus" property="status"/>
+        <result column="itemAfsNo" property="afsNo"/>
+        <result column="itemAfsStatus" property="afsStatus"/>
+        <result column="itemOrderNo" property="orderNo"/>
+        <result column="itemPackageId" property="packageId"/>
+        <result column="itemPackageStatus" property="packageStatus"/>
+        <result column="itemProductId" property="productId"/>
+        <result column="itemProductName" property="productName"/>
+        <result column="itemServices" property="services"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+        <result column="itemSkuId" property="skuId"/>
+        <result column="itemSpecs" property="specs"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+        <result column="itemNum" property="num"/>
+        <result column="itemImage" property="image"/>
+        <result column="itemWeight" property="weight"/>
+        <result column="itemFreightTemplateId" property="freightTemplateId"/>
+        <result column="itemFreightPrice" property="freightPrice"/>
+        <result column="itemSalePrice" property="salePrice"/>
+        <result column="itemDealPrice" property="dealPrice"/>
+        <result column="itemFixPrice" property="fixPrice"/>
+        <result column="itemCreateTime" property="createTime"/>
+        <result column="itemUpdateTime" property="updateTime"/>
+        <result column="itemVersion" property="version"/>
+        <association property="shopOrder" javaType="com.medusa.gruul.order.api.entity.ShopOrder">
+            <id column="shopOrderId" property="id"/>
+            <result column="shopOrderNo" property="no"/>
+            <result column="shopOrderStatus" property="status"/>
+            <result column="shopOrderShopId" property="shopId"/>
+            <result column="shopOrderOrderNo" property="orderNo"/>
+            <result column="shopOrderShopName" property="shopName"/>
+            <result column="shopOrderShopLogo" property="shopLogo"/>
+            <result column="shopOrderRemark" property="remark" typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+            <result column="shopOrderExtra" property="extra" typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+            <result column="shopOrderCreateTime" property="createTime"/>
+            <result column="shopOrderUpdateTime" property="updateTime"/>
+            <result column="shopOrderVersion" property="version"/>
+            <association property="order" javaType="com.medusa.gruul.order.api.entity.Order">
+                <id column="ordId" property="id"/>
+                <result column="ordBuyerId" property="buyerId"/>
+                <result column="ordBuyerNickname" property="buyerNickname"/>
+                <result column="ordDistributionMode" property="distributionMode"/>
+                <result column="ordNo" property="no"/>
+                <result column="ordActivityId" property="activityId"/>
+                <result column="ordStatus" property="status"/>
+                <result column="ordType" property="type"/>
+                <result column="ordRemark" property="remark"/>
+                <result column="ordCreateTime" property="createTime"/>
+                <result column="ordUpdateTime" property="updateTime"/>
+                <result column="ordExtra" property="extra"
+                        typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+                <result column="ordTimeout" property="timeout"
+                        typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+                <result column="ordVersion" property="version"/>
+            </association>
+        </association>
+    </resultMap>
+
+
+    <select id="getCompleteItem" resultMap="getCompleteItemMap">
+        SELECT item.id                  AS itemId,
+               item.`status`            AS itemStatus,
+               item.afs_no              AS itemAfsNo,
+               item.afs_status          AS itemAfsStatus,
+               item.order_no            AS itemOrderNo,
+               item.sell_type           AS itemSellType,
+               item.supplier_id         AS itemSupplierId,
+               item.shop_id             AS itemShopId,
+               item.product_id          AS itemProductId,
+               item.package_id          AS itemPackageId,
+               item.package_status      AS itemPackageStatus,
+               item.product_name        AS itemProductName,
+               item.services            AS itemServices,
+               item.sku_id              AS itemSkuId,
+               item.specs               AS itemSpecs,
+               item.num                 AS itemNum,
+               item.image               AS itemImage,
+               item.weight              AS itemWeight,
+               item.freight_template_id AS itemFreightTemplateId,
+               item.freight_price       AS itemFreightPrice,
+               item.sale_price          AS itemSalePrice,
+               item.deal_price          AS itemDealPrice,
+               item.fix_price           AS itemFixPrice,
+               item.create_time         AS itemCreateTime,
+               item.update_time         AS itemUpdateTime,
+               item.product_type        AS itemProductType,
+
+               shopOrder.id             AS shopOrderId,
+               shopOrder.`no`           AS shopOrderNo,
+               shopOrder.`status`       AS shopOrderStatus,
+               shopOrder.shop_id        AS shopOrderShopId,
+               shopOrder.order_no       AS shopOrderOrderNo,
+               shopOrder.shop_name      AS shopOrderShopName,
+               shopOrder.shop_logo      AS shopOrderShopLogo,
+               shopOrder.remark         AS shopOrderRemark,
+               shopOrder.extra          AS shopOrderExtra,
+               shopOrder.create_time    AS shopOrderCreateTime,
+               shopOrder.update_time    AS shopOrderUpdateTime,
+
+               ord.id                   AS ordId,
+               ord.buyer_id             AS ordBuyerId,
+               ord.buyer_nickname       AS ordBuyerNickname,
+               ord.distribution_mode    AS ordDistributionMode,
+               ord.`no`                 AS ordNo,
+               ord.activity_id          AS ordActivityId,
+               ord.`status`             AS ordStatus,
+               ord.type                 AS ordType,
+               ord.remark               AS ordRemark,
+               ord.extra                AS ordExtra ,
+               ord.create_time          AS ordCreateTime,
+               ord.update_time          AS ordUpdateTime,
+               ord.timeout              AS ordTimeout
+        FROM t_order AS ord
+                 INNER JOIN t_shop_order AS shopOrder ON shopOrder.order_no = ord.`no` AND shopOrder.deleted = 0
+                 INNER JOIN t_shop_order_item AS item
+                            ON item.order_no = ord.`no` AND item.shop_id = shopOrder.shop_id AND ord.deleted = 0
+        WHERE ord.`no` = #{orderNo}
+          AND shopOrder.shop_id = #{shopId}
+          AND item.id = #{itemId}
+    </select>
+
+    <sql id="countProductBoughtSql">
+        SELECT
+            IFNULL(SUM(item.num),0)
+        FROM t_shop_order_item AS item
+        WHERE item.deleted = 0
+          AND item.status = ${@com.medusa.gruul.order.api.enums.ItemStatus @OK.value}
+          AND item.shop_id = #{shopProductSkuKey.shopId}
+          AND item.product_id = #{shopProductSkuKey.productId}
+          AND EXISTS(SELECT ord.id
+                     FROM t_order AS ord
+                      INNER JOIN t_shop_order AS shopOrder
+                                 ON shopOrder.order_no = ord.`no` AND shopOrder.shop_id = item.shop_id AND
+                                    shopOrder.`status` =
+                                    ${@com.medusa.gruul.order.api.enums.ShopOrderStatus @OK.value} AND
+                                    shopOrder.deleted = 0
+                     WHERE ord.deleted = 0
+                       AND ord.`no` = item.order_no
+                       AND ord.buyer_id = #{userId}
+                       AND ord.`status` IN (${@com.medusa.gruul.order.api.enums.OrderStatus @UNPAID.value},
+                                            ${@com.medusa.gruul.order.api.enums.OrderStatus @PAID.value}))
+    </sql>
+    <select id="getProductBoughtNumCount" resultType="java.lang.Long">
+        <include refid="countProductBoughtSql"/>
+    </select>
+
+    <select id="getProductSkuBoughtNumCount" resultType="java.lang.Long">
+        <include refid="countProductBoughtSql"/>
+        AND item.sku_id = #{shopProductSkuKey.skuId}
+    </select>
+
+
+    <select id="queryDeliverGoodsInfo"
+            resultType="com.medusa.gruul.order.service.model.dto.OrderDeliveryItemDTO">
+        SELECT id,
+               num
+        FROM t_shop_order_item
+        WHERE deleted = 0
+          AND order_no = #{no}
+          AND shop_id = #{shopId}
+
+    </select>
+
+    <!--以代销商品+店铺为维度,统计时间范围内热销排行榜(TOP10)-->
+    <select id="countConsignmentProductHotSoldList"
+            resultType="com.medusa.gruul.order.api.model.ConsignmentProductHotSoldDTO">
+        SELECT
+            product_id as productId,
+            shop_id as shopId,
+            SUM(num) as num,
+            sum(num * deal_price) as dealPrice
+        FROM
+            t_shop_order_item
+        WHERE
+            create_time BETWEEN #{beginTime} AND #{endTime}
+          AND package_status in
+              (
+               ${@com.medusa.gruul.order.api.enums.PackageStatus @WAITING_FOR_DELIVER.value},
+               ${@com.medusa.gruul.order.api.enums.PackageStatus @WAITING_FOR_RECEIVE.value}
+              )
+          AND sell_type = ${@com.medusa.gruul.common.model.enums.SellType @CONSIGNMENT.value}
+          AND supplier_id IS NOT NULL
+        GROUP BY
+            product_id, shop_id
+        ORDER BY
+            SUM(num) DESC
+            LIMIT 10
+    </select>
+
+    <!--以店铺为维度,统计时间范围内代销商品的营业额排行榜(TOP10)-->
+    <select id="countConsignmentProductHotSoldShopList"
+            resultType="com.medusa.gruul.order.api.model.ConsignmentProductHotSoldShopDTO">
+        SELECT
+            shop_id as shopId,
+            sum(num * deal_price) as businessVolume
+        FROM
+            t_shop_order_item
+        WHERE
+            create_time BETWEEN #{beginTime} AND #{endTime}
+            AND package_status in
+              (
+               ${@com.medusa.gruul.order.api.enums.PackageStatus @WAITING_FOR_DELIVER.value},
+               ${@com.medusa.gruul.order.api.enums.PackageStatus @WAITING_FOR_RECEIVE.value}
+              )
+            AND sell_type = ${@com.medusa.gruul.common.model.enums.SellType @CONSIGNMENT.value}
+            AND supplier_id IS NOT NULL
+        GROUP BY
+            shop_id
+        ORDER BY
+            sum(num * deal_price) DESC
+            LIMIT 10
+    </select>
+
+    <!--和订单列表保持一致-->
+    <select id="countCompletedOrderNum" resultType="java.lang.Long">
+        SELECT
+            count(ord.id)
+        FROM
+            t_order AS ord
+                INNER JOIN t_order_payment AS payment ON payment.order_no = ord.`no`
+                AND payment.deleted = 0
+                INNER JOIN t_order_receiver AS receiver ON receiver.order_no = ord.`no`
+                AND receiver.deleted = 0
+                AND receiver.shop_order_no IS NULL
+        WHERE
+            ord.deleted = 0
+    </select>
+
+</mapper>

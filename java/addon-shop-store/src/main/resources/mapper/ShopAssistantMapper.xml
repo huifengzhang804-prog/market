@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.addon.store.mp.mapper.ShopAssistantMapper">
+
+
+    <select id="queryShopAssistantList" resultType="com.medusa.gruul.addon.store.model.vo.ShopAssistantVO">
+        SELECT shopAssistant.id,
+               shopAssistant.assistant_phone AS assistantPhone,
+               shopAssistant.store_id        AS storeId,
+               shopStore.store_name          AS storeName
+        FROM t_shop_assistant AS shopAssistant
+                 LEFT JOIN t_shop_store AS shopStore
+                           ON shopAssistant.store_id = shopStore.id AND shopStore.deleted = 0
+        WHERE shopAssistant.deleted = 0
+          AND shopAssistant.shop_id = #{shopId}
+        ORDER BY
+            shopAssistant.create_time DESC
+    </select>
+</mapper>

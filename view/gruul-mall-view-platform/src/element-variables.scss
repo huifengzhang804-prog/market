@@ -1,0 +1,9 @@
+// this is also ok
+$--colors: (
+    'primary': (
+        'base': $color-primary,
+    ),
+);
+/* 改变 icon 字体路径变量，必需 */
+$--font-path: '~/element-plus/theme-chalk/fonts';
+@import '~/element-plus/packages/theme-chalk/src/index';

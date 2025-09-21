@@ -1,0 +1,374 @@
+@import './mixins/mixins.scss';
+
+.m__table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: separate;
+    font-size: 12px;
+    .hide {
+        display: none;
+    }
+    &--container {
+        background: white;
+        border-left: 16px solid transparent;
+        border-right: 16px solid transparent;
+        height: 100%;
+        flex: 1;
+        &.single {
+            background: none;
+
+            .m__table--head {
+                th {
+                    &:first-child {
+                        border-radius: 10px 0 0px 0px;
+                    }
+
+                    &:last-child {
+                        border-radius: 0 10px 0px 0px;
+                    }
+                }
+
+                &::after {
+                    display: none;
+                }
+            }
+        }
+    }
+    &--shrink {
+        text-align: left;
+    }
+    &--center {
+        display: flex;
+        align-items: center;
+        position: sticky;
+        left: 0;
+        z-index: 1;
+        &::after {
+            content: '';
+            bottom: -1px;
+            overflow-x: hidden;
+            overflow-y: hidden;
+            pointer-events: none;
+            position: absolute;
+            top: 0;
+            right: -10px;
+            touch-action: none;
+            width: 10px;
+            background-color: transparent;
+            box-shadow: inset 10px 0 10px -10px rgba(0, 0, 0, 0.15);
+        }
+    }
+    .close {
+        background: #f5f5f5 !important;
+    }
+
+    .hover--class {
+        $bc: #e9ecf0 !important;
+
+        &:hover {
+            .body--header {
+                border-color: $bc;
+                position: relative;
+            }
+
+            .body--content {
+                td {
+                    border-color: $bc;
+
+                    &:first-child {
+                        border-color: $bc;
+                    }
+
+                    &:last-child {
+                        border-color: $bc;
+                    }
+                }
+            }
+        }
+    }
+
+    .ordinary--class {
+        $bc: #f7f8fa;
+        .body--header {
+            background-color: $bc;
+        }
+        &:hover {
+            .body--header {
+                border-color: $bc;
+            }
+
+            .body--content {
+                td {
+                    border-color: $bc;
+
+                    &:last-child {
+                        border-color: $bc;
+                    }
+                }
+            }
+        }
+    }
+
+    .need--border {
+        $bc: #e9ecf0;
+
+        .body--content {
+            td {
+                border-right: 1px solid $bc;
+
+                &:last-child {
+                    border-color: $bc;
+                }
+            }
+        }
+    }
+    .no--border {
+        $bc: #e9ecf0;
+        .body--content {
+            td {
+                border: none;
+                border-bottom: 1px solid $bc;
+                &:last-child {
+                    border: none;
+                    border-bottom: 1px solid $bc;
+                }
+                &:first-child {
+                    border: none;
+                    border-bottom: 1px solid $bc;
+                }
+            }
+        }
+    }
+
+    &--empty {
+        .empty__td {
+            // width: 100%;
+            width: 960px;
+            height: 80px;
+            background-color: white;
+            margin-left: -15px;
+            font-size: 14px;
+            color: #b3b3b3;
+            .no_data {
+                margin-top: 100px;
+                .img {
+                    width: 200px;
+                    height: 210px;
+                }
+                .cont {
+                    color: #737b80;
+                    text-align: center;
+                    margin-top: 20px;
+                }
+            }
+        }
+    }
+
+    &--head {
+        // margin-bottom: 14px;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        th {
+            $b-c: #e9ecf0;
+            background: #f7f8fa;
+            padding: 12px 15px;
+            text-align: center;
+            border-top: 1px solid $b-c;
+            border-bottom: 1px solid $b-c;
+            height: 50px;
+            vertical-align: middle;
+            font-size: 14px;
+            color: rgba(88, 104, 132, 1);
+            color: #333;
+            &:first-child {
+                border-left: 1px solid $b-c;
+                padding-left: 18px;
+            }
+
+            &:last-child {
+                border-right: 1px solid $b-c;
+                div {
+                    text-align: right;
+                }
+            }
+        }
+
+        // &:after {
+        //     content: '-';
+        //     display: block;
+        //     line-height: 8px;
+        //     color: transparent;
+        // }
+
+        &.padding {
+            &:after {
+                content: '-';
+                display: block;
+                // line-height: 0px;
+                color: transparent;
+            }
+        }
+    }
+
+    $b-c: #e9ecf0;
+
+    &--body {
+        .body--header {
+            @include flex(flex-start);
+            border: 1px solid $b-c;
+            font-size: 13px;
+            height: 50px;
+            position: relative;
+            vertical-align: middle;
+            background: #fff;
+            .el-checkbox {
+                position: sticky;
+                left: 0;
+                padding-left: 18px;
+                background: #f7f8fa;
+                padding-right: 18px;
+            }
+            .remark_flag {
+                position: sticky;
+                right: 0;
+                background: #f7f8fa;
+                padding-left: 5px;
+            }
+        }
+
+        &.default {
+            .body--content {
+                // border-radius: 10px 10px 0px 0px;
+
+                .m__table--item {
+                    &:has(.selection__checkbox.selection) {
+                        position: sticky;
+                        left: 0;
+                        z-index: 1;
+                    }
+                    &:first-child {
+                        border-radius: 0px 0 0px 0px;
+                    }
+
+                    &:last-child {
+                        border-radius: 0px 0px 0px 0px;
+                    }
+                }
+            }
+
+            .m__table--item {
+                border-top: 1px solid #e9ecf0;
+                vertical-align: middle;
+            }
+        }
+
+        .body--content {
+            td {
+                padding: 8px 15px;
+                border-top: 0px;
+                border-bottom: 1px solid $b-c;
+                border-right: 0px;
+                font-size: 14px;
+                color: #50596d;
+                background: #fff;
+                vertical-align: middle;
+                .item__content {
+                    // @include flex(flex-start);
+                    @include flex(center);
+                }
+                .selection__checkbox {
+                    display: inline-block;
+                    width: 100%;
+                    height: 100%;
+                    &.selection {
+                        @include flex(flex-start);
+                    }
+                }
+                &:nth-child(1) {
+                    padding-left: 18px;
+                }
+
+                &:first-child {
+                    border-left: 1px solid $b-c;
+                }
+
+                &:last-child {
+                    border-right: 1px solid $b-c;
+                }
+            }
+
+            &.is--multiple {
+                td {
+                    &:first-child {
+                        border-right: 1px solid $b-c !important;
+                    }
+                }
+            }
+        }
+
+        // &:after {
+        //     content: '-';
+        //     display: block;
+        //     line-height: 14px;
+        //     color: transparent;
+        //     width: 100%;
+        // }
+    }
+
+    .el-checkbox {
+        padding-right: 18px !important;
+        float: left;
+    }
+    .fixed--right {
+        position: sticky;
+        right: 0;
+        z-index: 1;
+        &::before {
+            position: absolute;
+            content: '';
+            left: -10px;
+            bottom: -1px;
+            content: '';
+            overflow-x: hidden;
+            overflow-y: hidden;
+            pointer-events: none;
+            top: 0;
+            touch-action: none;
+            width: 10px;
+            box-shadow: none;
+        }
+    }
+}
+@include b(is-scrolling) {
+    @include m(left) {
+        .fixed--right::before {
+            box-shadow: inset -10px 0 10px -10px rgba(0, 0, 0, 0.15);
+        }
+        .m__table--center::after {
+            box-shadow: none !important;
+        }
+    }
+    @include m(middle) {
+        .fixed--right::before {
+            box-shadow: inset -10px 0 10px -10px rgba(0, 0, 0, 0.15);
+        }
+        .m__table--center::after {
+            box-shadow: inset 10px 0 10px -10px rgba(0, 0, 0, 0.15);
+        }
+    }
+    @include m(right) {
+        .fixed--right::before {
+            box-shadow: none;
+        }
+        .m__table--center::after {
+            box-shadow: inset 10px 0 10px -10px rgba(0, 0, 0, 0.15);
+        }
+    }
+    @include m(none) {
+        .fixed--right::before,
+        .m__table--center::after {
+            box-shadow: none;
+        }
+    }
+}

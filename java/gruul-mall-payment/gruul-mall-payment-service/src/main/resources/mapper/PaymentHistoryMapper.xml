@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.payment.service.mp.mapper.PaymentHistoryMapper">
+
+    <resultMap id="BaseResultVOMap" type="com.medusa.gruul.payment.api.model.vo.UserPaymentHistoryVO">
+        <result column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="change_type" property="changeType"/>
+        <result column="deal_type" property="dealType"/>
+        <result column="money" property="money"/>
+        <result column="pay_type" property="payType"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <resultMap id="BaseStatisticsResultVOMap"
+               type="com.medusa.gruul.payment.api.model.vo.UserPaymentHistoryStatisticsVO">
+        <result column="change_type" property="changeType"/>
+        <result column="statisticsMoney" property="statisticsMoney"/>
+    </resultMap>
+
+
+    <resultMap id="BaseSavingsOrderVOMap" type="com.medusa.gruul.payment.api.model.vo.SavingsOrderHistoryVO">
+        <result column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="user_name" property="userNikeName"/>
+        <result column="user_head_portrait" property="userHeadPortrait"/>
+        <result column="money" property="money"/>
+        <result column="pay_type" property="payType"/>
+        <result column="deal_type" property="dealType"/>
+        <result column="change_type" property="changeType"/>
+        <result column="remark" property="remark"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <sql id="BaseVO_Column_List">
+        id,user_id,change_type,deal_type,money,pay_type,create_time
+    </sql>
+
+    <select id="queryUserPaymentHistoryByParam" resultMap="BaseResultVOMap">
+        SELECT
+        <include refid="BaseVO_Column_List"/>
+        FROM
+        t_payment_history
+        WHERE
+        deleted = 0
+        AND
+        user_id = #{paymentHistoryParam.userId}
+        <if test="paymentHistoryParam.changeType != null">
+            AND change_type = #{paymentHistoryParam.changeType}
+        </if>
+        <if test="paymentHistoryParam.queryTime != null and paymentHistoryParam.queryTime != ''">
+            AND DATE_FORMAT(create_time,'%Y-%m') <![CDATA[=]]> #{paymentHistoryParam.queryTime}
+        </if>
+        <if test="paymentHistoryParam.leftQueryTime != null and paymentHistoryParam.leftQueryTime != '' and paymentHistoryParam.rightQueryTime != null and paymentHistoryParam.rightQueryTime != ''">
+            AND DATE_FORMAT(create_time,'%Y-%m-%d') BETWEEN #{paymentHistoryParam.leftQueryTime} AND #{paymentHistoryParam.rightQueryTime}
+        </if>
+        <if test="dealTypeList != null and dealTypeList.size>0">
+            AND deal_type IN
+            <foreach collection="dealTypeList" item="dealType" open="(" separator="," close=")">
+                #{dealType}
+            </foreach>
+        </if>
+        ORDER BY create_time DESC
+    </select>
+    <select id="queryUserPaymentHistoryStatisticsByParam" resultMap="BaseStatisticsResultVOMap">
+        SELECT
+        change_type,SUM(money) AS statisticsMoney
+        FROM
+        t_payment_history
+        WHERE
+        deleted = 0
+        AND
+        user_id = #{paymentHistoryParam.userId}
+        <if test="paymentHistoryParam.changeType != null">
+            AND change_type = #{paymentHistoryParam.changeType}
+        </if>
+        <if test="paymentHistoryParam.queryTime != null and paymentHistoryParam.queryTime != ''">
+            AND DATE_FORMAT(create_time,'%Y-%m') <![CDATA[=]]> #{paymentHistoryParam.queryTime}
+        </if>
+        <if test="paymentHistoryParam.leftQueryTime != null and paymentHistoryParam.leftQueryTime != '' and paymentHistoryParam.rightQueryTime != null and paymentHistoryParam.rightQueryTime != ''">
+            AND DATE_FORMAT(create_time,'%Y-%m-%d') BETWEEN #{paymentHistoryParam.leftQueryTime} AND #{paymentHistoryParam.rightQueryTime}
+        </if>
+        <if test="dealTypeList != null and dealTypeList.size>0">
+            AND deal_type IN
+            <foreach collection="dealTypeList" item="dealType" open="(" separator="," close=")">
+                #{dealType}
+            </foreach>
+        </if>
+        GROUP BY change_type
+    </select>
+
+    <select id="queryUserTotalReapMoney" resultType="java.lang.Long">
+        SELECT
+            SUM(money)
+        FROM
+            t_payment_history
+        WHERE
+            deleted = 0
+        AND
+            user_id = #{userId}
+        AND
+            deal_type IN (1,2,3)
+
+
+    </select>
+    <select id="getSavingsOrderList" resultMap="BaseSavingsOrderVOMap">
+        SELECT
+        id,
+        user_id,
+        user_name,
+        user_head_portrait,
+        money,
+        pay_type,
+        deal_type,
+        change_type,
+        remark,
+        create_time
+        FROM
+        t_payment_history
+        WHERE
+        deleted = 0
+        AND
+        deal_type IN (1,2,3)
+        <if test="savingsOrderHistoryParam.userNickname != null and savingsOrderHistoryParam.userNickname != ''">
+            AND t_payment_history.user_name LIKE CONCAT('%',#{savingsOrderHistoryParam.userNickname},'%')
+            OR t_payment_history.id = #{savingsOrderHistoryParam.userNickname}
+        </if>
+        <if test="savingsOrderHistoryParam.startTime != null and savingsOrderHistoryParam.startTime != ''">
+            AND t_payment_history.create_time <![CDATA[>=]]> #{savingsOrderHistoryParam.startTime}
+        </if>
+        <if test="savingsOrderHistoryParam.endTime != null and savingsOrderHistoryParam.endTime != ''">
+            AND t_payment_history.create_time <![CDATA[<=]]> #{savingsOrderHistoryParam.endTime}
+        </if>
+        ORDER BY t_payment_history.create_time desc
+    </select>
+</mapper>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.addon.distribute.mp.mapper.DistributeProductMapper">
+    <resultMap id="productPageMap" type="com.medusa.gruul.addon.distribute.mp.entity.DistributeProduct">
+        <id column="id" property="id"/>
+        <result column="shopId" property="shopId"/>
+        <result column="productId" property="productId"/>
+        <result column="sales" property="sales"/>
+        <result column="name" property="name"/>
+        <result column="pic" property="pic"/>
+        <result column="salePrices" property="salePrices"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+        <result column="status" property="status"/>
+        <result column="distributionStatus" property="distributionStatus"/>
+        <result column="shareType" property="shareType"/>
+        <result column="bonus" property="bonus"/>
+        <result column="maxPrice" property="maxPrice"/>
+        <result column="one" property="one"/>
+        <result column="two" property="two"/>
+        <result column="three" property="three"/>
+        <result column="shopName" property="shopName"/>
+        <result column="createTime" property="createTime"/>
+        <result column="productType" property="productType"/>
+    </resultMap>
+    <select id="productPage" resultMap="productPageMap">
+        SELECT
+        product.id AS id,
+        product.shop_id AS shopId,
+        product.product_id AS productId,
+        product.`name` AS `name`,
+        product.product_type AS productType,
+        product.pic AS pic,
+        product.sales AS sales,
+        product.sale_prices AS salePrices,
+        product.`status` AS `status`,
+        product.`distribution_status` AS distributionStatus,
+        product.share_type AS shareType,
+        product.one AS one,
+        product.two AS two,
+        product.three AS three,
+        product.sale_prices ->> '$[0]' AS minPrice,
+        @maxPrice:= JSON_EXTRACT(product.sale_prices, CONCAT('$[', JSON_LENGTH(product.sale_prices) - 1, ']')) AS
+        maxPrice,
+        IF(
+        product.share_type =${@com.medusa.gruul.addon.distribute.model.enums.ShareType @FIXED_AMOUNT.value},
+        product.one,@maxPrice * product.one/1000000
+        ) AS bonus,
+        <if test="query.shopId == null">
+            shop.shop_name AS shopName,
+        </if>
+        product.create_time AS createTime
+        FROM t_distribute_product AS product
+        <if test="query.shopId == null">
+            INNER JOIN t_distribute_shop AS shop ON shop.shop_id = product.shop_id AND shop.deleted = FALSE
+        </if>
+        WHERE product.deleted = FALSE
+        <if test="query.shopId != null">
+            AND product.shop_id = #{query.shopId}
+        </if>
+        <if test="query.status != null">
+            AND product.`status` = #{query.status.value}
+        </if>
+        <if test="query.shopId == null and query.shopName!=null and query.shopName!=''">
+            AND shop.shop_name LIKE CONCAT('%',#{query.shopName},'%')
+        </if>
+        <if test="query.productName!=null and query.productName!=''">
+            AND product.`name` LIKE CONCAT('%',#{query.productName},'%')
+        </if>
+        <if test="query.distributionStatus !=null">
+            AND product.`distribution_status` = #{query.distributionStatus.value}
+        </if>
+    </select>
+    <select id="getShoppProductConfigs" resultType="com.medusa.gruul.addon.distribute.mp.entity.DistributeProduct">
+        SELECT
+        product.id AS id,
+        product.shop_id AS shopId,
+        product.product_id AS productId,
+        product.`name` AS `name`,
+        product.share_type AS shareType,
+        product.one AS one,
+        product.two AS two,
+        product.three AS three
+        FROM t_distribute_product AS product
+        WHERE product.deleted = FALSE
+        AND product.`distribution_status` =
+        ${@com.medusa.gruul.addon.distribute.model.enums.DistributionStatus @IN_DISTRIBUTION.value}
+        AND (product.shop_id,product.product_id) IN
+        <foreach collection="shopProductKeys" item="shopProductKey" separator="," open="(" close=")">
+            (#{shopProductKey.shopId},#{shopProductKey.productId})
+        </foreach>
+    </select>
+</mapper>

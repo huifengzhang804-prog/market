@@ -1,0 +1,26 @@
+@include b(notShipment) {
+    @include e(commodityInfo) {
+    }
+    @include e(show) {
+        font-size: 14px;
+        color: #333333;
+        @include utils-ellipsis();
+    }
+}
+
+//去除table的每一条数据的下边框
+.el-table td {
+    border-bottom: none;
+}
+//去除表格的最下面一行的边框
+.tableStyle::before {
+    width: 0;
+}
+//设置表的外边框
+.el-table {
+    border-radius: 9px;
+    border: 1px solid #d5d5d5;
+}
+.el-table th.is-leaf {
+    border-bottom: none;
+}

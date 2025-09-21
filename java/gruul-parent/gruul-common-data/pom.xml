@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>gruul-parent</artifactId>
+        <groupId>com.medusa.gruul</groupId>
+        <version>2022.2</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>gruul-common-data</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>gruul-common-mybatis-plus</module>
+        <module>gruul-common-redis</module>
+        <module>gruul-common-geometry</module>
+        <module>gruul-common-dubbo-rpc</module>
+        <module>gruul-common-mq-rabbit</module>
+        <module>gruul-common-fastjson2</module>
+        <module>gruul-common-sharding-jdbc</module>
+        
+    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>com.medusa.gruul.global</groupId>
+            <artifactId>gruul-global-model</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.medusa.gruul.global</groupId>
+            <artifactId>gruul-global-i18n</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.storage.service.mp.mapper.StorageSpecGroupMapper">
+
+    <resultMap id="getProductSpecsMap" type="com.medusa.gruul.storage.api.vo.ProductSpecVO">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="order" property="order"/>
+        <collection property="children" ofType="com.medusa.gruul.storage.api.vo.ProductSpecVO">
+            <id column="specId" property="id"/>
+            <result column="specName" property="name"/>
+            <result column="specOrder" property="order"/>
+        </collection>
+    </resultMap>
+
+    <select id="getProductSpecs" resultMap="getProductSpecsMap">
+        SELECT specGroup.id      AS id,
+               specGroup.`name`  AS `name`,
+               specGroup.`order` AS `order`,
+               spec.id           AS specId,
+               spec.`name`       AS specName,
+               spec.`order`      AS specOrder
+        FROM t_storage_spec_group AS specGroup
+                 LEFT JOIN t_storage_spec AS spec ON specGroup.id = spec.group_id
+            AND spec.product_id = specGroup.product_id AND spec.shop_id = specGroup.shop_id
+        WHERE specGroup.shop_id = #{shopId}
+          AND specGroup.product_id = #{productId}
+        ORDER BY specGroup.`order`, spec.`order`
+    </select>
+
+    <resultMap id="getGroupsBatchMap" type="com.medusa.gruul.storage.service.mp.entity.StorageSpecGroup">
+        <id column="id" property="id"/>
+        <result column="shopId" property="shopId"/>
+        <result column="productId" property="productId"/>
+        <result column="name" property="name"/>
+        <result column="order" property="order"/>
+        <collection property="specs" ofType="com.medusa.gruul.storage.service.mp.entity.StorageSpec">
+            <id column="specId" property="id"/>
+            <result column="specName" property="name"/>
+            <result column="specOrder" property="order"/>
+        </collection>
+    </resultMap>
+    <select id="getGroupsBatch" resultMap="getGroupsBatchMap">
+        SELECT specGroup.id AS id,
+        specGroup.shop_id AS shopId,
+        specGroup.product_id AS productId,
+        specGroup.`name` AS `name`,
+        specGroup.`order` AS `order`,
+        spec.id AS specId,
+        spec.`name` AS specName,
+        spec.`order` AS specOrder
+        FROM t_storage_spec_group AS specGroup
+        LEFT JOIN t_storage_spec AS spec ON specGroup.id = spec.group_id
+        AND spec.product_id = specGroup.product_id AND spec.shop_id = specGroup.shop_id
+        WHERE (specGroup.shop_id, specGroup.product_id) IN
+        <foreach collection="keys" item="key" index="index" open="(" separator="," close=")">
+            (#{key.shopId},#{key.productId})
+        </foreach>
+    </select>
+</mapper>

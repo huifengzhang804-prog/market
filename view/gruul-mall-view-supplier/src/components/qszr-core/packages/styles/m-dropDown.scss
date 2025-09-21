@@ -1,0 +1,23 @@
+@import './mixins/mixins.scss';
+@include b(mDropDown) {
+    @include flex();
+    padding: 8px 15px;
+    border-radius: 30px;
+    background: #ecf5fd;
+    color: #309af3;
+    font-size: 12px;
+    border-color: #309af3;
+    cursor: pointer;
+    @include e(title) {
+    }
+    @include e(col) {
+        width: 1.5px;
+        height: 15px;
+        margin: 0 8px;
+        background: #309af3;
+    }
+    @include e(multi) {
+        font-size: 12px;
+        color: #309af3;
+    }
+}

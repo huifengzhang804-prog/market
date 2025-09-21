@@ -1,0 +1,335 @@
+<template>
+    <view ref="test" class="share" @click="handleClose">
+        <view class="canvas_box" @longpress="longpress">
+            <gcanvas ref="gcanvess" class="canvas" fill-style="#fff"> </gcanvas>
+        </view>
+        <view class="save" :style="{ transform: `translateY(${isMapped ? 0 : '100px'})` }" @click.stop="() => {}">
+            <view class="save-item" @click="handleShareWx('WXSceneSession')">
+                <text :style="{ fontFamily: 'iconfont', fontSize: '30px', color: '#0ABC64' }" class="icon">&#xe629;</text>
+                <text>微信</text>
+            </view>
+            <view class="save-item" @click="handleShareWx('WXSceneTimeline')">
+                <text :style="{ fontFamily: 'iconfont', fontSize: '30px', color: '#0ABC64' }" class="icon">&#xe73b;</text>
+                <text>朋友圈</text>
+            </view>
+            <view class="save-item" @click="handleSave">
+                <text :style="{ fontFamily: 'iconfont', fontSize: '30px', color: '#0ABC64' }" class="icon">&#xe691; </text>
+                <text>保存本地</text>
+            </view>
+        </view>
+    </view>
+</template>
+<script lang="ts">
+import { enable, WeexBridge } from './gcanvas/index.js'
+import { base64ToImage } from '@/utils/base64ToImg'
+import { shopInfoBase64, qrcodeBase64, footerTextBase64, titleBase64 } from './base64'
+export default {
+    data: function () {
+        return {
+            startX: 0,
+            startY: 0,
+            currentX: 0,
+            currentY: 0,
+            context: {},
+            canvasObj: {},
+            titleImage: '',
+            sweepYardImage: '', // 扫码查看
+            qrcode: '', // 小程序码
+            shopInfoImage: '',
+            canvasImgUrl: '',
+            isMapped: false, // 绘制完成
+            canvasW: uni.upx2px(600),
+            canvasH: uni.upx2px(1024),
+        }
+    },
+    props: {
+        userAvatar: {
+            type: String,
+            default:
+                'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fc-ssl.duitang.com%2Fuploads%2Fitem%2F202002%2F26%2F20200226204448_sZSun.thumb.1000_0.jpeg&refer=http%3A%2F%2Fc-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1688879164&t=a921e506268b8b8bd58b373dd3cbd21f',
+        },
+        headerImg: {
+            type: String,
+            default:
+                'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201902%2F22%2F20190222101935_LHHk3.jpeg&refer=http%3A%2F%2Fb-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1688805960&t=ee1158ec969c64a7dc8c125a3fa0e50a',
+        },
+    },
+    onLoad() {},
+    created() {},
+    onBackPress(e) {},
+    async mounted() {
+        uni.showLoading({ title: '加载中...' })
+        //以下是核心代代码，需在合适的时机调用，我这里在自己定义的界面加载完成的全局事件中调用了
+        /*获取元素引用*/
+        var ganvas = this.$refs['gcanvess']
+        /*通过元素引用获取canvas对象*/
+        this.canvasObj = enable(ganvas, {
+            bridge: WeexBridge,
+        } as any)
+        /*获取绘图所需的上下文，目前不支持3d*/
+        this.context = this.canvasObj.getContext('2d')
+        // 标题文字
+        base64ToImage(titleBase64, (titleImage) => {
+            this.titleImage = titleImage
+        })
+        // 店铺信息
+        base64ToImage(shopInfoBase64, (shopInfoImage) => {
+            this.shopInfoImage = shopInfoImage
+        })
+        // // 小程序码
+        // base64ToImage(this.qrcodeBase64, (qrcode) => {
+        //     this.qrcode = qrcode
+        // })
+        // // 扫码查看文字
+        base64ToImage(footerTextBase64, (sweepYardImage) => {
+            this.sweepYardImage = sweepYardImage
+        })
+        this.init()
+    },
+    methods: {
+        handleTest() {
+            var ctx = this.context
+            ctx.moveTo(0, 0)
+            ctx.lineTo(50, 50)
+            ctx.moveTo(100, 100)
+            ctx.lineTo(200, 200)
+            ctx.stroke()
+            ctx.draw()
+        },
+        handleClose() {
+            let this_ = this
+            setTimeout(function () {
+                this_.$emit('close')
+            }, 1000)
+        },
+
+        init() {
+            // 初始化
+            setTimeout(async () => {
+                var ctx = this.context
+                const userW = uni.upx2px(40) // 头像大小
+                const canvasW = this.canvasW
+                const canvasH = this.canvasH
+                const hW = uni.upx2px(500)
+                const hH = uni.upx2px(500)
+                const ml = uni.upx2px(20)
+                const shopLogoH = uni.upx2px(120)
+                const shopLogoW = uni.upx2px(120)
+                const shopInfoW = uni.upx2px(240)
+                const shopInfoH = uni.upx2px(140)
+                const wxCodeX = uni.upx2px(230)
+                const footerImageX = wxCodeX - uni.upx2px(60)
+                const footerImageY = (canvasW - hW) / 2 + hH + wxCodeX + uni.upx2px(156 + 20)
+                //绘制圆角背景
+                this.drawRoundRect(ctx, 0, 0, canvasW, canvasH, uni.upx2px(30), '#fff')
+                //绘制标题矩形
+                // this.drawRoundRect(ctx, 20, 10, canvasW - uni.upx2px(50), uni.upx2px(45), uni.upx2px(45), '#F2F2F2')
+                const userAvatar = await this.getImageInfo(this.userAvatar)
+                //获取标题图片
+                const headerImg = await this.getImageInfo(this.userAvatar)
+                const sweepYardImage = await this.getImageInfo(this.sweepYardImage)
+                const titleImage = await this.getImageInfo(this.titleImage)
+                const shopInfoImage = await this.getImageInfo(this.shopInfoImage)
+                //绘制 user 头像
+                this.drawRoundImg(ctx, userAvatar.path, uni.upx2px(100), uni.upx2px(22), userW, userW, uni.upx2px(20))
+                //标题文字
+                this.drawRoundImg(ctx, titleImage.path, uni.upx2px(130 + userW), uni.upx2px(10), uni.upx2px(364), uni.upx2px(70), uni.upx2px(20))
+                //绘制大图
+                this.drawRoundImg(ctx, headerImg.path, uni.upx2px(60), uni.upx2px(100), hW, hH, uni.upx2px(16))
+                this.drawRoundImg(ctx, headerImg.path, uni.upx2px(60), uni.upx2px(630), shopLogoH, shopLogoW, uni.upx2px(shopLogoH))
+                this.drawRoundImg(ctx, shopInfoImage.path, uni.upx2px(60) + ml + shopLogoH, uni.upx2px(630), shopInfoW, shopInfoH, uni.upx2px(0))
+                ctx.drawImage(headerImg.path, wxCodeX, (canvasW - hW) / 2 + hH + wxCodeX, uni.upx2px(156), uni.upx2px(156))
+                //绘制长按保存
+                ctx.drawImage(sweepYardImage.path, footerImageX, footerImageY, uni.upx2px(300), uni.upx2px(55))
+                this.isMapped = true
+                ctx.draw(false)
+                uni.hideLoading()
+            }, 1000)
+        },
+        longpress() {
+            this.handleSave()
+        },
+        getImageInfo(imgSrc, isWxChat = false) {
+            return new Promise((resolve, reject) => {
+                uni.getImageInfo({
+                    src: imgSrc,
+                    success: (image) => {
+                        return resolve(image)
+                    },
+                    fail: (err) => {
+                        reject(err)
+                    },
+                })
+            })
+        },
+        font(ctx, fontSize, fillstyle, word, x, y) {
+            ctx.setFontSize(fontSize)
+            ctx.setFillStyle(fillstyle)
+            ctx.fillText(word, x, y)
+        },
+        drawRoundRect(ctx, x, y, width, height, radius, color) {
+            // 圆角矩形
+            ctx.save()
+            ctx.beginPath()
+            ctx.setFillStyle(color)
+            ctx.setStrokeStyle(color)
+            ctx.setLineJoin('round') //交点设置成圆角
+            ctx.setLineWidth(radius)
+            ctx.strokeRect(x + radius / 2, y + radius / 2, width - radius, height - radius)
+            ctx.fillRect(x + radius, y + radius, width - radius * 2, height - radius * 2)
+            ctx.stroke()
+            ctx.closePath()
+        },
+        drawUserRoundImg(ctx, img, x, y, width, height, radius) {
+            ctx.save()
+            ctx.beginPath()
+            // 左上角
+            ctx.arc(x + radius, y + radius, radius, Math.PI, Math.PI * 1.5)
+            // 右上角
+            ctx.arc(x + width - radius, y + radius, radius, Math.PI * 1.5, Math.PI * 2)
+            // 右下角
+            ctx.arc(x + width - radius, y + height - radius, radius, 0, Math.PI * 0.5)
+            // 左下角
+            ctx.arc(x + radius, y + height - radius, radius, Math.PI * 0.5, Math.PI)
+            ctx.clip()
+            ctx.drawImage(img, x, y, width, height)
+            ctx.restore()
+            ctx.closePath()
+        },
+        drawRoundImg(ctx, img, x, y, width, height, radius) {
+            // 带圆角图片
+            ctx.save()
+            ctx.beginPath()
+            // 左上角
+            ctx.arc(x + radius, y + radius, radius, Math.PI, Math.PI * 1.5)
+            // 右上角
+            ctx.arc(x + width - radius, y + radius, radius, Math.PI * 1.5, Math.PI * 2)
+            // 右下角
+            ctx.arc(x + width - radius, y + height - radius, radius, 0, Math.PI * 0.5)
+            // 左下角
+            ctx.arc(x + radius, y + height - radius, radius, Math.PI * 0.5, Math.PI)
+            // ctx.stroke()
+            ctx.clip()
+            ctx.drawImage(img, x, y, width, height)
+            ctx.restore()
+            ctx.closePath()
+        },
+        dealWords(ctx, fontSize, fillstyle, word, maxWidth, x, y, maxLine, lineHeight = 20) {
+            ctx.setFillStyle(fillstyle)
+            ctx.setFontSize(fontSize)
+            var allRow = Math.ceil(ctx.measureText(word).width / maxWidth) //实际总共能分多少行
+            var count = allRow >= maxLine ? maxLine : allRow //实际能分多少行与设置的最大显示行数比，谁小就用谁做循环次数
+            var endPos = 0 //当前字符串的截断点
+            for (var j = 0; j < count; j++) {
+                var nowStr = word.slice(endPos) //当前剩余的字符串
+                var rowWid = 0 //每一行当前宽度
+                if (ctx.measureText(nowStr).width > maxWidth) {
+                    //如果当前的字符串宽度大于最大宽度，然后开始截取
+                    for (var m = 0; m < nowStr.length; m++) {
+                        rowWid += ctx.measureText(nowStr[m]).width //当前字符串总宽度
+                        if (rowWid > maxWidth) {
+                            if (j === maxLine - 1) {
+                                //如果是最后一行
+                                ctx.fillText(nowStr.slice(0, m - 1) + '...', x, y + (j + 1) * lineHeight) //(j+1)*36这是每一行的高度
+                            } else {
+                                ctx.fillText(nowStr.slice(0, m), x, y + (j + 1) * lineHeight)
+                            }
+                            endPos += m //下次截断点
+                            break
+                        }
+                    }
+                } else {
+                    //如果当前的字符串宽度小于最大宽度就直接输出
+                    ctx.fillText(nowStr.slice(0), x, y + (j + 1) * lineHeight)
+                }
+            }
+        },
+        handleSave() {
+            var ctx = this.context
+            const this_ = this
+            const dpr = uni.getSystemInfoSync().pixelRatio
+            ctx.toTempFilePath(0, 0, this.canvasW * dpr, this.canvasH * dpr, this.canvasW * dpr, this.canvasH * dpr, '', 1, function (res) {
+                uni.saveImageToPhotosAlbum({
+                    filePath: res.tempFilePath,
+                    success(res) {
+                        uni.showToast({
+                            title: '已保存到相册',
+                            icon: 'none',
+                            duration: 2000,
+                            success: () => {
+                                this_.handleClose()
+                            },
+                        })
+                    },
+                    complete: (succ) => {},
+                })
+            })
+        },
+
+        handleShareWx(type) {
+            // #ifdef APP-PLUS
+            const this_ = this
+            uni.share({
+                provider: 'weixin',
+                href: 'https://blog.csdn.net/qq_40575646/article/details/122812440',
+                imageUrl: this.canvasImgUrl,
+                scene: type,
+                title: '分享',
+                summary: '推荐一个好物给你，请查收！',
+                success: function (res) {
+                    this_.handleClose()
+                },
+                fail: function (err) {},
+            })
+        },
+    },
+}
+</script>
+<style scoped>
+.canvas_box {
+    margin: 0 75rpx;
+    width: 600rpx;
+    height: 1400rpx;
+    border-radius: 20rpx;
+}
+.canvas {
+    margin-top: 200rpx;
+    width: 600rpx;
+    height: 1110rpx;
+    border-radius: 20rpx;
+    /* z-index: 999; */
+    /* background: #fff; */
+}
+.share {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: pink;
+    z-index: 998;
+}
+.save {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    width: 750rpx;
+    height: 185rpx;
+    background: #ffffff;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    transform: translateY(100px);
+}
+.save-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+.icon {
+    margin-bottom: 15rpx;
+}
+</style>

@@ -1,0 +1,8 @@
+{
+  "globals": {
+    "ImportMetaEnv": true,
+    "Obj": true,
+    "Long": true,
+    "getCurrentPages": true
+  }
+}

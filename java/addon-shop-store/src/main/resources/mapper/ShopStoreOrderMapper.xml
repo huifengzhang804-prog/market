@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.addon.store.mp.mapper.ShopStoreOrderMapper">
+
+
+    <select id="queryStoreTransactionSummary"
+            resultType="com.medusa.gruul.addon.store.model.vo.ShopStoreTransactionSummaryVO">
+
+            SELECT SUM(CASE WHEN present_date = CURDATE() THEN pay_amount ELSE 0 END)    AS todayTotalAmount,
+                   COUNT(CASE WHEN present_date = CURDATE() THEN id ELSE null END)          AS todayTransactionCount,
+
+                   SUM(CASE WHEN YEAR(present_date) = YEAR(CURDATE()) AND MONTH(present_date) = MONTH(CURDATE()) THEN pay_amount ELSE 0 END) AS monthTotalAmount,
+                   COUNT(CASE WHEN YEAR(present_date) = YEAR(CURDATE()) AND MONTH(present_date) = MONTH(CURDATE()) THEN id ELSE null END) AS monthTransactionCount
+            FROM t_shop_store_order
+        WHERE shop_store_id = #{storeId}
+          AND shop_id = #{shopId}
+          AND package_status = 5
+          AND deleted = 0
+
+    </select>
+</mapper>

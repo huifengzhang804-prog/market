@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.search.service.mp.mapper.SearchBrandMapper">
+
+    <sql id="brandFollowersSql">
+
+    </sql>
+    <select id="brandPage" resultType="com.medusa.gruul.search.service.model.vo.SearchBrandVO">
+        SELECT
+            id                                    AS id,
+            brand_name                            AS brandName,
+            brand_logo                            AS brandLogo,
+            brand_desc                            AS brandDesc,
+            search_initials                       AS searchInitials,
+            parent_category_id                    AS parentCategoryId,
+            (SELECT  COUNT(*) FROM t_search_brand_follow
+            WHERE brand_id = searchBrand.id AND deleted = 0 ) AS followers,
+            status                                AS status,
+            sort                                  AS sort,
+            create_time                           AS createTime
+        FROM
+            t_search_brand  AS searchBrand
+        WHERE
+            searchBrand.deleted = 0
+        <if test="searchBrandQuery.brandName != null and searchBrandQuery.brandName != ''">
+            AND searchBrand.brand_name LIKE CONCAT('%',#{searchBrandQuery.brandName},'%')
+        </if>
+        ORDER BY `sort` DESC
+    </select>
+    <select id="brandInfoPage" resultType="com.medusa.gruul.search.service.model.vo.SearchBrandInfoVO">
+        SELECT
+            id                                    AS id,
+            brand_name                            AS brandName,
+            brand_logo                            AS brandLogo,
+            status                                AS status
+        FROM
+            t_search_brand  AS searchBrand
+        WHERE
+            searchBrand.deleted = 0
+        <if test="searchBrandQuery.brandName != null and searchBrandQuery.brandName != ''">
+            AND searchBrand.brand_name LIKE CONCAT('%',#{searchBrandQuery.brandName},'%')
+        </if>
+        ORDER BY `sort` DESC
+    </select>
+    <select id="getBrandInitialList" resultType="com.medusa.gruul.search.service.model.vo.SearchBrandInitialVO">
+        SELECT
+            search_initials                                     AS searchInitials,
+            GROUP_CONCAT(id ORDER BY sort DESC)                 AS brandIds,
+            GROUP_CONCAT(brand_name ORDER BY sort DESC)  AS brandName
+        FROM
+            t_search_brand  AS searchBrand
+        WHERE
+            searchBrand.deleted = 0
+          AND
+            searchBrand.status = ${@com.medusa.gruul.search.api.enums.BrandStatus @SELL_ON.value}
+            <if test="brandIds != null and brandIds.size() > 0">
+                AND searchBrand.id IN
+                <foreach collection="brandIds" item="brandId" open="(" close=")" separator="," >
+                    #{brandId}
+                </foreach>
+            </if>
+            <if test="parentCategoryId != null">
+                AND searchBrand.parent_category_id = #{parentCategoryId}
+            </if>
+        GROUP BY searchBrand.search_initials
+    </select>
+</mapper>

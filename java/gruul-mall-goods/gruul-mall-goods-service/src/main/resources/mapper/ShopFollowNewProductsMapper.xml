@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.goods.service.mp.mapper.ShopFollowNewProductsMapper">
+
+    <select id="recentlyPage" resultType="com.medusa.gruul.goods.service.model.vo.MyShopFollowVO">
+        SELECT
+            shopFollow.shop_id                          AS shopId,
+            shopFollow.shop_name                        AS shopName,
+            shopFollow.shop_logo                        AS logo,
+            follow.numberFollowers                      AS numberFollowers,
+            IF(shopProduct.shop_id,TRUE,FALSE)          AS newProducts
+        FROM t_shop_follow shopFollow
+            INNER JOIN (SELECT COUNT(*) AS numberFollowers,shop_id
+                        FROM t_shop_follow
+                        WHERE deleted = 0
+                        GROUP BY shop_id) follow ON follow.shop_id = shopFollow.shop_id
+            LEFT  JOIN (SELECT distinct product.shop_id
+                        FROM t_product AS product
+                        WHERE product.status = ${@com.medusa.gruul.goods.api.model.enums.ProductStatus @SELL_ON.status}
+                        AND product.deleted = 0
+                        AND product.id NOT IN (SELECT product_id FROM t_shop_follow_new_products  WHERE deleted  = 0 )) shopProduct
+                        ON shopProduct.shop_id = shopFollow.shop_id
+        WHERE
+          EXISTS(
+                SELECT shopFollowNewProducts.shop_id
+                    FROM t_shop_follow_new_products shopFollowNewProducts
+                WHERE deleted = 0
+                AND shopFollowNewProducts.shop_id = shopFollow.shop_id
+                AND DATE_SUB(CURDATE(), INTERVAL 3 DAY)  <![CDATA[<=]]>  date(update_time)
+        )
+        AND
+            shopFollow.deleted = 0
+        <if test="userId != null">
+            AND shopFollow.user_id = #{userId}
+        </if>
+        <if test="shopFollowParam != null">
+            <if test="shopFollowParam.shopName != null and shopFollowParam.shopName != ''">
+                AND shopFollow.shop_name LIKE concat('%', #{shopFollowParam.shopName}, '%')
+            </if>
+        </if>
+    </select>
+</mapper>

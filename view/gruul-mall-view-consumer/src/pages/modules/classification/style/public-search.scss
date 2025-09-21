@@ -1,0 +1,8 @@
+@include b(search-box) {
+    padding: 0 16rpx 30rpx 28rpx;
+    background: #fff;
+    @include e(search) {
+        font-size: 28rpx;
+        width: 706rpx;
+    }
+}

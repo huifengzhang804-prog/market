@@ -1,0 +1,289 @@
+{
+  "images": [
+    "https://cbu01.alicdn.com/img/ibank/O1CN01oC68Yi2MJCinusP70_!!3231129806-0-cib.jpg",
+    "https://cbu01.alicdn.com/img/ibank/O1CN01wTgseT2MJCiojhQXu_!!3231129806-0-cib.jpg",
+    "https://cbu01.alicdn.com/img/ibank/O1CN015ZKC5u2MJCikbu2fs_!!3231129806-0-cib.jpg",
+    "https://cbu01.alicdn.com/img/ibank/O1CN018hgn312MJCilhQ99J_!!3231129806-0-cib.jpg",
+    "https://cbu01.alicdn.com/img/ibank/O1CN019wFV1z2MJCijbsJEf_!!3231129806-0-cib.jpg"
+  ],
+  "loginId": "",
+  "data": [],
+  "sellerShopUrl": "https://m.1688.com/winport/b2b-323112980602dd0.html",
+  "videoInfo": {},
+  "sellerName": "深圳市东方睿智科技有限公司",
+  "skuMap": {
+    "深空灰&gt;2023款 i5-1340P/16GB/1T": {
+      "specId": "515259dedc20a728a93f392801519e96",
+      "price": "4550.00",
+      "promotionSku": false,
+      "saleCount": 0,
+      "specAttrs": "深空灰&gt;2023款 i5-1340P/16GB/1T",
+      "canBookCount": 5,
+      "discountPrice": "4550.00",
+      "skuId": 5445243223871
+    },
+    "深空灰&gt;2024款 i5-13420H/16GB/512GB 锐炬显卡": {
+      "specId": "4fd15063eb864c9b528550df7996c3ea",
+      "price": "4100.00",
+      "promotionSku": false,
+      "saleCount": 0,
+      "specAttrs": "深空灰&gt;2024款 i5-13420H/16GB/512GB 锐炬显卡",
+      "canBookCount": 5,
+      "discountPrice": "4100.00",
+      "skuId": 5445243223869
+    },
+    "皓月银&gt;2024款 i5-12450H/16GB/512GB 锐炬显卡": {
+      "specId": "5a3730f01e9b51ed7c94a1d0f52ae377",
+      "price": "3800.00",
+      "promotionSku": false,
+      "saleCount": 1,
+      "specAttrs": "皓月银&gt;2024款 i5-12450H/16GB/512GB 锐炬显卡",
+      "canBookCount": 4,
+      "discountPrice": "3800.00",
+      "skuId": 5445243223866
+    },
+    "皓月银&gt;2023款 i5-1340P/16GB/512GB 锐炬显卡": {
+      "specId": "a8515a908dfb4139a220c875020c0b02",
+      "price": "4300.00",
+      "promotionSku": false,
+      "saleCount": 0,
+      "specAttrs": "皓月银&gt;2023款 i5-1340P/16GB/512GB 锐炬显卡",
+      "canBookCount": 5,
+      "discountPrice": "4300.00",
+      "skuId": 5175205925536
+    },
+    "皓月银&gt;2024款 i5-13420H/16GB/512GB 锐炬显卡": {
+      "specId": "85004ef1eb4acf4c93fe2ff2a9446d1a",
+      "price": "4100.00",
+      "promotionSku": false,
+      "saleCount": 0,
+      "specAttrs": "皓月银&gt;2024款 i5-13420H/16GB/512GB 锐炬显卡",
+      "canBookCount": 5,
+      "discountPrice": "4100.00",
+      "skuId": 5445243223868
+    },
+    "皓月银&gt;2023款 i7-1360P/16GB/1TB 锐炬显卡": {
+      "specId": "551375131b6042ffc5e6c3430fda3ac5",
+      "price": "5280.00",
+      "promotionSku": false,
+      "saleCount": 0,
+      "specAttrs": "皓月银&gt;2023款 i7-1360P/16GB/1TB 锐炬显卡",
+      "canBookCount": 5,
+      "discountPrice": "5280.00",
+      "skuId": 5445243223864
+    }
+  },
+  "sellerUserId": "3231129806",
+  "sellerMemberId": "b2b-323112980602dd0",
+  "title": "huawei/华为 MateBook D 14 2023款锐炬显卡14英寸轻薄笔记本电脑",
+  "sales": 1,
+  "showPriceRanges": [
+    {
+      "startAmount": "1",
+      "price": "3800.00",
+      "beginAmount": "1"
+    },
+    {
+      "startAmount": "2",
+      "price": "5280.00",
+      "beginAmount": "2"
+    }
+  ],
+  "itemId": "750396543386",
+  "unit": "台",
+  "videoUrl": [],
+  "descUrl": "https://air.1688.com/pages/od/app-desc/d7p56fw2w/index.html?url=https://itemcdn.tmall.com/1688offer/icoss2554015373ca87c2142c02aaad&offerId=750396543386&sellerLoginId=dfrz2017",
+  "displayPrice": "￥3800.00-￥5280.00",
+  "skuProps": [
+    {
+      "fid": 3216,
+      "prop": "颜色",
+      "value": [
+        {
+          "name": "皓月银"
+        },
+        {
+          "name": "深空灰"
+        }
+      ]
+    },
+    {
+      "fid": 2060,
+      "prop": "内存容量",
+      "value": [
+        {
+          "name": "2024款 i5-12450H/16GB/512GB 锐炬显卡"
+        },
+        {
+          "name": "2024款 i5-13420H/16GB/512GB 锐炬显卡"
+        },
+        {
+          "name": "2023款 i5-1340P/16GB/512GB 锐炬显卡"
+        },
+        {
+          "name": "2023款 i7-1360P/16GB/1TB 锐炬显卡"
+        },
+        {
+          "name": "2023款 i5-1340P/16GB/1T"
+        }
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "name": "品牌",
+      "value": "Huawei/华为"
+    },
+    {
+      "name": "型号",
+      "value": "HUAWEI MateBook D 14"
+    },
+    {
+      "name": "货号",
+      "value": "0"
+    },
+    {
+      "name": "上市时间",
+      "value": "2023"
+    },
+    {
+      "name": "货源类别",
+      "value": "现货"
+    },
+    {
+      "name": "品牌地区",
+      "value": "国产"
+    },
+    {
+      "name": "CPU类型",
+      "value": "酷睿"
+    },
+    {
+      "name": "硬盘容量",
+      "value": "512GB"
+    },
+    {
+      "name": "光软驱位置",
+      "value": "无光驱"
+    },
+    {
+      "name": "光驱类型",
+      "value": "无光驱"
+    },
+    {
+      "name": "屏幕尺寸",
+      "value": "14英寸"
+    },
+    {
+      "name": "显卡",
+      "value": "集成显卡"
+    },
+    {
+      "name": "无线网卡",
+      "value": "无无线网卡"
+    },
+    {
+      "name": "分辨率",
+      "value": "1920×1200"
+    },
+    {
+      "name": "操作系统",
+      "value": "Windows 11 64位 家庭中文版"
+    },
+    {
+      "name": "是否触摸屏",
+      "value": "非触控"
+    },
+    {
+      "name": "厚度",
+      "value": "15.9mm"
+    },
+    {
+      "name": "续航时间",
+      "value": "5-7小时"
+    },
+    {
+      "name": "产品尺寸",
+      "value": "314.5mm × 227.79mm × 15.9mm"
+    },
+    {
+      "name": "重量",
+      "value": "约1.39kg"
+    },
+    {
+      "name": "OEM",
+      "value": "不可OEM"
+    },
+    {
+      "name": "最快出货时间",
+      "value": "1-3天"
+    },
+    {
+      "name": "是否支持代理加盟",
+      "value": "支持"
+    },
+    {
+      "name": "售后类型",
+      "value": "全国联保"
+    },
+    {
+      "name": "质保",
+      "value": "2年"
+    },
+    {
+      "name": "发票",
+      "value": "含税需要咨询客服"
+    },
+    {
+      "name": "包装清单",
+      "value": "PC X 1 USB-C电源适配器 X 1（含线缆） 快速入门 X 1 保修卡 X 1"
+    },
+    {
+      "name": "3C证书编号",
+      "value": "2023010902522349"
+    },
+    {
+      "name": "显存容量",
+      "value": "系统共享内存"
+    },
+    {
+      "name": "颜色",
+      "value": "皓月银,深空灰"
+    },
+    {
+      "name": "内存容量",
+      "value": "2024款 i5-12450H/16GB/512GB 锐炬显卡,2024款 i5-13420H/16GB/512GB 锐炬显卡,2023款 i5-1340P/16GB/512GB 锐炬显卡,2023款 i7-1360P/16GB/1TB 锐炬显卡,2023款 i5-1340P/16GB/1T"
+    },
+    {
+      "name": "有可授权的自有品牌",
+      "value": "否"
+    },
+    {
+      "name": "是否跨境出口专供货源",
+      "value": "否"
+    },
+    {
+      "name": "能效等级",
+      "value": "无"
+    },
+    {
+      "name": "是否专利货源",
+      "value": "否"
+    },
+    {
+      "name": "类型",
+      "value": "轻薄便携本"
+    }
+  ],
+  "location": "",
+  "categoryId": "702",
+  "desc": "<p><img src=\"//cbu01.alicdn.com/img/ibank/O1CN01VSkrzl2MJCilhJIjG_!!3231129806-0-cib.jpg\"><img src=\"//cbu01.alicdn.com/img/ibank/O1CN01HE6Wxg2MJCifzUNI4_!!3231129806-0-cib.jpg\"><img src=\"//cbu01.alicdn.com/img/ibank/O1CN015ZKC5u2MJCikbu2fs_!!3231129806-0-cib.jpg\"><img src=\"//cbu01.alicdn.com/img/ibank/O1CN01wTgseT2MJCiojhQXu_!!3231129806-0-cib.jpg\"><img src=\"//cbu01.alicdn.com/img/ibank/O1CN019wFV1z2MJCijbsJEf_!!3231129806-0-cib.jpg\"><img src=\"//cbu01.alicdn.com/img/ibank/O1CN018hgn312MJCilhQ99J_!!3231129806-0-cib.jpg\"></p>",
+  "descImgs": [
+    "https://cbu01.alicdn.com/img/ibank/O1CN01VSkrzl2MJCilhJIjG_!!3231129806-0-cib.jpg",
+    "https://cbu01.alicdn.com/img/ibank/O1CN01HE6Wxg2MJCifzUNI4_!!3231129806-0-cib.jpg",
+    "https://cbu01.alicdn.com/img/ibank/O1CN015ZKC5u2MJCikbu2fs_!!3231129806-0-cib.jpg",
+    "https://cbu01.alicdn.com/img/ibank/O1CN01wTgseT2MJCiojhQXu_!!3231129806-0-cib.jpg",
+    "https://cbu01.alicdn.com/img/ibank/O1CN019wFV1z2MJCijbsJEf_!!3231129806-0-cib.jpg",
+    "https://cbu01.alicdn.com/img/ibank/O1CN018hgn312MJCilhQ99J_!!3231129806-0-cib.jpg"
+  ]
+}

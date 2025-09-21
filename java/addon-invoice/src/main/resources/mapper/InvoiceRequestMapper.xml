@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.addon.invoice.mp.mapper.InvoiceRequestMapper">
+    <select id="pagInvoiceRequest" resultType="com.medusa.gruul.addon.invoice.model.vo.InvoiceVO">
+        SELECT
+        invoiceRequest.id,
+        invoiceRequest.applicant_id,
+        invoiceRequest.shop_id,
+        invoiceRequest.shop_supplier_name,
+        invoiceRequest.order_no,
+        invoiceRequest.application_time,
+        invoiceRequest.invoice_header_type,
+        invoiceRequest.invoice_owner_type,
+        invoiceRequest.invoice_amount,
+        invoiceRequest.invoice_type,
+        invoiceRequest.invoice_status,
+        invoiceRequest.billing_remarks,
+        invoiceRequest.denial_reason,
+        invoiceRequest.header,
+        invoiceRequest.tax_ident_no,
+        invoiceRequest.opening_bank,
+        invoiceRequest.bank_account_no,
+        invoiceRequest.enterprise_phone,
+        invoiceRequest.enterprise_address,
+        invoiceRequest.email,
+        invoiceRequest.create_time,
+        invoiceRequest.update_time
+        FROM
+        t_invoice_request AS invoiceRequest
+        WHERE
+        invoiceRequest.deleted = FALSE
+        <if test="invoiceRequestQuery != null">
+            <if test="invoiceRequestQuery.shopId != null">
+                AND invoiceRequest.shop_id = #{invoiceRequestQuery.shopId}
+            </if>
+            <if test="invoiceRequestQuery.id != null">
+                AND invoiceRequest.id LIKE CONCAT('%',#{invoiceRequestQuery.id},'%')
+            </if>
+            <if test="invoiceRequestQuery.header != null and invoiceRequestQuery.header != ''">
+                AND invoiceRequest.header LIKE CONCAT('%',#{invoiceRequestQuery.header},'%')
+            </if>
+            <if test="invoiceRequestQuery.taxIdentNo != null and invoiceRequestQuery.taxIdentNo != ''">
+                AND invoiceRequest.tax_ident_no LIKE CONCAT('%',#{invoiceRequestQuery.taxIdentNo},'%')
+            </if>
+            <if test="invoiceRequestQuery.orderNo != null and invoiceRequestQuery.orderNo != ''">
+                AND invoiceRequest.order_no LIKE CONCAT('%',#{invoiceRequestQuery.orderNo},'%')
+            </if>
+            <if test="invoiceRequestQuery.invoiceType != null">
+                <if test="invoiceRequestQuery.invoiceType  == @com.medusa.gruul.addon.invoice.model.enums.InvoiceType @VAT_GENERAL">
+                    AND invoiceRequest.invoice_type =
+                    ${@com.medusa.gruul.addon.invoice.model.enums.InvoiceType @VAT_GENERAL.value}
+                </if>
+                <if test="invoiceRequestQuery.invoiceType  == @com.medusa.gruul.addon.invoice.model.enums.InvoiceType @VAT_SPECIAL">
+                    AND invoiceRequest.invoice_type =
+                    ${@com.medusa.gruul.addon.invoice.model.enums.InvoiceType @VAT_SPECIAL.value}
+                </if>
+            </if>
+            <if test="invoiceRequestQuery.applicationStartTime != null">
+                AND invoiceRequest.application_time >= #{invoiceRequestQuery.applicationStartTime}
+            </if>
+            <if test="invoiceRequestQuery.applicationEndTime != null">
+                AND #{invoiceRequestQuery.applicationEndTime} >= invoiceRequest.application_time
+            </if>
+            <if test="invoiceRequestQuery.invoiceStatus != null">
+                <if test="invoiceRequestQuery.invoiceStatus == @com.medusa.gruul.addon.invoice.model.enums.InvoiceStatus @FAILED_INVOICE_REQUEST ">
+                    AND invoiceRequest.invoice_status in(
+                    ${@com.medusa.gruul.addon.invoice.model.enums.InvoiceStatus @FAILED_INVOICE_REQUEST.value},
+                    ${@com.medusa.gruul.addon.invoice.model.enums.InvoiceStatus @CLIENT_CANCEL_REQUEST.value}
+                    )
+                </if>
+                <if test="invoiceRequestQuery.invoiceStatus == @com.medusa.gruul.addon.invoice.model.enums.InvoiceStatus @SUCCESSFULLY_INVOICED ">
+                    AND invoiceRequest.invoice_status =
+                    ${@com.medusa.gruul.addon.invoice.model.enums.InvoiceStatus @SUCCESSFULLY_INVOICED.value}
+                </if>
+                <if test="invoiceRequestQuery.invoiceStatus == @com.medusa.gruul.addon.invoice.model.enums.InvoiceStatus @REQUEST_IN_PROCESS ">
+                    AND invoiceRequest.invoice_status =
+                    ${@com.medusa.gruul.addon.invoice.model.enums.InvoiceStatus @REQUEST_IN_PROCESS.value}
+                </if>
+            </if>
+            <if test="invoiceRequestQuery.invoiceStartTime!=null">
+                and invoiceRequest.invoice_time >= #{invoiceRequestQuery.invoiceStartTime}
+            </if>
+            <if test="invoiceRequestQuery.invoiceEndTime !=null">
+                and #{invoiceRequestQuery.invoiceEndTime} >= invoiceRequest.invoice_time
+            </if>
+
+            <!--排序-->
+            <if test="invoiceRequestQuery.sortEnum != null">
+                order by
+                <choose>
+                    <when test="invoiceRequestQuery.sortEnum == @com.medusa.gruul.addon.invoice.model.enums.SortEnum @APPLY_TIME_ASC">
+                        invoiceRequest.application_time ASC
+                    </when>
+                    <when test="invoiceRequestQuery.sortEnum == @com.medusa.gruul.addon.invoice.model.enums.SortEnum @APPLY_TIME_DESC">
+                        invoiceRequest.application_time desc
+                    </when>
+                    <when test="invoiceRequestQuery.sortEnum == @com.medusa.gruul.addon.invoice.model.enums.SortEnum @UPDATE_TIME_ASC">
+                        invoiceRequest.update_time ASC
+                    </when>
+                    <when test="invoiceRequestQuery.sortEnum == @com.medusa.gruul.addon.invoice.model.enums.SortEnum @UPDATE_TIME_DESC">
+                        invoiceRequest.update_time desc
+                    </when>
+                </choose>
+            </if>
+        </if>
+    </select>
+</mapper>

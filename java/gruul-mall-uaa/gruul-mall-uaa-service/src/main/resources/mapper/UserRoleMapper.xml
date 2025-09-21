@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.service.uaa.service.mp.mapper.UserRoleMapper">
+
+    <select id="selectRolesByUserId" resultType="com.medusa.gruul.service.uaa.service.mp.entity.Role">
+        SELECT role.id          AS id,
+               role.`value`     AS `value`,
+               role.`name`      AS `name`,
+               role.shop_id     AS shopId,
+               role.create_time AS create_time,
+               role.update_time AS update_time,
+               role.version     AS version
+        FROM t_user_role AS userRole
+                 INNER JOIN t_role AS role ON role.id = userRole.role_id AND role.deleted = 0
+        WHERE userRole.user_id = #{userId}
+          AND userRole.enable = 1
+          AND userRole.deleted = 0
+    </select>
+    <select id="customerAdminRoleId" resultType="java.lang.Long">
+        SELECT role.id AS id
+        FROM t_user_role AS userRole
+                 INNER JOIN t_role AS role ON role.id = userRole.role_id AND role.deleted = 0
+        WHERE userRole.user_id = #{userId}
+          AND role.`value` = #{role.value}
+          AND userRole.deleted = 0
+          AND userRole.enable = 1
+        LIMIT 1
+    </select>
+
+    <select id="shopAdminCurrent" resultType="com.medusa.gruul.service.uaa.service.model.po.ShopAdminRoleMap">
+        SELECT userRole.id      as userRoleId,
+               userRole.user_id as userId,
+               userRole.role_id as roleId
+        FROM t_user_role AS userRole
+                 INNER JOIN t_role AS role ON userRole.role_id = role.id
+            AND role.deleted = 0
+        WHERE role.`value` = #{adminRole.value}
+          AND userRole.deleted = 0
+    </select>
+
+    <select id="queryUserRoleDetails" resultType="com.medusa.gruul.service.uaa.service.model.po.UserRoleDetailsInfo">
+        SELECT userRole.id      AS userRoleId,
+               userRole.user_id AS userId,
+               role.id          AS roleId,
+               role.value       AS roleVlaue
+        FROM t_user_role AS userRole
+                 INNER JOIN t_role AS role ON userRole.role_id = role.id
+            AND role.deleted = 0
+        WHERE role.`value` = #{value}
+          AND userRole.user_id = #{userId}
+          AND userRole.deleted = 0
+    </select>
+</mapper>

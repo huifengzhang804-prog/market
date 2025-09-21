@@ -1,0 +1,22 @@
+server:
+  port: 9999
+spring:
+  application:
+    name: gruul-mall-gateway
+  profiles:
+    active: dev
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          # 路由 id 前缀 ，不配置默认使用 ReactiveCompositeDiscoveryClient_
+          route-id-prefix: /
+    nacos:
+      server-addr: localhost:8848
+      discovery:
+        namespace: ${spring.profiles.active}
+        ip: localhost # 192.168.1.129
+      config:
+        namespace: ${spring.profiles.active}
+        file-extension: yml

@@ -1,0 +1,80 @@
+<script setup lang="ts">
+import { onShow, onReady, onLoad } from '@dcloudio/uni-app'
+import { ref, getCurrentInstance, type PropType, computed } from 'vue'
+import UserWatchMask from '../components/mask/user-watch-mask.vue'
+import { formatPullAddress } from '../components/liveList'
+import type { LiveRoomDetail } from '../../apis/CreateLive/model'
+
+const $props = defineProps({
+  width: {
+    type: Number,
+    default: 0,
+  },
+  height: {
+    type: Number,
+    default: 0,
+  },
+  liveRoomDetail: { type: Object as PropType<LiveRoomDetail>, default: () => ({}) },
+})
+const instance = getCurrentInstance()?.proxy // 能够获取到全局上下文对象
+const videoContext = ref()
+const isEnd = ref(false)
+const pullAddress = computed(() => {
+  return formatPullAddress($props.liveRoomDetail.pullAddress)
+})
+
+onShow(() => {
+  // videoContext.value = uni.createVideoContext('myVideo', instance) / videoContext.value.play()
+})
+// #ifdef APP-PLUS
+onLoad(init)
+// #endif
+// #ifdef MP-WEIXIN
+init()
+// #endif
+function init() {
+  videoContext.value = uni.createVideoContext('myVideo', instance)
+  videoContext.value.play()
+  videoContext.value.requestFullScreen()
+  console.log('play', 'requestFullScreen')
+}
+
+const waiting = (e) => {
+  console.log('视频出现缓冲时触发', e)
+}
+const error = (e) => {
+  if (!isEnd.value) {
+    isEnd.value = true
+  }
+  console.log('视频播放出错时触发', e)
+}
+const statechange = (e) => {
+  console.log('播放状态变化事件', e)
+}
+const netstatus = (e) => {
+  console.log('网络状态通知', e)
+}
+</script>
+
+<template>
+  <video
+    :direction="0"
+    id="myVideo"
+    :autoplay="true"
+    :controls="false"
+    :src="pullAddress"
+    object-fit="cover"
+    :style="{ width: $props.width + 'px', height: $props.height + 'px' }"
+    @waiting="waiting"
+    @error="error"
+    class="video"
+  >
+    <UserWatchMask :width="width" :height="height" :is-end="isEnd" :live-room-detail="liveRoomDetail"></UserWatchMask>
+  </video>
+</template>
+
+<style scoped>
+.video {
+  position: relative;
+}
+</style>

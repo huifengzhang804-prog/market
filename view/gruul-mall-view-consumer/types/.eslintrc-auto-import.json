@@ -1,0 +1,9 @@
+{
+  "globals": {
+    "useBottomSafe": true,
+    "useConvert": true,
+    "useMember": true,
+    "usePriceRange": true,
+    "useScreenHeight": true
+  }
+}

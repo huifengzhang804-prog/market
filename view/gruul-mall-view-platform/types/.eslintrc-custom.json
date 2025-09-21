@@ -1,0 +1,14 @@
+{
+    "globals": {
+        "FN": true,
+        "ImportMetaEnv": true,
+        "Fn": true,
+        "Long": true,
+        "Pagination": true,
+        "PageParam": true,
+        "Nullable": true,
+        "IRange": true,
+        "Obj": true,
+        "ElMessage": true
+    }
+}

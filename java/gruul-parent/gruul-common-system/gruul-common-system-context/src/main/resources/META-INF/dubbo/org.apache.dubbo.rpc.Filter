@@ -1,0 +1,2 @@
+systemDubboProviderSpreadConfig=com.medusa.gruul.common.system.model.remote.SystemDubboProviderSpreadConfig
+systemDubboConsumerSpreadConfig=com.medusa.gruul.common.system.model.remote.SystemDubboConsumerSpreadConfig

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.medusa.gruul</groupId>
+        <artifactId>gruul-mall-payment</artifactId>
+        <version>1.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>gruul-mall-payment-api</artifactId>
+
+    <dependencies>
+
+        <dependency>
+            <artifactId>gruul-common-module-api</artifactId>
+            <groupId>com.medusa.gruul</groupId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>gruul-common-system-model</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>gruul-common-web</artifactId>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+</project>

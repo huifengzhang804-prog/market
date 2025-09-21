@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.addon.integral.mp.mapper.IntegralOrderMapper">
+
+    <resultMap id="integralOrderListVOMap" type="com.medusa.gruul.addon.integral.model.vo.IntegralOrderListVO">
+        <id column="id" property="id"/>
+        <result column="no" property="no"/>
+        <result column="buyerId" property="buyerId"/>
+        <result column="buyerNickname" property="buyerNickname"/>
+        <result column="sellerRemark" property="sellerRemark"/>
+        <result column="status" property="status"/>
+        <result column="productName" property="productName"/>
+        <result column="price" property="price"/>
+        <result column="salePrice" property="salePrice"/>
+        <result column="productId" property="productId"/>
+        <result column="image" property="image"/>
+        <result column="freightPrice" property="freightPrice"/>
+        <result column="createTime" property="createTime"/>
+        <result column="timeout" property="timeout"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+        <result column="integral_order_deliver_type" property="integralOrderDeliverType"/>
+        <result column="express_company_name" property="expressCompanyName"/>
+        <result column="express_name" property="expressName"/>
+        <result column="express_no" property="expressNo"/>
+        <result column="affiliation_platform" property="affiliationPlatform"/>
+        <result column="product_type" property="productType"/>
+
+        <association property="integralOrderReceiverVO"
+                     javaType="com.medusa.gruul.addon.integral.model.vo.IntegralOrderReceiverListVO">
+            <result column="receiverName" property="name"/>
+            <result column="receiverMobile" property="mobile"/>
+            <result column="area" property="area"
+                    typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+            <result column="address" property="address"/>
+        </association>
+    </resultMap>
+
+
+
+    <resultMap id="integralOrderDetailInfoMap" type="com.medusa.gruul.addon.integral.mp.entity.IntegralOrder">
+        <id column="id" property="id"/>
+        <result column="ord_source" property="source"/>
+        <result column="ord_no" property="no"/>
+        <result column="buyer_id" property="buyerId"/>
+        <result column="buyer_nickname" property="buyerNickname"/>
+        <result column="buyer_remark" property="buyerRemark"/>
+        <result column="seller_remark" property="sellerRemark"/>
+        <result column="ord_status" property="status"/>
+        <result column="product_id" property="productId"/>
+        <result column="product_name" property="productName"/>
+        <result column="express_no" property="expressNo"/>
+        <result column="num" property="num"/>
+        <result column="price" property="price"/>
+        <result column="productType" property="productType"/>
+        <result column="sale_price" property="salePrice"/>
+        <result column="image" property="image"/>
+        <result column="ord_pay_time" property="payTime"/>
+        <result column="express_company_name" property="expressCompanyName"/>
+        <result column="express_name" property="expressName"/>
+        <result column="integral_order_deliver_type" property="integralOrderDeliverType"/>
+        <result column="accomplish_time" property="accomplishTime"/>
+        <result column="delivery_time" property="deliveryTime"/>
+        <result column="freight_price" property="freightPrice"/>
+        <result column="create_time" property="createTime"/>
+        <result column="affiliationPlatform" property="affiliationPlatform"/>
+        <result column="productType" property="productType"/>
+        <result column="timeout" property="timeout"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+
+        <association property="integralOrderReceiver"
+                     javaType="com.medusa.gruul.addon.integral.mp.entity.IntegralOrderReceiver">
+            <id column="rec_id" property="id"/>
+            <result column="rec_name" property="name"/>
+            <result column="mobile" property="mobile"/>
+            <result column="area" property="area" typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+            <result column="address" property="address"/>
+        </association>
+
+        <association property="integralOrderPayment"
+                     javaType="com.medusa.gruul.addon.integral.mp.entity.IntegralOrderPayment">
+            <id column="payId" property="id"/>
+            <result column="sn" property="sn"/>
+            <result column="pay_type" property="payType"/>
+            <result column="sec_pay_type" property="secPayType"/>
+            <result column="freight_amount" property="freightAmount"/>
+            <result column="total_integral" property="totalIntegral"/>
+            <result column="pay_integral" property="payIntegral"/>
+            <result column="pay_amount" property="payAmount"/>
+            <result column="pay_time" property="payTime"/>
+        </association>
+    </resultMap>
+
+    <sql id="integralOrderDetailInfoSql">
+        ord.`id` AS id, ord.`source` AS ord_source, ord.`no` AS ord_no, ord.`buyer_id` AS buyer_id, ord.`buyer_nickname` AS buyer_nickname, ord.`buyer_remark` AS buyer_remark, ord.`seller_remark` AS seller_remark, ord.`status` AS ord_status,
+        ord.`product_id` AS product_id, ord.`express_no` AS express_no, ord.`product_name` AS product_name, ord.`num` AS num, ord.`price` AS price, IFNULL(ord.`sale_price`, 0) AS sale_price, ord.`image` AS image, ord.`pay_time` AS ord_pay_time,
+        ord.`express_company_name` AS express_company_name, ord.`express_name` AS express_name, ord.`integral_order_deliver_type` AS integral_order_deliver_type, ord.`accomplish_time`, ord.`delivery_time`, ord.`freight_price`, ord.`create_time`, ord.`timeout`,
+        ord.`affiliation_platform` AS affiliationPlatform , ord.`product_type` AS productType ,
+        rec.`id` AS rec_id, rec.`name` AS rec_name, rec.`mobile`, rec.`area`, rec.`address`,
+        pay.`id` AS pay_id, pay.`sn` AS pay_sn, pay.`pay_type` AS pay_type, pay.`sec_pay_type` AS sec_pay_type, pay.`freight_amount` AS freight_amount, pay.`total_integral` AS total_integral,
+        pay.`pay_integral` AS pay_integral, pay.`pay_amount` AS pay_amount, pay.`pay_time` AS pay_time
+    </sql>
+
+    <sql id="undeliverSql">
+        ord.id AS id, ord.`source` AS ord_source, ord.`no` AS ord_no, ord.buyer_id AS buyer_id, ord.`buyer_nickname` AS buyer_nickname, ord.`buyer_remark` AS buyer_remark, ord.`seller_remark` AS seller_remark, ord.`status` AS ord_status, ord.product_id AS product_id,
+        ord.product_name AS product_name, ord.`express_no` AS express_no, ord.`num` AS num, ord.`price` AS price, ord.`sale_price` AS sale_price, ord.`image` AS image, ord.`pay_time` AS ord_pay_time, ord.`express_company_name` AS express_company_name, ord.`express_name` AS express_name,
+        ord.`integral_order_deliver_type` AS integral_order_deliver_type, ord.`accomplish_time` AS accomplish_time, ord.`delivery_time` AS delivery_time, ord.`freight_price` AS freight_price, ord.`create_time`, ord.`timeout` AS timeout, ord.`product_type` AS productType,
+        rec.`id` AS rec_id, rec.`name` AS rec_name, rec.`mobile` AS mobile, rec.`area` AS area, rec.`address` AS address
+    </sql>
+
+
+    <select id="integralOrderPage" resultMap="integralOrderListVOMap">
+        SELECT
+        iorder.id AS id,
+        iorder.`no` AS `no`,
+        iorder.buyer_id AS buyerId,
+        iorder.buyer_nickname AS buyerNickname,
+        iorder.status AS status,
+        iorder.price AS price,
+        IFNULL(iorder.sale_price, 0) AS salePrice,
+        iorder.image AS image,
+        iorder.product_id AS productId,
+        iorder.product_name AS productName,
+        iorder.seller_remark AS sellerRemark,
+        iorder.freight_price AS freightPrice,
+        iorder.create_time AS createTime,
+        iorder.`timeout` AS timeout,
+        iorder.`integral_order_deliver_type` AS integral_order_deliver_type,
+        iorder.`express_company_name` AS express_company_name,
+        iorder.`express_name` AS express_name,
+        iorder.`express_no` AS express_no,
+        iorder.`affiliation_platform` AS affiliation_platform,
+        iorder.`product_type` AS product_type,
+
+        receiver.`name` AS receiverName,
+        receiver.`mobile` AS receiverMobile,
+        receiver.`area` AS area,
+        receiver.`address` AS address
+
+        FROM t_integral_order as iorder
+        INNER JOIN t_integral_order_receiver as receiver on receiver.order_no = iorder.no AND receiver.deleted = 0
+        WHERE
+        iorder.deleted = 0
+        <if test="query != null">
+            <if test="query.buyerId !=null">
+                AND iorder.`buyer_id` = #{query.buyerId}
+            </if>
+            <if test="query.no != null and query.no !=''">
+                AND iorder.`no` LIKE CONCAT('%', #{query.no}, '%')
+            </if>
+            <if test="query.consignee !=null and query.consignee!=''">
+                AND receiver.name LIKE CONCAT('%', #{query.consignee}, '%')
+            </if>
+            <if test="query.productName !=null and query.productName !=''">
+                AND iorder.product_name LIKE CONCAT('%', #{query.productName}, '%')
+            </if>
+
+            <if test="query.startTime!=null">
+                AND DATE_FORMAT(iorder.create_time,'%Y-%m-%d') <![CDATA[>=]]> #{query.startTime}
+            </if>
+            <if test="query.endTime !=null">
+                AND DATE_FORMAT(iorder.create_time,'%Y-%m-%d') <![CDATA[<=]]> #{query.endTime}
+            </if>
+
+            <if test="query.status != null">
+                AND iorder.`status` = #{query.status.value}
+            </if>
+
+            <if test="query.affiliationPlatform != null">
+                AND iorder.`affiliation_platform` = #{query.affiliationPlatform.value}
+            </if>
+        </if>
+        ORDER BY
+        iorder.create_time DESC
+    </select>
+
+    <select id="getIntegralOrderDetailInfo" resultMap="integralOrderDetailInfoMap">
+        SELECT
+        <include refid="integralOrderDetailInfoSql"/>
+        FROM
+        t_integral_order ord
+        LEFT JOIN t_integral_order_receiver rec ON ord.`no` = rec.order_no AND rec.deleted = 0
+        LEFT JOIN t_integral_order_payment pay ON ord.`no` = pay.order_no AND pay.deleted = 0
+        WHERE
+        ord.`no` = #{integralOrderNo}
+        AND ord.`deleted` = 0
+    </select>
+
+    <select id="unDeliverBatch" resultMap="integralOrderDetailInfoMap">
+        SELECT
+        ord.`id` AS id,
+        ord.`no` AS ord_no,
+        ord.`buyer_nickname` AS buyer_nickname,
+        ord.`buyer_remark` AS buyer_remark,
+        ord.`seller_remark` AS seller_remark,
+        ord.`status` AS ord_status,
+        ord.`product_name` AS product_name,
+        ord.`num` AS num,
+        ord.`price` AS price,
+        ord.`product_type` AS productType,
+        IFNULL(ord.`sale_price`, 0) AS sale_price,
+        ord.`image` AS image,
+        ord.`pay_time` AS ord_pay_time,
+        ord.`create_time` AS create_time,
+        rec.`id` AS rec_id,
+        rec.`name` AS rec_name,
+        rec.`mobile` AS mobile,
+        rec.`area` AS area,
+        rec.`address` AS address
+        FROM
+        t_integral_order ord
+        INNER JOIN t_integral_order_receiver rec ON ord.`no` = rec.order_no AND rec.deleted = 0
+        WHERE
+        ord.`status` = #{status.value}
+        AND ord.`deleted` = 0
+        ORDER BY ord.`create_time` DESC
+
+    </select>
+
+    <select id="undeliver" resultMap="integralOrderDetailInfoMap">
+        SELECT
+        <include refid="undeliverSql"/>
+        FROM
+        t_integral_order ord
+        INNER JOIN t_integral_order_receiver rec ON ord.`no` =rec.`order_no` AND rec.deleted = 0
+        WHERE
+        ord.`deleted` = 0
+        AND
+        ord.`no` = #{orderNo}
+        AND
+        ord.`status` = #{status.value}
+    </select>
+
+
+</mapper>

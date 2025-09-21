@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.user.service.mp.mapper.ShopUserAccountMapper">
+
+    <resultMap id="shopUserAccountMap" type="com.medusa.gruul.user.service.model.vo.ShopUserVO">
+        <id column="id" property="id"/>
+        <result column="shop_id" property="shopId"/>
+        <result column="user_id" property="userId"/>
+        <result column="user_name" property="userName"/>
+        <result column="gender" property="gender"/>
+        <result column="user_nickname" property="userNickname"/>
+        <result column="user_phone" property="userPhone"/>
+        <result column="user_head_portrait" property="userHeadPortrait"/>
+        <result column="create_time" property="registerTime"/>
+        <result column="shop_consumption" property="shopConsumption"/>
+        <result column="rankCode" property="rankCode"/>
+        <result column="memberType" property="memberType"/>
+        <collection property="tags" ofType="com.medusa.gruul.user.service.model.vo.ShopUserVO$TagVO">
+            <result column="tagId" property="tagId"/>
+            <result column="tagName" property="tagName"/>
+        </collection>
+    </resultMap>
+
+    <select id="getShopUserAccountList" resultMap="shopUserAccountMap">
+        SELECT
+        subquery.id,
+        subquery.shop_id,
+        subquery.user_id,
+        subquery.user_name,
+        subquery.gender,
+        subquery.user_nickname,
+        subquery.user_phone,
+        subquery.user_head_portrait,
+        subquery.create_time,
+        subquery.shop_consumption,
+        subquery.rankCode,
+        subquery.memberType,
+        subquery.tagId,
+        subquery.tagName
+        FROM (
+        SELECT
+        shopUserAccount.id,
+        shopUserAccount.shop_id,
+        shopUserAccount.user_id,
+        shopUserAccount.user_name,
+        shopUserAccount.gender,
+        shopUserAccount.user_nickname,
+        shopUserAccount.user_phone,
+        shopUserAccount.user_head_portrait,
+        shopUserAccount.create_time,
+        shopUserAccount.shop_consumption,
+        userTags.tagId,
+        userTags.tagName,
+        IF(memberCard.member_card_status = ${@com.medusa.gruul.user.api.enums.MemberCardStatus @NORMAL.value},${@com.medusa.gruul.user.api.enums.MemberType @PAID_MEMBER.value}, ${@com.medusa.gruul.user.api.enums.MemberType @FREE_MEMBER.value}) AS memberType,
+        CASE
+        WHEN memberCard.member_card_status = ${@com.medusa.gruul.user.api.enums.MemberCardStatus @NORMAL.value} THEN memberCard.rank_code
+        ELSE (
+        COALESCE((SELECT freeMember.rank_code
+        FROM t_user_free_member freeMember
+        WHERE shopUserAccount.growth_value >= freeMember.need_value
+        AND freeMember.deleted = FALSE
+        ORDER BY freeMember.need_value DESC
+        LIMIT 1),1)
+
+        )
+        END  rankCode
+        FROM
+        t_shop_user_account shopUserAccount
+        LEFT JOIN
+        (
+        SELECT MAX(card.rank_code) AS rank_code, card.user_id, card.member_card_status
+        FROM t_user_member_card card
+        WHERE card.deleted = FALSE AND card.member_card_valid_time > NOW() AND card.member_card_status = ${@com.medusa.gruul.user.api.enums.MemberCardStatus @NORMAL.value}
+        GROUP BY card.user_id
+        ) memberCard ON memberCard.user_id = shopUserAccount.user_id
+        LEFT JOIN (
+        SELECT
+        userTag.id AS tagId,
+        userTag.tag_name AS tagName,
+        userTagGroup.user_id,
+        userTagGroup.shop_id
+        FROM t_user_tag_group userTagGroup
+        INNER JOIN t_user_tag userTag
+        ON userTagGroup.user_tag_id = userTag.id AND userTagGroup.shop_id = userTag.shop_id
+        AND userTag.deleted = FALSE AND userTagGroup.deleted = FALSE
+        ) userTags ON userTags.user_id = shopUserAccount.user_id AND shopUserAccount.shop_id = userTags.shop_id
+        WHERE
+        shopUserAccount.deleted = FALSE
+        <if test="query.userNickname != null and query.userNickname != ''">
+            AND shopUserAccount.user_nickname LIKE CONCAT('%',#{query.userNickname},'%')
+        </if>
+        <if test="query.registrationStartTime != null and query.registrationStartTime != ''">
+            AND shopUserAccount.create_time <![CDATA[>=]]> #{query.registrationStartTime}
+        </if>
+        <if test="query.registrationEndTime != null and query.registrationEndTime != ''">
+            AND shopUserAccount.create_time <![CDATA[<=]]> #{query.registrationEndTime}
+        </if>
+        <if test="query.birthdayStartTime != null and query.birthdayStartTime != ''">
+            AND shopUserAccount.birthday >=  #{query.birthdayStartTime}
+        </if>
+        <if test="query.birthdayEndTime != null and query.birthdayEndTime != ''">
+            AND shopUserAccount.birthday <![CDATA[<=]]>  #{query.birthdayEndTime}
+        </if>
+        <if test="query.userPhone != null and query.userPhone != ''">
+            AND shopUserAccount.user_phone LIKE CONCAT('%',#{query.userPhone},'%')
+        </if>
+        <if test="query.shopId > 0">
+            AND shopUserAccount.shop_id  = #{query.shopId}
+        </if>
+        <if test="query.tagId != null">
+            AND userTags.tagId = #{query.tagId}
+        </if>
+        ) AS subquery
+        <where>
+            <if test="query.rankCode > 0">
+                AND subquery.rankCode = #{query.rankCode}
+            </if>
+            <if test="query.memberType != null">
+                <choose>
+                    <when test="query.memberType == @com.medusa.gruul.user.api.enums.MemberType @PAID_MEMBER">
+                        AND subquery.memberType = ${@com.medusa.gruul.user.api.enums.MemberType @PAID_MEMBER.value}
+                    </when>
+                    <otherwise>
+                        AND subquery.memberType = ${@com.medusa.gruul.user.api.enums.MemberType @FREE_MEMBER.value}
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+    </select>
+    <select id="getShopUserAccountDetail" resultMap="shopUserAccountMap">
+        SELECT
+            shopUserAccount.id,
+            shopUserAccount.shop_id,
+            shopUserAccount.user_id,
+            shopUserAccount.user_name,
+            shopUserAccount.gender,
+            shopUserAccount.user_nickname,
+            shopUserAccount.user_phone,
+            shopUserAccount.user_head_portrait,
+            shopUserAccount.create_time,
+            shopUserAccount.shop_consumption,
+            userTags.tagId,
+            userTags.tagName,
+            IF(memberCard.member_card_status = ${@com.medusa.gruul.user.api.enums.MemberCardStatus @NORMAL.value},${@com.medusa.gruul.user.api.enums.MemberType @PAID_MEMBER.value}, ${@com.medusa.gruul.user.api.enums.MemberType @FREE_MEMBER.value}) AS memberType,
+            CASE
+                WHEN memberCard.member_card_status = ${@com.medusa.gruul.user.api.enums.MemberCardStatus @NORMAL.value} THEN memberCard.rank_code
+                ELSE (
+                    COALESCE((SELECT freeMember.rank_code
+                              FROM t_user_free_member freeMember
+                              WHERE shopUserAccount.growth_value >= freeMember.need_value
+                                AND freeMember.deleted = FALSE
+                              ORDER BY freeMember.need_value DESC
+                             LIMIT 1),
+                             1)
+            )
+        END  rankCode
+        FROM
+        t_shop_user_account shopUserAccount
+        LEFT JOIN
+            (
+                SELECT MAX(card.rank_code) AS rank_code, card.user_id, card.member_card_status
+                FROM t_user_member_card card
+                WHERE card.deleted = FALSE AND card.member_card_valid_time > NOW() AND card.member_card_status = ${@com.medusa.gruul.user.api.enums.MemberCardStatus @NORMAL.value}
+        GROUP BY card.user_id
+        ) memberCard ON memberCard.user_id = shopUserAccount.user_id
+        LEFT JOIN (
+        SELECT
+        userTag.id AS tagId,
+        userTag.tag_name AS tagName,
+        userTagGroup.user_id,
+        userTagGroup.shop_id
+        FROM t_user_tag_group userTagGroup
+        INNER JOIN t_user_tag userTag
+        ON userTagGroup.user_tag_id = userTag.id AND userTagGroup.shop_id = userTag.shop_id
+        AND userTag.deleted = 0 AND userTagGroup.deleted = 0
+        ) userTags ON userTags.user_id = shopUserAccount.user_id AND shopUserAccount.shop_id = userTags.shop_id
+        WHERE shopUserAccount.deleted = FALSE
+        AND shopUserAccount.user_id = #{userId}
+        AND shopUserAccount.shop_id = #{shopId}
+
+    </select>
+</mapper>

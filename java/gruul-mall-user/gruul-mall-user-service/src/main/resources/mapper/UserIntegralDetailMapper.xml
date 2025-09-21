@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.user.service.mp.mapper.UserIntegralDetailMapper">
+
+    <select id="detailPage" resultType="com.medusa.gruul.user.service.mp.entity.UserIntegralDetail">
+        SELECT
+        id, user_id AS userId, gain_integral_type AS gainIntegralType, variation_integral AS variationIntegral,
+        particulars, current_integral AS currentIntegral, change_type AS changeType, create_time AS createTime
+        FROM
+            t_user_integral_detail
+        where
+            deleted = 0
+        AND
+            user_id = #{integralDetailQuery.userId}
+        <if test="integralDetailQuery.beginTime !=null and integralDetailQuery.endTime!=null">
+            AND (DATE_FORMAT(create_time,'%Y-%m-%d') BETWEEN #{integralDetailQuery.beginTime} AND #{integralDetailQuery.endTime})
+        </if>
+        <if test="integralDetailQuery.gainIntegralType !=null">
+            AND gain_integral_type = #{integralDetailQuery.gainIntegralType.value}
+        </if>
+        ORDER BY create_time DESC
+    </select>
+</mapper>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.user.service.mp.mapper.UserFootMarkMapper">
+
+
+
+    <!--获取用户足迹-->
+    <select id="userFootMarkPage" resultType="com.medusa.gruul.user.api.model.UserFootMarkVO">
+        SELECT
+            id,product_id,shop_id,product_pic,product_price,product_name,update_time `date`
+        FROM
+            t_user_foot_mark
+        <where>
+            user_id = #{userFootMarkQueryDTO.userId}
+            <if test="userFootMarkQueryDTO != null">
+                <if test="userFootMarkQueryDTO.productName != null and userFootMarkQueryDTO.productName != ''">
+                    AND product_name LIKE CONCAT('%',#{userFootMarkQueryDTO.productName},'%')
+                </if>
+                <if test="userFootMarkQueryDTO.month != null and userFootMarkQueryDTO.month !='' ">
+                    AND month(brows_date)= #{userFootMarkQueryDTO.month}
+                </if>
+                <if test="userFootMarkQueryDTO.footMarkDate != null and userFootMarkQueryDTO.footMarkDate != '' ">
+                    AND DATE(update_time) = #{userFootMarkQueryDTO.footMarkDate}
+                </if>
+                <if test="userFootMarkQueryDTO.startDate != null and userFootMarkQueryDTO.startDate != '' and userFootMarkQueryDTO.endDate != null and userFootMarkQueryDTO.endDate != ''">
+                    AND DATE(update_time)  BETWEEN  #{userFootMarkQueryDTO.startDate} AND  #{userFootMarkQueryDTO.endDate}
+                </if>
+            </if>
+            AND deleted = 0
+        </where>
+        order by update_time desc
+
+    </select>
+    
+    <select id="selectThreePlatformCategoryId" resultType="com.medusa.gruul.user.service.mp.entity.UserFootMark">
+        SELECT
+            platform_category_id,max(update_time) updateTime
+        FROM
+            t_user_foot_mark
+        WHERE
+            user_id = #{userId}
+        GROUP BY
+            platform_category_id
+        ORDER BY
+            updateTime DESC
+        limit 3
+    </select>
+
+    <select id="getFootMarkCount" resultType="com.medusa.gruul.user.api.model.UserFootMarkVO">
+        SELECT
+            shop_id AS shopId,
+            count(id) AS total
+        FROM
+            t_user_foot_mark
+        WHERE
+            YEAR(brows_date) = YEAR(NOW())
+            AND SHOP_ID IN
+            <foreach collection="shopIds" item="shopId" separator="," open="(" close=")">
+                #{shopId}
+            </foreach>
+        GROUP BY shop_id
+    </select>
+</mapper>

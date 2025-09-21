@@ -1,0 +1,12 @@
+node_modules
+.DS_Store
+dist
+.log
+.lock
+dist-ssr
+*.local
+.idea
+# *.d.ts
+.history/*
+types/auto-imports.d.ts
+types/components.d.ts

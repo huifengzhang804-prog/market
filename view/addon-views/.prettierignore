@@ -1,0 +1,10 @@
+/dist/*
+.local
+/node_modules/**
+
+**/*.svg
+**/*.sh
+
+/addon/**
+# */public
+# **/index.umd.js

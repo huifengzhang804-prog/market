@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.order.service.mp.mapper.OrderDiscountMapper">
+
+    <resultMap id="orderDiscountMap" type="com.medusa.gruul.order.api.entity.OrderDiscount">
+        <id column="discountId" property="id"/>
+        <result column="discountSourceId" property="sourceId"/>
+        <result column="discountSourceStatus" property="sourceStatus"/>
+        <result column="discountSourceType" property="sourceType"/>
+        <result column="discountSourceAmount" property="sourceAmount"/>
+        <result column="discountSourceDesc" property="sourceDesc"/>
+        <result column="discountCreateTime" property="createTime"/>
+        <result column="orderNo" property="orderNo"/>
+        <collection property="discountItems" ofType="com.medusa.gruul.order.api.entity.OrderDiscountItem">
+            <id column="discountItemId" property="id"/>
+            <result column="discountItemDiscountId" property="discountId"/>
+            <result column="discountItemShopId" property="shopId"/>
+            <result column="discountItemItemId" property="itemId"/>
+            <result column="discountItemDiscountAmount" property="discountAmount"/>
+            <result column="discountItemCreateTime" property="createTime"/>
+        </collection>
+    </resultMap>
+    <select id="orderDiscounts" resultMap="orderDiscountMap">
+        SELECT
+        discount.id AS discountId,
+        discount.source_id AS discountSourceId,
+        discount.source_status AS discountSourceStatus,
+        discount.source_type AS discountSourceType,
+        discount.source_amount AS discountSourceAmount,
+        discount.source_desc AS discountSourceDesc,
+        discount.create_time AS discountCreateTime,
+        discount.order_no AS orderNo,
+
+        discountItem.id AS discountItemId,
+        discountItem.discount_id AS discountItemDiscountId,
+        discountItem.shop_id AS discountItemShopId,
+        discountItem.item_id AS discountItemItemId,
+        discountItem.discount_amount AS discountItemDiscountAmount,
+        discountItem.create_time AS discountItemCreateTime
+        FROM t_order_discount AS discount
+        INNER JOIN t_order_discount_item AS discountItem ON discountItem.discount_id = discount.id AND
+        discountItem.deleted = 0
+        WHERE discount.order_no = #{query.orderNo}
+        AND discount.deleted = FALSE
+        <if test="query.shopId != null">
+            AND discountItem.shop_id = #{query.shopId}
+        </if>
+        <if test="(query.usePackage != null and query.usePackage) or query.packageId != null or (query.shopOrderItemIds != null and query.shopOrderItemIds.size > 0)">
+            AND EXISTS(
+            SELECT item.id
+            FROM t_shop_order_item AS item
+            WHERE item.deleted = FALSE
+            <if test="query.packageId != null ">
+                AND item.package_id = #{query.packageId}
+            </if>
+            AND discountItem.item_id = item.id
+            AND discountItem.shop_id = item.shop_id
+            <if test="query.shopOrderItemIds != null and query.shopOrderItemIds.size > 0">
+                AND item.id IN
+                <foreach collection="query.shopOrderItemIds" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            )
+        </if>
+
+    </select>
+    <select id="orderDiscountsByOrderNos" resultMap="orderDiscountMap">
+        SELECT
+        discount.id AS discountId,
+        discount.source_id AS discountSourceId,
+        discount.source_status AS discountSourceStatus,
+        discount.source_type AS discountSourceType,
+        discount.source_amount AS discountSourceAmount,
+        discount.source_desc AS discountSourceDesc,
+        discount.create_time AS discountCreateTime,
+        discount.order_no AS orderNo,
+
+        discountItem.id AS discountItemId,
+        discountItem.discount_id AS discountItemDiscountId,
+        discountItem.shop_id AS discountItemShopId,
+        discountItem.item_id AS discountItemItemId,
+        discountItem.discount_amount AS discountItemDiscountAmount,
+        discountItem.create_time AS discountItemCreateTime
+        FROM t_order_discount AS discount
+        INNER JOIN t_order_discount_item AS discountItem ON discountItem.discount_id = discount.id
+        AND
+        discountItem.deleted = 0
+        WHERE discount.order_no in
+        <foreach collection="orderIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+
+        AND discount.deleted = FALSE
+
+    </select>
+</mapper>

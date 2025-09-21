@@ -1,0 +1,16 @@
+{
+  "outPath": "./smart-doc",
+  "appToken": "866345153bcc4bf9929db17a5b02e56f",
+  "openUrl": "http://192.168.1.129:7700/api",
+  "allInOneDocFileName": "index.md",
+  "debugEnvUrl": "http://192.168.1.129:9999",
+  "pathPrefix": "addon-freight",
+  "isStrict": false,
+  "packageFilters": "",
+  "debugEnvName": "开发环境",
+  "replace": true,
+  "allInOne": true,
+  "inlineEnum":true,
+  "style": "xt256"
+}
+

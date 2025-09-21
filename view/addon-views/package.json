@@ -1,0 +1,61 @@
+{
+  "name": "addon",
+  "version": "3.0.3",
+  "description": "启山前端插件总入口",
+  "main": "main.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "tsx ./batch-build.ts",
+    "build:w": "tsx ./vite-build.ts",
+    "clean": "tsx ./clean-build.ts",
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx,.vue,.html addon-*/** gruul-mall-freight/**",
+    "fix": "eslint --fix --ext .js,.jsx,.ts,.tsx,.vue,.html addon-*/** gruul-mall-freight/**",
+    "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://e.coding.net/qszr/ywzt/addon-views.git"
+  },
+  "author": "Liu_Fei",
+  "license": "ISC",
+  "dependencies": {
+    "@element-plus/icons-vue": "^2.3.1",
+    "lodash-es": "^4.17.21",
+    "unocss": "^0.55.7",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "@types/node": "14.18.63",
+    "@types/ws": "^8.18.0",
+    "@typescript-eslint/eslint-plugin": "^5.23.0",
+    "@typescript-eslint/parser": "^5.23.0",
+    "@vitejs/plugin-vue": "^4.2.3",
+    "@vitejs/plugin-vue-jsx": "^1.3.10",
+    "axios": "^0.21.4",
+    "chokidar": "^3.6.0",
+    "decimal.js": "^10.4.3",
+    "element-plus": "2.8.6",
+    "eslint": "^8.15.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-define-config": "^1.4.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-vue": "^8.7.1",
+    "pinia": "^2.0.17",
+    "prettier": "^2.6.2",
+    "sass": "1.75.0",
+    "tsx": "^3.12.7",
+    "typescript": "5.4.5",
+    "unplugin-vue-define-options": "^1.5.5",
+    "vite": "^4.5.10",
+    "vite-plugin-require-transform": "^1.0.21",
+    "vue": "^3.4.37",
+    "vue-clipboard3": "^2.0.0",
+    "vue-draggable-next": "^2.2.1",
+    "vue-tsc": "^1.8.5"
+  },
+  "volta": {
+    "node": "16.15.0",
+    "npm": "8.5.5"
+  }
+}

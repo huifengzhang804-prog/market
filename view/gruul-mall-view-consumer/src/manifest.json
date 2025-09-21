@@ -1,0 +1,235 @@
+{
+  "name": "启山智软用户端",
+  "appid": "__UNI__361EFB7",
+  "description": "",
+  "versionName": "3.0.0",
+  "versionCode": "100",
+  "transformPx": false,
+  /* 5+App特有相关 */
+  "app-plus": {
+    "usingComponents": true,
+    "nvueStyleCompiler": "uni-app",
+    "compilerVersion": 3,
+    "compatible": {
+      "ignoreVersion": true
+    },
+    "splashscreen": {
+      "alwaysShowBeforeRender": true,
+      "waiting": true,
+      "autoclose": true,
+      "delay": 0
+    },
+    "optimization": {
+      "subPackages": true
+    },
+    "runmode": "liberate", // 开启分包优化后，必须配置资源释放模式
+
+    /* 模块配置 */
+    "modules": {
+      "Canvas": "nvue canvas",
+      "Maps": {
+        "description": "地图"
+      },
+      "Payment": {},
+      "VideoPlayer": {},
+      "Camera": {},
+      "Share": {},
+      "Barcode": {},
+      "LivePusher": {},
+      "Geolocation": {}
+    },
+    /* 应用发布信息 */
+    "distribute": {
+      /* android打包配置 */
+      "android": {
+        "packagename": "uni.UNI361EFB7.test",
+        "permissions": [
+          "<uses-feature android:name=\"android.hardware.camera\"/>",
+          "<uses-feature android:name=\"android.hardware.camera.autofocus\"/>",
+          "<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\"/>",
+          "<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\"/>",
+          "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>",
+          "<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>",
+          "<uses-permission android:name=\"android.permission.CAMERA\"/>",
+          "<uses-permission android:name=\"android.permission.CHANGE_NETWORK_STATE\"/>",
+          "<uses-permission android:name=\"android.permission.CHANGE_WIFI_STATE\"/>",
+          "<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>",
+          "<uses-permission android:name=\"android.permission.GET_ACCOUNTS\"/>",
+          "<uses-permission android:name=\"android.permission.INTERNET\"/>",
+          "<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\"/>",
+          "<uses-permission android:name=\"android.permission.MOUNT_UNMOUNT_FILESYSTEMS\"/>",
+          "<uses-permission android:name=\"android.permission.READ_LOGS\"/>",
+          "<uses-permission android:name=\"android.permission.READ_PHONE_STATE\"/>",
+          "<uses-permission android:name=\"android.permission.RECORD_AUDIO\"/>",
+          "<uses-permission android:name=\"android.permission.VIBRATE\"/>",
+          "<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>",
+          "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\"/>",
+          "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"
+        ],
+        "minSdkVersion": 21
+      },
+      /* ios打包配置 */
+      "ios": {
+        "dSYMs": false,
+        "privacyDescription": {
+          "NSPhotoLibraryUsageDescription": "app 想访问你的相册",
+          "NSPhotoLibraryAddUsageDescription": "app 想访问你的相册",
+          "NSCameraUsageDescription": "app 想访问你的摄像头",
+          "NSMicrophoneUsageDescription": "app 想访问你的麦克风"
+        }
+      },
+      /* SDK配置 */
+      "sdkConfigs": {
+        "oauth": {
+          "weixin": {
+            "appsecret": true
+          }
+        },
+        "maps": {
+          //可选，JSON对象，Maps(地图)模块三方SDK配置
+          "amap": {
+            //可选，JSON对象，使用高德地图SDK配置
+            "appkey_ios": "8d9b58fd1d05d69c825e4bd5ba78ca0d",
+            "appkey_android": "b09d7ba7777455ddc266d17042324131",
+            "name": "amap_15246320268CjgPAoiAe"
+          }
+        },
+        "ad": {},
+        "payment": {
+          "alipay": {
+            "__platform__": ["ios", "android"]
+          },
+          "weixin": {
+            "__platform__": ["ios", "android"],
+            "appid": "wx8561bb06d3070c14",
+            "UniversalLinks": ""
+          }
+        },
+        "share": {
+          "weixin": {
+            "appid": "wx8561bb06d3070c14",
+            "UniversalLinks": ""
+          }
+        },
+        "geolocation": {
+          "amap": {
+            "name": "amap_15246320268CjgPAoiAe",
+            "__platform__": ["ios", "android"],
+            "appkey_ios": "8d9b58fd1d05d69c825e4bd5ba78ca0d",
+            "appkey_android": "b09d7ba7777455ddc266d17042324131"
+          },
+          "system": {
+            "__platform__": ["ios", "android"]
+          }
+        }
+      },
+      "icons": {
+        "android": {
+          "hdpi": "unpackage/res/icons/72x72.png",
+          "xhdpi": "unpackage/res/icons/96x96.png",
+          "xxhdpi": "unpackage/res/icons/144x144.png",
+          "xxxhdpi": "unpackage/res/icons/192x192.png"
+        },
+        "ios": {
+          "appstore": "unpackage/res/icons/1024x1024.png",
+          "ipad": {
+            "app": "unpackage/res/icons/76x76.png",
+            "app@2x": "unpackage/res/icons/152x152.png",
+            "notification": "unpackage/res/icons/20x20.png",
+            "notification@2x": "unpackage/res/icons/40x40.png",
+            "proapp@2x": "unpackage/res/icons/167x167.png",
+            "settings": "unpackage/res/icons/29x29.png",
+            "settings@2x": "unpackage/res/icons/58x58.png",
+            "spotlight": "unpackage/res/icons/40x40.png",
+            "spotlight@2x": "unpackage/res/icons/80x80.png"
+          },
+          "iphone": {
+            "app@2x": "unpackage/res/icons/120x120.png",
+            "app@3x": "unpackage/res/icons/180x180.png",
+            "notification@2x": "unpackage/res/icons/40x40.png",
+            "notification@3x": "unpackage/res/icons/60x60.png",
+            "settings@2x": "unpackage/res/icons/58x58.png",
+            "settings@3x": "unpackage/res/icons/87x87.png",
+            "spotlight@2x": "unpackage/res/icons/80x80.png",
+            "spotlight@3x": "unpackage/res/icons/120x120.png"
+          }
+        }
+      }
+    },
+    "nvueCompiler": "weex"
+  },
+  // "baidu": {                      //可选，JSON对象，使用百度地图SDK配置
+  //     "appkey_ios": "",                       //必填，字符串类型，iOS平台百度地图appkey
+  //     "appkey_android": ""                    //必填，字符串类型，Android平台百度地图appkey
+  // },
+  // "google": {                     //可选，JSON对象，使用Google地图SDK配置
+  //     "APIKey_ios": "",                       //必填，字符串类型，iOS平台Google地图APIKey
+  //     "APIKey_android": ""                    //必填，字符串类型，Android平台Google地图APIKey
+  // }
+  /* 快应用特有相关 */
+  "quickapp": {},
+  /* 小程序特有相关 */
+  "mp-weixin": {
+    "appid": "wxe97a442e90b4ca1e",
+    "setting": {
+      "urlCheck": false,
+      "minified": true
+    },
+    "usingComponents": true,
+    "lazyCodeLoading": "requiredComponents",
+    "optimization": {
+      "subPackages": true
+    },
+    "__usePrivacyCheck__": true,
+    "permission": {
+      "scope.userLocation": {
+        "desc": "你的位置信息将用于小程序位置接口的效果展示"
+      }
+    },
+    "requiredPrivateInfos": ["chooseLocation", "getLocation", "chooseAddress"]
+  },
+  "mp-alipay": {
+    "usingComponents": true
+  },
+  "mp-baidu": {
+    "usingComponents": true
+  },
+  "mp-toutiao": {
+    "usingComponents": true
+  },
+  "uniStatistics": {
+    "enable": false
+  },
+  "vueVersion": "3",
+  "h5": {
+    "sdkConfigs": {
+      // 使用地图或位置相关功能必须填写其一
+      "maps": {
+        // "qqmap": {
+        //     // 腾讯地图秘钥 https://lbs.qq.com/dev/console/key/manage
+        //     "key": ""
+        // },
+        // "google": {
+        //     // 谷歌地图秘钥（HBuilderX 3.2.10+）https://developers.google.com/maps/documentation/javascript/get-api-key
+        //     "key": ""
+        // },
+        "amap": {
+          // 高德地图秘钥（HBuilderX 3.6.0+）https://console.amap.com/dev/key/app
+          "key": "e8ecba8098456300c47451985d77c57d",
+          // 高德地图安全密钥（HBuilderX 3.6.0+）https://console.amap.com/dev/key/app
+          "securityJsCode": "5bbf6bf36bdeb7959dba85615c31ed5e"
+        }
+      }
+    },
+    "optimization": {
+      "preload": true,
+      "treeShaking": {
+        "enable": true
+      }
+    }
+  },
+  "fallbackLocale": "zh-Hans",
+  "locale": "zh-Hans"
+}
+// // 高德地图安全密钥代理服务器地址（HBuilderX 3.6.0+）https://lbs.amap.com/api/jsapi-v2/guide/abc/prepare
+// "serviceHost": "",

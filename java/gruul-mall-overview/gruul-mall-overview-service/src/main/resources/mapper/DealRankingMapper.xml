@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.overview.service.mp.operate.mapper.DealRankingMapper">
+
+
+    <resultMap id="baseResultMap" type="com.medusa.gruul.overview.service.model.vo.SalableShopVO">
+        <result property="shopId" column="shop_id"/>
+        <result column="realTradingVolume" property="realTradingVolume"/>
+    </resultMap>
+
+    <resultMap id="DealStatisticsMap" type="com.medusa.gruul.overview.service.model.vo.DealStatisticsVO">
+        <result column="realTradingVolume" property="realTradingVolume"/>
+        <result column="realTradeVolume" property="realTradeVolume"/>
+        <result column="date" property="date"/>
+    </resultMap>
+
+    <resultMap id="SalableProductTypeMap" type="com.medusa.gruul.overview.service.model.vo.SalableProductTypeVO">
+        <result column="realTradingVolume" property="realTradingVolume"/>
+        <result column="realTradeVolume" property="realTradeVolume"/>
+        <result column="product_id" property="productId"/>
+        <result column="shopId" property="shopId"/>
+    </resultMap>
+
+    <select id="querySalableShop" resultMap="baseResultMap">
+        SELECT
+            SUM(real_trading_volume) AS realTradingVolume
+            ,shop_id
+        FROM
+            t_deal_ranking
+        WHERE
+            `date`  BETWEEN #{dealRankingParam.startDate} AND #{dealRankingParam.endDate}
+        GROUP BY
+	        shop_id
+	    ORDER BY realTradingVolume DESC
+	    LIMIT 10
+    </select>
+    <select id="getDealStatistics" resultMap="DealStatisticsMap">
+        SELECT
+        SUM(real_trading_volume) AS realTradingVolume,
+        SUM(real_trade_volume) AS realTradeVolume,
+        `date`
+        FROM
+        t_deal_ranking
+        WHERE
+        `date` BETWEEN #{dealRankingParam.startDate} AND #{dealRankingParam.endDate}
+        <if test="dealRankingParam.shopId !=0">
+            AND shop_id =#{dealRankingParam.shopId}
+        </if>
+        GROUP BY
+        `date`
+        ORDER BY `date`
+
+
+    </select>
+
+    <select id="getSalableProductMoney" resultMap="SalableProductTypeMap">
+        SELECT
+              SUM(real_trading_volume) AS realTradingVolume,
+              product_id,
+              ANY_VALUE(shop_id) AS shopId
+         FROM
+            t_deal_ranking
+        WHERE
+          `date`  BETWEEN #{dealRankingParam.startDate} AND #{dealRankingParam.endDate}
+        <if test="dealRankingParam.shopId !=0">
+            AND shop_id =#{dealRankingParam.shopId}
+        </if>
+        GROUP BY
+	       product_id
+        ORDER BY realTradingVolume DESC
+	    LIMIT 10
+    </select>
+    <select id="getSalableProductNum" resultMap="SalableProductTypeMap">
+        SELECT
+        SUM(real_trading_volume) AS realTradingVolume,
+        SUM(real_trade_volume) AS realTradeVolume,
+        product_id,
+        ANY_VALUE(shop_id) AS shopId
+        FROM
+        t_deal_ranking
+        WHERE
+        `date` BETWEEN #{dealRankingParam.startDate} AND #{dealRankingParam.endDate}
+        <if test="dealRankingParam.shopId !=0">
+            AND shop_id =#{dealRankingParam.shopId}
+        </if>
+        GROUP BY
+        product_id
+        ORDER BY realTradeVolume DESC
+        LIMIT 10
+
+
+    </select>
+    <select id="getMobileDealStatistics"
+            resultType="com.medusa.gruul.overview.service.model.vo.DealStatisticsVO">
+        SELECT
+            SUM( real_trading_volume ) AS realTradingVolume,
+            SUM( real_trade_volume ) AS realTradeVolume
+        FROM
+            t_deal_ranking
+        WHERE
+        `date` BETWEEN #{dealRankingParam.startDate} AND #{dealRankingParam.endDate}
+        AND
+         shop_id= #{dealRankingParam.shopId}
+        AND
+        deleted=0
+    </select>
+</mapper>

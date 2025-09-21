@@ -1,0 +1,341 @@
+<script setup lang="ts">
+import { ref, getCurrentInstance, provide, reactive, computed, onMounted, onUnmounted } from 'vue'
+import { onReady, onLoad, onShow } from '@dcloudio/uni-app'
+import LiveHeadBar from './components/headBar/live-head-bar.nvue'
+import FooterPremiere from './components/skinCare/footer-premiere.vue'
+import CountdownPremiere from './components/skinCare/countdown-premiere.vue'
+// #ifdef APP-PLUS
+import ChatRoom from './components/chatRoom/chat-room.vue'
+// #endif
+import ShareIndex from './components/share/index.nvue'
+import { doGetUserMessage, doPutLiveRoomLower } from '../apis/CreateLive'
+import LiveCloseMask from './components/mask/live-close-mask.vue'
+import { viewLivePageUrl, CREATE_LIVE_ROOM_STORAGE_KEY } from '../views/components/liveList'
+// #ifdef APP-PLUS
+import { doDismissGroup } from './components/chatRoom/apis'
+// #endif
+import { connectSocket, socketUrl } from './socket'
+import type { GetUserMessage, LvData } from '../apis/CreateLive/model'
+import storage from '../../../utils/storage'
+
+const instance = getCurrentInstance()?.proxy // 能够获取到全局上下文对象
+const position = ref('back') // front: 前置摄像头  back: 后置摄像头
+const context = ref<UniApp.LivePusherContext | null>(null) // 直播推流实例
+const liveCloseMask = ref(false)
+const aspect = ref('9:16')
+const isPremiereDown = ref(false) // 是否开播倒计时
+const isPremiere = ref(false) // 是否开播
+const isShare = ref(false)
+// 聊天组件延时展示 （美艳组件消失后）否则出现页面闪现
+const chatRoomDelayShow = ref(false)
+const livePusherLayout = ref({
+  width: 0,
+  height: 0,
+})
+const shareData = ref({
+  goodId: '',
+  image: '',
+  productName: '',
+  salePrice: '',
+  shopId: '',
+})
+const userInfo = ref<GetUserMessage>({
+  id: '',
+  shopId: '',
+  anchorNickname: '',
+  anchorSynopsis: '',
+  anchorIcon: '',
+  status: 'NORMAL',
+  gender: '',
+  phone: '',
+  viewership: '0',
+  duration: '',
+  followCount: '0',
+})
+const handleShare = () => {
+  isShare.value = true
+}
+const routerParams = ref({ immediately: false, id: '', pushAddress: '' })
+// 美颜 美白 等级
+const lv = reactive<LvData>({
+  skinCareData: {
+    index: 0,
+  },
+  whiteningData: {
+    index: 0,
+  },
+})
+const keyboardheight = ref(0)
+provide('lvData', lv)
+const positionCenterData = computed(() => {
+  return {
+    top: livePusherLayout.value.height / 2,
+    left: livePusherLayout.value.width / 2,
+  }
+})
+
+onReady(() => {
+  context.value = uni.createLivePusherContext('camera', instance)
+  context.value &&
+    context.value.startPreview({
+      success(data) {
+        console.log('开启摄像头预览', data)
+      },
+    })
+})
+userMessage()
+onLoad(() => {
+  uni.$emit('updateTitle')
+  const storageData = storage.get(CREATE_LIVE_ROOM_STORAGE_KEY)
+  // @ts-ignore
+  getApp().globalData.identity = 'HOST'
+  if (storageData) {
+    routerParams.value = storageData
+
+    connectSocket(socketUrl(routerParams.value.id), 3000)
+    if (routerParams.value.immediately) {
+      // @ts-ignore
+      isPremiereDown.value = true
+    }
+  }
+})
+uni.getSystemInfo({
+  success: (res) => {
+    const { windowWidth, windowHeight } = res
+    livePusherLayout.value.width = windowWidth
+    livePusherLayout.value.height = windowHeight
+  },
+})
+// 返回
+function onClickBack() {
+  uni.navigateBack()
+}
+// 拍照
+function takePhoto() {
+  // #ifdef MP-WEIXIN
+  const ctx = uni.createCameraContext()
+  ctx.takePhoto({
+    quality: 'high',
+    success(res) {
+      console.log(res, 'res')
+    },
+  })
+  // #endif
+  // #ifdef APP-PLUS
+  uni.vibrateShort({})
+  context.value &&
+    context.value.snapshot({
+      success(res) {
+        console.log(res, 'res')
+      },
+    })
+  // #endif
+}
+// 切换前后摄像头
+function onClickSwitch(type = 'back') {
+  console.log('www')
+  // #ifdef MP-WEIXIN
+  position.value = type === 'front' ? 'back' : 'front'
+  // #endif
+  // #ifdef APP-PLUS
+  context.value && context.value.switchCamera()
+  // #endif
+}
+// 微信摄像头错误
+function errorCamrea(error) {
+  uni.showModal({
+    title: '温馨提示',
+    content: '摄像头调用失败（请确认是否已经授权使用摄像头）',
+    success: (res) => {
+      if (res['confirm']) {
+        uni.openSetting({
+          success: ({ authSetting }) => {
+            if (authSetting['scope.camera']) {
+              uni.showToast({
+                title: '摄像头打开成功,请重新进入',
+                duration: 4000,
+                success() {
+                  onClickBack()
+                },
+              })
+            }
+          },
+        })
+      }
+    },
+  })
+}
+// 直播推流错误
+function liveError(error) {
+  console.log('error', error)
+}
+
+onShow(() => {
+  isPremiere.value &&
+    context.value &&
+    context.value.resume({
+      success: (a) => {
+        console.log('livePusher.resume:' + JSON.stringify(a))
+      },
+    })
+})
+// #ifdef APP-PLUS
+onUnmounted(() => {
+  doDismissGroup({ success: () => {}, error: () => {} })
+})
+// #endif
+
+function startPusher() {
+  isPremiereDown.value = false
+  context.value?.start({
+    success(data) {
+      console.log('开启摄像头预览', data)
+      // 成功开播
+      successPremiere()
+    },
+  })
+}
+function pausePusher() {
+  context.value?.pause({
+    success: (a) => {
+      console.log('livePusher.pause:' + JSON.stringify(a))
+    },
+  })
+}
+function stopPusher() {
+  uni.showModal({
+    title: '提示',
+    content: '是否下播',
+    success: async (res) => {
+      if (res.confirm) {
+        const { code, data, msg } = await doPutLiveRoomLower(routerParams.value.id)
+        if (code !== 200) {
+          uni.showToast({ title: `${msg || '下播失败'}`, icon: 'none' })
+          return
+        }
+        context.value?.stop({
+          success: (a) => {
+            isPremiere.value = false
+            chatRoomDelayShow.value = false
+          },
+        })
+        // #ifdef APP-PLUS
+        doDismissGroup({ success: () => {}, error: () => {} })
+        // #endif
+
+        uni.navigateBack({ delta: 1 })
+      }
+    },
+  })
+  //  下播
+}
+// 成功开启直播
+function successPremiere() {
+  isPremiere.value = true
+  setTimeout(() => {
+    chatRoomDelayShow.value = true
+  }, 1000)
+}
+// 关闭摄像头预览
+function stopPreview() {
+  context.value?.stopPreview({
+    success: (a) => {
+      console.log('livePusher.stopPreview:' + JSON.stringify(a))
+    },
+  })
+}
+const keyboardheightchange = (e) => {
+  keyboardheight.value = e.detail.height
+}
+const closeshare = () => {
+  isShare.value = false
+}
+const statechange = (detail) => {
+  const { message, code } = detail.detail
+  if (message === '所有IP都已经尝试失败,可以放弃治疗') {
+    console.log(code === -1307)
+    // 强制下播
+    console.log('强制下播')
+    stopPreview()
+    liveCloseMask.value = true
+  }
+}
+const netstatus = (detail) => {}
+const handleClose = () => {
+  uni.navigateBack({
+    delta: 1,
+  })
+}
+async function userMessage() {
+  const { code, data, msg } = await doGetUserMessage()
+  if (code !== 200) {
+    uni.showToast({ title: '获取主播信息失败' })
+    return
+  }
+  userInfo.value = data
+}
+</script>
+
+<template>
+  <live-pusher
+    id="camera"
+    class="common__camrea"
+    :style="{ width: `${livePusherLayout.width}px`, height: `${livePusherLayout.height}px` }"
+    mode="FHD"
+    :url="routerParams.pushAddress"
+    audio-quality="16KHz"
+    :aspect="aspect"
+    :beauty="lv.skinCareData.index"
+    :whiteness="lv.whiteningData.index"
+    :enable-mic="false"
+    :device-position="position"
+    waiting-image="https://img0.baidu.com/it/u=64438431,197326954&fm=253&fmt=auto&app=120&f=JPEG?w=1280&h=800"
+    @statechange="statechange"
+    @netstatus="netstatus"
+    @error="liveError"
+  >
+  </live-pusher>
+  <view class="anchor-mask" :style="{ width: `${livePusherLayout.width}px`, height: `${livePusherLayout.height}px` }">
+    <!-- 头部分享关注组件 s-->
+    <live-head-bar
+      :user-info="userInfo"
+      :anchorId="userInfo.anchorId"
+      v-if="!liveCloseMask && userInfo.anchorIcon"
+      @pause="pausePusher"
+      @stop="stopPusher"
+      @switch="onClickSwitch"
+      @share="handleShare"
+    />
+    <!-- 头部分享关注组件 e-->
+    <countdown-premiere v-if="isPremiereDown" :top="positionCenterData.top" :left="positionCenterData.left" @end="startPusher" />
+
+    <view v-if="!liveCloseMask" class="anchor-mask__footer">
+      <!-- 开播后开启聊天室 ChatRoom im -->
+      <!-- #ifdef APP-PLUS -->
+      <chatRoom v-if="isPremiere && chatRoomDelayShow" @keyboardheightchange="keyboardheightchange"></chatRoom>
+      <!-- #endif -->
+      <!-- 开播后开启聊天室 ChatRoom im -->
+      <!--底部开播 + 美颜组件 s 开播后不展示 -->
+      <footer-premiere v-if="!isPremiere" @camera="onClickSwitch" @start="isPremiereDown = true" />
+      <!--底部开播 + 美颜组件 e 开播后不展示 -->
+    </view>
+  </view>
+  <share-index :user-avatar="userInfo.anchorIcon" v-if="isShare" @close="closeshare" />
+  <live-close-mask v-if="liveCloseMask" @close="handleClose"></live-close-mask>
+</template>
+<style scoped>
+.anchor-mask {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+.anchor-mask__footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  transition: transform 0.3s;
+}
+</style>

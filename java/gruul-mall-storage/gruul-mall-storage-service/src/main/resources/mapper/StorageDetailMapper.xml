@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.storage.service.mp.mapper.StorageDetailMapper">
+
+
+    <update id="updateStorageDetail">
+
+        UPDATE t_storage_detail
+        SET
+            create_time = #{now} ,
+            is_show = 1
+        WHERE
+        deleted = 0 AND
+        (shop_id, product_id) IN
+        <foreach collection="shopProductKeyList" item="shopProductKey" index="index" open="(" separator="," close=")">
+            (#{shopProductKey.shopId},#{shopProductKey.productId})
+        </foreach>
+
+
+    </update>
+</mapper>

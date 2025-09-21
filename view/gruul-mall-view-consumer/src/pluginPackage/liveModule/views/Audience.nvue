@@ -1,0 +1,60 @@
+<script setup>
+import { ref, onMounted } from 'vue'
+import UserWatch from './userWatch/userWatch.nvue'
+import { getUserLiveStorageSyncFn } from '@/pluginPackage/liveModule/views/components/liveList'
+import { doGetLiveRoomDetail } from '@/pluginPackage/liveModule/apis/CreateLive'
+import { doPostViewership } from '@/pluginPackage/liveModule/apis/UserLive'
+import { onLoad } from '@dcloudio/uni-app'
+import { connectSocket, socketUrl } from './socket'
+
+const liveList = ref([]) /* 直播列表数据 */
+const livePusherLayout = ref({
+  width: 0,
+  height: 0,
+})
+const liveRoomDetail = ref({})
+
+onLoad(() => {
+  uni.$emit('updateTitle')
+  const res = getUserLiveStorageSyncFn()
+  getApp().globalData.identity = 'USER'
+  getLiveRoomDetail()
+  connectSocket(socketUrl(res.id), 3000)
+  viewership(res.id)
+})
+uni.getSystemInfo({
+  success: (res) => {
+    const { windowWidth, windowHeight } = res
+    livePusherLayout.value.width = windowWidth
+    livePusherLayout.value.height = windowHeight
+  },
+})
+
+// 获取直播信息
+async function getLiveRoomDetail() {
+  const { code, data, msg } = await doGetLiveRoomDetail(getApp().globalData.groupID)
+  if (code !== 200) {
+    uni.showToast({ icon: 'none', title: `${msg || '获取直播信息失败'}` })
+    return
+  }
+  liveRoomDetail.value = data
+  liveList.value.push(data)
+}
+const scrolltolower = (e) => {}
+// 用户进入直播间时，添加直播间观看人数
+async function viewership(liveId) {
+  const { code, data } = await doPostViewership({ liveId })
+  if (code !== 200) {
+    return
+  }
+}
+</script>
+
+<template>
+  <scroll-view scroll-y :style="{ width: livePusherLayout.width + 'px', height: livePusherLayout.height + 'px' }" @scrolltolower="scrolltolower">
+    <view v-for="i in liveList" :key="i.id" :style="{ width: livePusherLayout.width + 'px', height: livePusherLayout.height + 'px' }">
+      <UserWatch :width="livePusherLayout.width" :height="livePusherLayout.height" :live-room-detail="i"></UserWatch>
+    </view>
+  </scroll-view>
+</template>
+<style></style>

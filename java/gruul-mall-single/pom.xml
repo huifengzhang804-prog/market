@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>gruul-mall-parent</artifactId>
+        <groupId>com.medusa.gruul</groupId>
+        <version>2022.2</version>
+    </parent>
+
+    <artifactId>gruul-mall-single</artifactId>
+    <version>1.0</version>
+
+    <dependencies>
+        <!--   单体包    -->
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>gruul-common-module-single</artifactId>
+            <version>2022.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>3.0.2</version>
+        </dependency>
+
+        <!-- 基础服务 -->
+        <!-- cart 购物车-->
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>gruul-mall-cart-service</artifactId>
+            <version>1.0</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>gruul-common-module-service</artifactId>
+                    <groupId>com.medusa.gruul</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- carrier-pigeon 信鸽服务 -->
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>gruul-mall-carrier-pigeon-service</artifactId>
+            <version>1.0</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>gruul-common-module-service</artifactId>
+                    <groupId>com.medusa.gruul</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- search 检索服务-->
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>gruul-mall-search-service</artifactId>
+            <version>1.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.elasticsearch.client</groupId>
+                    <artifactId>elasticsearch-rest-high-level-client</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.elasticsearch</groupId>
+                    <artifactId>elasticsearch</artifactId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>gruul-common-module-service</artifactId>
+                    <groupId>com.medusa.gruul</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.elasticsearch.client</groupId>
+            <artifactId>elasticsearch-rest-high-level-client</artifactId>
+            <version>7.14.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.elasticsearch</groupId>
+            <artifactId>elasticsearch</artifactId>
+            <version>7.14.0</version>
+        </dependency>
+        <!-- overview 概况与财务-->
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>gruul-mall-overview-service</artifactId>
+            <version>1.0</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>gruul-common-module-service</artifactId>
+                    <groupId>com.medusa.gruul</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- goods 商品-->
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>gruul-mall-goods-service</artifactId>
+            <version>1.0</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>gruul-common-module-service</artifactId>
+                    <groupId>com.medusa.gruul</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- storage 库存-->
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>gruul-mall-storage-service</artifactId>
+            <version>1.0</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>gruul-common-module-service</artifactId>
+                    <groupId>com.medusa.gruul</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- user 用户服务-->
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>gruul-mall-user-service</artifactId>
+            <version>1.0</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>gruul-common-module-service</artifactId>
+                    <groupId>com.medusa.gruul</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- payment 支付-->
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>gruul-mall-payment-service</artifactId>
+            <version>1.0</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>gruul-common-module-service</artifactId>
+                    <groupId>com.medusa.gruul</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- afs 售后-->
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>gruul-mall-afs-service</artifactId>
+            <version>1.0</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>gruul-common-module-service</artifactId>
+                    <groupId>com.medusa.gruul</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- order 订单-->
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>gruul-mall-order-service</artifactId>
+            <version>1.0</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>gruul-common-module-service</artifactId>
+                    <groupId>com.medusa.gruul</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- shop 店铺-->
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>gruul-mall-shop-service</artifactId>
+            <version>1.0</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>gruul-common-module-service</artifactId>
+                    <groupId>com.medusa.gruul</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- uaa 认证与授权-->
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>gruul-mall-uaa-service</artifactId>
+            <version>1.0</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>gruul-common-module-service</artifactId>
+                    <groupId>com.medusa.gruul</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- live 直播 -->
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>gruul-mall-live-service</artifactId>
+            <version>1.0</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>gruul-common-module-service</artifactId>
+                    <groupId>com.medusa.gruul</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- 插件  -->
+        <!--    发票    -->
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>addon-invoice</artifactId>
+            <version>1.0</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>gruul-common-module-addon</artifactId>
+                    <groupId>com.medusa.gruul</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!--    返利    -->
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>addon-rebate</artifactId>
+            <version>1.0</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>gruul-common-module-addon</artifactId>
+                    <groupId>com.medusa.gruul</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!--    直播    -->
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>addon-live</artifactId>
+            <version>1.0</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>gruul-common-module-addon</artifactId>
+                    <groupId>com.medusa.gruul</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!--   拼团     -->
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>addon-team</artifactId>
+            <version>1.0</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>gruul-common-module-addon</artifactId>
+                    <groupId>com.medusa.gruul</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!--    满减    -->
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>addon-full-reduction</artifactId>
+            <version>1.0</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>gruul-common-module-addon</artifactId>
+                    <groupId>com.medusa.gruul</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!--    同城配送    -->
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>addon-ic</artifactId>
+            <version>1.0</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>gruul-common-module-addon</artifactId>
+                    <groupId>com.medusa.gruul</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!--    套餐    -->
+        <dependency>
+            <groupId>com.medusa.gruul.addon.matching.treasure</groupId>
+            <artifactId>addon-matching-treasure</artifactId>
+            <version>1.0</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>gruul-common-module-addon</artifactId>
+                    <groupId>com.medusa.gruul</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!--     砍价   -->
+        <dependency>
+            <groupId>com.medusa.gruul.addon.bargain</groupId>
+            <artifactId>addon-bargain</artifactId>
+            <version>1.0</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>gruul-common-module-addon</artifactId>
+                    <groupId>com.medusa.gruul</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!--    积分    -->
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>addon-integral</artifactId>
+            <version>1.0</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>gruul-common-module-addon</artifactId>
+                    <groupId>com.medusa.gruul</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- freight 物流-->
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>addon-freight</artifactId>
+            <version>1.0</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>gruul-common-module-addon</artifactId>
+                    <groupId>com.medusa.gruul</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- 门店 -->
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>addon-shop-store</artifactId>
+            <version>1.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.medusa.gruul</groupId>
+                    <artifactId>gruul-common-module-addon</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- member 会员 -->
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>addon-member</artifactId>
+            <version>1.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.medusa.gruul</groupId>
+                    <artifactId>gruul-common-module-addon</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- seckill 秒杀-->
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>addon-seckill</artifactId>
+            <version>1.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.medusa.gruul</groupId>
+                    <artifactId>gruul-common-module-addon</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- distribute 分销-->
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>addon-distribute</artifactId>
+            <version>1.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.medusa.gruul</groupId>
+                    <artifactId>gruul-common-module-addon</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- coupon 优惠券-->
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>addon-coupon</artifactId>
+            <version>1.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.medusa.gruul</groupId>
+                    <artifactId>gruul-common-module-addon</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!--  涉及商业模式  -->
+        <!-- platform 平台-->
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>addon-platform</artifactId>
+            <version>1.0</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>gruul-common-module-addon</artifactId>
+                    <groupId>com.medusa.gruul</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- 供应商 -->
+
+        <dependency>
+            <groupId>com.medusa.gruul</groupId>
+            <artifactId>addon-supplier</artifactId>
+            <version>1.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.medusa.gruul</groupId>
+                    <artifactId>gruul-common-module-addon</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+    </dependencies>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>config/</exclude>
+                    </excludes>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.medusa.gruul.single.SingleApplication</mainClass>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                        </manifest>
+                        <manifestEntries>
+                            <Class-Path>./</Class-Path>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                            <excludeTransitive>false</excludeTransitive>
+                            <stripVersion>false</stripVersion>
+                            <includeScope>runtime</includeScope>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/resources</directory>
+                                    <includes>
+                                        <include>config/**</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                            <outputDirectory>${project.build.directory}</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

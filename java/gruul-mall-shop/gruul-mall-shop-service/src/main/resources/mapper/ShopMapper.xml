@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.shop.service.mp.mapper.ShopMapper">
+
+
+    <resultMap id="pageShopMap" type="com.medusa.gruul.shop.service.model.vo.ShopVO">
+        <id column="id" property="id"/>
+        <result column="companyName" property="companyName"/>
+        <result column="name" property="name"/>
+        <result column="no" property="no"/>
+        <result column="shopMode" property="shopMode"/>
+        <result column="contractNumber" property="contractNumber"/>
+        <result column="status" property="status"/>
+        <result column="address" property="address"/>
+        <result column="location" property="location"
+                typeHandler="com.medusa.gruul.common.geometry.GeometryTypeHandler"/>
+        <result column="logo" property="logo"/>
+        <result column="userId" property="userId"/>
+        <result column="briefing" property="briefing"/>
+        <result column="shopType" property="shopType"/>
+        <result column="extractionType" property="extractionType"/>
+        <result column="drawPercentage" property="drawPercentage"/>
+        <result column="newTips" property="newTips"/>
+        <result column="createTime" property="createTime"/>
+        <result column="updateTime" property="updateTime"/>
+        <result column="version" property="version"/>
+        <association property="registerInfo" javaType="com.medusa.gruul.shop.service.model.vo.ShopRegisterInfoVO">
+            <result column="license" property="license"/>
+            <result column="legalPersonIdFront" property="legalPersonIdFront"/>
+            <result column="legalPersonIdBack" property="legalPersonIdBack"/>
+            <result column="registerCreateTime" property="createTime"/>
+            <result column="registerUpdateTime" property="updateTime"/>
+            <result column="registerVersion" property="version"/>
+        </association>
+        <association property="bankAccount" javaType="com.medusa.gruul.shop.service.model.vo.ShopBankAccountVO">
+            <result column="payee" property="payee"/>
+            <result column="bankName" property="bankName"/>
+            <result column="bankAccount" property="bankAccount"/>
+            <result column="openAccountBank" property="openAccountBank"/>
+            <result column="bankCreateTime" property="createTime"/>
+            <result column="bankUpdateTime" property="updateTime"/>
+            <result column="bankVersion" property="version"/>
+        </association>
+    </resultMap>
+
+
+
+    <resultMap id="pageShopListMap" type="com.medusa.gruul.shop.service.model.vo.ShopListVO">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="no" property="no"/>
+        <result column="userId" property="userId"/>
+        <result column="status" property="status"/>
+        <result column="contractNumber" property="contractNumber"/>
+        <result column="address" property="address"/>
+        <result column="logo" property="logo"/>
+        <result column="shopType" property="shopType"/>
+        <result column="extractionType" property="extractionType"/>
+        <result column="createTime" property="createTime"/>
+        <result column="auditTime" property="auditTime"/>
+        <result column="extra" property="extra"  typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+    </resultMap>
+
+    <resultMap id="shopQuantityMap" type="com.medusa.gruul.shop.service.model.vo.ShopStatusQuantityVO">
+        <result column="status" property="status"/>
+        <result column="quantity" property="quantity"/>
+    </resultMap>
+
+    <resultMap id="pageShopInfoMap" type="com.medusa.gruul.shop.api.model.vo.ShopInfoVO">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="location" property="location"
+                typeHandler="com.medusa.gruul.common.geometry.GeometryTypeHandler"/>
+        <result column="logo" property="logo"/>
+        <result column="shopType" property="shopType"/>
+        <result column="shopMode" property="shopMode"/>
+    </resultMap>
+
+    <select id="pageShop" resultMap="pageShopMap">
+        SELECT shop.id AS id,
+        shop.company_name AS companyName,
+        shop.`name` AS `name`,
+        shop.`no` AS `no`,
+        shop.contract_number AS contractNumber,
+        shop.`status` AS `status`,
+        shop.address AS address,
+        shop.location AS location,
+        shop.logo AS logo,
+        shop.user_id AS userId,
+        shop.briefing AS briefing,
+        shop.create_time AS createTime,
+        shop.update_time AS updateTime,
+        shop.create_time AS shopCreateTime,
+        shop.version AS version,
+        shop.shop_type AS shopType,
+        shop.extraction_type AS extractionType,
+        shop.new_tips AS newTips,
+        shop.draw_percentage AS drawPercentage,
+        shop.shop_mode AS shopMode,
+        register.license AS license,
+        register.legal_person_id_front AS legalPersonIdFront,
+        register.legal_person_id_back AS legalPersonIdBack,
+        register.create_time AS registerCreateTime,
+        register.update_time AS registerUpdateTime,
+        register.version AS registerVersion,
+        bank.payee AS payee,
+        bank.bank_name AS bankName,
+        bank.bank_account AS bankAccount,
+        bank.open_account_bank AS openAccountBank,
+        bank.create_time AS bankCreateTime,
+        bank.update_time AS bankUpdateTime,
+        bank.version AS bankVersion
+        FROM `t_shop` AS shop
+        INNER JOIN t_shop_bank_account AS bank ON bank.shop_id = shop.id AND bank.deleted = FALSE
+        LEFT JOIN t_shop_register_info AS register ON register.shop_id = shop.id AND register.deleted = FALSE
+        WHERE
+        shop.deleted = FALSE
+        <choose>
+            <when test="page.status != null">
+                AND shop.`status` = #{page.status.value}
+            </when>
+            <otherwise>
+                AND (
+                shop.`status` = ${@com.medusa.gruul.common.module.app.shop.ShopStatus @FORBIDDEN.value}
+                or
+                shop.`status` = ${@com.medusa.gruul.common.module.app.shop.ShopStatus @NORMAL.value}
+                )
+            </otherwise>
+        </choose>
+
+        <if test="page.shopType != null">
+            AND shop.`shop_type` = #{page.shopType.value}
+        </if>
+        <if test="page.shopModes != null and page.shopModes.size > 0">
+            AND shop.`shop_mode` in
+            <foreach collection="page.shopModes" item="shopMode" open="(" separator="," close=")">
+                #{shopMode.value}
+            </foreach>
+        </if>
+        <if test="page.extractionType != null ">
+            AND shop.`extraction_type` =#{page.extractionType.value}
+        </if>
+        <if test="page.no != null and page.no != ''">
+            AND shop.`no` LIKE CONCAT('%', #{page.no}, '%')
+        </if>
+        <if test="page.name != null and page.name != ''">
+            AND shop.`name` LIKE CONCAT('%', #{page.name}, '%')
+        </if>
+        ORDER BY shop.create_time DESC
+    </select>
+
+    <select id="queryTodayAddShopQuantity" resultType="java.lang.Long">
+        SELECT count(id)
+        FROM t_shop
+        WHERE deleted = 0
+          AND shop_mode = ${@com.medusa.gruul.common.module.app.shop.ShopMode @COMMON.value}
+          AND TO_DAYS(create_time) = TO_DAYS(NOW())
+    </select>
+
+
+    <select id="queryShopQuantity" resultMap="shopQuantityMap">
+        SELECT count(id) AS quantity,
+               `status`  AS `status`
+        FROM t_shop
+        WHERE deleted = 0
+          AND shop_mode IN
+              (${@com.medusa.gruul.common.module.app.shop.ShopMode @COMMON.value}
+               ,${@com.medusa.gruul.common.module.app.shop.ShopMode @O2O.value})
+          AND (`status` = ${@com.medusa.gruul.common.module.app.shop.ShopStatus @UNDER_REVIEW.value}
+            OR
+               `status` = ${@com.medusa.gruul.common.module.app.shop.ShopStatus @NORMAL.value}
+            )
+        GROUP BY status
+    </select>
+
+    
+
+    <!--获取供应商数量-->
+    <select id="querySupplierQuantity"
+            resultType="com.medusa.gruul.shop.service.model.vo.SupplierStatisticsVO">
+        SELECT count(id)  AS number,
+               'toDoList' AS 'dataType'
+        FROM t_shop
+        WHERE deleted = 0
+          AND STATUS = ${@com.medusa.gruul.common.module.app.shop.ShopStatus @UNDER_REVIEW.value}
+          AND shop_mode = ${@com.medusa.gruul.common.module.app.shop.ShopMode @SUPPLIER.value}
+        UNION ALL
+        SELECT count(id) AS number,
+               'todayNewSupplierNumber'
+        FROM t_shop
+        WHERE deleted = 0
+          AND shop_mode = ${@com.medusa.gruul.common.module.app.shop.ShopMode @SUPPLIER.value}
+          AND TO_DAYS(create_time) = TO_DAYS(NOW())
+          AND `status` = ${@com.medusa.gruul.common.module.app.shop.ShopStatus @NORMAL.value}
+        UNION ALL
+        SELECT count(id) AS number,
+               'totalSupplierNumber'
+        FROM t_shop
+        WHERE deleted = 0
+          AND shop_mode = ${@com.medusa.gruul.common.module.app.shop.ShopMode @SUPPLIER.value}
+          AND `status` = ${@com.medusa.gruul.common.module.app.shop.ShopStatus @NORMAL.value}
+    </select>
+
+
+    <select id="pageShopList" resultMap="pageShopListMap">
+        SELECT
+            id ,
+            shop.`name` AS `name`,
+            shop.`no` AS `no`,
+            shop.`status` AS `status`,
+            shop.user_id AS userId,
+            shop.contract_number AS contractNumber,
+            shop.address AS address,
+            shop.logo AS logo,
+            shop.shop_type AS shopType,
+            shop.extraction_type AS extractionType,
+            shop.create_time AS createTime,
+            <!--显示审核条件-->
+            <if test="page.queryAuditInfo">
+                shop.extra as extra,
+            </if>
+        CAST(JSON_UNQUOTE(JSON_EXTRACT(shop.extra, '$.auditTime')) AS DATETIME) AS 'auditTime',
+            shop.shop_mode as mode
+        FROM `t_shop` AS shop
+        WHERE
+        shop.deleted = FALSE
+        <choose>
+            <when test="page.status != null">
+                AND shop.`status` = #{page.status.value}
+            </when>
+            <otherwise>
+                AND (
+                shop.`status` = ${@com.medusa.gruul.common.module.app.shop.ShopStatus @FORBIDDEN.value}
+                OR
+                shop.`status` = ${@com.medusa.gruul.common.module.app.shop.ShopStatus @NORMAL.value}
+                )
+            </otherwise>
+        </choose>
+        <if test="page.id">
+            and shop.id = #{page.id}
+        </if>
+        <!--入驻方式查询-->
+        <if test="page.settledWay!=null">
+            AND shop.extra->> '$.settledWay' =#{page.settledWay.name}
+        </if>
+        <!--申请时间查询-->
+        <if test="page.applyStartTime!=null">
+            AND shop.create_time >= #{page.applyStartTime}
+        </if>
+        <if test="page.applyEndTime!=null">
+            AND shop.create_time &lt;= #{page.applyEndTime}
+        </if>
+        <!--入驻时间查询-->
+        <if test="page.settledStartTime!=null">
+            AND shop.extra->> '$.auditTime' >= #{page.settledStartTime}
+        </if>
+        <if test="page.settledEndTime!=null">
+            AND shop.extra->> '$.auditTime' &lt;= #{page.settledEndTime}
+        </if>
+        <!--申请人手机号-->
+        <if test="page.applyUserPhone != null and page.applyUserPhone != ''">
+            and shop.user_phone like CONCAT('%', #{page.applyUserPhone}, '%')
+        </if>
+        <!--审核员手机号-->
+        <if test="page.auditUserPhone != null and page.auditUserPhone != ''">
+            and shop.extra->> '$.operatorPhone' like CONCAT('%', #{page.auditUserPhone}, '%')
+        </if>
+        <if test="page.shopType != null">
+            AND shop.`shop_type` = #{page.shopType.value}
+        </if>
+        <if test="page.shopModes != null and page.shopModes.size > 0">
+            AND shop.`shop_mode` in
+            <foreach collection="page.shopModes" item="shopMode" open="(" separator="," close=")">
+                #{shopMode.value}
+            </foreach>
+        </if>
+        <if test="page.extractionType != null">
+            AND shop.`extraction_type` =#{page.extractionType.value}
+        </if>
+        <if test="page.no != null and page.no != ''">
+            AND shop.`no` LIKE CONCAT('%', #{page.no}, '%')
+        </if>
+        <if test="page.name != null and page.name != ''">
+            AND shop.`name` LIKE CONCAT('%', #{page.name}, '%')
+        </if>
+        ORDER BY shop.create_time DESC
+    </select>
+
+
+    <select id="queryShopStatusCount" resultType="java.lang.Long">
+        SELECT
+            count(id)
+        FROM `t_shop` AS shop
+        WHERE
+            shop.deleted = FALSE
+        AND
+            shop.`status` = ${@com.medusa.gruul.common.module.app.shop.ShopStatus @UNDER_REVIEW.value}
+
+        <if test="page.shopType != null">
+            AND shop.`shop_type` = #{page.shopType.value}
+        </if>
+        <if test="page.shopModes != null and page.shopModes.size > 0">
+            AND shop.`shop_mode` in
+            <foreach collection="page.shopModes" item="shopMode" open="(" separator="," close=")">
+                #{shopMode.value}
+            </foreach>
+        </if>
+        <if test="page.extractionType != null ">
+            AND shop.`extraction_type` =#{page.extractionType.value}
+        </if>
+        <if test="page.no != null and page.no != ''">
+            AND shop.`no` LIKE CONCAT('%', #{page.no}, '%')
+        </if>
+        <if test="page.name != null and page.name != ''">
+            AND shop.`name` LIKE CONCAT('%', #{page.name}, '%')
+        </if>
+    </select>
+
+    <select id="queryRejectReason" resultType="java.lang.String">
+        select extra->> '$.reasonForRejection' as 'rejectReason' from t_shop s
+        where s.id=#{shopId} and s.status=#{status}
+    </select>
+</mapper>

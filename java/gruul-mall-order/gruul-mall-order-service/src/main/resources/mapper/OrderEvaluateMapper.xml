@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.order.service.mp.mapper.OrderEvaluateMapper">
+
+    <sql id="selectEvaluateItemCountSql">
+        SELECT count(evaluate.id)
+        FROM t_order_evaluate AS evaluate
+        WHERE evaluate.shop_id = #{query.shopId}
+        AND evaluate.product_id = #{query.productId}
+        AND evaluate.deleted = 0
+        AND (
+        evaluate.is_excellent = 1
+        <if test="query.userId != null">
+            OR evaluate.user_id = #{query.userId}
+        </if>
+        )
+    </sql>
+    <select id="productEvaluateOverview"
+            resultType="com.medusa.gruul.order.service.model.vo.ProductEvaluateOverviewVO">
+        SELECT
+        (<include refid="selectEvaluateItemCountSql"/>) AS totalCount,
+        (
+        <include refid="selectEvaluateItemCountSql"/>
+        AND evaluate.rate >= 4) AS praiseCount,
+        (
+        <include refid="selectEvaluateItemCountSql"/>
+        AND evaluate.`comment` IS NOT NULL) AS contentCount,
+        (
+        <include refid="selectEvaluateItemCountSql"/>
+        AND  JSON_LENGTH (evaluate.medias) > 0) AS mediaCount
+    </select>
+    <select id="getEvaluatePerson" resultType="com.medusa.gruul.order.api.entity.OrderEvaluate">
+        SELECT
+        evaluate.product_id,
+        COUNT(evaluate.id) evaluatePerson
+        FROM
+        t_order_evaluate AS evaluate
+        <where>
+            evaluate.deleted = 0
+            AND
+            evaluate.product_id IN
+            <foreach collection="productIds" item="productId" open="(" close=")" separator=",">
+                #{productId}
+            </foreach>
+        </where>
+        GROUP BY evaluate.product_id
+    </select>
+</mapper>

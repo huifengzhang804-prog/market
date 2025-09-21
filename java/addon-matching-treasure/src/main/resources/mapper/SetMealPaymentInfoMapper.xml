@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.addon.matching.treasure.mp.mapper.SetMealPaymentInfoMapper">
+
+  <select id="querySetMealOrderCount"
+    resultType="com.medusa.gruul.addon.matching.treasure.model.dto.SetMealProductStats">
+    SELECT
+      a.activity_id as setMealId,
+      count(*) as orderCount
+    FROM
+      t_set_meal_payment_info a
+    WHERE
+     deleted = 0
+     AND a.activity_id IN
+    <foreach collection="setMealIds" item="setMealId"
+      open="(" separator="," close=")">
+      #{setMealId}
+    </foreach>
+
+    GROUP BY
+      setMealId
+  </select>
+</mapper>

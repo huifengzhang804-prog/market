@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.addon.platform.mp.mapper.DecorationPageMapper">
+
+    <select id="referencedCount" resultType="java.lang.Integer">
+        select
+            count(*)
+        from
+            t_decoration_template
+        where
+            JSON_CONTAINS(pages, JSON_OBJECT('pageId', ${pageId})) and deleted = 0
+    </select>
+</mapper>

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.addon.coupon.mp.mapper.CouponUserMapper">
+
+
+    <resultMap id="userCouponPageMap" type="com.medusa.gruul.addon.coupon.model.vo.CouponUserVO">
+        <result column="id" property="id"/>
+        <result column="couponUserId" property="couponUserId"/>
+        <result column="userId" property="userId"/>
+        <result column="shopId" property="shopId"/>
+        <result column="name" property="name"/>
+        <result column="used" property="used"/>
+        <result column="type" property="type"/>
+        <result column="effectType" property="effectType"/>
+        <result column="endDate" property="endDate"/>
+        <result column="requiredAmount" property="requiredAmount"/>
+        <result column="amount" property="amount"/>
+        <result column="discount" property="discount"/>
+        <result column="productType" property="productType"/>
+        <result column="discountAmount" property="discountAmount"/>
+        <result column="userPhone" property="userPhone"/>
+        <result column="giftUserId" property="giftUserId"/>
+        <result column="giftUserPhone" property="giftUserPhone"/>
+        <result column="collectType" property="collectType"/>
+        <result column="associatedOrderNo" property="associatedOrderNo"/>
+        <!--        <result column="useStatus" property="useStatus"/>-->
+        <result column="createTime" property="createTime"/>
+    </resultMap>
+
+
+    <!--    <sql id="useStatusSql1">-->
+    <!--        IF(-->
+    <!--        1 = usr.used-->
+    <!--          , ${@com.medusa.gruul.addon.coupon.model.enums.ConsumerQueryStatus @USED}-->
+    <!--          , IF(usr.end_date >= CURDATE() and 0 = usr.used-->
+    <!--            , ${@com.medusa.gruul.addon.coupon.model.enums.ConsumerQueryStatus @UNUSED}-->
+    <!--            , ${@com.medusa.gruul.addon.coupon.model.enums.ConsumerQueryStatus @EXPIRED})-->
+    <!--        )-->
+    <!--    </sql>-->
+
+
+    <sql id="useStatusSql">
+        IF
+        (
+        1 = usr.used
+          , 'USED'
+          , IF(usr.end_date >= CURDATE() and 0 = usr.used, 'UNUSED', 'EXPIRED')
+        )
+    </sql>
+
+    <select id="useRecords" resultMap="userCouponPageMap">
+        SELECT
+        usr.id AS couponUserId,
+        usr.user_id AS userId,
+        usr.shop_id AS shopId,
+        usr.coupon_id AS id,
+        usr.used AS used,
+        usr.`name` AS `name`,
+        usr.type AS type,
+        usr.effect_type AS effectType,
+        usr.end_date AS endDate,
+        usr.required_amount AS requiredAmount,
+        usr.amount AS amount,
+        usr.discount AS discount,
+        usr.user_phone AS userPhone,
+        usr.gift_user_id AS giftUserId,
+        usr.gift_user_phone AS giftUserPhone,
+        usr.collect_type AS collectType,
+        usr.associated_order_no AS associatedOrderNo,
+        <!--        <include refid="useStatusSql"/> AS useStatus,-->
+        usr.create_time AS createTime
+        FROM t_coupon_user AS usr
+        <where>
+            <if test="null != query.exportCouponUserIds and query.exportCouponUserIds.size() > 0">
+                AND usr.`id` IN
+                <foreach collection="query.exportCouponUserIds" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <!--关联订单-->
+            <if test="query.associatedOrderNo != null and query.associatedOrderNo != ''">
+                AND usr.associated_order_no LIKE CONCAT('%', #{query.associatedOrderNo}, '%')
+            </if>
+            <!--优惠券名称-->
+            <if test="query.name != null and query.name != ''">
+                AND usr.name LIKE CONCAT('%', #{query.name}, '%')
+            </if>
+            <!--用户优惠券Id-->
+            <if test="null != query.couponUserId">
+                AND usr.id = #{query.couponUserId}
+            </if>
+            <!--优惠券用户手机号-->
+            <if test="query.userPhone != null and query.userPhone != ''">
+                AND usr.user_phone LIKE CONCAT('%', #{query.userPhone}, '%')
+            </if>
+            <!--赠券用户Id-->
+            <if test="null != query.giftUserId">
+                AND usr.gift_user_id = #{query.giftUserId}
+            </if>
+            <!--赠券用户手机号-->
+            <if test="query.giftUserPhone != null and query.giftUserPhone != ''">
+                AND usr.gift_user_phone LIKE CONCAT('%', #{query.giftUserPhone}, '%')
+            </if>
+            <!--店铺优惠券记录, 不再根据优惠券所属店铺Id进行等值匹配; 需求更新:当为平台券时, 使用过当前优惠券的店铺都要展示该用券记录-->
+            <if test="query.shopId != null">
+            <!-- AND usr.shop_id = #{query.shopId} -->
+            AND JSON_CONTAINS(usr.associated_shop_ids,JSON_ARRAY(#{query.shopId}))
+            </if>
+            <!--优惠券状态-->
+            <if test="query.status != null">
+                AND usr.used =
+                <choose>
+                    <when test="query.status == @com.medusa.gruul.addon.coupon.model.enums.ConsumerQueryStatus @USED">
+                        TRUE
+                    </when>
+                    <otherwise>
+                        FALSE
+                    </otherwise>
+                </choose>
+                <if test="query.status == @com.medusa.gruul.addon.coupon.model.enums.ConsumerQueryStatus @UNUSED">
+                    AND usr.end_date >= CURDATE()
+                </if>
+                <if test="query.status == @com.medusa.gruul.addon.coupon.model.enums.ConsumerQueryStatus @EXPIRED">
+                    AND CURDATE() > usr.end_date
+                </if>
+            </if>
+        </where>
+        ORDER BY usr.create_time DESC ,usr.id DESC
+
+    </select>
+
+
+</mapper>

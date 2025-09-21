@@ -1,0 +1,62 @@
+{
+  "code": 200,
+  "data": [
+    {
+      "id": "1502113855667707904",
+      "type": "EXPRESS",
+      "receiverName": "张三",
+      "receiverMobile": "17621228898",
+      "receiverProvince": "北京市",
+      "receiverCity": "市辖区",
+      "receiverRegion": "东城区",
+      "receiverAddress": "三里屯",
+      "status": "NOT_SEND",
+      "createTime": "2022-03-11 10:47:06",
+      "updateTime": "2022-03-11 10:47:06",
+      "version": 0,
+      "products": [
+        {
+          "id": "1501504102093324288",
+          "name": "商品名1",
+          "image": "https://medusa-small-file-1253272780.cos.ap-shanghai.myqcloud.com/gruul/20220309/66e5b0eec0224348b9de3af17c1b2797.jpg",
+          "skus": [
+            {
+              "itemId": "1502113880355106816",
+              "id": "1501504104193859584",
+              "specs": [
+                "红色"
+              ],
+              "quantity": 1,
+              "image": "https://medusa-small-file-1253272780.cos.ap-shanghai.myqcloud.com/gruul/20220309/66e5b0eec0224348b9de3af17c1b2797.jpg",
+              "price": 0.10,
+              "createTime": "2022-03-11 10:47:12",
+              "updateTime": "2022-03-11 10:47:12",
+              "version": 0
+            }
+          ]
+        },
+        {
+          "id": "1501505382484312064",
+          "name": "商品名2",
+          "image": "https://medusa-small-file-1253272780.cos.ap-shanghai.myqcloud.com/gruul/20220309/66e5b0eec0224348b9de3af17c1b2797.jpg",
+          "skus": [
+            {
+              "itemId": "1502113880355106817",
+              "id": "1501505384052170752",
+              "specs": [
+                "XL"
+              ],
+              "quantity": 2,
+              "image": "https://medusa-small-file-1253272780.cos.ap-shanghai.myqcloud.com/gruul/20220309/66e5b0eec0224348b9de3af17c1b2797.jpg",
+              "price": 0.20,
+              "createTime": "2022-03-11 10:47:12",
+              "updateTime": "2022-03-11 10:47:12",
+              "version": 0
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "success": true
+}

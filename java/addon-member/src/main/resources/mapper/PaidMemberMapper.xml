@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.addon.member.mp.mapper.PaidMemberMapper">
+
+
+    <resultMap id="BaseResultVOMap" type="com.medusa.gruul.addon.member.model.vo.PaidMemberRightsVO">
+        <result column="id" property="id"/>
+        <result column="paid_member_name" property="paidMemberName"/>
+        <result column="rank_code" property="rankCode"/>
+        <result column="label_json" property="labelJson" typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+        <result column="paid_rule_json" property="paidRuleJson"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+        <collection property="relevancyRightsList"
+                    ofType="com.medusa.gruul.user.api.model.vo.RelevancyRightsVO"
+                    column="id"
+                    select="queryPaidMemberRelevancyRights"
+        />
+
+    </resultMap>
+
+    <resultMap id="relevancyRightsResultVOMap" type="com.medusa.gruul.user.api.model.vo.RelevancyRightsVO">
+        <result column="extend_value" property="extendValue"/>
+        <result column="member_rights_id" property="memberRightsId"/>
+        <result column="rights_name" property="rightsName"/>
+        <result column="rights_type" property="rightsType"/>
+    </resultMap>
+
+    <select id="getPaidMemberList" resultMap="BaseResultVOMap">
+        SELECT
+            id, rank_code, paid_member_name, paid_rule_json, label_json
+        FROM
+            t_paid_member
+        WHERE
+            deleted = 0
+        ORDER BY rank_code
+    </select>
+
+
+    <select id="queryPaidMemberRelevancyRights" resultMap="relevancyRightsResultVOMap">
+        SELECT
+            extend_value,member_rights_id
+        FROM
+            t_paid_member_relevancy_rights
+        WHERE
+            deleted = 0
+        AND
+            paid_member_id = #{id}
+    </select>
+    <select id="getCloseMemberByIds" resultType="java.lang.Long">
+        SELECT
+        id
+        FROM
+        t_paid_member
+        WHERE
+        deleted = 1 AND
+        id IN
+        <foreach collection="memberIds" index="index" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+
+
+    </select>
+    <select id="getPaidMemberInfo" resultMap="BaseResultVOMap">
+
+         SELECT
+            id,paid_member_name,paid_rule_json, label_json
+        FROM
+            t_paid_member
+        WHERE
+            deleted = 0
+         AND
+            id = #{id}
+    </select>
+
+</mapper>

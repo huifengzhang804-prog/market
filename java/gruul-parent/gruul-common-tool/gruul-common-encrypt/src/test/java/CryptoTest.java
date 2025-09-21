@@ -1,0 +1,24 @@
+import cn.hutool.crypto.asymmetric.KeyType;
+import cn.hutool.crypto.asymmetric.RSA;
+import org.junit.jupiter.api.Test;
+
+/**
+ * @author 张治保
+ * @since 2023/12/1
+ */
+public class CryptoTest {
+
+
+    private final String publicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAy/IRHMVt8+T60hzRKLKfnwvs8OsQuKQsMjm+fq8H22QmLgn4t2wk1iCFoQhuwK5Gio7wFOfC7w1qPrqC3/15avBxHigtaoISB5hMa2mT7t7EkIvoywcm3ZP/A2gjJrTTwqZK3XmcFpkXqEJKeRaQNFSRTojkW8Qlyk14S1rc5+vqLQ8qvrSQnPOIX8DBBjgvEaL3dk5L5i51wHPeyPv+vaTVr2r/a6AYTc1g5mNuCuaT8ko8iY4AHCHx/R1q9kkLir5gJHsJT99Ud0BiLCjW+NkmkH662aSpWjRMG1mWO+YI1l9CE3sFLIjJs89Hf8XMCSqUfghlxz35bnJ/YiiHjQIDAQAB";
+    private final String privateKey = "MIIEuwIBADANBgkqhkiG9w0BAQEFAASCBKUwggShAgEAAoIBAQDL8hEcxW3z5PrSHNEosp+fC+zw6xC4pCwyOb5+rwfbZCYuCfi3bCTWIIWhCG7ArkaKjvAU58LvDWo+uoLf/Xlq8HEeKC1qghIHmExraZPu3sSQi+jLBybdk/8DaCMmtNPCpkrdeZwWmReoQkp5FpA0VJFOiORbxCXKTXhLWtzn6+otDyq+tJCc84hfwMEGOC8Rovd2TkvmLnXAc97I+/69pNWvav9roBhNzWDmY24K5pPySjyJjgAcIfH9HWr2SQuKvmAkewlP31R3QGIsKNb42SaQfrrZpKlaNEwbWZY75gjWX0ITewUsiMmzz0d/xcwJKpR+CGXHPflucn9iKIeNAgMBAAECgf8F1WKXZ9R7PjrFIqKGXjKFORQq2DvcA+7tHcH6UUlsYC7o8KpmYy1gPOi+4/q6oPcyB6rWWZkxj94XBgTp3ySqdsrWCbuE5QpEJRcSwagF+5MPJAohgn43AZlaRcmSUdvdzj65DsmygPCXpbDevYysuLZGBKykh/fGj4l+OzPk2ayMLrcBgj3FILtWj/Wvl5xqh5NYjJSpDaRKMo08BCBWFiOpuD2DzXRZUTiGKjCpQglGKUu2No22/yKxRlz+AIddH1SiNJoBd2NBy2O7iRQEiV1NiPJHbzFXG5Q8XPnxHJ8vvrjaSo6bmymXUBbZsKa8gkAGFt7DinupHLzVYe0CgYEA6WskozJ7kEWw4QnAurBjGSfvdp3L42rkemiZxtPF9flhnzTCaeT6QaxWAhPAt+TYbzP6bZZNgGRGjGiygsF8gL/q4RuC81on23r3me70AEUMLjqWYTsdy23PlwPrB7ttCbR7zmz1/w0C1gd/bX+/hBqkRkTl8eOtgUfNbtubjQMCgYEA36z+rPHL/VxmHT9P1Q6o330IX/ue6Z2DFbDtKrDd3N6n32Ejggx67Yec+BrdMqWdzDkY7VNdkOYIGZygN/ZoANKC1WFdQVMzTab4qWhtE27xOtjcQIuTse0qoTABpIrsnv6CRxJRe436PxshgxioDit2/ZPkwBIXEB487BPUjC8CgYBI0jJl77P4+KUMMBy+oZTpHjppCSW413pcbhG7pAoYiSrZnn4gx10D7B4RG9R+CpkzaEXytneLXL1dxLQccvzCth0zCYA7J59Tq/NfRNs+0kvQiFquDuFmu+WNuZ0zlleYNYSCjB/a6FZAK6qnoLlBH4asnYYXhu50bNA8i6rlvQKBgQDY//+QD4FlCyhyRYMQ44kIUUg3vmicotiSybQ9z5te9ZCN0bLeL3dvTDsIJR/mS/C8OcSqMk+7DMBdAKwbvu2FprWRiEUt5CcIte3WhN4VlXNpMQz1fbRLURkjiex+Et2fHrGLfAUbRlG6uXqYseoQ3TAysTGi+anwVDWsn0x8twKBgCoV/gxV/2SVIkO/JQcnX3rqeKlR+2suYyO42Dx1oqTjlBlUnTatn0wiKz3pIV1nRf804A8FC6+JuCKzEwNJ2IhqPubZdDPWKZEP5hDcNqNy9pzLoJbuTfREnNG1Qkl63X7khydvQRoI71P656pe/8XbNccqscCtEA3z8BXUoVj5";
+    private final RSA rsa = new RSA(privateKey, publicKey);
+
+    private final String content = "hello world";
+
+    @Test
+    public void encrypt() {
+        String encrypt = rsa.encryptBase64(content, KeyType.PrivateKey);
+        System.out.println(encrypt);
+        System.out.println(rsa.decryptStr(encrypt, KeyType.PublicKey));
+    }
+}

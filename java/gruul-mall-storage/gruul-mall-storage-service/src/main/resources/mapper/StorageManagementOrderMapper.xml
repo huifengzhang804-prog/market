@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.storage.service.mp.mapper.StorageManagementOrderMapper">
+
+    <resultMap id="BaseResultMap" type="com.medusa.gruul.storage.service.mp.entity.StorageManagementOrder">
+            <result column="orderId" property="id"/>
+            <result column="changeStockTotal" property="changeStockTotal"/>
+            <result column="evidence" property="evidence"
+                    typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+            <result column="inventoryArea" property="inventoryArea"/>
+            <result column="no" property="no"/>
+            <result column="operationAccomplishTime" property="operationAccomplishTime"/>
+            <result column="operationName" property="operationName"/>
+            <result column="operationPhone" property="operationPhone"/>
+            <result column="remark" property="remark"/>
+            <result column="status" property="status"/>
+            <result column="stockChangeType" property="stockChangeType"/>
+        <collection property="storageManagementOrderItems" ofType="com.medusa.gruul.storage.service.mp.entity.StorageManagementOrderItem">
+                <result column="productId" property="productId"/>
+                <result column="productName" property="productName"/>
+                <result column="pic" property="pic"/>
+                <result column="skuStockItems" property="skuStockItems" typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+
+        </collection>
+    </resultMap>
+
+
+    <select id="queryStorageManagementOrderDetail" resultMap="BaseResultMap">
+        SELECT managementOrder.id                        AS orderId,
+               managementOrder.change_stock_total        AS changeStockTotal,
+               managementOrder.evidence                  AS evidence,
+               managementOrder.inventory_area            AS inventoryArea,
+               managementOrder.`no`                      AS `no`,
+               managementOrder.operation_accomplish_time AS operationAccomplishTime,
+               managementOrder.operation_name            AS operationName,
+               managementOrder.operation_phone           AS operationPhone,
+               managementOrder.remark                    AS remark,
+               managementOrder.status                    AS status,
+               managementOrder.stock_change_type         AS stockChangeType,
+               managementOrderItems.product_id           AS productId,
+               managementOrderItems.product_name         AS productName,
+               managementOrderItems.pic                  AS pic,
+               managementOrderItems.sku_stock_items      AS skuStockItems
+        FROM t_storage_management_order AS managementOrder
+                 INNER JOIN t_storage_management_order_item AS managementOrderItems
+                            ON managementOrder.no = managementOrderItems.order_no AND managementOrderItems.deleted = 0
+        WHERE managementOrder.deleted = 0
+          AND managementOrder.id = #{id}
+          AND managementOrder.shop_id = #{shopId}
+    </select>
+</mapper>

@@ -1,0 +1,47 @@
+.f12 {
+    font-size: 24rpx;
+}
+
+.f13 {
+    font-size: 26rpx;
+}
+
+.f14 {
+    font-size: 28rpx;
+}
+
+.fontBold {
+    font-weight: bold;
+}
+
+.flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hover-class {
+    opacity: 0.6;
+}
+
+.flex-space-between {
+    display: flex;
+    justify-content: space-between;
+}
+
+uni-modal {
+    z-index: 999999;
+}
+
+$qszr-red: #fa3534; // 启山智软主色
+$content-bg: #fff; // 内容背景颜色
+.water_item {
+    margin-bottom: 20rpx;
+    // 以u-lazy-item-开头的类
+    .u-wrap[class*='u-lazy-item-'],
+    .u-lazy-item {
+        // 底部不需要border-radius
+        border-bottom-left-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+    }
+}

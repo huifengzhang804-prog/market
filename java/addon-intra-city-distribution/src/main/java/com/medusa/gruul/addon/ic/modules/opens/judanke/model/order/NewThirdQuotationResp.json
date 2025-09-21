@@ -1,0 +1,115 @@
+{
+  "expect_finish_time": "2024-08-07 18:38:20",
+  "list": [
+    {
+      "type": 0,
+      "brand": "apt",
+      "brand_name": "爱跑腿",
+      "close": 1,
+      "message": "暂时无法使用，调整中",
+      "distance": 0,
+      "selected": 0,
+      "total_fee": 0
+    },
+    {
+      "type": 0,
+      "brand": "blpt",
+      "brand_name": "帮啦跑腿",
+      "close": 1,
+      "message": "询价失败！",
+      "distance": 1,
+      "selected": 0,
+      "total_fee": 0
+    },
+    {
+      "type": 0,
+      "brand": "ccs",
+      "brand_name": "曹操送",
+      "close": 1,
+      "message": "invalid token",
+      "distance": 1,
+      "selected": 0,
+      "total_fee": 0
+    },
+    {
+      "type": 0,
+      "brand": "ddks",
+      "brand_name": "达达",
+      "close": 1,
+      "message": "source_id值不正确,测试环境默认为73753",
+      "distance": 1,
+      "selected": 0,
+      "total_fee": 0
+    },
+    {
+      "type": 0,
+      "brand": "fnpt",
+      "brand_name": "蜂鸟",
+      "close": 1,
+      "message": "点对点门店信息缺失",
+      "distance": 1,
+      "selected": 0,
+      "total_fee": 0
+    },
+    {
+      "type": 0,
+      "brand": "mtpt",
+      "brand_name": "美团配送",
+      "close": 1,
+      "message": "请联系客服开通！",
+      "distance": 1,
+      "selected": 0,
+      "total_fee": 0
+    },
+    {
+      "type": 0,
+      "brand": "sftc",
+      "brand_name": "顺丰同城",
+      "close": 0,
+      "message": "",
+      "distance": 1203,
+      "selected": 0,
+      "total_fee": 540
+    },
+    {
+      "type": 0,
+      "brand": "kfw",
+      "brand_name": "快服务",
+      "close": 0,
+      "message": "",
+      "distance": 2400,
+      "selected": 0,
+      "total_fee": 750
+    },
+    {
+      "type": 0,
+      "brand": "gxd",
+      "brand_name": "裹小递",
+      "close": 0,
+      "message": "",
+      "distance": 2200,
+      "selected": 0,
+      "total_fee": 820
+    },
+    {
+      "type": 0,
+      "brand": "uupt",
+      "brand_name": "UU跑腿",
+      "close": 0,
+      "message": "",
+      "distance": 2194,
+      "selected": 0,
+      "total_fee": 850
+    },
+    {
+      "type": 0,
+      "brand": "ss",
+      "brand_name": "闪送",
+      "close": 0,
+      "message": "",
+      "distance": 2200,
+      "selected": 0,
+      "total_fee": 1130
+    }
+  ]
+}

@@ -1,0 +1,125 @@
+@import '../mixins/mixins';
+
+// 规格
+@include b(spec) {
+    // 类型
+    @include e(type) {
+    }
+}
+
+@include b(norm) {
+    font-size: 14px;
+    margin: 20px 0;
+    @include flex('flex-start', 'flex-start');
+    @include e(title) {
+        margin: 0 20px 0 30px;
+    }
+    @include e(item) {
+        color: #606266;
+    }
+    @include e(item__name) {
+        display: flex;
+        @include m(del) {
+            margin-left: 10px;
+        }
+    }
+    @include e(item__value) {
+        @include flex('flex-start');
+        @include m(mg34) {
+            margin-right: 34px;
+        }
+    }
+    @include e(item__value__content) {
+        @include flex();
+        margin: 20px 0;
+        cursor: move;
+    }
+}
+
+@include b(specDetail) {
+    font-size: 14px;
+    text-align: center;
+    @include flex('flex-start', 'flex-start');
+    @include e(table) {
+        width: 800px;
+        display: flex;
+        flex-direction: column;
+        overflow-x: auto;
+        background: #fcfcfc;
+    }
+    @include e(title) {
+        margin: 0 30px;
+    }
+    @include e(table__title) {
+        line-height: 50px;
+        @include flex('flex-start', 'flex-start');
+        @include m(primary) {
+            flex-shrink: 0;
+            width: 150px;
+        }
+        @include m(custom) {
+            flex-shrink: 0;
+            width: 100px;
+        }
+        @include m(header) {
+            @include flex();
+            flex-shrink: 0;
+        }
+    }
+    @include e(table__item) {
+        // width: 1100px;
+        @include flex('flex-start', 'flex-start');
+        @include m(font) {
+            flex-shrink: 0;
+            width: 100px;
+            line-height: 70px;
+            color: #606266;
+        }
+        @include m(input) {
+            flex-shrink: 0;
+            width: 150px;
+            @include flex();
+            & > .el-input {
+                width: 80%;
+            }
+            & > .el-input__inner {
+                width: 80%;
+            }
+        }
+        @include m(upload) {
+            width: 150px;
+            @include flex();
+        }
+        & .el-form-item--small.el-form-item {
+            margin: 0 !important;
+        }
+    }
+}
+@include b(batch) {
+    margin: 30px;
+    @include flex(flex-start, center);
+    @include e(title) {
+    }
+    @include e(list) {
+        @include flex(flex-start);
+        cursor: pointer;
+        color: #409eff;
+        margin-left: 20px;
+    }
+    @include e(list-item) {
+        @include flex();
+        margin-right: 10px;
+    }
+}
+
+@include b(com) {
+    @include e(input) {
+        @include m(width) {
+            width: 90%;
+        }
+    }
+}
+.serveMsg {
+    width: 400px;
+    display: flex;
+}

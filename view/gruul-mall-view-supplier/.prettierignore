@@ -1,0 +1,12 @@
+/dist/*
+.local
+/node_modules/**
+
+**/*.svg
+**/*.sh
+
+/public/*
+
+/types/auto-imports.d.ts
+/types/.eslintrc-auto-import.json
+/types/components.d.ts

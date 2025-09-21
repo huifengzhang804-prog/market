@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.addon.supplier.mp.mapper.SupplierOrderMapper">
+
+    <resultMap id="orderPageMap" type="com.medusa.gruul.addon.supplier.mp.entity.SupplierOrder">
+        <id column="no" property="no"/>
+        <result column="mainNo" property="mainNo"/>
+        <result column="supplierId" property="supplierId"/>
+        <result column="type" property="type"/>
+        <result column="status" property="status"/>
+        <result column="shopId" property="shopId"/>
+        <result column="shopUserId" property="shopUserId"/>
+        <result column="payAmount" property="payAmount"/>
+        <result column="extra" property="extra" typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+        <result column="timeNodes" property="timeNodes" typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+        <result column="remark" property="remark"/>
+        <result column="createTime" property="createTime"/>
+        <result column="purchasePhone" property="purchasePhone"/>
+        <result column="invoiceStatus" property="invoiceStatus"/>
+        <result column="applyInvoiceTime" property="applyInvoiceTime"/>
+        <result column="invoiceTime" property="invoiceTime"/>
+        <association property="extraInfo" javaType="com.alibaba.fastjson2.JSONObject">
+            <result column="supplierName" property="supplierName" javaType="java.lang.String"/>
+            <result column="supplierPhone" property="supplierPhone" javaType="java.lang.String"/>
+        </association>
+    </resultMap>
+
+    <select id="orderPage" resultMap="orderPageMap">
+        SELECT
+        ord.`no` AS `no`,
+        ord.main_no AS mainNo,
+        ord.supplier_id AS supplierId,
+        ord.type AS type,
+        ord.`status` AS `status`,
+        ord.shop_id AS shopId,
+        ord.shop_user_id AS shopUserId,
+        ord.pay_amount AS payAmount,
+        ord.extra AS extra,
+        ord.time_nodes AS timeNodes,
+        ord.purchase_phone as purchasePhone,
+
+        <if test="query.supplierId != null or query.export">
+            ord.remark AS remark,
+        </if>
+        <if test="query.needSupplier or  query.export">
+            supplier.`name` AS supplierName,
+            supplier.phone AS supplierPhone,
+        </if>
+        ord.create_time AS createTime,
+        ord.invoice_status AS invoiceStatus,
+        ord.apply_invoice_time AS applyInvoiceTime,
+        ord.invoice_time AS invoiceTime
+        FROM
+        t_supplier_order AS ord
+        <if test="query.needSupplier or  query.export ">
+            INNER JOIN t_supplier_info AS supplier ON supplier.id = ord.supplier_id
+        </if>
+        WHERE
+        ord.deleted = FALSE
+        <if test="query.purchasePhone !=null">
+            AND ord.purchase_phone  LIKE CONCAT( '%',#{query.purchasePhone}, '%' )
+        </if>
+        <if test="query.shopId != null">
+            AND ord.shop_id = #{query.shopId}
+        </if>
+        <if test="query.supplierId != null">
+            AND ord.supplier_id = #{query.supplierId}
+        </if>
+          <if test="query.exportOrderIds!=null and query.exportOrderIds.size()>0">
+              and ord.main_no in
+              <foreach collection="query.exportOrderIds" item="orderId" open="(" separator="," close=")">
+                  #{orderId}
+              </foreach>
+          </if>
+        <!--查询订单状态 -->
+        <if test="query.status != null">
+            <!--查询订单 -->
+            <if test="query.status.orderStatuses.size > 0">
+                AND ord.status in
+                <foreach collection="query.status.orderStatuses" item="orderStatus" open="(" separator="," close=")">
+                    #{orderStatus.value}
+                </foreach>
+            </if>
+            <if test="query.status.packageStatuses.size > 0">
+                <!--查询包裹-->
+                AND EXISTS(
+                SELECT * FROM t_supplier_order_item AS item WHERE item.order_no = ord.`no` AND item.deleted = FALSE
+                AND item.supplier_id = ord.supplier_id AND item.`package_status` IN
+                <foreach collection="query.status.packageStatuses" item="packageStatus" open="(" separator=","
+                         close=")">
+                    #{packageStatus.value}
+                </foreach>
+                )
+            </if>
+        </if>
+        <if test="query.no != null and query.no != ''">
+            AND (ord.`no` LIKE CONCAT( '%', #{query.no}, '%' ) OR ord.`main_no` LIKE CONCAT( '%', #{query.no}, '%' ))
+        </if>
+        <if test="query.purchaser != null and query.purchaser != ''">
+            AND ( ord.extra ->> '$.receiver.name' ) LIKE CONCAT( '%', #{query.purchaser}, '%' )
+        </if>
+        <if test="query.startTime != null and query.startTime !=''">
+            AND DATE_FORMAT(ord.create_time,'%Y-%m-%d') <![CDATA[>=]]> #{query.startTime}
+        </if>
+        <if test="query.endTime != null and query.endTime !=''">
+            AND DATE_FORMAT(ord.create_time,'%Y-%m-%d') <![CDATA[<=]]> #{query.endTime}
+        </if>
+        <if test="query.invoiceStatusList.size>0 ">
+            AND  ord.invoice_status in
+            <foreach collection="query.invoiceStatusList" item="invoiceStatus" open="(" separator="," close=")">
+                 #{invoiceStatus.value}
+            </foreach>
+        </if>
+        ORDER BY ord.create_time DESC
+    </select>
+
+    <resultMap id="orderMap" type="com.medusa.gruul.addon.supplier.mp.entity.SupplierOrder">
+        <id column="no" property="no"/>
+        <result column="supplierId" property="supplierId"/>
+        <result column="type" property="type"/>
+        <result column="status" property="status"/>
+        <result column="shopId" property="shopId"/>
+        <result column="shopUserId" property="shopUserId"/>
+        <result column="payAmount" property="payAmount"/>
+        <result column="extra" property="extra" typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+        <result column="timeNodes" property="timeNodes" typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+        <result column="createTime" property="createTime"/>
+        <association property="extraInfo" javaType="com.alibaba.fastjson2.JSONObject">
+            <result column="supplierName" property="supplierName" javaType="java.lang.String"/>
+            <result column="supplierPhone" property="supplierPhone" javaType="java.lang.String"/>
+        </association>
+        <collection property="orderItems" ofType="com.medusa.gruul.addon.supplier.mp.entity.SupplierOrderItem">
+            <id column="itemId" property="id"/>
+            <result column="packageId" property="packageId"/>
+            <result column="packageStatus" property="packageStatus"/>
+            <result column="productId" property="productId"/>
+            <result column="productName" property="productName"/>
+            <result column="skuId" property="skuId"/>
+            <result column="num" property="num"/>
+            <result column="image" property="image"/>
+            <result column="specs" property="specs" typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+            <result column="salePrice" property="salePrice"/>
+            <result column="dealPrice" property="dealPrice"/>
+            <result column="fixPrice" property="fixPrice"/>
+            <result column="freightPrice" property="freightPrice"/>
+            <result column="itemExtra" property="extra" typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+            <result column="updateTime" property="updateTime"/>
+        </collection>
+    </resultMap>
+
+    <select id="order" resultMap="orderMap">
+        SELECT
+        ord.`no` AS `no`,
+        ord.supplier_id AS supplierId,
+        ord.type AS type,
+        ord.`status` AS `status`,
+        ord.shop_id AS shopId,
+        ord.shop_user_id AS shopUserId,
+        ord.pay_amount AS payAmount,
+        ord.extra AS extra,
+        ord.create_time AS createTime,
+        ord.time_nodes AS timeNodes,
+        <if test="query.needSupplier">
+            supplier.`name` AS supplierName,
+            supplier.phone AS supplierPhone,
+        </if>
+        item.id AS itemId,
+        item.package_id AS packageId,
+        item.`package_status` AS packageStatus,
+        item.product_id AS productId,
+        item.product_name AS productName,
+        item.sku_id AS skuId,
+        item.num AS num,
+        item.image AS image,
+        item.specs AS specs,
+        item.sale_price AS salePrice,
+        item.deal_price AS dealPrice,
+        item.fix_price AS fixPrice,
+        item.freight_price AS freightPrice,
+        item.extra AS itemExtra,
+        item.update_time AS updateTime
+        FROM t_supplier_order AS ord
+        <if test="query.needSupplier">
+            INNER JOIN t_supplier_info AS supplier ON supplier.id = ord.supplier_id
+        </if>
+        INNER JOIN t_supplier_order_item AS item ON item.order_no = ord.`no` AND item.deleted = FALSE
+        WHERE ord.`no` = #{query.orderNo} AND ord.deleted = FALSE
+        <if test="query.supplierId != null">
+            AND ord.supplier_id = #{query.supplierId}
+        </if>
+        <if test="query.shopId != null">
+            AND ord.shop_id = #{query.shopId}
+        </if>
+    </select>
+    <resultMap id="orderStorageMap" type="com.medusa.gruul.addon.supplier.model.vo.OrderStorageVO">
+        <id column="orderNo" property="orderNo"/>
+        <result column="supplierId" property="supplierId"/>
+        <collection property="products" ofType="com.medusa.gruul.addon.supplier.model.vo.OrderStorageProductVO">
+            <id column="productId" property="productId"/>
+            <result column="productName" property="productName"/>
+            <result column="image" property="image"/>
+            <collection property="skus" ofType="com.medusa.gruul.addon.supplier.model.vo.OrderStorageProductSkuVO">
+                <id column="skuId" property="skuId"/>
+                <result column="specs" property="specs" typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+                <result column="num" property="num"/>
+            </collection>
+        </collection>
+    </resultMap>
+    <select id="orderStorage" resultMap="orderStorageMap">
+        SELECT
+        ANY_VALUE(ord.`no`) AS orderNo,
+        ANY_VALUE(ord.supplier_id) AS supplierId,
+        ANY_VALUE(product.id) AS productId,
+        ANY_VALUE(product.supplier_goods_name) AS productName,
+        ANY_VALUE(product.product ->> '$.pic') AS image,
+        item.sku_id AS skuId,
+        ANY_VALUE(item.specs) AS specs,
+        SUM(item.num) AS num
+        FROM t_supplier_order AS ord
+        INNER JOIN t_supplier_order_item AS item ON item.order_no = ord.`no` AND item.deleted = FALSE
+        INNER JOIN t_supplier_goods AS product ON item.product_id = product.id AND item.supplier_id = product.shop_id
+        WHERE ord.`no` = #{query.orderNo} AND ord.deleted = FALSE
+        <if test="query.supplierId != null">
+            AND ord.supplier_id = #{query.supplierId}
+        </if>
+        <if test="query.shopId != null">
+            AND ord.shop_id = #{query.shopId}
+        </if>
+        GROUP BY item.product_id, item.sku_id
+
+    </select>
+    <resultMap id="publishPageMap" type="com.medusa.gruul.addon.supplier.model.vo.PublishProductVO">
+        <result column="supplierId" property="supplierId"/>
+        <result column="shopId" property="shopId"/>
+        <result column="supplierName" property="supplierName"/>
+        <result column="productId" property="productId"/>
+        <result column="productName" property="productName"/>
+        <result column="image" property="image"/>
+        <result column="productType" property="productType"/>
+        <result column="prices" property="prices"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+    </resultMap>
+    <select id="publishPage" resultMap="publishPageMap">
+        SELECT
+        publish.supplier_id AS supplierId,
+        publish.shop_id AS shopId,
+        supplier.`name` AS supplierName,
+        publish.product_id AS productId,
+        product.product_type as productType,
+        product.supplier_goods_name AS productName,
+        product.product ->> '$.pic' AS image,
+        product.product ->> '$.salePrices' AS prices
+        FROM
+        t_supplier_goods_publish AS publish
+        INNER JOIN t_supplier_goods AS product ON publish.supplier_id = product.shop_id
+        AND publish.product_id = product.id
+        INNER JOIN t_supplier_info AS supplier ON supplier.id = publish.supplier_id
+        WHERE publish.shop_id = #{query.shopId}
+        AND publish.published = FALSE
+        <if test="query.supplierId != null">
+            AND publish.supplier_id = #{query.supplierId}
+        </if>
+        <if test="query.categoryId != null">
+            AND product.platform_category_parent_id = #{query.categoryId}
+        </if>
+        <if test="query.productName != null and query.productName != ''">
+            AND INSTR(product.supplier_goods_name,#{query.productName})
+        </if>
+        ORDER BY publish.create_time DESC
+    </select>
+
+    <resultMap id="getPublishNumMap" type="com.medusa.gruul.global.model.o.KeyValue">
+        <result column="num" property="value" javaType="java.lang.Long"/>
+        <association property="key" javaType="com.medusa.gruul.addon.supplier.model.bo.PublishProductKey">
+            <result column="supplierId" property="supplierId"/>
+            <result column="shopId" property="shopId"/>
+            <result column="productId" property="productId"/>
+        </association>
+    </resultMap>
+    <select id="getPublishNum" resultType="com.medusa.gruul.addon.supplier.model.bo.PublishProductKey">
+        SELECT
+        ord.supplier_id AS supplierId,
+        ord.shop_id AS shopId,
+        item.product_id AS productId,
+        ord.`no` as orderNo,
+        item.id as itemId,
+        item.num as count,
+        item.package_status as packageStatus
+        FROM t_supplier_order AS ord
+        INNER JOIN t_supplier_order_item AS item ON item.order_no = ord.`no` AND item.deleted = FALSE
+        WHERE
+        (ord.supplier_id,ord.shop_id,item.product_id) IN
+        <foreach collection="keys" item="key" open="(" separator="," close=")">
+            (#{key.supplierId},#{key.shopId},#{key.productId})
+        </foreach>
+
+    </select>
+
+    <select id="getSupplierGoodsTradeStatic"
+            resultType="com.medusa.gruul.addon.supplier.model.vo.SupplierGoodsTradeStaticVO">
+        ${sql}
+    </select>
+
+    <!--获取供应商商品交易量TOP数据-->
+    <select id="getSupplierGoodsTradeNumTopList"
+            resultType="com.medusa.gruul.addon.supplier.model.vo.SupplierGoodsTradeTopVO">
+        select
+            product_id,
+            sum(num) number
+        from
+            t_supplier_order_item
+        where
+            supplier_id = #{dto.supplierId} and
+            create_time between #{dto.beginTime} and #{dto.endTime}
+            and package_status = ${@com.medusa.gruul.addon.supplier.model.enums.PackageStatus @COMPLETED.value}
+        group by product_id order by number desc limit 10
+    </select>
+
+    <select id="getSupplierGoodsTradeAmountTopList"
+            resultType="com.medusa.gruul.addon.supplier.model.vo.SupplierGoodsTradeAmountTopVO">
+        select
+            product_id,
+            sum(deal_price * num + freight_price)/10000 amount
+        from
+            t_supplier_order_item
+        where
+            supplier_id = #{dto.supplierId} and
+            create_time between #{dto.beginTime} and #{dto.endTime}
+            and package_status = ${@com.medusa.gruul.addon.supplier.model.enums.PackageStatus @COMPLETED.value}
+        group by product_id order by amount desc limit 10
+    </select>
+</mapper>

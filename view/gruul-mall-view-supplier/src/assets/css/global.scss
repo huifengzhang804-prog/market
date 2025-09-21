@@ -1,0 +1,72 @@
+@import './mixins/mixins.scss';
+/*主题颜色*/
+//$e-primary:#19CAAD;
+@import './mixins/mixins.scss';
+$rows-color-primary-darker: #ff8e3a;
+$rows-color-primary: #fea861;
+$rows-color-success: #4cd964;
+$rows-color-warning: #f0ad4e;
+$rows-color-error: #dd524d;
+$color-primary-darker: rgb(85, 92, 253);
+$color-primary: rgb(85, 92, 253);
+//
+/* 文字基本颜色 */
+$rows-text-color: #2c3e50; //基本色
+$rows-text-color-inverse: #fff; //反色
+$rows-text-color-grey: #999; //辅助灰色，如加载更多的提示信息
+$rows-text-color-placeholder: #808080;
+$rows-text-color-disable: #c0c0c0;
+
+/* 背景颜色 */
+$rows-bg-color: #ffffff;
+$rows-bg-color-grey: #f8f8f8;
+$rows-bg-color-hover: #f1f1f1; //点击状态颜色
+$rows-bg-color-mask: rgba(0, 0, 0, 0.4); //遮罩颜色
+
+/* 边框颜色 */
+$rows-border-color: #c8c7cc;
+$cust_service_border_color: #e9ecf0;
+
+/* 尺寸变量 */
+
+/* 文字尺寸 */
+$rows-font-size-sm: 24px;
+$rows-font-size-base: 28px;
+$rows-font-size-lg: 32px;
+
+/* 图片尺寸 */
+$rows-img-size-sm: 40px;
+$rows-img-size-base: 52px;
+$rows-img-size-lg: 80px;
+
+/* Border Radius */
+$rows-border-radius-sm: 4px;
+$rows-border-radius-base: 6px;
+$rows-border-radius-lg: 12px;
+$rows-border-radius-circle: 50%;
+
+/* 水平间距 */
+$rows-spacing-row-sm: 10px;
+$rows-spacing-row-base: 20px;
+$rows-spacing-row-lg: 30px;
+
+/* 垂直间距 */
+$rows-spacing-col-sm: 8px;
+$rows-spacing-col-base: 16px;
+$rows-spacing-col-lg: 24px;
+
+/* 透明度 */
+$rows-opacity-disabled: 0.3; // 组件禁用态的透明度
+
+/* 文章场景相关 */
+$rows-color-title: #2c405a; // 文章标题颜色
+$rows-font-size-title: 40px;
+$rows-color-subtitle: #555555; // 二级标题颜色
+$rows-font-size-subtitle: 36px;
+$rows-color-paragraph: #3f536e; // 文章段落颜色
+$rows-font-size-paragraph: 30px;
+
+$rows-content-max-with: 60%;
+$rows-content-min-with: 765px;
+$rows-side-tools-max-with: 20%;
+$rows-side-tools-min-with: 0;

@@ -1,0 +1,54 @@
+@include b(scroll) {
+    width: 100%;
+    @include e(page-view) {
+        margin: 0 35rpx;
+    }
+    @include e(title) {
+        font-size: 28rpx;
+        font-weight: 700;
+        color: #3c3c3c;
+        display: block;
+        padding: 28rpx;
+    }
+    @include e(item) {
+        margin: 0 0 20rpx 0;
+    }
+    @include e(text) {
+        margin: 15rpx 0;
+        font-size: 28rpx;
+        color: #323232;
+        @include utils-ellipsis();
+    }
+
+    @include e(b) {
+        display: flex;
+        justify-content: space-between;
+        & .price {
+            color: #dd3324;
+            padding-top: 15rpx;
+            font-weight: Bold;
+            font-size: 32rpx;
+            &::before {
+                content: '￥';
+                font-size: 12rpx;
+            }
+        }
+        & .shopping {
+            padding-top: 10rpx;
+            color: #dd3324;
+        }
+    }
+}
+@keyframes show {
+    0% {
+        opacity: 0;
+        -webkit-transform: translate3d(0, 2%, 0);
+        transform: translate3d(0, 2%, 0);
+    }
+
+    100% {
+        opacity: 1;
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+    }
+}

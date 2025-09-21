@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.addon.matching.treasure.mp.mapper.SetMealProductMapper">
+
+    <select id="getSetMealBasicInfo"
+            resultType="com.medusa.gruul.goods.api.model.vo.SetMealBasicInfoVO">
+        SELECT setMeal.id                                                         AS setMealId,
+               setMeal.set_meal_name                                              AS setMealName,
+               setMeal.set_meal_main_picture                                      AS setMealMainPicture,
+               setMeal.set_meal_description                                       AS setMealDescription,
+               setMeal.end_time                           AS endTime,
+               SUM(setMealProduct.sku_price) - SUM(setMealProduct.matching_price) AS saveAtLeast
+        FROM t_set_meal AS setMeal
+        LEFT JOIN t_set_meal_product AS setMealProduct ON setMeal.id = setMealProduct.set_meal_id
+        WHERE
+            setMeal.id IN
+            <foreach collection="setMealIds" item="setMealId" separator="," open="(" close=")">
+                #{setMealId}
+            </foreach>
+          AND setMeal.start_time <![CDATA[<=]]> NOW()
+          AND setMeal.end_time >= NOW()
+          AND setMeal.set_meal_status NOT IN(
+              ${@com.medusa.gruul.addon.matching.treasure.model.enums.SetMealStatus @ILLEGAL_SELL_OFF.value}
+              ,${@com.medusa.gruul.addon.matching.treasure.model.enums.SetMealStatus @OVER.value}
+              ,${@com.medusa.gruul.addon.matching.treasure.model.enums.SetMealStatus @MERCHANT_SELL_OFF.value}
+          )
+          AND setMeal.deleted = 0
+          AND setMealProduct.deleted = 0
+        GROUP BY setMeal.id,setMeal.shop_id
+    </select>
+    <select id="getSetMealProduct" resultType="com.medusa.gruul.addon.matching.treasure.mp.entity.SetMealProduct">
+        SELECT
+            setMealProduct.product_id                                          AS productId,
+            setMealProduct.shop_id                                             AS shopId,
+            setMealProduct.set_meal_id                                         AS setMealId,
+            setMealProduct.product_name                                        AS productName,
+            setMealProduct.product_pic                                         AS productPic,
+            setMealProduct.product_attributes                                  AS productAttributes,
+            setMealProduct.matching_price                                      AS matchingPrice,
+            setMealProduct.sku_id                                              AS skuId,
+            setMealProduct.sku_price - setMealProduct.matching_price           AS saveAtLeast
+        FROM t_set_meal_product AS setMealProduct
+        WHERE
+            setMealProduct.set_meal_id = #{setMealId}
+          AND
+            setMealProduct.deleted = 0
+    </select>
+
+    <select id="getCurrentSetMealProduct" resultType="com.medusa.gruul.addon.matching.treasure.mp.entity.SetMealProduct">
+        SELECT
+            setMealProduct.product_id   AS productId,
+            setMealProduct.shop_id      AS shopId,
+            setMealProduct.sku_id       AS skuId,
+            setMealProduct.set_meal_id  AS setMealId
+        FROM t_set_meal_product AS setMealProduct
+        WHERE (shop_id, product_id, sku_id) IN
+        <foreach collection="setMealProducts" item="setMealProduct" separator="," open="(" close=")">
+            (#{setMealProduct.shopId}, #{setMealProduct.productId}, #{setMealProduct.skuId})
+        </foreach>
+        AND deleted = FALSE
+        AND EXISTS (
+            SELECT 1 FROM t_set_meal setMeal
+            WHERE setMeal.id = setMealProduct.set_meal_id
+            AND NOW() <![CDATA[>=]]> setMeal.start_time
+            AND NOW() <![CDATA[<=]]>  setMeal.end_time
+            AND setMeal.set_meal_status != ${@com.medusa.gruul.addon.matching.treasure.model.enums.SetMealStatus @ILLEGAL_SELL_OFF.value}
+        )
+    </select>
+
+  <select id="querySetMealProductCount" resultType="com.medusa.gruul.addon.matching.treasure.model.dto.SetMealProductStats">
+    SELECT a.set_meal_id as setMealId,COUNT(DISTINCT(a.product_id)) as productCount from t_set_meal_product a
+    WHERE a.set_meal_id IN
+    <foreach collection="setMealIds" item="setMealId" separator="," open="(" close=")">
+      #{setMealId}
+    </foreach>
+    and a.deleted=0
+    GROUP BY a.set_meal_id
+  </select>
+
+
+</mapper>

@@ -1,0 +1,10 @@
+{
+  //客户端类型 枚举
+  "Client-Type": "DEVELOPER_CONSOLE | PLATFORM_CONSOLE|SHOP_CONSOLE|CONSUMER|STORE|SUPPLIER_CONSOLE",
+  //客户端运行的平台类型 枚举 
+  "Platform": "WECHAT_MINI_APP | WECHAT_MP | PC | H5 | IOS | ANDROID | HARMONY",
+  //设备 id
+  "Device-Id": "string",
+  //店铺id  当Client-Type为SHOP_CONSOLE、STORE、SUPPLIER_CONSOLE为空 其它类型传0
+  "Shop-Id": "string"
+}

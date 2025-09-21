@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.addon.freight.mp.mapper.LogisticsExpressMapper">
+
+
+    <resultMap id="BaseVoResultMap" type="com.medusa.gruul.addon.freight.model.vo.LogisticsExpressVO">
+        <id column="id" property="id"/>
+        <result column="freight_id" property="freightId"/>
+        <result column="customer_code" property="customerCode"/>
+        <result column="customer_password" property="customerPassword"/>
+        <result column="network_name" property="networkName"/>
+        <result column="network_code" property="networkCode"/>
+        <result column="def_self_shop" property="defSelfShop"/>
+        <result column="def_self_supplier" property="defSelfSupplier"/>
+        <result column="logistics_print_id" property="logisticsPrintId"/>
+        <result column="logistics_company_name" property="logisticsCompanyName"/>
+        <result column="logistics_company_code" property="logisticsCompanyCode"/>
+        <result column="logistics_company_status" property="logisticsCompanyStatus"/>
+        <result column="print_name" property="printName"/>
+    </resultMap>
+
+
+    <resultMap id="BaseUsableVoResultMap" type="com.medusa.gruul.addon.freight.model.vo.LogisticsExpressUsableVO">
+        <id column="id" property="id"/>
+        <result column="freight_id" property="freightId"/>
+        <result column="logistics_print_id" property="logisticsPrintId"/>
+        <result column="logistics_company_name" property="logisticsCompanyName"/>
+        <result column="logistics_company_code" property="logisticsCompanyCode"/>
+        <result column="print_name" property="printName"/>
+    </resultMap>
+
+
+    <select id="queryLogisticsExpressList" resultMap="BaseVoResultMap">
+        SELECT
+            express.id,
+            express.freight_id,
+            express.logistics_print_id,
+            express.customer_code,
+            express.customer_password,
+            express.network_name,
+            express.network_code,
+            express.def_self_shop,
+            express.def_self_supplier,
+            conf.logistics_company_name  ,
+            conf.logistics_company_code  ,
+            conf.logistics_company_status ,
+            print.print_name
+        FROM
+            t_logistics_express AS express
+            LEFT JOIN  t_fright_conf AS  conf
+                        ON   express.freight_id = conf.id
+                        AND  conf.deleted = 0
+             LEFT JOIN  t_logistics_print AS  print
+                         ON   express.logistics_print_id = print.id
+                         AND   print.deleted = 0
+        WHERE
+            express.shop_id = #{logisticsExpressParam.shopId} AND
+            express.deleted = 0
+    </select>
+    <select id="queryLogisticsExpressUsableList" resultMap="BaseUsableVoResultMap">
+        SELECT
+            express.id,
+            express.freight_id,
+            conf.logistics_company_name ,
+            conf.logistics_company_code,
+            print.print_name
+        FROM
+            t_logistics_express AS express
+            LEFT JOIN  t_fright_conf AS  conf
+                        ON   express.freight_id = conf.id
+                        AND  conf.deleted = 0
+              LEFT JOIN  t_logistics_print AS  print
+                         ON   express.logistics_print_id = print.id
+                         AND   print.deleted = 0
+        WHERE
+            express.shop_id = #{logisticsExpressParam.shopId} AND
+            express.deleted = 0
+    </select>
+
+    <select id="queryLogisticsExpressExtendInfo"
+            resultType="com.medusa.gruul.addon.freight.model.vo.LogisticsExpressExtendVO">
+        SELECT
+            express.customer_code,
+            express.customer_password,
+            print.print_name,
+            print.device_no,
+
+            conf.logistics_company_name,
+            conf.logistics_company_code,
+            conf.print_temp_no
+        FROM
+            t_logistics_express AS express
+            INNER JOIN  t_fright_conf AS  conf
+                        ON   express.freight_id = conf.id
+                        AND  conf.deleted = 0
+                        AND  conf.logistics_company_code = #{expressCompanyCode}
+            LEFT JOIN  t_logistics_print AS  print
+                        ON   express.logistics_print_id = print.id
+                        AND  print.deleted = 0
+                        AND  print.shop_id = #{shopId}
+         WHERE
+            express.shop_id = #{shopId} AND
+            express.deleted = 0
+    </select>
+</mapper>

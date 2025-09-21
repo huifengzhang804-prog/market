@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.service.uaa.service.mp.mapper.UserMapper">
+
+    <select id="getAvailableUserForShopAdmin" resultType="com.medusa.gruul.service.uaa.service.model.vo.UserWithDataVO">
+        SELECT
+        usr.id AS userId,
+        usr.username AS username,
+        usr.mobile AS mobile,
+        usr.email AS email,
+        dat.nickname as nickname,
+        dat.avatar as avatar,
+        dat.gender as gender
+        FROM
+        t_user AS usr
+        LEFT JOIN t_user_data as dat ON dat.user_id = usr.id AND dat.deleted = 0
+        WHERE
+        usr.deleted = 0
+
+		<if test="page.keywords != null and page.keywords!= ''">
+			AND usr.mobile LIKE CONCAT('%',#{page.keywords},'%')
+		</if>
+
+        <if test="page.excludeShopId != null">
+            AND NOT EXISTS (
+            SELECT userRole.id AS id FROM t_user_role AS userRole
+            INNER JOIN t_role AS role ON role.id = userRole.role_id AND role.client_type = #{page.clientType}
+            AND role.deleted = 0 AND userRole.shop_id = role.shop_id
+            AND userRole.deleted = 0
+            WHERE userRole.user_id = usr.id
+            AND userRole.shop_id = #{page.excludeShopId}
+            )
+        </if>
+
+    </select>
+    <select id="getUserDataBatchByUserId" resultType="com.medusa.gruul.service.uaa.service.model.vo.UserWithDataVO">
+        SELECT
+        usr.id AS userId,
+        usr.username AS username,
+        usr.mobile AS mobile,
+        usr.email AS email,
+        dat.nickname as nickname,
+        dat.avatar as avatar,
+        dat.gender as gender
+        FROM
+        t_user AS usr
+        LEFT JOIN t_user_data as dat ON dat.user_id = usr.id AND dat.deleted = 0
+        WHERE
+        usr.deleted = 0
+        AND usr.id IN
+        <foreach collection="userIds" item="userId" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+        <if test="currentShopUser">
+            AND EXISTS ( SELECT role.id AS id FROM t_user_role AS role WHERE role.user_id = usr.id)
+        </if>
+
+    </select>
+
+    <select id="anchorList" resultType="com.medusa.gruul.service.uaa.service.model.vo.UserAnchorVO">
+        SELECT
+        usr.id AS userId,
+        usr.username AS username,
+        usr.mobile AS mobile,
+        usr.email AS email,
+        dat.nickname AS nickname,
+        dat.avatar AS avatar,
+        dat.gender AS gender
+        FROM
+        t_user AS usr
+        LEFT JOIN t_user_data AS dat ON dat.user_id = usr.id
+        AND dat.deleted = 0
+        WHERE
+        usr.deleted = 0
+
+        AND NOT EXISTS (
+        SELECT
+        userRole.id
+        FROM
+        t_user_role userRole
+        LEFT JOIN t_role role ON userRole.role_id = role.id AND role.deleted= 0
+        <where>
+            <choose>
+                <when test="roles == @com.medusa.gruul.common.security.model.enums.Roles @ANCHOR">
+                    role.`value` = ${@com.medusa.gruul.common.security.model.enums.Roles @ANCHOR.value}
+                </when>
+            </choose>
+            AND userRole.user_id = usr.id
+        </where>
+        )
+
+        AND usr.mobile IS NOT NULL
+        <if test="availableUserPage.keywords !=null and availableUserPage.keywords !=''">
+            AND usr.mobile LIKE CONCAT('%',#{availableUserPage.keywords},'%')
+        </if>
+
+    </select>
+</mapper>

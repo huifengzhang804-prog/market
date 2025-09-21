@@ -1,0 +1,19 @@
+/* 自定义样式 */
+.el-message-box__header,
+.el-message-box__content {
+    display: flex;
+    align-items: center; /* 垂直居中对齐 */
+}
+
+.el-message-box__header .el-message-box__title {
+    display: flex;
+    align-items: center; /* 垂直居中对齐 */
+}
+.el-message-box--center .el-message-box__btns {
+    display: flex;
+    align-items: center; /* 垂直居中对齐 */
+    justify-content: end;
+}
+.el-tabs--left > .is-left {
+    display: none;
+}

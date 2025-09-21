@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.addon.integral.mp.mapper.IntegralProductMapper">
+
+    <resultMap id="BaseResultListVOMap" type="com.medusa.gruul.addon.integral.model.vo.IntegralProductListVO">
+        <result column="id" property="id"/>
+        <result column="create_time" property="createTime"/>
+        <result column="price" property="price"/>
+        <result column="integral_price" property="integralPrice"/>
+        <result column="sale_price" property="salePrice"/>
+        <result column="name" property="name"/>
+        <result column="pic" property="pic"/>
+        <result column="status" property="status"/>
+        <result column="stock" property="stock"/>
+        <result column="salesVolume" property="salesVolume"/>
+        <result column="product_type" property="productType"/>
+    </resultMap>
+
+    <resultMap id="BaseResultMap" type="com.medusa.gruul.addon.integral.mp.entity.IntegralProduct">
+        <result column="id" property="id"/>
+        <result column="create_time" property="createTime"/>
+        <result column="integral_price" property="integralPrice"/>
+        <result column="sale_price" property="salePrice"/>
+        <result column="name" property="name"/>
+        <result column="pic" property="pic"/>
+        <result column="status" property="status"/>
+        <result column="stock" property="stock"/>
+        <result column="virtual_sales_volume" property="virtualSalesVolume"/>
+        <result column="detail" property="detail"/>
+        <result column="album_pics" property="albumPics"/>
+        <result column="price" property="price"/>
+        <result column="freight_price" property="freightPrice"/>
+        <result column="integral_product_attribute" property="integralProductAttributes"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+        <result column="product_type" property="productType"/>
+    </resultMap>
+
+
+    <select id="queryIntegralProductList" resultMap="BaseResultListVOMap">
+        SELECT
+        id,
+        create_time,
+        price,
+        integral_price,
+        sale_price,
+        `name`,
+        pic,
+        status,
+        stock,
+        (virtual_sales_volume + reality_sales_volume) AS salesVolume,
+        product_type
+        FROM
+        t_integral_product
+        WHERE
+        deleted = 0
+        <if test="integralProductParam.status != null">
+            AND status = #{integralProductParam.status}
+        </if>
+        <if test="integralProductParam.keyword != null and integralProductParam.keyword != ''">
+            AND name LIKE CONCAT('%',#{integralProductParam.keyword},'%')
+        </if>
+        <if test="integralProductParam.isConsumer!=null and integralProductParam.isConsumer">
+            AND `stock` > 0
+        </if>
+        ORDER BY create_time DESC
+    </select>
+    <select id="queryIntegralProductInfoById"
+            resultMap="BaseResultMap">
+        SELECT id,
+               create_time,
+               price,
+               integral_price,
+               sale_price,
+               `name`,
+               pic,
+               status,
+               stock,
+               virtual_sales_volume,
+               detail,
+               album_pics,
+               freight_price,
+               integral_product_attribute,
+               product_type
+        FROM t_integral_product
+        WHERE deleted = 0
+          AND id = #{id}
+    </select>
+
+    <update id="updateProductIncrement">
+        UPDATE
+        t_integral_product
+        <set>
+            <if test="integralProductFix.name !=null and integralProductFix.name!=''">
+                `name` = #{integralProductFix.name},
+            </if>
+            <if test="integralProductFix.stock !=null">
+                `stock` = stock + #{integralProductFix.stock},
+            </if>
+            <if test="integralProductFix.integralPrice !=null">
+                `integral_price` = #{integralProductFix.integralPrice},
+            </if>
+            <if test="integralProductFix.salePrice !=null">
+                `sale_price` = #{integralProductFix.salePrice}
+            </if>
+        </set>
+        WHERE
+        id = #{integralProductFix.id}
+        AND
+        deleted = 0
+    </update>
+</mapper>

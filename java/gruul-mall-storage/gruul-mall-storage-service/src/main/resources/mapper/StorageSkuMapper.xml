@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.storage.service.mp.mapper.StorageSkuMapper">
+    <select id="getProductStatistics" resultType="com.medusa.gruul.storage.api.vo.ProductStatisticsVO">
+        SELECT sku.shop_id                                   AS shopId,
+               sku.product_id                                AS productId,
+               MIN(sku.sale_price)                           AS lowestPrice,
+               MAX(sku.sale_price)                           AS highestPrice,
+               SUM(sku.stock)                                AS remainingStock,
+               SUM(sku.sales_volume + sku.init_sales_volume) AS salesVolume
+        FROM t_storage_sku AS sku
+        WHERE sku.product_id = #{productId}
+          AND sku.deleted = 0
+          AND sku.activity_id = 0
+          AND sku.activity_type = ${@com.medusa.gruul.common.model.enums.OrderType @COMMON.value}
+    </select>
+
+    <select id="getShopSales" resultType="com.medusa.gruul.storage.api.vo.ProductStatisticsVO">
+        SELECT
+        sku.shop_id AS shopId,
+        SUM(sku.sales_volume + sku.init_sales_volume) AS salesVolume
+        FROM t_storage_sku AS sku
+        WHERE sku.activity_type = ${@com.medusa.gruul.common.model.enums.OrderType @COMMON.value}
+        AND sku.activity_id = 0
+        AND sku.deleted = 0
+        GROUP BY sku.shop_id
+        <if test="sortAsc != null">
+            ORDER BY salesVolume ${sortAsc ? 'asc' : 'desc'}
+        </if>
+    </select>
+
+    <select id="getShopListSales" resultType="com.medusa.gruul.storage.api.vo.ProductStatisticsVO">
+        SELECT
+        sku.shop_id AS shopId,
+        SUM(sku.sales_volume + sku.init_sales_volume) AS salesVolume
+        FROM t_storage_sku AS sku
+        WHERE sku.activity_type = ${@com.medusa.gruul.common.model.enums.OrderType @COMMON.value}
+        AND sku.activity_id = 0
+        AND sku.deleted = 0
+        AND sku.shop_id IN
+        <foreach collection="shopIds" item="shopId" open="(" close=")" separator=",">
+            #{shopId}
+        </foreach>
+        GROUP BY sku.shop_id
+    </select>
+
+    <resultMap id="storageSkuMap" type="com.medusa.gruul.storage.api.entity.StorageSku">
+        <result column="activity_type" property="activityType"/>
+        <result column="activity_id" property="activityId"/>
+        <result column="shop_id" property="shopId"/>
+        <result column="product_id" property="productId"/>
+        <result column="id" property="id"/>
+        <result column="stock_type" property="stockType"/>
+        <result column="stock" property="stock"/>
+        <result column="sales_volume" property="salesVolume"/>
+        <result column="init_sales_volume" property="initSalesVolume"/>
+        <result column="limit_type" property="limitType"/>
+        <result column="limit_num" property="limitNum"/>
+        <result column="specs" property="specs"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+        <result column="price" property="price"/>
+        <result column="image" property="image"/>
+        <result column="sale_price" property="salePrice"/>
+        <result column="weight" property="weight"/>
+        <result column="sort" property="sort"/>
+    </resultMap>
+
+    <resultMap id="getProductSkusByShopProductMap" type="com.medusa.gruul.storage.api.vo.ProductSkusVO$SkuVO">
+        <id column="id" property="skuId"/>
+        <result column="product_id" property="productId"/>
+        <result column="stock" property="skuStock"/>
+        <result column="price" property="price"/>
+        <result column="sale_price" property="skuPrice"/>
+        <result column="stock_type" property="stockType"/>
+        <result column="salesVolume" property="salesVolume"/>
+        <result column="specs" property="skuName"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+    </resultMap>
+
+    <select id="getProductStatisticsList" resultType="com.medusa.gruul.storage.api.vo.ProductStatisticsVO">
+        SELECT
+        sku.shop_id AS shopId,
+        sku.product_id AS productId,
+        MIN( sku.sale_price ) AS lowestPrice,
+        MAX( sku.sale_price ) AS highestPrice,
+        SUM( sku.stock ) AS remainingStock,
+        SUM( sku.sales_volume + sku.init_sales_volume ) AS salesVolume
+        FROM
+        t_storage_sku AS sku
+        WHERE
+        (sku.shop_id,sku.product_id) IN
+        <foreach collection="shopProductKeys" item="shopProductKey" open="(" close=")" separator=",">
+            (#{shopProductKey.shopId},#{shopProductKey.productId})
+        </foreach>
+        AND sku.deleted = 0
+        <if test="!includeActivityStock">
+            AND sku.activity_type = ${@com.medusa.gruul.common.model.enums.OrderType @COMMON.value}
+            AND sku.activity_id = 0
+        </if>
+        GROUP BY sku.shop_id, sku.product_id
+    </select>
+
+    <select id="getShopProductSaleVolume" resultType="com.medusa.gruul.storage.api.vo.ProductSaleVolumeVO">
+        SELECT
+        sku.shop_id AS shopId,
+        product_id AS productId,
+        SUM( sku.sales_volume + sku.init_sales_volume ) AS salesVolume,
+        MIN( sku.sale_price ) AS productPrice
+        FROM
+        t_storage_sku AS sku
+        WHERE
+            sku.deleted = 0
+        <if test="shopId != null">
+            AND sku.shop_id = #{shopId}
+        </if>
+        GROUP BY shop_id,product_id
+        ORDER BY
+        salesVolume DESC
+        LIMIT #{size}
+    </select>
+
+    <select id="getProductSkusByShopProductKeys" resultMap="getProductSkusByShopProductMap">
+        SELECT
+        sku.id,
+        sku.product_id,
+        sku.stock,
+        sku.price,
+        sku.sale_price,
+        sku.stock_type,
+        sku.specs,
+        (sku.init_sales_volume + sku.sales_volume) AS salesVolume
+        FROM
+        t_storage_sku AS sku
+        WHERE
+        (sku.shop_id,sku.product_id) IN
+        <foreach collection="shopProductKeys" item="shopProductKey" open="(" close=")" separator=",">
+            (#{shopProductKey.shopId},#{shopProductKey.productId})
+        </foreach>
+        AND sku.deleted = 0 AND activity_type = ${@com.medusa.gruul.common.model.enums.OrderType @COMMON.value}
+        AND sku.activity_id = 0
+    </select>
+    <select id="getSkus" resultMap="storageSkuMap">
+        SELECT
+        *
+        FROM
+        t_storage_sku
+        WHERE
+        deleted = FALSE
+        AND (activity_type,activity_id,shop_id,product_id,id) IN
+        <foreach collection="keys" item="key" open="(" close=")" separator=",">
+            (#{key.activityType},#{key.activityId},#{key.shopId},#{key.productId},#{key.skuId})
+        </foreach>
+        ORDER BY `sort`
+    </select>
+    <select id="getSkusByPrefix" resultType="com.medusa.gruul.storage.api.entity.StorageSku">
+        SELECT
+        activity_type AS activityType,
+        activity_id AS activityId,
+        shop_id AS shopId,
+        product_id AS productId,
+        id AS id,
+        stock AS stock
+        FROM t_storage_sku
+        WHERE deleted = FALSE
+        <choose>
+            <when test="haveProductId">
+                AND (activity_type,activity_id,shop_id,product_id) IN
+                <foreach collection="keys" item="key" open="(" close=")" separator=",">
+                    (#{key.activityType.value},#{key.activityId},#{key.shopId},#{key.productId})
+                </foreach>
+            </when>
+            <otherwise>
+                AND (activity_type,activity_id,shop_id) IN
+                <foreach collection="keys" item="key" open="(" close=")" separator=",">
+                    (#{key.activityType.value},#{key.activityId},#{key.shopId})
+                </foreach>
+            </otherwise>
+        </choose>
+    </select>
+    <select id="getShopSaleVolume" resultType="java.lang.Long">
+        SELECT
+        SUM( sku.sales_volume + sku.init_sales_volume ) AS salesVolume
+        FROM
+        t_storage_sku sku
+        WHERE
+        deleted = FALSE
+        <if test="shopId != null">
+            AND shop_id = #{shopId}
+        </if>
+    </select>
+
+    <delete id="deleteSkusByPrefix">
+        DELETE
+        FROM t_storage_sku
+        WHERE (activity_type,activity_id,shop_id) IN
+        <foreach collection="keys" item="key" open="(" close=")" separator=",">
+            (#{key.activityType},#{key.activityId},#{key.shopId})
+        </foreach>
+    </delete>
+    
+    <select id="shopEmptyStockProIds" resultType="com.medusa.gruul.storage.api.entity.StorageSku">
+        SELECT sku.product_id,sku.stock
+        FROM t_storage_sku AS sku
+        WHERE sku.deleted = FALSE
+          AND sku.activity_type = #{key.activityType}
+          AND sku.activity_id = #{key.activityId}
+          AND sku.shop_id = #{key.shopId}
+          and sku.stock_type = ${@com.medusa.gruul.storage.api.enums.StockType @LIMITED.value}
+
+    </select>
+    <select id="shopUnlimitProIds" resultType="java.lang.Long"
+      parameterType="com.medusa.gruul.common.model.base.ActivityShopProductKey">
+        SELECT sku.product_id
+        FROM t_storage_sku AS sku
+        WHERE sku.deleted = FALSE
+          AND sku.activity_type = #{key.activityType}
+          AND sku.activity_id = #{key.activityId}
+          AND sku.shop_id = #{key.shopId}
+          and sku.stock_type = ${@com.medusa.gruul.storage.api.enums.StockType @UNLIMITED.value}
+    </select>
+</mapper>

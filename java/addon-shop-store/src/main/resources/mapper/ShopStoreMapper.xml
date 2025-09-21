@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.addon.store.mp.mapper.ShopStoreMapper">
+
+
+    <resultMap id="BaseResultListVOMap" type="com.medusa.gruul.addon.store.model.vo.ShopStoreListVO">
+        <id column="id" property="id"/>
+        <result column="shopId" property="shopId"/>
+        <result column="status" property="status"/>
+        <result column="detailedAddress" property="detailedAddress"/>
+        <result column="storeName" property="storeName"/>
+        <result column="functionaryPhone" property="functionaryPhone"/>
+        <result column="functionaryName" property="functionaryName"/>
+        <result column="shopName" property="shopName"/>
+    </resultMap>
+
+
+    <resultMap id="BaseResultVOMap" type="com.medusa.gruul.addon.store.model.vo.ShopStoreAssistantVO">
+        <id column="id" property="id"/>
+        <result column="storeName" property="storeName"/>
+        <result column="detailedAddress" property="detailedAddress"/>
+        <result column="status" property="status"/>
+        <result column="businessEndTime" property="businessEndTime"/>
+        <result column="businessStartTime" property="businessStartTime"/>
+        <result column="endDeliveryDay" property="endDeliveryDay"/>
+        <result column="functionaryName" property="functionaryName"/>
+        <result column="functionaryPhone" property="functionaryPhone"/>
+        <result column="location" property="location"
+                typeHandler="com.medusa.gruul.common.geometry.GeometryTypeHandler"/>
+        <result column="startDeliveryDay" property="startDeliveryDay"/>
+        <result column="storeImg" property="storeImg"/>
+        <result column="storeLogo" property="storeLogo"/>
+        <collection property="shopAssistantList" ofType="com.medusa.gruul.addon.store.mp.entity.ShopAssistant"
+                    column="id" select="queryStoreAssistant"/>
+
+    </resultMap>
+
+    <resultMap id="StoreAssistantBaseResultVOMap" type="com.medusa.gruul.addon.store.mp.entity.ShopAssistant">
+        <result column="assistantPhone" property="assistantPhone"/>
+    </resultMap>
+
+
+    <select id="queryStoreAssistant" resultMap="StoreAssistantBaseResultVOMap">
+            SELECT
+                assistant_phone AS assistantPhone
+            FROM
+                t_shop_assistant
+            WHERE store_id = #{id}
+            AND
+            deleted =  0
+    </select>
+
+    <select id="queryShopStoreListVO" resultMap="BaseResultListVOMap">
+        SELECT
+        id ,
+        shop_id AS shopId,
+        status ,
+        detailed_address AS detailedAddress ,
+        store_name AS storeName ,
+        shop_name AS shopName,
+        functionary_phone AS functionaryPhone,
+        functionary_name AS functionaryName
+        FROM
+        t_shop_store
+        WHERE
+        deleted = 0
+        <if test="shopStoreParam.shopId != 0 and shopStoreParam.shopId != null ">
+            AND shop_id = #{shopStoreParam.shopId}
+        </if>
+        <if test="shopStoreParam.status != null ">
+            AND status = #{shopStoreParam.status}
+        </if>
+        <if test="shopStoreParam.shopName != null and  shopStoreParam.shopName != '' ">
+            AND shop_name  LIKE CONCAT('%',#{shopStoreParam.shopName},'%')
+        </if>
+        <if test="shopStoreParam.storeName != null and  shopStoreParam.storeName != '' ">
+            AND store_name  LIKE CONCAT('%',#{shopStoreParam.storeName},'%')
+        </if>
+        ORDER BY create_time DESC
+    </select>
+
+    <select id="queryShopStoreInfo" resultMap="BaseResultVOMap">
+        SELECT shopStore.id,
+               shopStore.store_name          AS storeName,
+               shopStore.detailed_address    AS detailedAddress,
+               shopStore.`status`,
+               shopStore.business_end_time   AS businessEndTime,
+               shopStore.business_start_time AS businessStartTime,
+               shopStore.end_delivery_day    AS endDeliveryDay,
+               shopStore.functionary_name    AS functionaryName,
+               shopStore.functionary_phone   AS functionaryPhone,
+               shopStore.location,
+               shopStore.start_delivery_day  AS startDeliveryDay,
+               shopStore.store_img           AS storeImg,
+               shopStore.store_logo          AS storeLogo
+        FROM t_shop_store AS shopStore
+        WHERE
+            deleted = 0
+          AND shopStore.id = #{id}
+          AND shopStore.shop_id = #{shopId}
+
+    </select>
+</mapper>

@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <artifactId>addon-coupon</artifactId>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+              <classpathPrefix>lib/</classpathPrefix>
+              <mainClass>com.medusa.gruul.addon.coupon.AddonCouponApplication</mainClass>
+            </manifest>
+            <manifestEntries>
+              <Class-Path>./</Class-Path>
+            </manifestEntries>
+          </archive>
+          <excludes>
+            <exclude>config/</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <configuration>
+              <excludeTransitive>false</excludeTransitive>
+              <includeScope>runtime</includeScope>
+              <outputDirectory>${project.build.directory}/lib</outputDirectory>
+              <stripVersion>false</stripVersion>
+            </configuration>
+            <goals>
+              <goal>copy-dependencies</goal>
+            </goals>
+            <id>copy-dependencies</id>
+            <phase>package</phase>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <executions>
+          <execution>
+            <configuration>
+              <outputDirectory>${project.build.directory}</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>src/main/resources</directory>
+                  <includes>
+                    <include>config/**</include>
+                  </includes>
+                </resource>
+              </resources>
+            </configuration>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <id>copy-resources</id>
+            <phase>package</phase>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>smart-doc-maven-plugin</artifactId>
+        <configuration>
+          <configFile>./src/main/resources/smart-doc.json</configFile>
+          <excludes>
+            <exclude>com.google.guava:guava</exclude>
+          </excludes>
+          <includes>
+            <include>com.medusa.gruul:.*</include>
+            <include>com.medusa.gruul.global:.*</include>
+            <include>com.baomidou:mybatis-plus-extension</include>
+            <include>com.baomidou:mybatis-plus-core</include>
+            <include>cn.hutool:hutool-all</include>
+          </includes>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>html</goal>
+            </goals>
+            <phase>compile</phase>
+          </execution>
+        </executions>
+        <groupId>com.github.shalousun</groupId>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+    <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+    <dependency>
+      <artifactId>commons-io</artifactId>
+      <groupId>commons-io</groupId>
+      <version>2.16.1</version>
+    </dependency>
+    <!-- goods api -->
+    <dependency>
+      <artifactId>gruul-mall-goods-api</artifactId>
+      <groupId>com.medusa.gruul</groupId>
+      <version>1.0</version>
+    </dependency>
+    <!-- search api -->
+    <dependency>
+      <artifactId>gruul-mall-search-api</artifactId>
+      <groupId>com.medusa.gruul</groupId>
+      <version>1.0</version>
+    </dependency>
+    <dependency>
+      <artifactId>gruul-mall-afs-api</artifactId>
+      <groupId>com.medusa.gruul</groupId>
+      <version>1.0</version>
+    </dependency>
+    <!-- payment api -->
+    <dependency>
+      <artifactId>gruul-mall-payment-api</artifactId>
+      <groupId>com.medusa.gruul</groupId>
+      <version>1.0</version>
+    </dependency>
+    <!-- shop api -->
+    <dependency>
+      <artifactId>gruul-mall-shop-api</artifactId>
+      <groupId>com.medusa.gruul</groupId>
+      <version>1.0</version>
+    </dependency>
+    <!-- goods api -->
+    <dependency>
+      <artifactId>gruul-mall-goods-api</artifactId>
+      <groupId>com.medusa.gruul</groupId>
+      <version>1.0</version>
+    </dependency>
+    <!-- order api -->
+    <dependency>
+      <artifactId>gruul-mall-order-api</artifactId>
+      <groupId>com.medusa.gruul</groupId>
+      <version>1.0</version>
+    </dependency>
+
+    <!-- mq -->
+    <dependency>
+      <artifactId>gruul-common-mq-rabbit</artifactId>
+      <groupId>com.medusa.gruul</groupId>
+    </dependency>
+    <!-- module -->
+    <dependency>
+      <artifactId>gruul-common-module-addon</artifactId>
+      <groupId>com.medusa.gruul</groupId>
+    </dependency>
+    <!-- test -->
+    <dependency>
+      <artifactId>mybatis-plus-generator</artifactId>
+      <groupId>com.baomidou</groupId>
+      <scope>test</scope>
+      <version>${mybatis-plus.version}</version>
+    </dependency>
+    <dependency>
+      <artifactId>velocity-engine-core</artifactId>
+      <groupId>org.apache.velocity</groupId>
+      <scope>test</scope>
+      <version>2.3</version>
+    </dependency>
+    <dependency>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <groupId>org.springframework.boot</groupId>
+      <scope>test</scope>
+    </dependency>
+
+    <!--    overview api    -->
+    <dependency>
+      <artifactId>gruul-mall-overview-api</artifactId>
+      <groupId>com.medusa.gruul</groupId>
+      <version>1.0</version>
+    </dependency>
+
+    <dependency>
+      <artifactId>easyexcel</artifactId>
+      <groupId>com.alibaba</groupId>
+    </dependency>
+
+    <!--pigeon-api-->
+    <dependency>
+      <artifactId>gruul-mall-carrier-pigeon-api</artifactId>
+      <groupId>com.medusa.gruul</groupId>
+      <version>1.0</version>
+    </dependency>
+
+    <!-- uaa api -->
+    <dependency>
+      <artifactId>gruul-mall-uaa-api</artifactId>
+      <groupId>com.medusa.gruul</groupId>
+      <version>1.0</version>
+    </dependency>
+
+  </dependencies>
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <artifactId>gruul-mall-parent</artifactId>
+    <groupId>com.medusa.gruul</groupId>
+    <version>2022.2</version>
+  </parent>
+
+  <version>1.0</version>
+
+</project>

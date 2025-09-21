@@ -1,0 +1,8 @@
+{
+    "globals": {
+        "useConvert": true,
+        "usePriceRange": true,
+        "Long": true,
+        "Obj": true
+    }
+}

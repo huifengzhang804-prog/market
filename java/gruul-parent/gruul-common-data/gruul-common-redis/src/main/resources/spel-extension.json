@@ -1,0 +1,34 @@
+{
+  "com.medusa.gruul.common.redis.annotation.Redisson@batchParamName": {
+    "prefix": "#",
+    "suffix": "",
+    "method": {
+      "result": false,
+      "parameters": true
+    },
+    "fields": {
+    }
+  },
+  "com.medusa.gruul.common.redis.annotation.Redisson@key": {
+    "prefix": "#",
+    "suffix": "",
+    "method": {
+      "result": false,
+      "parameters": true
+    },
+
+    "fields": {
+      "item": "java.util.Map<String,Object>"
+    }
+  },
+  "com.medusa.gruul.common.redis.annotation.Redisson@condition": {
+    "prefix": "#",
+    "suffix": "",
+    "method": {
+      "result": false,
+      "parameters": true
+    },
+    "fields": {
+    }
+  }
+}

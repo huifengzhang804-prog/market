@@ -1,0 +1,51 @@
+{
+  "amount": {
+    "currency": "CNY",
+    "discount_refund": 0,
+    "from": [],
+    "payer_refund": 1,
+    "payer_total": 1,
+    "refund": 1,
+    "settlement_refund": 1,
+    "settlement_total": 1,
+    "total": 1
+  },
+  "attrs": {
+    "transaction_id": "4200002449202412214914578015",
+    "amount": {
+      "payer_total": 1,
+      "settlement_total": 1,
+      "total": 1,
+      "payer_refund": 1,
+      "refund_fee": 0,
+      "discount_refund": 0,
+      "currency": "CNY",
+      "from": [],
+      "settlement_refund": 1,
+      "refund": 1
+    },
+    "out_trade_no": "SS1870307276995215360",
+    "create_time": "2024-12-21T11:17:34+08:00",
+    "promotion_detail": [],
+    "out_refund_no": "e35c44b6d0c19e1cea340f046f841c9b",
+    "funds_account": "AVAILABLE",
+    "channel": "ORIGINAL",
+    "user_received_account": "浙江农商联合银行借记卡7192",
+    "refund_id": "50301501692024122153897096652",
+    "status": "PROCESSING"
+  },
+  "channel": "ORIGINAL",
+  "create_time": "2024-12-21T11:17:34+08:00",
+  "funds_account": "AVAILABLE",
+  "out_refund_no": "e35c44b6d0c19e1cea340f046f841c9b",
+  "out_trade_no": "SS1870307276995215360",
+  "refundCurrency": "CNY",
+  "refundFee": 0.01,
+  "refundNo": "e35c44b6d0c19e1cea340f046f841c9b",
+  "refund_id": "50301501692024122153897096652",
+  "resultCode": "PROCESSING",
+  "status": "PROCESSING",
+  "tradeNo": "4200002449202412214914578015",
+  "transaction_id": "4200002449202412214914578015",
+  "user_received_account": "浙江农商联合银行借记卡7192"
+}

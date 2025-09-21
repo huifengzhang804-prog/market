@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.addon.freight.mp.mapper.LogisticsTemplateMapper">
+
+    <resultMap id="BaseVoResultMap" type="com.medusa.gruul.addon.freight.model.vo.LogisticsTemplateVO">
+        <id column="id" property="id"/>
+        <result column="template_name" property="templateName"/>
+        <result column="valuation_model" property="valuationModel"/>
+        <result column="choice_condition_postage" property="choiceConditionPostage"/>
+        <collection property="logisticsBaseModelVos"
+                    ofType="com.medusa.gruul.addon.freight.model.vo.LogisticsBaseModelVO"
+                    column="id" select="queryLogisticsBaseModel"/>
+        <collection property="logisticsIncludePostageVos"
+                    ofType="com.medusa.gruul.addon.freight.model.vo.LogisticsIncludePostageVO"
+                    column="id" select="queryLogisticsIncludePostage"/>
+    </resultMap>
+
+    <resultMap id="LogisticsBaseModelResultMap" type="com.medusa.gruul.addon.freight.model.vo.LogisticsBaseModelVO">
+        <id column="id" property="id"/>
+        <result column="logistics_id" property="logisticsId"/>
+        <result column="valuation_model" property="valuationModel"/>
+        <result column="first_quantity" property="firstQuantity"/>
+        <result column="first_amount" property="firstAmount"/>
+        <result column="second_quantity" property="secondQuantity"/>
+        <result column="second_amount" property="secondAmount"/>
+        <result column="region_json" property="regionJson"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+    </resultMap>
+
+    <resultMap id="LogisticsIncludePostageResultMap"
+               type="com.medusa.gruul.addon.freight.model.vo.LogisticsIncludePostageVO">
+        <id column="id" property="id"/>
+        <result column="logistics_id" property="logisticsId"/>
+        <result column="amount_num" property="amountNum"/>
+        <result column="piece_num" property="pieceNum"/>
+        <result column="post_type" property="postType"/>
+        <result column="weight" property="weight"/>
+        <result column="region" property="region" typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+    </resultMap>
+
+
+    <select id="queryTemplateList" resultMap="BaseVoResultMap">
+        SELECT template.id,
+               template.template_name,
+               template.valuation_model,
+               template.choice_condition_postage
+        FROM t_logistics_template template
+        WHERE template.deleted = 0
+        ORDER BY template.create_time DESC
+    </select>
+
+
+    <select id="queryLogisticsBaseModel" resultMap="LogisticsBaseModelResultMap" parameterType="java.lang.Long">
+        SELECT model.id,
+               model.logistics_id,
+               model.valuation_model,
+               model.first_quantity,
+               model.first_amount,
+               model.second_quantity,
+               model.second_amount,
+               model.region_json
+        FROM t_logistics_base_model model
+        WHERE model.deleted = 0
+          AND model.logistics_id = #{id}
+    </select>
+
+
+    <select id="queryLogisticsIncludePostage" resultMap="LogisticsIncludePostageResultMap"
+            parameterType="java.lang.Long">
+        SELECT postage.id,
+               postage.logistics_id,
+               postage.post_type,
+               postage.piece_num,
+               postage.weight,
+               postage.amount_num,
+               postage.region
+        FROM t_logistics_include_postage postage
+        WHERE postage.deleted = 0
+          AND postage.logistics_id = #{id}
+    </select>
+    <select id="getTemplateInfoById"
+            resultMap="BaseVoResultMap">
+
+        SELECT template.id,
+               template.template_name,
+               template.valuation_model,
+               template.choice_condition_postage
+        FROM t_logistics_template template
+        WHERE template.deleted = 0
+          AND template.id = #{id} LIMIT 1
+    </select>
+
+
+</mapper>

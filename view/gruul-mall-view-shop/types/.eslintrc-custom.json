@@ -1,0 +1,10 @@
+{
+    "globals": {
+        "FN": true,
+        "ImportMetaEnv": true,
+        "Fn": true,
+        "Long": true,
+        "Obj": true,
+        "RegionData": true
+    }
+}

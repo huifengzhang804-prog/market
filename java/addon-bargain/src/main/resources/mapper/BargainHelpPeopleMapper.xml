@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.addon.bargain.mp.mapper.BargainHelpPeopleMapper">
+
+    <select id="getBargainHelpPeoplePage" resultType="com.medusa.gruul.addon.bargain.model.vo.BargainHelpPeopleVO">
+        SELECT id,
+               user_id,
+               user_nick_name,
+               user_head_portrait,
+               help_cut_amount,
+               help_cut_time,
+               shop_id,
+               activity_id,
+               bargain_order_id
+        FROM t_bargain_help_people
+        WHERE
+            activity_id = #{bargainHelpPeopleQuery.activityId}
+        AND bargain_order_id = #{bargainHelpPeopleQuery.bargainOrderId}
+        AND deleted = 0
+
+    </select>
+</mapper>

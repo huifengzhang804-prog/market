@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.user.service.mp.mapper.UserFreeMemberMapper">
+
+    <resultMap id="BaseResultVOMap" type="com.medusa.gruul.user.service.model.vo.FreeMemberRightsVO">
+        <result column="id" property="id"/>
+        <result column="free_member_name" property="freeMemberName"/>
+        <result column="need_value" property="needValue"/>
+        <result column="label_json" property="labelJson" typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+        <collection property="relevancyRightsList"
+                     ofType="com.medusa.gruul.user.api.model.vo.RelevancyRightsVO"
+                     column="id"
+                     select="queryRelevancyRights"
+        />
+    </resultMap>
+
+    <resultMap id="relevancyRightsResultVOMap" type="com.medusa.gruul.user.api.model.vo.RelevancyRightsVO">
+        <result column="extend_value" property="extendValue"/>
+        <result column="member_rights_id" property="memberRightsId"/>
+        <result column="rights_name" property="rightsName"/>
+        <result column="rights_type" property="rightsType"/>
+    </resultMap>
+
+    <select id="queryFreeMemberList" resultMap="BaseResultVOMap">
+        SELECT
+            freeMember.id,
+            freeMember.free_member_name,
+            freeMember.need_value,
+            freeMember.label_json
+        FROM
+            t_user_free_member AS freeMember
+        WHERE
+            deleted = 0
+    </select>
+
+
+    <select id="queryRelevancyRights" resultMap="relevancyRightsResultVOMap">
+        SELECT
+            memberRelevancyRights.extend_value,
+            memberRelevancyRights.member_rights_id,
+            memberRights.rights_name,
+            memberRights.rights_type
+        FROM
+            t_user_member_relevancy_rights  AS memberRelevancyRights
+        INNER JOIN
+            t_member_rights AS   memberRights
+        ON
+            memberRelevancyRights.member_rights_id = memberRights.id
+        WHERE
+             memberRelevancyRights.member_id = #{id}
+        AND
+            memberRelevancyRights.deleted = 0
+        AND
+            memberRights.deleted = 0
+        AND
+            memberRights.rights_switch != 0
+    </select>
+
+
+
+
+    <select id="getCurrentMemberRankByGrowthValue" resultMap="BaseResultVOMap">
+         SELECT
+            freeMember.id,
+            freeMember.free_member_name,
+            freeMember.need_value
+        FROM
+            t_user_free_member AS freeMember
+        WHERE
+            deleted = 0
+        AND  freeMember.need_value &lt;= #{growthValue}
+        ORDER BY
+            freeMember.rank_code
+        DESC
+            LIMIT 1
+    </select>
+    <select id="queryFreeMemberInfo"  resultMap="BaseResultVOMap">
+
+           SELECT
+            freeMember.id,
+            freeMember.free_member_name,
+            freeMember.need_value,
+            freeMember.label_json
+        FROM
+            t_user_free_member AS freeMember
+        WHERE
+            deleted = 0
+        AND
+            id = #{id}
+
+
+    </select>
+
+</mapper>

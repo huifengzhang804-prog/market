@@ -1,0 +1,70 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body,
+#app {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: $rows-text-color;
+    background-color: $rows-bg-color-grey;
+}
+div::-webkit-scrollbar {
+    background-color: rgba(27, 27, 27, 0.4);
+    border-radius: 10px;
+    /* //y轴滚动条宽度 */
+    width: 3px;
+    /* //x轴滚动条高度 */
+    height: 3px;
+}
+
+div::-webkit-scrollbar-thumb {
+    /* //滚动条的圆角 */
+    border-radius: 10px;
+    /* //滚动条的背景颜色 */
+    background: rgba(27, 27, 27, 0.4);
+}
+
+div::-webkit-scrollbar-track {
+    /* //滚动条的背景区域的圆角 */
+    border-radius: 10px;
+    /* //滚动条的背景颜色 */
+    background: #fff;
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
+
+.el-dropdown-menu__item {
+    padding: 3px 15px !important;
+}
+@include b(el-dialog) {
+    @include e(title) {
+        font-size: 18px;
+        font-weight: bold;
+        color: #333333;
+    }
+}
+@include b(hover) {
+    cursor: pointer;
+    &:hover {
+        color: #2e99f3;
+    }
+}
+/**
+ * @description: 淡入淡出vue动画
+ * @returns {*}
+ */
+.active-enter-from,
+.active-leave-to {
+    opacity: 0;
+}
+.active-enter-active,
+.active-leave-active {
+    transition: opacity 2s;
+}

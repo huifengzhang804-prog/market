@@ -1,0 +1,288 @@
+<script setup lang="ts">
+import { type PropType, ref, computed, onBeforeUpdate } from 'vue'
+import Modal from './modal.nvue'
+import { socketMessageData } from '../../socket'
+import useConvert from '../../../../../composables/useConvert'
+import { doPostFollowLiveRoom, doGetViewershipStatus, userIslogin } from '../../../apis/UserLive'
+import type { FollowLiveRoomUser } from '../../../apis/UserLive/model'
+import type { GetUserMessage } from '../../../apis/CreateLive/model'
+// @ts-ignore
+import { LIVE_ICON_HTTPS } from '@/config/live-icon-https'
+import { initStyleMarginTop } from '@/utils/util'
+
+const { salesVolumeToStr } = useConvert()
+const $props = defineProps({
+  mode: {
+    type: String as PropType<'admin' | 'user'>,
+    default: 'admin',
+  },
+  anchorId: {
+    type: String,
+    default: '',
+  },
+  userInfo: {
+    type: Object as PropType<GetUserMessage>,
+    default: () => ({
+      id: '',
+      shopId: '',
+      anchorNickname: '',
+      anchorSynopsis: '',
+      anchorIcon: '',
+      status: 'NORMAL',
+      phone: '',
+      viewership: '0',
+      duration: '',
+      followCount: '',
+    }),
+  },
+})
+const emit = defineEmits(['pause', 'stop', 'switch', 'share'])
+const modalConfig = computed(() => {
+  if ($props.mode === 'user') {
+    return {
+      context: '确定退出直播间吗？',
+      confirmBtnText: '退出',
+      closeBtnText: '取消',
+    }
+  }
+  return {
+    context: '观众正在赶来的路上确定要下播吗？',
+    confirmBtnText: '下播',
+    closeBtnText: '取消',
+  }
+})
+const isShowLike = ref(false)
+let time = null as NodeJS.Timer | null
+
+const modalShow = ref(false)
+const isFollow = ref(false)
+const marginTop = ref(initStyleMarginTop())
+
+initIconfont()
+console.log('userIslogin()', userIslogin())
+
+userIslogin() && viewershipStatus()
+
+function initIconfont() {
+  // #ifdef APP-PLUS-NVUE
+  const domModule = uni.requireNativePlugin('dom')
+  domModule.addRule('fontFace', {
+    fontFamily: 'iconfont',
+    src: `${LIVE_ICON_HTTPS} format('truetype')`,
+  })
+  // #endif
+  // #ifndef APP-PLUS-NVUE
+  uni.loadFontFace({
+    global: true, // 是否全局生效
+    family: 'iconfont', // 定义的字体名称
+    source: LIVE_ICON_HTTPS, // 字体资源的地址
+  })
+  // #endif
+}
+const handleClose = () => {
+  modalShow.value = true
+}
+const handleConfirm = () => {
+  //下播
+  emit('stop')
+}
+const handleModalClose = () => {}
+const handleClickSwitch = () => {
+  // 切换摄像头
+  emit('switch')
+}
+// 获取用户关注状态
+async function viewershipStatus() {
+  try {
+    // @ts-ignore
+    const { code, data } = await doGetViewershipStatus($props.anchorId)
+    if (code !== 200) {
+      return
+    }
+    isFollow.value = data
+  } catch (error) {}
+}
+const handleFocusClick = async () => {
+  // 未登录不可关注
+  if (!userIslogin()) {
+    uni.showToast({ icon: 'none', title: '请登录过后进行操作!' })
+    return
+  }
+  const { code, data, msg } = await doPostFollowLiveRoom({ anchorId: $props.anchorId, shopId: $props.userInfo.shopId, isFollow: !isFollow.value })
+  if (code !== 200) {
+    uni.showToast({ icon: 'none', title: `${msg || '操作失败'}` })
+    return
+  }
+  isFollow.value = !isFollow.value
+}
+</script>
+
+<template>
+  <view class="anchor-mask__head" :style="marginTop ? { 'margin-top': `${marginTop}px` } : {}">
+    <view class="anchor-mask__head_left">
+      <image class="anchor-mask__head_left--image" :src="userInfo.anchorIcon"> </image>
+      <view class="anchor-mask__head_left-content">
+        <text class="line1 anchor-mask__head_left-content--title">
+          {{ userInfo.anchorNickname }}
+        </text>
+        <view class="anchor-mask__head_left_botton">
+          <text class="line1">观看:{{ salesVolumeToStr(socketMessageData.VIEWERSHIP.data.count) }}&nbsp;&nbsp;</text>
+          <text class="line1">点赞:&nbsp;{{ salesVolumeToStr(socketMessageData.LIKE.data.count) }}</text>
+        </view>
+      </view>
+      <view class="anchor-mask__head_left--focus" v-if="mode !== 'admin'" @click="handleFocusClick">
+        <text style="color: #fff; font-size: 28rpx">{{ isFollow ? '已关注' : '关注' }}</text>
+      </view>
+    </view>
+    <view class="anchor-mask__head_right">
+      <text
+        v-if="mode === 'admin'"
+        :style="{ fontFamily: 'iconfont', color: '#fff', fontSize: '25px', margin: `0 0 0 ${mode === 'admin' ? '15rpx' : '25rpx'}` }"
+        @click="handleClickSwitch"
+      >
+        &#xe68b;
+      </text>
+      <!-- <text
+                :style="{ fontFamily: 'iconfont', color: '#fff', fontSize: '25px', margin: `0 0 0 ${mode === 'admin' ? '15rpx' : '25rpx'}` }"
+                @click="emit('share')"
+                >&#xe698;</text
+            > -->
+      <!-- <text :style="{ fontFamily: 'iconfont', color: '#fff', fontSize: '25px', margin: `0 0 0 ${mode === 'admin' ? '15rpx' : '25rpx'}` }"
+                >&#xe69b;</text
+            > -->
+      <text
+        :style="{ fontFamily: 'iconfont', color: '#fff', fontSize: '25px', margin: `0 0 0 ${mode === 'admin' ? '15rpx' : '25rpx'}` }"
+        @click="handleClose"
+        >&#xe697;</text
+      >
+    </view>
+  </view>
+
+  <modal
+    v-model="modalShow"
+    :context="modalConfig.context"
+    :confirm-btn-text="modalConfig.confirmBtnText"
+    :close-btn-text="modalConfig.closeBtnText"
+    @close="handleModalClose"
+    @confirm="handleConfirm"
+  >
+  </modal>
+</template>
+
+<style scoped>
+.anchor-mask__head {
+  margin-top: 108rpx;
+  display: flex;
+  justify-content: space-between;
+  width: 750rpx;
+  flex-direction: row;
+  padding: 0 20rpx 20rpx;
+}
+.anchor-mask__head_left {
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 96rpx;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row;
+  padding: 5rpx 10rpx;
+}
+.anchor-mask__head_left--image {
+  width: 75rpx;
+  height: 75rpx;
+  border-radius: 50%;
+}
+.anchor-mask__head_left-content {
+  /* width: 300rpx; */
+  flex: 1;
+  height: 80rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: flex-start;
+  margin-left: 10rpx;
+}
+.line1 {
+  height: 40rpx;
+  line-height: 40rpx;
+  /* #ifdef APP-PLUS */
+  lines: 1;
+  /* #endif */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #fff;
+  opacity: 0.8;
+  font-size: 24rpx;
+}
+.anchor-mask__head_left-content--title {
+  max-width: 300rpx;
+  font-size: 30rpx;
+  font-weight: 700;
+  margin-bottom: 5rpx;
+  opacity: 1;
+}
+.anchor-mask__head_left--focus {
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 11rpx 13rpx;
+  height: 56rpx;
+  /* 主色 */
+  background: #fa3534;
+  border-radius: 34rpx;
+}
+.anchor-mask__head_right {
+  width: 274rpx;
+  height: 88rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+.modal {
+  background: #fff;
+  border-radius: 30rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  height: 400rpx;
+  margin: 0 50rpx;
+}
+.modal__title {
+  font-size: 22px;
+}
+.modal__footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 500rpx;
+}
+.modal__footer--left {
+  padding: 15rpx 25rpx;
+  background: #fff;
+  color: #000;
+  border: 1px solid #bbbbbb;
+  border-radius: 15rpx;
+}
+.modal__footer--right {
+  padding: 15rpx 25rpx;
+  background: #fd284f;
+  color: #fff;
+  border: 1px solid #fd284f;
+  border-radius: 15rpx;
+}
+.anchor-mask__head_left-like {
+  padding: 0 20rpx 20rpx;
+}
+.anchor-mask__head_left_botton {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-right: 10rpx;
+}
+</style>

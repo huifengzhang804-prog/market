@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.addon.rebate.mp.mapper.RebateDetailsMapper">
+
+    <select id="rebateDetailsStatistic"
+            resultType="com.medusa.gruul.addon.rebate.model.dto.RebateDetailsQueryDTO$RebateDetailStatistic">
+        SELECT
+            SUM(IF(rebateDetails.change_type=0,amount,0)) AS income,
+            SUM(IF(rebateDetails.change_type=1,amount,0)) AS expenditure
+        FROM
+        t_rebate_details AS rebateDetails
+        WHERE
+            deleted = FALSE
+        AND
+            rebateDetails.user_id = #{rebateDetailsQuery.userId}
+        <if test="rebateDetailsQuery.startTime != null">
+            AND create_time >= #{rebateDetailsQuery.startTime}
+        </if>
+        <if test="rebateDetailsQuery.endTime != null">
+            AND create_time &lt;= #{rebateDetailsQuery.endTime}
+        </if>
+        ORDER BY rebateDetails.create_time DESC
+
+    </select>
+</mapper>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.addon.member.mp.mapper.PaidMemberRelevancyRightsMapper">
+
+
+    <resultMap id="RightsBaseMap" type="com.medusa.gruul.user.api.model.vo.MemberBasicsRelevancyRightsVO">
+        <result column="member_rights_id" property="memberRightsId"/>
+        <result column="extend_value" property="extendValue"/>
+
+    </resultMap>
+
+
+    <select id="queryRightsList" resultMap="RightsBaseMap">
+        SELECT
+            member_rights_id,extend_value
+        FROM
+            t_paid_member_relevancy_rights
+        WHERE
+            deleted = 0
+        AND
+            paid_member_id = #{id}
+    </select>
+
+    <select id="queryMemberRightInUse" resultType="java.lang.Integer">
+        SELECT
+            count(1)
+        FROM
+            t_paid_member_relevancy_rights rights
+            inner join t_paid_member member on member.id=rights.paid_member_id
+        WHERE
+            rights.deleted = 0 and  member.deleted = 0
+        AND
+            rights.paid_member_id = #{rightId}
+    </select>
+</mapper>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.goods.service.mp.mapper.ProductFeatureMapper">
+
+    <resultMap id="BaseResultMap" type="com.medusa.gruul.goods.api.model.vo.ProductFeaturesVO">
+        <result column="id" property="id"/>
+        <result column="shopId" property="shopId"/>
+        <result column="featuresType" property="featuresType"/>
+        <result column="featuresValue" property="featuresValue"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+    </resultMap>
+
+    <select id="getProductFeatureList" resultMap="BaseResultMap">
+        SELECT
+        id,
+        shop_id AS shopId,
+        features_type AS featuresType,
+        features_value AS featuresValue
+        FROM
+        t_product_features
+        WHERE
+        deleted = 0
+        AND features_type = #{param.featuresType}
+        <if test="param.name != null and param.name != ''">
+            AND JSON_EXTRACT(features_value ,'$.featureName') LIKE CONCAT('%',#{param.name},'%')
+        </if>
+    </select>
+</mapper>

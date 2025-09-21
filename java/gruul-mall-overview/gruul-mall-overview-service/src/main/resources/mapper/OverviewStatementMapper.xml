@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.overview.service.mp.statement.mapper.OverviewStatementMapper">
+
+    <sql id="queryStatementSql">
+        FROM t_overview_statement AS stat
+        LEFT JOIN t_overview_shop AS shop ON stat.shop_id = shop.shop_id AND shop.deleted = FALSE
+        WHERE stat.deleted = FALSE
+        AND stat.shop_id = COALESCE(#{query.shopId}, 0)
+        <if test="query.changeType != null">
+            AND stat.change_type = #{query.changeType.type}
+        </if>
+        <if test="query.transactionType != null">
+            AND stat.trade_type = #{query.transactionType.code}
+        </if>
+
+        <if test="query.startTime != null">
+            AND stat.trade_time >= #{query.startTime}
+        </if>
+        <if test="query.endTime != null">
+            AND #{query.endTime} >= stat.trade_time
+        </if>
+        <if test="query.exportIds!=null and query.exportIds.size()>0">
+            and stat.id in
+            <foreach collection="query.exportIds" item="item" index="index" open="(" separator=","
+                close=")">
+                #{item}
+            </foreach>
+        </if>
+        <!--关联订单号-->
+        <if test="query.orderNo">
+            and stat.order_no like CONCAT('%',#{query.orderNo},'%')
+        </if>
+        <!--交易流水号-->
+        <if test="query.tradeNo">
+            and stat.trade_no like CONCAT('%',#{query.tradeNo},'%')
+        </if>
+        <if test="query.targetShopId!=null">
+            and stat.target_shop_id=#{query.targetShopId}
+        </if>
+    </sql>
+
+    <resultMap id="queryStatementMap" type="com.medusa.gruul.overview.api.entity.OverviewStatement">
+        <result column="id" property="id"/>
+        <result column="shopId" property="shopId"/>
+        <result column="tradeType" property="tradeType"/>
+        <result column="tradeNo" property="tradeNo"/>
+        <result column="tradeTime" property="tradeTime"/>
+        <result column="orderNo" property="orderNo"/>
+        <result column="tradeDetail" property="tradeDetail"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+        <result column="userId" property="userId"/>
+        <result column="changeType" property="changeType"/>
+        <result column="amount" property="amount"/>
+        <result column="createTime" property="createTime"/>
+        <result column="shopName" property="shopName"/>
+        <result column="shared" property="shared"/>
+        <result column="sharingTarget" property="sharingTarget"/>
+        <result column="extra" property="extra"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+    </resultMap>
+
+    <select id="queryStatement" resultMap="queryStatementMap">
+        SELECT
+        stat.id as id,
+        stat.shop_id AS shopId,
+        stat.trade_type AS tradeType,
+        stat.trade_no AS tradeNo,
+        stat.trade_time AS tradeTime,
+        stat.order_no AS orderNo,
+        stat.trade_detail AS tradeDetail,
+        stat.user_id AS userId,
+        stat.change_type AS changeType,
+        stat.amount AS amount,
+        stat.create_time AS createTime,
+        stat.shared AS shared,
+        stat.sharing_target AS sharingTarget,
+        stat.extra AS extra,
+        stat.shop_name AS shopName
+        <include refid="queryStatementSql"/>
+        <if test="query.sortEnum != null">
+            ORDER BY
+            <choose>
+                <when test="query.sortEnum == @com.medusa.gruul.overview.api.enums.SortEnum @TIME_ASC">
+                    stat.trade_time ASC
+                </when>
+                <when test="query.sortEnum == @com.medusa.gruul.overview.api.enums.SortEnum @TIME_DESC">
+                    stat.trade_time DESC
+                </when>
+                <when test="query.sortEnum == @com.medusa.gruul.overview.api.enums.SortEnum @AMOUNT_ASC">
+                    change_type desc,
+                    CASE WHEN change_type = 1 THEN amount END DESC,
+                    CASE WHEN change_type = 0 THEN amount END ASC
+                </when>
+                <when test="query.sortEnum == @com.medusa.gruul.overview.api.enums.SortEnum @AMOUNT_DESC">
+                    change_type asc,
+                    CASE WHEN change_type = 1 THEN amount END DESC,
+                    CASE WHEN change_type = 0 THEN amount END desc
+                </when>
+
+            </choose>
+        </if>
+        <!--默认排序规则-->
+        <if test="query.sortEnum == null">
+            ORDER BY stat.create_time DESC
+        </if>
+
+    </select>
+
+    <select id="statistics" resultType="com.medusa.gruul.overview.service.model.StatementCountModel">
+        SELECT
+        stat.change_type AS changeType,
+        SUM(stat.amount) AS amount,
+        COUNT(stat.id) AS amountCount
+        <include refid="queryStatementSql"/>
+        GROUP BY stat.change_type
+    </select>
+
+    <!--分页查询采购支出-->
+    <select id="queryPurchasePayoutList"
+            resultType="com.medusa.gruul.overview.service.model.vo.PurchasePayoutVO">
+        SELECT
+            trade_no as tradeNo,
+            amount as amount,
+            order_no as purchaseOrderNo,
+            create_time as paidTime,
+            extra -> '$.supplierId' as supplierId
+        FROM
+            t_overview_statement
+        WHERE
+            shop_id = #{query.shopId} AND
+            trade_type IN (
+                ${@com.medusa.gruul.common.model.enums.TransactionType @PURCHASE_ORDER.code},
+                ${@com.medusa.gruul.common.model.enums.TransactionType @PURCHASE_ORDER_FREIGHT.code},
+                ${@com.medusa.gruul.common.model.enums.TransactionType @PURCHASE_ORDER_SERVICE_CHARGE.code}
+            ) AND
+            change_type = ${@com.medusa.gruul.common.model.enums.ChangeType @REDUCE.type}
+            <if test="query.purchaseOrderNo != null">
+                AND order_no = #{query.purchaseOrderNo}
+            </if>
+            <if test="query.supplierId != null">
+                AND extra -> '$.supplierId' = #{query.supplierId}
+            </if>
+            <if test="query.tradeNo != null">
+                AND trade_no LIKE CONCAT('%',#{query.tradeNo},'%')
+            </if>
+            <if test="query.startDate != null">
+                AND create_time >= #{query.startDate}
+            </if>
+            <if test="query.endDate != null">
+                AND #{query.endDate} >= create_time
+            </if>
+    </select>
+
+
+</mapper>

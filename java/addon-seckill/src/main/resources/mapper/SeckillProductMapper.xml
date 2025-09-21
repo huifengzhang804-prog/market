@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.addon.seckill.mp.mapper.SeckillProductMapper">
+
+    
+    <resultMap id="roundProductPageMap" type="com.medusa.gruul.addon.seckill.model.vo.SeckillRoundProductVO">
+        <result column="shopId" property="shopId"/>
+        <result column="activityId" property="activityId"/>
+        <result column="productId" property="productId"/>
+        <result column="productName" property="productName"/>
+        <result column="productImage" property="productImage"/>
+        <result column="minPrice" property="minPrice"/>
+    </resultMap>
+    <select id="roundProductPage" resultMap="roundProductPageMap">
+        SELECT
+            product.shop_id AS shopId,
+            product.activity_id AS activityId,
+            product.product_id AS productId,
+            ANY_VALUE(product.product_name) AS productName,
+            ANY_VALUE(product.product_image) AS productImage,
+            ANY_VALUE ( product.create_time ) AS createTime,
+            MIN(product.price) AS minPrice
+        FROM t_seckill_product AS product
+        INNER JOIN t_seckill_activity AS activity ON product.shop_id = activity.shop_id AND product.activity_id = activity.id
+        WHERE product.deleted = 0 AND activity.deleted = 0
+        <if test="page.shopId != null">
+            AND activity.shop_id = #{page.shopId}
+        </if>
+        AND activity.start_time = #{page.start}
+        AND activity.`status` = ${@com.medusa.gruul.addon.seckill.model.enums.SeckillStatus @OK.value}
+        GROUP BY  product.shop_id,product.activity_id,product.product_id
+        ORDER BY createTime DESC
+    </select>
+</mapper>

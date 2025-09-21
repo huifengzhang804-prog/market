@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.addon.live.mp.mapper.ProhibitedMapper">
+<resultMap id="banReasonMap" type="com.medusa.gruul.addon.live.mp.entity.Prohibited">
+   <result column="id" property="id"/>
+   <result column="category_types" property="categoryTypes" typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+</resultMap>
+
+    <select id="banReason" resultMap="banReasonMap">
+        SELECT
+        *
+        FROM
+        t_prohibited
+        WHERE
+        deleted = 0
+        AND
+        source_id = #{sourceId}
+        AND
+        <choose>
+           <when test="type == @com.medusa.gruul.addon.live.enums.ProhibitedType @LIVE">
+             `type` = ${@com.medusa.gruul.addon.live.enums.ProhibitedType @LIVE.value}
+           </when>
+           <when test="type == @com.medusa.gruul.addon.live.enums.ProhibitedType @ANCHOR">
+             `type` = ${@com.medusa.gruul.addon.live.enums.ProhibitedType @ANCHOR.value}
+           </when>
+        </choose>
+    </select>
+
+</mapper>

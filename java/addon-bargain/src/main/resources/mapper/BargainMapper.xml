@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.addon.bargain.mp.mapper.BargainMapper">
+
+    <sql id="statisticsProductNum">
+        (
+            SELECT COUNT(DISTINCT product_id)
+            FROM t_bargain_product AS product
+            WHERE product.activity_id = bargain.id
+            AND product.shop_id = bargain.shop_id
+            AND product.deleted = 0
+        ) AS productNum,
+    </sql>
+    <sql id="statisticsPayOrder">
+        (
+            SELECT COUNT(order_no)
+            FROM t_bargain_payment_info AS pay
+            WHERE pay.activity_id = bargain.id
+            AND pay.shop_id = bargain.shop_id
+            AND pay.deleted = 0
+        ) AS payOrder,
+    </sql>
+
+    <select id="bargainInfoPage" resultType="com.medusa.gruul.addon.bargain.model.vo.BargainInfoVO">
+     SELECT
+        bargain.id,
+        bargain.shop_id,
+        bargain.shop_name,
+        bargain.name,
+        bargain.start_time,
+        bargain.end_time,
+        bargain.bargaining_people,
+        bargain.bargain_validity_period,
+        bargain.is_self_bargain,
+        bargain.product_num,
+        <include refid="statisticsProductNum"/>
+        <include refid="statisticsPayOrder"/>
+        CASE
+        <!--违规下架-->
+        WHEN bargain.status = ${@com.medusa.gruul.addon.bargain.model.enums.ActivityStatus @ILLEGAL_SELL_OFF.value}
+        THEN ${@com.medusa.gruul.addon.bargain.model.enums.ActivityStatus @ILLEGAL_SELL_OFF.value}
+        <!--店铺下架-->
+        WHEN bargain.status = ${@com.medusa.gruul.addon.bargain.model.enums.ActivityStatus @SHOP_SELL_OFF.value}
+        THEN ${@com.medusa.gruul.addon.bargain.model.enums.ActivityStatus @SHOP_SELL_OFF.value}
+        <!--当前时间大于活动开始时间 小于活动结束时间  进行中-->
+        WHEN NOW() >= bargain.start_time AND NOW()  <![CDATA[<=]]> bargain.end_time
+        THEN ${@com.medusa.gruul.addon.bargain.model.enums.ActivityStatus @PROCESSING.value}
+        <!-- 当前时间小于活动开始时间 未开始-->
+        WHEN NOW() <![CDATA[<]]> bargain.start_time
+        THEN ${@com.medusa.gruul.addon.bargain.model.enums.ActivityStatus @NOT_STARTED.value}
+        <!-- 当前时间大于活动结束时间 已结束-->
+        WHEN NOW() > bargain.end_time
+        THEN ${@com.medusa.gruul.addon.bargain.model.enums.ActivityStatus @OVER.value}
+
+        END `status`
+        FROM t_bargain AS bargain
+        WHERE
+          bargain.deleted = 0
+        <if test="bargainQuery != null">
+
+            <if test="bargainQuery.shopId != null">
+                AND bargain.shop_id = #{bargainQuery.shopId}
+            </if>
+
+            <if test="bargainQuery.keyword != null and bargainQuery.keyword != ''">
+                AND (bargain.name LIKE CONCAT('%',#{bargainQuery.keyword},'%')
+                    )
+            </if>
+            <if test="bargainQuery.status != null">
+                <choose>
+                    <!--违规下架-->
+                    <when test="bargainQuery.status == @com.medusa.gruul.addon.bargain.model.enums.ActivityStatus @ILLEGAL_SELL_OFF">
+                        AND bargain.status = #{bargainQuery.status}
+                    </when>
+                    <!--店铺下架-->
+                    <when test="bargainQuery.status == @com.medusa.gruul.addon.bargain.model.enums.ActivityStatus @SHOP_SELL_OFF">
+                      AND bargain.status = #{bargainQuery.status}
+                    </when>
+                    <!--进行中-->
+                    <when test="bargainQuery.status == @com.medusa.gruul.addon.bargain.model.enums.ActivityStatus @PROCESSING">
+                        AND bargain.start_time <![CDATA[<=]]> NOW() AND bargain.end_time <![CDATA[>=]]> NOW()
+                      and bargain.status not in(
+                      ${@com.medusa.gruul.addon.bargain.model.enums.ActivityStatus @ILLEGAL_SELL_OFF.value},
+                      ${@com.medusa.gruul.addon.bargain.model.enums.ActivityStatus @SHOP_SELL_OFF.value}
+                      )
+                    </when>
+                    <!--未开始-->
+                    <when test="bargainQuery.status == @com.medusa.gruul.addon.bargain.model.enums.ActivityStatus @NOT_STARTED">
+                        AND bargain.start_time <![CDATA[>]]> NOW()
+                      and bargain.status not in(
+                      ${@com.medusa.gruul.addon.bargain.model.enums.ActivityStatus @ILLEGAL_SELL_OFF.value},
+                      ${@com.medusa.gruul.addon.bargain.model.enums.ActivityStatus @SHOP_SELL_OFF.value}
+                      )
+                    </when>
+                    <!--已结束-->
+                    <when test="bargainQuery.status == @com.medusa.gruul.addon.bargain.model.enums.ActivityStatus @OVER">
+                        AND bargain.end_time <![CDATA[<]]> NOW()
+                      and bargain.status not in(
+                      ${@com.medusa.gruul.addon.bargain.model.enums.ActivityStatus @ILLEGAL_SELL_OFF.value},
+                      ${@com.medusa.gruul.addon.bargain.model.enums.ActivityStatus @SHOP_SELL_OFF.value}
+                      )
+                    </when>
+
+                </choose>
+            </if>
+        </if>
+        ORDER BY bargain.create_time DESC
+    </select>
+
+
+</mapper>

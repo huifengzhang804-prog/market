@@ -1,0 +1,7 @@
+@import "../mixins/mixins.scss";
+@include b(goods) {
+  @include e(content) {
+    @include flex();
+    
+  }
+}

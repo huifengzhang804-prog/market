@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.addon.distribute.mp.mapper.DistributorMapper">
+    <resultMap id="distributorPageMap" type="com.medusa.gruul.addon.distribute.mp.entity.Distributor">
+        <id column="id" property="id"/>
+        <result column="userId" property="userId"/>
+        <result column="code" property="code"/>
+        <result column="identity" property="identity"/>
+        <result column="total" property="total"/>
+        <result column="undrawn" property="undrawn"/>
+        <result column="unsettled" property="unsettled"/>
+        <result column="invalid" property="invalid"/>
+        <result column="status" property="status"/>
+        <result column="name" property="name"/>
+        <result column="nickname" property="nickname"/>
+        <result column="avatar" property="avatar"/>
+        <result column="mobile" property="mobile"/>
+        <result column="one" property="one"/>
+        <result column="two" property="two"/>
+        <result column="three" property="three"/>
+        <result column="applyTime" property="applyTime"/>
+        <result column="auditor" property="auditor"/>
+        <result column="passTime" property="passTime"/>
+        <result column="referrer" property="referrer"/>
+        <result column="createTime" property="createTime"/>
+    </resultMap>
+
+    <select id="distributorPage" resultMap="distributorPageMap">
+        SELECT
+        butor.id AS id,
+        butor.user_id AS userId,
+        butor.`code` AS `code`,
+        butor.identity AS `identity`,
+        butor.`status` AS `status`,
+        butor.`name` AS `name`,
+        butor.nickname AS nickname,
+        butor.avatar AS avatar,
+        butor.mobile AS mobile,
+        butor.total AS total,
+        butor.undrawn AS undrawn,
+        butor.unsettled AS unsettled,
+        butor.invalid AS invalid,
+        butor2.nickname AS referrer,
+        butor.apply_time AS applyTime,
+        butor.auditor AS auditor,
+        butor.pass_time AS passTime,
+        (
+        SELECT COUNT(count1.user_id) FROM t_distributor AS count1 WHERE count1.one = butor.user_id AND count1.deleted =
+        FALSE
+        ) AS one,
+        (
+        SELECT COUNT(count1.user_id) FROM t_distributor AS count1 WHERE count1.two = butor.user_id AND count1.deleted =
+        FALSE
+        ) AS two,
+        (
+        SELECT COUNT(count1.user_id) FROM t_distributor AS count1 WHERE count1.three = butor.user_id AND count1.deleted
+        = FALSE
+        ) AS three,
+        butor.create_time AS createTime
+        FROM t_distributor AS butor
+        LEFT JOIN t_distributor AS butor2 ON butor2.user_id = butor.one AND butor2.deleted = FALSE
+        WHERE butor.deleted = FALSE
+        <if test="query.shopId != null">
+            AND EXISTS(
+            SELECT ord.id FROM t_distributor_order AS ord WHERE ord.shop_id =#{query.shopId} AND (
+            ord.user_id = butor.user_id OR ord.one_id = butor.user_id OR ord.two_id = butor.user_id OR
+            ord.three_id = butor.user_id
+            )
+            )
+        </if>
+        <if test="query.name != null and query.name != ''">
+            AND butor.`name` LIKE CONCAT('%',#{query.name},'%')
+        </if>
+        <if test="query.mobile != null and query.mobile != ''">
+            AND butor.mobile LIKE CONCAT('%',#{query.mobile},'%')
+        </if>
+        <if test="query.startTime != null">
+            AND butor.apply_time >= #{query.startTime}
+        </if>
+        <if test="query.endTime != null">
+            AND #{query.endTime} >= butor.apply_time
+        </if>
+        <if test="query.status != null">
+            AND butor.`status` = #{query.status.value}
+        </if>
+        ORDER BY butor.create_time
+    </select>
+    <select id="affairsStatistics" resultType="com.medusa.gruul.addon.distribute.model.vo.DistributorStatistics">
+        SELECT (SELECT COUNT(distributor.user_id)
+                FROM t_distributor AS distributor
+                WHERE distributor.deleted = FALSE
+                  AND (distributor.one = #{userId} OR distributor.two = #{userId} OR
+                       distributor.three = #{userId})) AS customer,
+               (SELECT COUNT(DISTINCT (ord.order_no))
+                FROM t_distributor_order AS ord
+                         INNER JOIN t_distributor AS distributor
+                                    ON distributor.user_id = ord.user_id AND distributor.deleted = FALSE
+                WHERE distributor.one = #{userId}
+                   OR distributor.two = #{userId}
+                   OR distributor.three = #{userId})   AS `order`,
+               (SELECT IFNULL(
+                               SUM(
+                                       CASE
+                                           WHEN distributor.one = #{userId} THEN ord.one
+                                           WHEN distributor.two = #{userId} THEN ord.two
+                                           WHEN distributor.three = #{userId} THEN ord.three
+                                           ELSE 0
+                                           END
+                               ),
+                               0) AS totalBonus
+                FROM t_distributor_order AS ord
+                         INNER JOIN t_distributor AS distributor
+                                    ON distributor.user_id = ord.user_id AND distributor.deleted = FALSE
+                         INNER JOIN t_distribute_conf AS conf ON true
+                WHERE ord.`order_status` != ${@com.medusa.gruul.addon.distribute.model.enums.DistributeOrderStatus @COMPLETED.value} AND ( distributor.one = #{userId} OR (conf.`level` = ${@com.medusa.gruul.addon.distribute.model.enums.Level @TWO.value} AND distributor.two = #{userId}) OR (conf.`level` = ${@com.medusa.gruul.addon.distribute.model.enums.Level @THREE.value} AND (distributor.two = #{userId} OR distributor.three = #{userId})) )) AS bonus;
+    </select>
+
+    <resultMap id="distributorTeamPageMap" type="com.medusa.gruul.addon.distribute.mp.entity.Distributor">
+        <result column="userId" property="userId"/>
+        <result column="identity" property="identity"/>
+        <result column="nickname" property="nickname"/>
+        <result column="avatar" property="avatar"/>
+        <result column="name" property="name"/>
+        <result column="level" property="level"/>
+        <result column="consumption" property="consumption"/>
+        <result column="orderCount" property="orderCount"/>
+        <result column="createTime" property="createTime"/>
+    </resultMap>
+
+    <select id="distributorTeamPage" resultMap="distributorTeamPageMap">
+        SELECT
+        distributor.user_id AS userId,
+        distributor.identity AS `identity`,
+        distributor.nickname AS nickname,
+        distributor.avatar AS avatar,
+        distributor.`name` AS `name`,
+        (
+        CASE
+        WHEN distributor.one = #{query.userId} THEN ${@com.medusa.gruul.addon.distribute.model.enums.Level @ONE.value}
+        WHEN distributor.two = #{query.userId} THEN ${@com.medusa.gruul.addon.distribute.model.enums.Level @TWO.value}
+        ELSE ${@com.medusa.gruul.addon.distribute.model.enums.Level @THREE.value}
+        END
+        ) AS `level`,
+        (
+        SELECT IFNULL( SUM(ord.num * ord.deal_price),0) FROM t_distributor_order AS ord WHERE ord.user_id =
+        distributor.user_id
+        ) AS consumption,
+        (
+        SELECT COUNT(DISTINCT(ord.order_no)) FROM t_distributor_order AS ord WHERE ord.user_id = distributor.user_id
+        ) AS orderCount,
+        distributor.create_time AS createTime
+        FROM t_distributor AS distributor
+        INNER JOIN t_distribute_conf AS conf ON true
+        WHERE distributor.deleted=0
+        <if test="query.level == null">
+            AND (
+            distributor.one = #{query.userId}
+            OR (conf.`level` = ${@com.medusa.gruul.addon.distribute.model.enums.Level @TWO.value} AND distributor.two =
+            #{query.userId})
+            OR (conf.`level` = ${@com.medusa.gruul.addon.distribute.model.enums.Level @THREE.value} AND (distributor.two
+            = #{query.userId} OR distributor.three = #{query.userId}))
+            )
+        </if>
+        <if test="query.level != null">
+            <choose>
+                <when test="query.level==@com.medusa.gruul.addon.distribute.model.enums.Level @ONE">
+                    AND distributor.one = #{query.userId}
+                </when>
+                <when test="query.level==@com.medusa.gruul.addon.distribute.model.enums.Level @TWO">
+                    AND distributor.two = #{query.userId} AND( conf.`level` =
+                    ${@com.medusa.gruul.addon.distribute.model.enums.Level @THREE.value} OR conf.`level` =
+                    ${@com.medusa.gruul.addon.distribute.model.enums.Level @TWO.value})
+                </when>
+                <otherwise>
+                    AND distributor.three = #{query.userId} AND conf.`level` =
+                    ${@com.medusa.gruul.addon.distribute.model.enums.Level @THREE.value}
+                </otherwise>
+            </choose>
+        </if>
+        ORDER BY `level`
+    </select>
+
+    <select id="rank" resultType="com.medusa.gruul.addon.distribute.mp.entity.Distributor">
+        <if test="query.shopId == null">
+            SELECT
+            butor.user_id AS userId,
+            butor.name AS `name`,
+            butor.avatar AS avatar,
+            butor.total AS total
+            FROM t_distributor AS butor
+            WHERE butor.deleted = FALSE
+            and butor.total > 0
+            AND butor.identity = ${@com.medusa.gruul.addon.distribute.model.enums.DistributorIdentity @AFFAIRS.value}
+            ORDER BY butor.total DESC
+        </if>
+        <if test="query.shopId != null">
+            SELECT
+            butor.user_id AS userId,
+            butor.name AS `name`,
+            butor.avatar AS avatar,
+            SUM( IF(ISNULL( ord.id ),0,
+            IF(( ord.purchase AND ord.user_id = butor.user_id ) OR ord.one_id = butor.user_id, ord.one,
+            IF ( ord.two_id = butor.user_id, ord.two, ord.three ))
+            )) AS total
+            FROM t_distributor AS butor
+            INNER JOIN t_distributor_order AS ord ON ord.order_status =
+            ${@com.medusa.gruul.addon.distribute.model.enums.DistributeOrderStatus @COMPLETED.value}
+            AND ord.shop_id = #{query.shopId}
+            WHERE
+            butor.deleted = FALSE
+            AND butor.identity = ${@com.medusa.gruul.addon.distribute.model.enums.DistributorIdentity @AFFAIRS.value}
+            AND (
+            ( ord.purchase AND ord.user_id = butor.user_id )
+            OR ( ord.one_id = butor.user_id )
+            OR ( ord.two_id = butor.user_id )
+            OR ( ord.three_id = butor.user_id )
+            )
+            GROUP BY
+            butor.user_id
+            ORDER BY total DESC
+        </if>
+    </select>
+
+    <select id="getUserRank" resultType="com.medusa.gruul.addon.distribute.model.vo.UserRankVO">
+        <if test="shopId == null">
+            SELECT
+            COUNT( butor.user_id ) AS `rank`,
+            b3.total as total
+            FROM
+            t_distributor AS butor,
+            ( SELECT b2.total FROM t_distributor AS b2 WHERE user_id = #{userId} ) AS b3
+            WHERE
+            butor.deleted = FALSE
+            AND butor.identity = ${@com.medusa.gruul.addon.distribute.model.enums.DistributorIdentity @AFFAIRS.value}
+            AND butor.total >= b3.total
+        </if>
+        <if test="shopId != null">
+            SELECT
+            COUNT( temp.total ) AS `rank`,
+            currentUserOrd.currTotal AS total
+            FROM
+            (
+            SELECT SUM(
+            IF(ISNULL( ord.id ),0,
+            IF((ord.purchase AND ord.user_id = butor.user_id)OR ord.one_id = butor.user_id, ord.one,
+            IF( ord.two_id = butor.user_id, ord.two, ord.three )) )
+            ) AS total
+            FROM t_distributor AS butor
+            INNER JOIN t_distributor_order AS ord ON ord.order_status =
+            ${@com.medusa.gruul.addon.distribute.model.enums.DistributeOrderStatus @COMPLETED.value} AND ord.shop_id =
+            #{shopId}
+            WHERE
+            butor.deleted = FALSE
+            AND butor.identity = ${@com.medusa.gruul.addon.distribute.model.enums.DistributorIdentity @AFFAIRS.value}
+            AND ( ( ord.purchase AND ord.user_id = butor.user_id ) OR ( ord.one_id = butor.user_id )
+            OR ( ord.two_id = butor.user_id ) OR ( ord.three_id = butor.user_id ) )
+            GROUP BY butor.user_id
+            ) AS temp,
+            (
+            SELECT SUM(IF((ord.purchase AND ord.user_id = #{userId}) OR ord.one_id = #{userId},ord.one,
+            IF( ord.two_id = #{userId}, ord.two, ord.three ))
+            ) AS currTotal
+            FROM t_distributor_order AS ord
+            WHERE
+            ord.order_status = ${@com.medusa.gruul.addon.distribute.model.enums.DistributeOrderStatus @COMPLETED.value}
+            AND ord.shop_id = #{shopId}
+            AND (( ord.purchase AND ord.user_id = #{userId} ) OR ( ord.one_id = #{userId} )
+            OR ( ord.two_id = #{userId} ) OR ( ord.three_id = #{userId} ))
+            ) AS currentUserOrd
+            WHERE temp.total >= currentUserOrd.currTotal
+        </if>
+    </select>
+
+    <update id="changeBonusInvalidCommission">
+        update t_distributor
+        set invalid=invalid + #{amount}
+        where user_id = #{userId}
+    </update>
+</mapper>

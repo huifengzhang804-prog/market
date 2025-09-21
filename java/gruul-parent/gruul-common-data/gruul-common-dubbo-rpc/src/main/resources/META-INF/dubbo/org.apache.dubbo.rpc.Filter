@@ -1,0 +1,2 @@
+dubboExceptionFilter=com.medusa.gruul.common.dubbo.rpc.filter.DubboExceptionFilter
+dubboGenericFilter=com.medusa.gruul.common.dubbo.rpc.filter.DubboGenericFilter

@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.addon.distribute.mp.mapper.DistributorOrderMapper">
+    <resultMap id="distributorOrderPageByUserIdMap" type="com.medusa.gruul.addon.distribute.mp.entity.DistributorOrder">
+        <id column="id" property="id"/>
+        <result column="orderNo" property="orderNo"/>
+        <result column="orderStatus" property="orderStatus"/>
+        <result column="productName" property="productName"/>
+        <result column="image" property="image"/>
+        <result column="num" property="num"/>
+        <result column="dealPrice" property="dealPrice"/>
+        <result column="specs" property="specs"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+        <result column="bonus" property="bonus"/>
+        <result column="level" property="level"/>
+        <association property="distributor" javaType="com.medusa.gruul.addon.distribute.mp.entity.Distributor">
+            <result column="nickname" property="nickname"/>
+            <result column="avatar" property="avatar"/>
+            <result column="code" property="code"/>
+            <result column="status" property="status"/>
+        </association>
+    </resultMap>
+
+    <select id="distributorOrderPageByUserId" resultMap="distributorOrderPageByUserIdMap">
+        SELECT ord.id AS id,
+        ord.order_no AS orderNo,
+        ord.order_status AS orderStatus,
+        ord.product_name AS productName,
+        ord.image AS image,
+        ord.num AS num,
+        ord.deal_price AS dealPrice,
+        ord.specs AS specs,
+        IF(distributor.one = #{userId}, ord.one, IF(distributor.two = #{userId}, ord.two, ord.three)) AS bonus,
+        IF(distributor.one = #{userId},
+        ${@com.medusa.gruul.addon.distribute.model.enums.Level @ONE.value}
+        , IF(distributor.two = #{userId},
+        ${@com.medusa.gruul.addon.distribute.model.enums.Level @TWO.value},
+        ${@com.medusa.gruul.addon.distribute.model.enums.Level @THREE.value}
+        )
+        ) AS `level`,
+        distributor.nickname AS nickname,
+        distributor.avatar AS avatar,
+        distributor.`code` AS `code`,
+        distributor.`status` AS `status`
+        FROM t_distributor_order AS ord
+        INNER JOIN t_distributor AS distributor ON distributor.user_id = ord.user_id
+        INNER JOIN t_distribute_conf AS conf ON TRUE
+        WHERE (
+        distributor.one = #{userId}
+        OR (conf.`level` = ${@com.medusa.gruul.addon.distribute.model.enums.Level @TWO.value} AND
+        distributor.two = #{userId})
+        OR (conf.`level` = ${@com.medusa.gruul.addon.distribute.model.enums.Level @THREE.value} AND
+        (distributor.two = #{userId} OR distributor.three = #{userId}))
+        )
+        <if test="query.status != null">
+            AND ord.order_status = #{query.status.value}
+        </if>
+        <if test="query.orderNos != null and query.orderNos.size() > 0">
+            AND ord.order_no IN
+            <foreach close=")" collection="query.orderNos" item="orderNo" open="(" separator=",">
+                #{orderNo}
+            </foreach>
+        </if>
+        <!--分销商手机号-->
+        <if test="query.distributorPhone != null">
+            AND distributor.mobile=#{query.distributorPhone}
+        </if>
+        <!--是否内购-->
+        <if test="query.purchase!=null">
+            and ord.purchase = #{query.purchase}
+        </if>
+        ORDER BY ord.create_time DESC
+    </select>
+    <select id="distributorOrderPage"
+            resultType="com.medusa.gruul.addon.distribute.model.vo.DistributorMainOrderVO">
+        SELECT ord.order_no AS orderNo,
+        ord.order_status as status,
+        ANY_VALUE(ord.user_id) AS buyerId,
+        ANY_VALUE(ord.purchase) AS purchase,
+        <if test="query.currentUserId != null">
+            IF(
+            ord.purchase,
+            ${@com.medusa.gruul.addon.distribute.model.enums.Level @ONE.value},
+            CASE (#{query.currentUserId})
+            WHEN ord.one_id THEN ${@com.medusa.gruul.addon.distribute.model.enums.Level @ONE.value}
+            WHEN ord.two_id THEN ${@com.medusa.gruul.addon.distribute.model.enums.Level @TWO.value}
+            ELSE ${@com.medusa.gruul.addon.distribute.model.enums.Level @THREE.value}
+            END
+            )AS `level`,
+        </if>
+        ANY_VALUE(distributor.avatar) AS buyerAvatar,
+        ANY_VALUE(distributor.nickname) AS buyerNickname,
+        ANY_VALUE(distributor.name) AS buyerName,
+        ord.shop_id AS shopId,
+        ANY_VALUE(shop.shop_name) AS shopName,
+        SUM(ord.deal_price * ord.num) AS payAmount,
+        ANY_VALUE(ord.create_time) AS createTime
+        FROM t_distributor_order AS ord
+        INNER JOIN t_distributor AS distributor ON distributor.user_id = ord.user_id
+        INNER JOIN t_distribute_shop AS shop ON shop.shop_id = ord.shop_id
+        <where>
+            <if test="query.distributorPhone!=null and query.distributorPhone!=''">
+                and distributor.mobile LIKE CONCAT('%', #{query.distributorPhone}, '%')
+            </if>
+            <!--是否内购-->
+            <if test="query.purchase!=null">
+                and ord.purchase = #{query.purchase}
+            </if>
+            <if test="query.currentUserId != null">
+                AND ((ord.purchase AND ord.user_id=#{query.currentUserId}) OR ord.one_id = #{query.currentUserId} OR
+                ord.two_id = #{query.currentUserId} OR
+                ord.three_id =#{query.currentUserId})
+            </if>
+            <if test="query.keywords != null and query.keywords !=''">
+                AND (ord.order_no LIKE CONCAT('%', #{query.keywords}, '%') OR ord.product_name LIKE CONCAT('%',
+                #{query.keywords}, '%'))
+            </if>
+            <if test="query.startTime != null">
+                AND ord.create_time >= #{query.startTime}
+            </if>
+            <if test="query.endTime != null">
+                AND #{query.endTime} >= ord.create_time
+            </if>
+            <if test="query.status != null">
+                AND ord.order_status = #{query.status.value}
+            </if>
+            <if test="query.shopId != null">
+                AND ord.shop_id = #{query.shopId}
+            </if>
+            <if test="query.shopName != null and query.shopName != ''">
+                AND shop.shop_name LIKE CONCAT('%', #{query.shopName}, '%')
+            </if>
+            <if test="query.orderNo != null and query.orderNo != ''">
+                AND ord.order_no LIKE CONCAT('%', #{query.orderNo}, '%')
+            </if>
+            <if test="query.productName != null and query.productName != ''">
+                AND ord.product_name LIKE CONCAT('%', #{query.productName}, '%')
+            </if>
+            <if test="query.buyerNickname != null and query.buyerNickname != ''">
+                AND distributor.nickname LIKE CONCAT('%', #{query.buyerNickname}, '%')
+            </if>
+            <if test="query.orderNos!=null and query.orderNos.size()>0">
+                AND ord.order_no IN
+                <foreach close=")" collection="query.orderNos" item="orderNo" open="(" separator=",">
+                    #{orderNo}
+                </foreach>
+            </if>
+        </where>
+        GROUP BY ord.order_no, ord.shop_id
+        ORDER BY createTime DESC
+    </select>
+
+    <resultMap id="getOrdersByKeyMap" type="com.medusa.gruul.addon.distribute.model.vo.DistributorOrderVO">
+        <id column="id"/>
+        <result column="orderNo" property="orderNo"/>
+        <result column="shopId" property="shopId"/>
+        <result column="productId" property="productId"/>
+        <result column="productName" property="productName"/>
+        <result column="productType" property="productType"/>
+        <result column="skuId" property="skuId"/>
+        <result column="image" property="image"/>
+        <result column="purchase" property="purchase"/>
+        <result column="specs" property="specs"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+        <result column="num" property="num"/>
+        <result column="dealPrice" property="dealPrice"/>
+        <result column="orderStatus" property="orderStatus"/>
+        <association javaType="com.medusa.gruul.addon.distribute.model.vo.DistributorBonusVO" property="one">
+            <result column="oneId" property="userId"/>
+            <result column="oneName" property="name"/>
+            <result column="oneMobile" property="mobile"/>
+            <result column="bonusOne" property="bonus"/>
+        </association>
+        <association javaType="com.medusa.gruul.addon.distribute.model.vo.DistributorBonusVO" property="two">
+            <result column="twoId" property="userId"/>
+            <result column="twoName" property="name"/>
+            <result column="twoMobile" property="mobile"/>
+            <result column="bonusTwo" property="bonus"/>
+        </association>
+        <association javaType="com.medusa.gruul.addon.distribute.model.vo.DistributorBonusVO" property="three">
+            <result column="threeId" property="userId"/>
+            <result column="threeName" property="name"/>
+            <result column="threeMobile" property="mobile"/>
+            <result column="bonusThree" property="bonus"/>
+        </association>
+        <association javaType="com.medusa.gruul.addon.distribute.model.vo.BonusShareVO" property="bonusShare">
+            <result column="shareType" property="shareType"/>
+            <result column="shareOne" property="one"/>
+            <result column="shareTwo" property="two"/>
+            <result column="shareThree" property="three"/>
+        </association>
+    </resultMap>
+    <select id="getOrdersByKey" resultMap="getOrdersByKeyMap">
+        SELECT
+        ord.id AS id,
+        ord.order_no AS orderNo,
+        ord.shop_id AS shopId,
+        ord.product_id AS productId,
+        ord.product_name AS productName,
+        ord.product_type AS productType,
+        ord.sku_id AS skuId,
+        ord.image AS image,
+        ord.purchase AS purchase,
+        ord.specs AS specs,
+        ord.num AS num,
+        ord.deal_price AS dealPrice,
+        ord.order_status AS orderStatus,
+        ord.one_id AS oneId,
+        butor1.name AS oneName,
+        butor1.mobile AS oneMobile,
+        ord.one AS bonusOne,
+        ord.two_id AS twoId,
+        butor2.name AS twoName,
+        butor2.mobile AS twoMobile,
+        ord.two AS bonusTwo,
+        ord.three_id AS threeId,
+        butor3.name AS threeName,
+        butor3.mobile AS threeMobile,
+        ord.three AS bonusThree,
+        ord.share_type AS shareType,
+        ord.share_one AS shareOne,
+        ord.share_two AS shareTwo,
+        ord.share_three AS shareThree
+        FROM t_distributor_order AS ord
+        LEFT JOIN t_distributor AS butor1 ON butor1.user_id = ord.one_id AND butor1.deleted = 0
+        LEFT JOIN t_distributor AS butor2 ON butor2.user_id = ord.two_id AND butor2.deleted = 0
+        LEFT JOIN t_distributor AS butor3 ON butor3.user_id = ord.three_id AND butor3.deleted = 0
+        WHERE
+        (ord.order_no,ord.shop_id) IN
+        <foreach collection="orderKeys" item="item" index="index" open="(" separator="," close=")">
+            (#{item.orderNo},#{item.shopId})
+        </foreach>
+        <if test="query.status != null">
+            AND ord.order_status = #{query.status.value}
+        </if>
+        <if test="query.keywords != null and query.keywords !=''">
+            AND (ord.order_no LIKE CONCAT('%', #{query.keywords}, '%') OR ord.product_name LIKE CONCAT('%',
+            #{query.keywords}, '%'))
+        </if>
+        <if test="query.productName != null and query.productName != ''">
+            AND ord.product_name LIKE CONCAT('%', #{query.productName}, '%')
+        </if>
+    </select>
+    <select id="getStatistic"
+            resultType="com.medusa.gruul.addon.distribute.model.vo.DistributorOrderBonusStatisticVO">
+        SELECT
+        SUM(IF(ord.order_status =
+        ${@com.medusa.gruul.addon.distribute.model.enums.DistributeOrderStatus @COMPLETED.value},
+        IF(ord.purchase,ord.one,0) + IF(ord.one_id,ord.one,0) + ord.two + ord.three, 0)) AS total,
+        SUM(IF(ord.order_status = ${@com.medusa.gruul.addon.distribute.model.enums.DistributeOrderStatus @PAID.value},
+        IF(ord.purchase,ord.one,0) + IF(ord.one_id,ord.one,0) + ord.two + ord.three, 0)) AS unsettled,
+        SUM(IF(ord.order_status = ${@com.medusa.gruul.addon.distribute.model.enums.DistributeOrderStatus @CLOSED.value},
+        IF(ord.purchase,ord.one,0) + IF(ord.one_id,ord.one,0) + ord.two + ord.three, 0)) AS invalid
+        FROM t_distributor_order AS ord
+        WHERE
+        (ord.order_no,ord.shop_id) IN
+        <foreach collection="orderKeys" item="item" index="index" open="(" separator="," close=")">
+            (#{item.orderNo},#{item.shopId})
+        </foreach>
+        <if test="query.status != null">
+            AND ord.order_status = #{query.status.value}
+        </if>
+        <if test="query.keywords != null and query.keywords !=''">
+            AND (ord.order_no LIKE CONCAT('%', #{query.keywords}, '%') OR ord.product_name LIKE CONCAT('%',
+            #{query.keywords}, '%'))
+        </if>
+        <if test="query.productName != null and query.productName!= ''">
+            AND ord.product_name LIKE CONCAT('%', #{query.productName}, '%')
+        </if>
+    </select>
+</mapper>

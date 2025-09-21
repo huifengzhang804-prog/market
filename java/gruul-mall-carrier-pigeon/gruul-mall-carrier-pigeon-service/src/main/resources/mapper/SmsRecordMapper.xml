@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.medusa.gruul.carrier.pigeon.service.modules.sms.mp.mapper.SmsRecordMapper">
+
+<select id="getSmsRecord" resultType="com.medusa.gruul.carrier.pigeon.service.modules.sms.model.vo.SmsRecordVo">
+select
+smsRecord.id AS smsRecordId,
+smsRecord.sms_send_param AS smsSendParam,
+smsRecord.sms_send_mobiles AS smsSendMobiles,
+smsRecord.is_err AS isErr,
+smsRecord.err_msg AS errMsg,
+smsRecord.create_time AS smsSendTime,
+smsSign.provider_name AS providerName,
+smsSign.provider_app_id AS providerAppId,
+smsSign.provider_app_secret AS providerAppSecret,
+smsSign.signature AS signature,
+smsTemplate.template_name AS templateName,
+smsTemplate.template_code AS templateCode,
+smsTemplate.type AS type,
+smsTemplate.sms_template_content AS templateContent
+from t_sms_record AS smsRecord
+INNER JOIN t_sms_sign AS smsSign ON smsSign.id = smsRecord.sign_id AND smsSign.deleted=0
+INNER JOIN t_sms_template AS smsTemplate ON smsTemplate.id = smsRecord.template_id AND smsTemplate.deleted=0
+<where>
+smsRecord.deleted = 0
+<if test="smsRecordDto.smsSendMobiles !=null and smsRecordDto.smsSendMobiles !=''">
+AND smsRecord.sms_send_mobiles LIKE CONCAT('%',#{smsRecordDto.smsSendMobiles},'%')
+</if>
+<if test="smsRecordDto.isErr!=null">
+AND smsRecord.is_err=#{smsRecordDto.isErr}
+</if>
+<if test="smsRecordDto.type != null">
+    AND  smsTemplate.type =
+    <choose>
+        <when test="smsRecordDto.type== @com.medusa.gruul.carrier.pigeon.api.sms.enums.SmsTemplateType @CAPTCHA">
+             ${@com.medusa.gruul.carrier.pigeon.api.sms.enums.SmsTemplateType @CAPTCHA.value}
+        </when>
+    </choose>
+</if>
+<if test="smsRecordDto.providerName !=null and smsRecordDto.providerName!=''">
+    AND smsSign.provider_name=#{smsRecordDto.providerName}
+</if>
+<if test="smsRecordDto.smsSendTimeLeft !=null and smsRecordDto.smsSendTimeRight !=null" >
+    AND smsRecord.create_time BETWEEN #{smsRecordDto.smsSendTimeLeft} AND #{smsRecordDto.smsSendTimeRight}
+</if>
+ORDER BY smsRecord.create_time DESC
+</where>
+</select>
+
+</mapper>

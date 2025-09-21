@@ -1,0 +1,29 @@
+server:
+  port: 8334
+spring:
+  mail:
+    host: smtp.qq.com
+    username:
+    password:
+    port:
+    protocol: smtp
+  main:
+    allow-circular-references: true
+  application:
+    name: addon-invoice
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      server-addr: 124.222.25.145:8884
+      discovery:
+        namespace: ${spring.profiles.active}
+        ip: 192.168.1.101
+      config:
+        namespace: ${spring.profiles.active}
+        file-extension: yml
+        shared-configs:
+          - dataId: application-common.${spring.cloud.nacos.config.file-extension}
+          - dataId: addon.${spring.cloud.nacos.config.file-extension}
+
+

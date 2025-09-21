@@ -1,0 +1,1035 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.order.service.mp.mapper.OrderMapper">
+
+    <resultMap id="orderPageMap" type="com.medusa.gruul.order.api.entity.Order">
+        <id column="id" property="id"/>
+        <result column="distributionMode" property="distributionMode"/>
+        <result column="no" property="no"/>
+        <result column="buyerId" property="buyerId"/>
+        <result column="buyerNickname" property="buyerNickname"/>
+        <result column="status" property="status"/>
+        <result column="type" property="type"/>
+        <result column="priority" property="isPriority"/>
+        <result column="platform" property="platform"/>
+        <result column="timeout" property="timeout"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+        <result column="remark" property="remark"/>
+        <result column="extra" property="extra"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+        <result column="createTime" property="createTime"/>
+        <result column="updateTime" property="updateTime"/>
+        <association property="orderReceiver" javaType="com.medusa.gruul.order.api.entity.OrderReceiver">
+            <id column="receiverId" property="id"/>
+            <result column="receiverName" property="name"/>
+            <result column="receiverMobile" property="mobile"/>
+            <result column="receiverLocation" property="location"/>
+            <result column="receiverArea" property="area"
+                    typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+            <result column="receiverAddress" property="address"/>
+        </association>
+
+        <association property="orderPayment" javaType="com.medusa.gruul.order.api.entity.OrderPayment">
+            <id column="paymentId" property="id"/>
+            <result column="payerId" property="payerId"/>
+            <result column="paymentType" property="type"/>
+            <result column="totalAmount" property="totalAmount"/>
+            <result column="freightAmount" property="freightAmount"/>
+            <result column="discountAmount" property="discountAmount"/>
+            <result column="payAmount" property="payAmount"/>
+            <result column="payTime" property="payTime"/>
+            <result column="paymentCreateTime" property="createTime"/>
+            <result column="paymentUpdateTime" property="updateTime"/>
+        </association>
+    </resultMap>
+
+    <!--
+        根据 收货人名称匹配 优先匹配 店铺订单的收货地址
+        含有店铺订单的收货地址 匹配返回 0 或者 1 不含  查询 总订单收货地址 只可能返回0或1
+        返回0匹配失败 1 匹配成功
+     -->
+    <sql id="receiverNameMatchSql">
+        SELECT CASE (SELECT shopOrderReceiverLikeValue.likeValue
+                     FROM ((SELECT shopOrderReceiver.`name` LIKE CONCAT('%', #{query.receiverName}, '%') AS likeValue
+                            FROM t_order_receiver AS shopOrderReceiver
+                            WHERE shopOrderReceiver.order_no = shopOrder.order_no
+                              AND shopOrderReceiver.shop_order_no = shopOrder.`no`
+                              AND shopOrderReceiver.deleted = 0)
+                           UNION ALL
+                           (SELECT 2 AS likeValue))
+                              AS shopOrderReceiverLikeValue
+                     ORDER BY shopOrderReceiverLikeValue.likeValue
+                     LIMIT 1)
+                   WHEN 2 THEN
+                       (SELECT orderReceiver.`name` LIKE CONCAT('%', #{query.receiverName}
+                           , '%')
+                        FROM t_order_receiver AS orderReceiver
+                        WHERE orderReceiver.order_no = shopOrder.order_no
+                          AND orderReceiver.shop_order_no IS NULL
+                          AND orderReceiver.deleted = 0)
+                   WHEN 1 THEN 1
+                   ELSE 0
+                   END
+                   AS ext
+    </sql>
+    <select id="orderPage" resultMap="orderPageMap">
+        <!-- 是否查询关闭状态的订单 关闭状态订单 额外处理 -->
+        <bind name="isCloseStatus" value="query.status != null and query.status == @com.medusa.gruul.order.service.model.enums.OrderQueryStatus @CLOSED" />
+        <!-- 供应商 id 不为空 -->
+        <bind name="supplierIdNotNull" value="query.supplierId != null"/>
+        <!-- 供应商 销售类型 不为空 -->
+        <bind name="sellTypeNotNull" value="query.sellType !=null"/>
+        <bind name="productNameNotEmpty" value="query.productName != null and query.productName != ''"/>
+        <bind name="itemStatusFilter" value="query.status != null and !isCloseStatus and query.status.packageStatus.size() > 0"/>
+        <bind name="shopIdsNotEmpty" value="query.shopIds != null and query.shopIds.size() > 0"/>
+        <!--待收货-->
+        <bind name="isUnReceived" value="query.status != null and query.status == @com.medusa.gruul.order.service.model.enums.OrderQueryStatus @UN_RECEIVE"/>
+        SELECT
+        ord.id AS id,
+        ord.`no` AS `no`,
+        ord.distribution_mode AS distributionMode,
+        ord.buyer_id AS buyerId,
+        ord.buyer_nickname AS buyerNickname,
+        ord.`status` AS `status`,
+        ord.type AS type,
+        ord.timeout AS timeout,
+        ord.remark AS remark,
+        ord.is_priority AS priority,
+        ord.extra AS extra,
+        ord.create_time AS createTime,
+        ord.update_time AS updateTime,
+        ord.platform AS platform,
+
+        receiver.id AS receiverId,
+        receiver.`name` AS receiverName,
+        receiver.mobile AS receiverMobile,
+        receiver.location AS receiverLocation,
+        receiver.area AS receiverArea,
+        receiver.address as receiverAddress,
+
+        payment.id AS paymentId,
+        payment.payer_id AS payerId,
+        payment.type AS paymentType,
+        payment.total_amount AS totalAmount,
+        payment.freight_amount AS freightAmount,
+        payment.discount_amount AS discountAmount,
+        payment.pay_amount AS payAmount,
+        payment.pay_time AS payTime,
+        payment.create_time AS paymentCreateTime,
+        payment.update_time AS paymentUpdateTime
+        FROM
+        t_order AS ord
+        INNER JOIN t_order_payment AS payment ON payment.order_no = ord.`no` AND payment.deleted = 0
+        INNER JOIN t_order_receiver AS receiver on receiver.order_no = ord.`no` AND receiver.deleted = 0 AND
+        receiver.shop_order_no IS NULL
+        WHERE
+        ord.deleted = 0
+
+        <!-- order match -->
+        <if test="query.exportOrderNos!=null and query.exportOrderNos.size()>0">
+            and ord.`no` IN
+            <foreach collection="query.exportOrderNos" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <!-- 订单号 -->
+        <if test="query.orderNo != null">
+            AND ord.`no` LIKE CONCAT('%',#{query.orderNo},'%')
+        </if>
+        <!-- 买家 id ，用户端查询时 -->
+        <if test="query.buyerId != null">
+            AND ord.buyer_id = #{query.buyerId}
+        </if>
+        <!-- 门店查询 -->
+        <if test="query.shopStoreId != null and query.shopStoreId != ''">
+            AND ord.extra ->'$.shopStoreId' = #{query.shopStoreId}
+        </if>
+        <!-- 配送方式 -->
+        <if test="query.distributionMode != null">
+            AND ord.distribution_mode = #{query.distributionMode.value}
+        </if>
+        <!-- 买家昵称 -->
+        <if test="query.buyerNickname != null and query.buyerNickname != ''">
+            AND ord.buyer_nickname LIKE CONCAT('%',#{query.buyerNickname},'%')
+        </if>
+        <!-- 收货人名称 -->
+        <if test="query.receiverName != null and query.receiverName != ''">
+            AND (
+                receiver.name LIKE CONCAT('%',#{query.receiverName},'%') 
+                OR EXISTS(
+                    SELECT innerReceiver.id
+                    FROM t_order_receiver AS innerReceiver
+                    WHERE innerReceiver.deleted = 0
+                    AND innerReceiver.order_no = ord.`no`
+                    AND innerReceiver.shop_order_no IS NOT NULL
+                    AND innerReceiver.name LIKE CONCAT('%',#{query.receiverName},'%')
+                )
+            )
+        </if>
+        <!-- 交易时间 -->
+        <if test="query.startTime != null">
+            AND ord.create_time >= #{query.startTime}
+        </if>
+        <if test="query.endTime != null">
+            AND #{query.endTime} >= ord.create_time
+        </if>
+        <!-- 渠道 -->
+        <if test="query.platform != null">
+            AND ord.`platform` = #{query.platform}
+        </if>
+        <!-- t_shop_order_item match -->
+        <if test="supplierIdNotNull or sellTypeNotNull or productNameNotEmpty or itemStatusFilter">
+            AND EXISTS(
+                SELECT 1 
+                FROM t_shop_order_item AS shopOrderItem
+                WHERE shopOrderItem.order_no = ord.`no`
+                AND shopOrderItem.deleted = 0
+                <!-- 供应商 id -->
+                <if test="supplierIdNotNull">
+                    AND shopOrderItem.supplier_id = #{query.supplierId}
+                </if>
+                <!-- 商品销售类型 --> 
+                <if test="sellTypeNotNull">
+                    AND shopOrderItem.sell_type = #{query.sellType}
+                </if>
+                <!--商品名称 -->
+                <if test="productNameNotEmpty">
+                    AND shopOrderItem.product_name LIKE CONCAT('%',#{query.productName},'%')
+                </if>
+                <!-- 订单子项状态匹配 -->
+                <if test="itemStatusFilter">
+                    AND shopOrderItem.`status` = ${@com.medusa.gruul.order.api.enums.ItemStatus @OK.value}
+                    AND EXISTS(
+                        SELECT 1 FROM t_shop_order AS shopOrder
+                            WHERE shopOrder.order_no = ord.`no`
+                               AND shopOrder.shop_id = shopOrderItem.shop_id
+                               AND shopOrder.deleted = 0
+                               AND shopOrder.`status` = ${@com.medusa.gruul.order.api.enums.ShopOrderStatus @OK.value}
+                                <if test="shopIdsNotEmpty">
+                                    AND shopOrder.shop_id IN
+                                    <foreach collection="query.shopIds" open="(" separator="," close=")" item="curShopId" >
+                                        #{curShopId}
+                                    </foreach>
+                                </if>
+                    )
+                    AND shopOrderItem.package_status IN
+                    <foreach collection="query.status.packageStatus" open="(" separator="," close=")" item="packageStatus">
+                        #{packageStatus.value}
+                    </foreach>
+                </if>
+            )
+        </if>
+        <!-- 订单状态 -->
+        <if test="query.status != null">
+            <!-- 如果查询的是关闭的订单 只过滤店铺订单状态即可-->
+            <if test="isCloseStatus">
+                AND (
+                    <!-- 1. 关闭下的店铺订单状态-->
+                    EXISTS(
+                    SELECT shopOrder.id FROM t_shop_order AS shopOrder
+                    WHERE shopOrder.order_no = ord.`no`
+                    AND shopOrder.deleted = FALSE
+                    AND shopOrder.`status` IN
+                    <foreach collection="query.status.closeShopOrderStatus" open="(" separator=","
+                             close=")" item="curShopOrderStatus">
+                        #{curShopOrderStatus.value}
+                    </foreach>
+                    <if test="shopIdsNotEmpty">
+                        AND shopOrder.shop_id IN
+                        <foreach collection="query.shopIds" open="(" separator="," close=")" item="curShopId">
+                            #{curShopId}
+                        </foreach>
+                    </if>
+                    )
+                    <!-- 2. 关闭状态下的供应商代销商品-->
+                    <if test="supplierIdNotNull">
+                        OR NOT EXISTS(
+                        SELECT shopOrderItem.id
+                        FROM t_shop_order_item AS shopOrderItem
+                        WHERE shopOrderItem.order_no = ord.`no`
+                          AND shopOrderItem.supplier_id = #{query.supplierId}
+                          AND shopOrderItem.deleted = FALSE
+                          AND shopOrderItem.`status` = ${@com.medusa.gruul.order.api.enums.ItemStatus @OK.value}
+                        <if test="sellTypeNotNull">
+                            AND shopOrderItem.sell_type = #{query.sellType}
+                        </if>
+                        )
+                    </if>
+                )
+            </if>
+            <if test="!isCloseStatus">
+                AND ord.`status` IN
+                <foreach collection="query.status.orderStatus" open="(" separator="," close=")" item="curStatus">
+                    ${curStatus.value}
+                </foreach>
+            </if>
+            <!--查询的是待收货的订单 待收货的订单 必须所有的订单项都发货，即不存在待发货的订单项-->
+            <if test="isUnReceived">
+                AND EXISTS (
+                    SELECT 1 FROM t_shop_order  AS shopOrder
+                    WHERE shopOrder.order_no = ord.`no`
+                    AND shopOrder.deleted = FALSE
+                    AND shopOrder.`status` = ${@com.medusa.gruul.order.api.enums.ShopOrderStatus @OK.value}
+                    <if test="shopIdsNotEmpty">
+                        AND shopOrder.shop_id IN
+                        <foreach collection="query.shopIds" open="(" separator="," close=")" item="curShopId" >
+                            #{curShopId}
+                        </foreach>
+                    </if>
+                    <!-- 存在状态正常的订单项 并且不存在状态正常但是状态不是代发货的订单项 -->
+                    AND EXISTS(
+                        SELECT item.id FROM t_shop_order_item item
+                        WHERE item.order_no =  shopOrder.`order_no`
+                        AND item.shop_id = shopOrder.shop_id
+                        AND item.`status` = ${@com.medusa.gruul.order.api.enums.ItemStatus @OK.value}
+                    )
+                    AND NOT EXISTS(
+                        SELECT item.id FROM t_shop_order_item item
+                        WHERE item.order_no =  shopOrder.`order_no`
+                        AND item.shop_id = shopOrder.shop_id
+                        AND item.`status` = ${@com.medusa.gruul.order.api.enums.ItemStatus @OK.value}
+                        AND item.package_status <![CDATA[<>]]> ${@com.medusa.gruul.order.api.enums.PackageStatus @WAITING_FOR_RECEIVE.value}
+                    )
+                )
+            </if>
+        </if>
+        <!-- t_shop_order -->
+        <if test="shopIdsNotEmpty and !isCloseStatus and (!itemStatusFilter or !isUnReceived) ">
+            AND EXISTS(
+                SELECT shopOrder.id FROM t_shop_order AS shopOrder
+                WHERE shopOrder.order_no = ord.`no`
+                AND shopOrder.deleted = FALSE
+                <if test="query.status != null">
+                    AND shopOrder.`status` = ${@com.medusa.gruul.order.api.enums.ShopOrderStatus @OK.value}
+                </if>
+                AND shopOrder.shop_id IN
+                <foreach collection="query.shopIds" open="(" separator="," close=")" item="curShopId" >
+                    #{curShopId}
+                </foreach>
+            )
+        </if>
+        ORDER BY
+        <if test="query.isPriority != null and query.isPriority">
+            ord.is_priority DESC,
+        </if>
+        ord.`status` = ${@com.medusa.gruul.order.api.enums.OrderStatus @UNPAID.value} DESC,
+        ord.create_time DESC
+    </select>
+
+
+    <resultMap id="getShopOrdersMap" type="com.medusa.gruul.order.api.entity.ShopOrder">
+        <id column="shopOrderId" property="id"/>
+        <result column="orderNo" property="orderNo"/>
+        <result column="shopOrderNo" property="no"/>
+        <result column="shopOrderStatus" property="status"/>
+        <result column="shopOrderShopId" property="shopId"/>
+        <result column="shopOrderShopName" property="shopName"/>
+        <result column="shopOrderShopLogo" property="shopLogo"/>
+        <result column="shopOrderRemark" property="remark" typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+        <result column="shopOrderCreateTime" property="createTime"/>
+        <association property="orderReceiver" javaType="com.medusa.gruul.order.api.entity.OrderReceiver">
+            <id column="shopReceiverId" property="id"/>
+            <result column="shopReceiverName" property="name"/>
+            <result column="shopReceiverMobile" property="mobile"/>
+            <result column="shopReceiverLocation" property="location"/>
+            <result column="shopReceiverArea" property="area"
+                    typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+            <result column="shopReceiverAddress" property="address"/>
+        </association>
+        <collection property="shopOrderItems"
+                    ofType="com.medusa.gruul.order.api.entity.ShopOrderItem">
+            <id column="itemId" property="id"/>
+            <result column="itemIdShopId" property="shopId"/>
+            <result column="itemProductId" property="productId"/>
+            <result column="itemStatus" property="status"/>
+            <result column="itemPackageId" property="packageId"/>
+            <result column="itemPackageStatus" property="packageStatus"/>
+            <result column="itemAfsNo" property="afsNo"/>
+            <result column="itemAfsStatus" property="afsStatus"/>
+            <result column="itemProductName" property="productName"/>
+            <result column="itemSkuId" property="skuId"/>
+            <result column="itemSpecs" property="specs"
+                    typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+            <result column="itemNum" property="num"/>
+            <result column="itemImage" property="image"/>
+            <result column="itemWeight" property="weight"/>
+            <result column="itemFreightTemplateId" property="freightTemplateId"/>
+            <result column="itemFreightPrice" property="freightPrice"/>
+            <result column="itemSalePrice" property="salePrice"/>
+            <result column="itemDealPrice" property="dealPrice"/>
+            <result column="itemFixPrice" property="fixPrice"/>
+            <result column="itemSellType" property="sellType"/>
+            <result column="itemSupplierId" property="supplierId"/>
+            <result column="itemCreateTime" property="createTime"/>
+            <result column="deliverType" property="deliverType"/>
+            <result column="productType" property="productType"/>
+        </collection>
+    </resultMap>
+    <select id="getShopOrders" resultMap="getShopOrdersMap">
+        SELECT
+        shopOrder.id AS shopOrderId,
+        shopOrder.order_no AS orderNo,
+        shopOrder.`no` AS shopOrderNo,
+        shopOrder.`status` AS shopOrderStatus,
+        shopOrder.shop_id AS shopOrderShopId,
+        shopOrder.shop_name AS shopOrderShopName,
+        shopOrder.shop_logo AS shopOrderShopLogo,
+        JSON_REMOVE(shopOrder.remark, '$.items') AS shopOrderRemark,
+        shopOrder.create_time AS shopOrderCreateTime,
+
+        shopReceiver.id AS shopReceiverId,
+        shopReceiver.`name` AS shopReceiverName,
+        shopReceiver.mobile AS shopReceiverMobile,
+        shopReceiver.location AS shopReceiverLocation,
+        shopReceiver.area AS shopReceiverArea,
+        shopReceiver.address as shopReceiverAddress,
+
+        item.id AS itemId,
+        item.shop_id AS itemIdShopId,
+        item.product_id AS itemProductId,
+        item.`status` AS itemStatus,
+        item.package_id AS itemPackageId,
+        item.package_status AS itemPackageStatus,
+        item.afs_no AS itemAfsNo,
+        item.afs_status AS itemAfsStatus,
+        item.product_name AS itemProductName,
+        item.sku_id AS itemSkuId,
+        item.specs AS itemSpecs,
+        item.num AS itemNum,
+        item.image AS itemImage,
+        item.weight AS itemWeight,
+        item.freight_template_id AS itemFreightTemplateId,
+        item.freight_price AS itemFreightPrice,
+        item.sale_price AS itemSalePrice,
+        item.deal_price AS itemDealPrice,
+        item.fix_price AS itemFixPrice,
+        item.sell_type AS itemSellType,
+        item.supplier_id as itemSupplierId,
+        item.create_time AS itemCreateTime,
+        package.type AS deliverType,
+        item.product_type as productType
+        FROM
+        t_shop_order AS shopOrder
+        INNER JOIN t_shop_order_item AS item ON item.shop_id = shopOrder.shop_id AND item.order_no = shopOrder.order_no
+        AND item.deleted = FALSE
+        LEFT JOIN t_shop_order_package AS package ON package.id = item.package_id AND package.deleted = FALSE
+        LEFT JOIN t_order_receiver AS shopReceiver ON shopReceiver.order_no = shopOrder.order_no AND
+        shopReceiver.shop_order_no = shopOrder.`no` AND shopReceiver.deleted = FALSE
+        WHERE shopOrder.deleted = FALSE
+        <if test="query.shopOrderNo != null and query.shopOrderNo != ''">
+            AND shopOrder.`no` = #{query.shopOrderNo}
+        </if>
+        <if test="query.shopIds != null and query.shopIds.size()>0">
+            AND shopOrder.shop_id IN 
+            <foreach collection="query.shopIds" item="shopId" open="(" separator="," close=")">
+                #{shopId}
+            </foreach>
+        </if>
+        <if test="query.sellTypes != null and query.sellTypes.size>0">
+            AND item.sell_type IN
+            <foreach item="sellType" collection="query.sellTypes" open="(" separator="," close=")">
+                #{sellType}
+            </foreach>
+        </if>
+        <if test="query.supplierId != null">
+            AND item.supplier_id = #{query.supplierId}
+        </if>
+        <if test="query.buyerId != null">
+            AND EXISTS(
+            SELECT ord.id FROM t_order AS ord WHERE ord.buyer_id = #{query.buyerId} AND ord.deleted = 0
+            )
+        </if>
+        <if test="query.receiverName != null and query.receiverName != ''">
+            AND (<include refid="receiverNameMatchSql"/>) = 1
+        </if>
+        <if test="query.productName != null and query.productName != ''">
+            AND item.product_name LIKE CONCAT('%',#{query.productName},'%')
+        </if>
+        <if test="query.orderNos != null and query.orderNos.size>0">
+            AND shopOrder.order_no IN
+            <foreach item="orderNo" index="index" collection="query.orderNos" open="(" separator="," close=")">
+                #{orderNo}
+            </foreach>
+        </if>
+        <if test="query.status != null">
+            <choose>
+                <!--待发货 只要有一个订单项是待发货的 整个订单都是待发货-->
+                <when test="query.status == @com.medusa.gruul.order.service.model.enums.OrderQueryStatus @UN_DELIVERY">
+                    AND item.`status` = ${@com.medusa.gruul.order.api.enums.ItemStatus @OK.value}
+AND item.package_status = ${@com.medusa.gruul.order.api.enums.PackageStatus @WAITING_FOR_DELIVER.value}
+                </when>
+                <when test="query.status == @com.medusa.gruul.order.service.model.enums.OrderQueryStatus @UN_RECEIVE">
+                    AND item.`status` = ${@com.medusa.gruul.order.api.enums.ItemStatus @OK.value}
+                    AND item.package_status = ${@com.medusa.gruul.order.api.enums.PackageStatus @WAITING_FOR_RECEIVE.value}
+                    <!--查询待收货的订单，如果订单下所有商品都处于已发货状态（即不存在待发货的订单项），则认为订单处于待收货状态-->
+                    AND NOT EXISTS (
+                        SELECT innerItem.id FROM t_shop_order_item AS innerItem
+                        WHERE innerItem.order_no =  shopOrder.`order_no`
+                        AND innerItem.shop_id = shopOrder.shop_id
+                        AND innerItem.`status` = ${@com.medusa.gruul.order.api.enums.ItemStatus @OK.value}
+                        AND innerItem.package_status <![CDATA[<>]]> ${@com.medusa.gruul.order.api.enums.PackageStatus @WAITING_FOR_RECEIVE.value}
+                    )
+                </when>
+                <when test="query.status == @com.medusa.gruul.order.service.model.enums.OrderQueryStatus @UN_COMMENT">
+                    AND item.`status` = ${@com.medusa.gruul.order.api.enums.ItemStatus @OK.value}
+                    AND (
+                    item.package_status =
+                    ${@com.medusa.gruul.order.api.enums.PackageStatus @BUYER_WAITING_FOR_COMMENT.value}
+                    OR
+                    item.package_status =
+                    ${@com.medusa.gruul.order.api.enums.PackageStatus @SYSTEM_WAITING_FOR_COMMENT.value}
+                    )
+                </when>
+                <when test="query.status == @com.medusa.gruul.order.service.model.enums.OrderQueryStatus @COMPLETED">
+                    AND item.`status` = ${@com.medusa.gruul.order.api.enums.ItemStatus @OK.value}
+                    AND (
+                    item.package_status =
+                    ${@com.medusa.gruul.order.api.enums.PackageStatus @BUYER_COMMENTED_COMPLETED.value}
+                    OR
+                    item.package_status =
+                    ${@com.medusa.gruul.order.api.enums.PackageStatus @SYSTEM_COMMENTED_COMPLETED.value}
+                    )
+                </when>
+                <when test="query.status == @com.medusa.gruul.order.service.model.enums.OrderQueryStatus @CLOSED">
+                    AND (
+                    shopOrder.`status` = ${@com.medusa.gruul.order.api.enums.ShopOrderStatus @SYSTEM_CLOSED.value}
+                    OR shopOrder.`status` = ${@com.medusa.gruul.order.api.enums.ShopOrderStatus @BUYER_CLOSED.value}
+                    OR shopOrder.`status` = ${@com.medusa.gruul.order.api.enums.ShopOrderStatus @SELLER_CLOSED.value}
+                    OR item.`status` = ${@com.medusa.gruul.order.api.enums.ItemStatus @CLOSED.value}
+                    OR EXISTS(
+                    SELECT ord.id FROM t_order AS ord WHERE ord.`no`= shopOrder.order_no AND ord.deleted = 0
+                    AND (
+                    ord.`status` = ${@com.medusa.gruul.order.api.enums.OrderStatus @BUYER_CLOSED.value}
+                    OR ord.`status` = ${@com.medusa.gruul.order.api.enums.OrderStatus @SYSTEM_CLOSED.value}
+                    OR ord.`status` = ${@com.medusa.gruul.order.api.enums.OrderStatus @SELLER_CLOSED.value}
+                    )
+                    )
+                    )
+                </when>
+                <when test="query.status == @com.medusa.gruul.order.service.model.enums.OrderQueryStatus @UNPAID">
+                    AND EXISTS(
+                    SELECT
+                    ord.id
+                    FROM t_order AS ord
+                    WHERE shopOrder.order_no = ord.`no`
+                    AND ord.deleted = 0
+                    AND ord.`status` = ${@com.medusa.gruul.order.api.enums.OrderStatus @UNPAID.value}
+                    )
+                </when>
+            </choose>
+        </if>
+        ORDER BY shopOrder.order_no,shopOrder.`no`
+
+    </select>
+
+
+    <resultMap id="getOrderMap" type="com.medusa.gruul.order.api.entity.Order">
+        <id column="ordId" property="id"/>
+        <result column="buyerId" property="buyerId"/>
+        <result column="buyerNickname" property="buyerNickname"/>
+        <result column="orderNo" property="no"/>
+        <result column="orderStatus" property="status"/>
+        <result column="orderType" property="type"/>
+        <result column="orderRemark" property="remark"/>
+        <result column="distributionMode" property="distributionMode"/>
+        <result column="timeout" property="timeout"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+        <result column="orderCreateTime" property="createTime"/>
+        <result column="orderUpdateTime" property="updateTime"/>
+        <result column="extra" property="extra"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+        <result column="platform" property="platform"/>
+        <association property="orderReceiver" javaType="com.medusa.gruul.order.api.entity.OrderReceiver">
+            <id column="receiverId" property="id"/>
+            <result column="receiverName" property="name"/>
+            <result column="receiverMobile" property="mobile"/>
+            <result column="receiverArea" property="area"
+                    typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+            <result column="receiverAddress" property="address"/>
+        </association>
+        <association property="orderPayment" javaType="com.medusa.gruul.order.api.entity.OrderPayment">
+            <id column="paymentId" property="id"/>
+            <result column="payerId" property="payerId"/>
+            <result column="paymentType" property="type"/>
+            <result column="totalAmount" property="totalAmount"/>
+            <result column="freightAmount" property="freightAmount"/>
+            <result column="discountAmount" property="discountAmount"/>
+            <result column="payAmount" property="payAmount"/>
+            <result column="payTime" property="payTime"/>
+            <result column="createTime" property="createTime"/>
+        </association>
+        <collection property="shopOrders" ofType="com.medusa.gruul.order.api.entity.ShopOrder">
+            <id column="shopOrderId" property="id"/>
+            <result column="shopOrderNo" property="no"/>
+            <result column="shopOrderStatus" property="status"/>
+            <result column="shopOrderShopId" property="shopId"/>
+            <result column="shopOrderShopName" property="shopName"/>
+            <result column="shopOrderShopLogo" property="shopLogo"/>
+            <result column="shopOrderTotalAmount" property="totalAmount"/>
+            <result column="shopOrderFreightAmount" property="freightAmount"/>
+            <result column="shopOrderDiscountAmount" property="discountAmount"/>
+            <result column="shopOrderRemark" property="remark" typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+            <result column="shopOrderExtra" property="extra"
+                    typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+            <result column="shopOrderCreateTime" property="createTime"/>
+            <result column="shopOrderUpdateTime" property="updateTime"/>
+            <association property="orderReceiver" javaType="com.medusa.gruul.order.api.entity.OrderReceiver">
+                <id column="shopReceiverId" property="id"/>
+                <result column="shopReceiverName" property="name"/>
+                <result column="shopReceiverMobile" property="mobile"/>
+                <result column="shopReceiverArea" property="area"
+                        typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+                <result column="shopReceiverAddress" property="address"/>
+            </association>
+            <collection property="shopOrderItems" ofType="com.medusa.gruul.order.api.entity.ShopOrderItem">
+                <id column="itemId" property="id"/>
+                <result column="itemStatus" property="status"/>
+                <result column="itemAfsNo" property="afsNo"/>
+                <result column="itemAfsStatus" property="afsStatus"/>
+                <result column="itemIdShopId" property="shopId"/>
+                <result column="itemProductId" property="productId"/>
+                <result column="itemPackageId" property="packageId"/>
+                <result column="itemPackageStatus" property="packageStatus"/>
+                <result column="itemProductName" property="productName"/>
+                <result column="itemServices" property="services"
+                        typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+                <result column="itemSkuId" property="skuId"/>
+                <result column="itemSpecs" property="specs"
+                        typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+                <result column="itemNum" property="num"/>
+                <result column="itemImage" property="image"/>
+                <result column="itemWeight" property="weight"/>
+                <result column="itemFreightTemplateId" property="freightTemplateId"/>
+                <result column="itemFreightPrice" property="freightPrice"/>
+                <result column="itemSalePrice" property="salePrice"/>
+                <result column="itemDealPrice" property="dealPrice"/>
+                <result column="itemFixPrice" property="fixPrice"/>
+                <result column="itemUpdateTime" property="updateTime"/>
+                <result column="sellType" property="sellType"/>
+            </collection>
+        </collection>
+    </resultMap>
+
+    <select id="getOrder" resultMap="getOrderMap">
+        SELECT
+        ord.id AS ordId,
+        ord.buyer_id AS buyerId,
+        ord.buyer_nickname AS buyerNickname,
+        ord.`no` AS `orderNo`,
+        ord.`status` AS orderStatus,
+        ord.distribution_mode AS distributionMode,
+        ord.type AS orderType,
+        ord.remark AS orderRemark,
+        ord.timeout AS timeout,
+        ord.create_time AS orderCreateTime,
+        ord.update_time AS orderUpdateTime,
+        ord.extra AS extra ,
+        ord.platform AS platform,
+
+        receiver.id AS receiverId,
+        receiver.`name` AS receiverName,
+        receiver.mobile AS receiverMobile,
+        receiver.area AS receiverArea,
+        receiver.address as receiverAddress,
+
+        payment.id AS paymentId,
+        payment.payer_id AS payerId,
+        payment.type AS paymentType,
+        payment.total_amount AS totalAmount,
+        payment.freight_amount AS freightAmount,
+        payment.discount_amount AS discountAmount,
+        payment.pay_amount AS payAmount,
+        payment.pay_time AS payTime,
+        payment.create_time AS createTime,
+
+        shopOrder.id AS shopOrderId,
+        shopOrder.`no` AS shopOrderNo,
+        shopOrder.`status` AS shopOrderStatus,
+        shopOrder.shop_id AS shopOrderShopId,
+        shopOrder.shop_name AS shopOrderShopName,
+        shopOrder.shop_logo AS shopOrderShopLogo,
+        shopOrder.total_amount AS shopOrderTotalAmount,
+        shopOrder.freight_amount AS shopOrderFreightAmount,
+        shopOrder.discount_amount AS shopOrderDiscountAmount,
+        shopOrder.total_amount AS shopOrderTotalAmount,
+        shopOrder.remark AS shopOrderRemark,
+        shopOrder.extra AS shopOrderExtra,
+        shopOrder.create_time AS shopOrderCreateTime,
+        shopOrder.update_time AS shopOrderUpdateTime,
+
+        shopReceiver.id AS shopReceiverId,
+        shopReceiver.`name` AS shopReceiverName,
+        shopReceiver.mobile AS shopReceiverMobile,
+        shopReceiver.area AS shopReceiverArea,
+        shopReceiver.address as shopReceiverAddress,
+
+        item.id AS itemId,
+        item.`status` AS itemStatus,
+        item.afs_no AS itemAfsNo,
+        item.afs_status AS itemAfsStatus,
+        item.shop_id AS itemIdShopId,
+        item.product_id AS itemProductId,
+        item.package_id AS itemPackageId,
+        item.package_status AS itemPackageStatus,
+        item.product_name AS itemProductName,
+        item.services AS itemServices,
+        item.sku_id AS itemSkuId,
+        item.specs AS itemSpecs,
+        item.num AS itemNum,
+        item.image AS itemImage,
+        item.weight AS itemWeight,
+        item.freight_template_id AS itemFreightTemplateId,
+        item.freight_price AS itemFreightPrice,
+        item.sale_price AS itemSalePrice,
+        item.deal_price AS itemDealPrice,
+        item.fix_price AS itemFixPrice,
+        item.update_time AS itemUpdateTime,
+        item.sell_type AS sellType
+        FROM `t_order` AS ord
+        INNER JOIN t_order_payment AS payment ON payment.order_no = ord.`no` AND payment.deleted = 0
+        INNER JOIN t_order_receiver receiver ON receiver.order_no = ord.`no` AND receiver.deleted = 0
+        AND receiver.shop_order_no IS NULL
+        INNER JOIN t_shop_order AS shopOrder ON shopOrder.order_no = ord.`no` AND shopOrder.deleted = 0
+        LEFT JOIN t_order_receiver AS shopReceiver ON shopReceiver.order_no = shopOrder.order_no
+        AND shopReceiver.shop_order_no = shopOrder.`no` AND shopReceiver.deleted = 0
+        INNER JOIN t_shop_order_item AS item ON item.order_no = ord.`no` AND item.shop_id = shopOrder.shop_id AND
+        item.deleted = 0
+
+        WHERE ord.`no` = #{query.orderNo}
+        <if test="query.shopOrderShopId != null">
+            AND shopOrder.shop_id = #{query.shopOrderShopId}
+        </if>
+        <if test="query.shopOrderSupplierId != null">
+            AND item.supplier_id = #{query.shopOrderSupplierId}
+        </if>
+        <if test="query.sellType != null">
+            AND item.sell_type = #{query.sellType.value}
+        </if>
+        <if test="query.usePackage != null and query.usePackage">
+            <choose>
+                <when test="query.packageId != null">
+                    AND item.package_id = #{query.packageId}
+                </when>
+                <otherwise>
+                    AND item.package_id IS NULL
+                </otherwise>
+            </choose>
+        </if>
+        <if test="query.buyerId != null">
+            AND ord.buyer_id = #{query.buyerId}
+        </if>
+        AND ord.deleted = 0
+    </select>
+
+    <select id="buyerOrderCount" resultType="com.medusa.gruul.order.service.model.vo.BuyerOrderCountVO">
+        SELECT (
+        SELECT COUNT(*)
+        FROM `t_order` AS ord
+        WHERE ord.buyer_id = #{buyerId} AND ord.`status` =
+        ${@com.medusa.gruul.order.api.enums.OrderStatus @UNPAID.value}
+        ) AS unpaid,
+        (
+        <!--一个订单会存在多个店铺订单 多个订单项数据 -->
+        SELECT COUNT(DISTINCT(ord.`no`))
+        FROM t_shop_order AS shopOrder
+        INNER JOIN t_order AS ord ON shopOrder.order_no = ord.`no` AND ord.buyer_id = #{buyerId} AND ord.`status` =
+        ${@com.medusa.gruul.order.api.enums.OrderStatus @PAID.value} AND ord.deleted = 0
+        WHERE shopOrder.deleted = 0 AND shopOrder.`status` =
+        ${@com.medusa.gruul.order.api.enums.ShopOrderStatus @OK.value}
+        AND EXISTS(
+        SELECT item.id
+        FROM t_shop_order_item AS item
+        WHERE item.shop_id = shopOrder.shop_id AND item.order_no = ord.`no`
+        AND item.`status` = ${@com.medusa.gruul.order.api.enums.ItemStatus @OK.value}
+        AND item.package_status = ${@com.medusa.gruul.order.api.enums.PackageStatus @WAITING_FOR_DELIVER.value}
+        )
+        ) AS undelivered,
+        (
+        <!--一个订单会存在多个店铺订单 多个订单项数据 需要去重 -->
+        SELECT COUNT(distinct(package.order_no))
+        FROM t_shop_order_package AS package
+        WHERE package.deleted = 0 AND package.`status` =
+        ${@com.medusa.gruul.order.api.enums.PackageStatus @WAITING_FOR_RECEIVE.value}
+        AND EXISTS (
+        SELECT shopOrder.id FROM t_shop_order AS shopOrder
+        INNER JOIN t_order AS ord ON shopOrder.order_no = ord.`no` AND ord.buyer_id = #{buyerId} AND ord.`status` =
+        ${@com.medusa.gruul.order.api.enums.OrderStatus @PAID.value} AND ord.deleted = 0
+        INNER JOIN t_shop_order_item AS item ON item.shop_id = shopOrder.shop_id AND item.`status` =
+        ${@com.medusa.gruul.order.api.enums.ItemStatus @OK.value} AND item.package_id = package.id
+        WHERE shopOrder.shop_id = package.shop_id AND shopOrder.deleted = 0 AND shopOrder.`status` =
+        ${@com.medusa.gruul.order.api.enums.ShopOrderStatus @OK.value}
+        AND shopOrder.order_no = package.order_no
+        <!--待收货,必须所有的订单项都是待收货 整个订单才算待收货
+           即 不存在订单项是待发货的订单项-->
+        AND NOT EXISTS (
+        SELECT innerItem.id FROM t_shop_order_item AS innerItem
+        WHERE innerItem.order_no =  shopOrder.`order_no`
+        AND innerItem.shop_id = shopOrder.shop_id
+        AND innerItem.`status` = 1
+        AND innerItem.package_status =${@com.medusa.gruul.order.api.enums.PackageStatus @WAITING_FOR_DELIVER.value}
+            )
+        )
+        ) AS unreceived,
+        (
+        SELECT COUNT(*)
+        FROM t_shop_order_item AS item
+        INNER JOIN t_shop_order AS shopOrder ON item.order_no = shopOrder.order_no AND shopOrder.shop_id = item.shop_id
+        AND shopOrder.`status` = ${@com.medusa.gruul.order.api.enums.ShopOrderStatus @OK.value}
+        INNER JOIN t_order AS ord ON item.order_no = ord.`no` AND ord.buyer_id = #{buyerId} AND ord.`status` =
+        ${@com.medusa.gruul.order.api.enums.OrderStatus @PAID.value} AND ord.deleted = 0
+        WHERE item.`status` = ${@com.medusa.gruul.order.api.enums.ItemStatus @OK.value} AND item.deleted = 0
+        AND item.afs_status IN(
+        ${@com.medusa.gruul.common.module.app.afs.AfsStatus @RETURN_REFUND_AGREE.value},
+        ${@com.medusa.gruul.common.module.app.afs.AfsStatus @SYSTEM_RETURN_REFUND_AGREE.value}
+        )
+        ) AS unhandledAfs
+
+    </select>
+    <!--统计供应商时间范围内，代销商品的销售额和数量-->
+    <select id="countConsignmentProductTradeStatistic"
+            resultType="com.medusa.gruul.order.api.model.ConsignmentProductTradeStatisticDTO">
+        SELECT CAST(ord.create_time AS DATE)         AS `xDate`,
+               SUM(ordItem.num * ordItem.deal_price) AS tradeAmount,
+               COUNT(*)                              AS tradeNumber
+        FROM t_order AS ord
+                 INNER JOIN t_shop_order_item AS ordItem ON ord.`no` = ordItem.order_no
+        WHERE ordItem.supplier_id = #{supplierId}
+          AND ordItem.sell_type = ${@com.medusa.gruul.common.model.enums.SellType @CONSIGNMENT.value}
+          AND ord.STATUS = ${@com.medusa.gruul.order.api.enums.OrderStatus @PAID.value}
+          AND ord.create_time BETWEEN #{startTime} AND #{endTime}
+        GROUP BY `xDate`
+
+    </select>
+
+    <!--统计供应商时间范围内代销商品TOP数据，以商品为维度.-->
+    <select id="countConsignmentProductTradeTop"
+            resultType="com.medusa.gruul.order.api.model.ConsignmentProductTradeTopDTO">
+        SELECT b.product_id,
+               sum(b.num * b.deal_price) / 10000 AS tradeAmount,
+               sum(b.num)                        AS tradeNumber
+        FROM t_order a
+                 INNER JOIN
+             t_shop_order_item b
+             ON
+                 a.`no` = b.order_no
+        WHERE b.supplier_id = #{supplierId}
+          AND a.create_time BETWEEN #{beginDate} AND #{endDate}
+            <!-- 代销 -->
+          AND b.sell_type = ${@com.medusa.gruul.common.model.enums.SellType @CONSIGNMENT.value}
+        <!--   已支付 -->
+          AND a.STATUS = ${@com.medusa.gruul.order.api.enums.OrderStatus @PAID.value}
+          AND b.package_status IN
+              (
+               ${@com.medusa.gruul.order.api.enums.PackageStatus @BUYER_COMMENTED_COMPLETED.value},
+               ${@com.medusa.gruul.order.api.enums.PackageStatus @SYSTEM_COMMENTED_COMPLETED.value}
+                  )
+        group by b.product_id
+    </select>
+
+    <select id="getPlatFormDeliveryOrders" resultMap="orderPageMap">
+        SELECT
+        ord.id AS id,
+        ord.`no` AS `no`,
+        ord.buyer_id AS buyerId,
+        ord.buyer_nickname AS buyerNickname,
+        ord.`status` AS `status`,
+        ord.type AS type,
+        ord.timeout AS timeout,
+        ord.remark AS remark,
+        ord.is_priority AS priority,
+        ord.extra AS extra,
+        ord.create_time AS createTime,
+        ord.update_time AS updateTime,
+        ord.platform as platform,
+
+        receiver.id AS receiverId,
+        receiver.`name` AS receiverName,
+        receiver.mobile AS receiverMobile,
+        receiver.area AS receiverArea,
+        receiver.address as receiverAddress,
+
+        payment.id AS paymentId,
+        payment.payer_id AS payerId,
+        payment.type AS paymentType,
+        payment.total_amount AS totalAmount,
+        payment.freight_amount AS freightAmount,
+        payment.discount_amount AS discountAmount,
+        payment.pay_amount AS payAmount,
+        payment.pay_time AS payTime,
+        payment.create_time AS paymentCreateTime,
+        payment.update_time AS paymentUpdateTime
+        FROM t_order AS ord
+        INNER JOIN t_order_payment AS payment ON payment.order_no = ord.`no` AND payment.deleted = FALSE
+        INNER JOIN t_order_receiver AS receiver ON receiver.order_no = ord.`no` AND receiver.deleted = FALSE
+        AND receiver.shop_order_no IS NULL
+        WHERE ord.deleted = FALSE
+        AND ord.`status` = ${@com.medusa.gruul.order.api.enums.OrderStatus @PAID.value}
+        AND EXISTS(
+            SELECT item.id
+            FROM t_shop_order_item AS item
+            WHERE item.order_no = ord.`no` AND item.deleted = FALSE
+            AND item.`status` = ${@com.medusa.gruul.order.api.enums.ItemStatus @OK.value} AND item.package_id IS NULL
+        )
+        <if test="order.orderNos != null and order.orderNos.size > 0">
+            AND ord.`no` IN
+            <foreach collection="order.orderNos" item="orderNo" open="(" close=")" separator=",">
+                #{orderNo}
+            </foreach>
+        </if>
+        <if test="order.distributionMode != null">
+            AND ord.distribution_mode = #{order.distributionMode.value}
+        </if>
+        AND ord.distribution_mode != ${@com.medusa.gruul.common.model.enums.DistributionMode @SHOP_STORE.value}
+        ORDER BY ord.create_time DESC
+    </select>
+
+    <select id="getBargainOrders" resultType="com.medusa.gruul.order.api.entity.Order">
+        SELECT `no`
+        FROM t_order ord
+        LEFT JOIN t_shop_order_item item ON ord.`no` = item.order_no
+        WHERE ord.activity_id = #{activityId}
+        AND ord.`status` IN
+        (${@com.medusa.gruul.order.api.enums.OrderStatus @UNPAID.value}
+        ,${@com.medusa.gruul.order.api.enums.OrderStatus @PAID.value})
+        AND ord.deleted = FALSE
+        AND ord.type = ${@com.medusa.gruul.common.model.enums.OrderType @BARGAIN.value}
+        AND ord.buyer_id = #{buyerId}
+        AND (item.product_id, item.shop_id) IN
+        <foreach collection="shopOrderItems" item="shopOrderItem" open="(" close=")" separator=",">
+            (#{shopOrderItem.productId}, #{shopOrderItem.shopId})
+        </foreach>
+    </select>
+
+    <select id="queryUnPaidOrderNum" resultType="long" >
+        select distinct (so.shop_id)  from t_order o inner join
+           t_shop_order so on o.`no`=so.order_no
+           where o.`status` = ${@com.medusa.gruul.order.api.enums.OrderStatus @UNPAID.value}
+           and so.shop_id in
+           <foreach collection="shopIds" item="shopId" open="(" close=")" separator=",">
+               #{shopId}
+           </foreach>
+           and so.deleted=0 and o.deleted=0
+
+    </select>
+    <select id="queryPaidNotFinishedOrderNum" resultType="long">
+        select distinct (so.shop_id)  from t_order o
+           inner join t_shop_order so on o.`no`=so.order_no
+           inner join t_shop_order_item soi  on soi.order_no=o.`no`
+           where
+               o.`status` = ${@com.medusa.gruul.order.api.enums.OrderStatus @PAID.value}
+            AND soi.`status` = ${@com.medusa.gruul.order.api.enums.ItemStatus @OK.value}
+           and
+                <!--未评价-->
+               soi.package_status not in (
+               ${@com.medusa.gruul.order.api.enums.PackageStatus @SYSTEM_COMMENTED_COMPLETED.value},
+               ${@com.medusa.gruul.order.api.enums.PackageStatus @BUYER_COMMENTED_COMPLETED.value}
+            )
+           and so.shop_id in
+           <foreach collection="shopIds" item="shopId" open="(" close=")" separator=",">
+               #{shopId}
+           </foreach>
+        and so.deleted=0 and o.deleted=0  and soi.deleted=0
+
+    </select>
+    <!-- 
+     订单数量统计
+     -->
+    <select id="orderCount" resultType="com.medusa.gruul.order.service.model.vo.OrderCountVO">
+        <!-- 参数准备 -->
+        <bind name="productNameNotEmpty" value="query.productName != null and query.productName != ''"/>
+        <bind name="supplierIdNotNull" value="query.supplierId != null"/>
+        <bind name="sellTypeNotNull" value="query.sellType != null"/>
+        <!-- 查询数据 -->
+        SELECT
+        <!-- 统计未支付的订单 -->
+            SUM(
+                IF(mergeOrder.ordStatus = ${@com.medusa.gruul.order.api.enums.OrderStatus @UNPAID.value},1,0)
+            ) AS unpaid,
+        <!-- 未发货的订单 -->
+            SUM(
+                IF(mergeOrder.packageStatus = ${@com.medusa.gruul.order.api.enums.PackageStatus @WAITING_FOR_DELIVER.value},1,0)
+            ) AS unDelivery,
+        <!-- 小程序订单 且未发货 的订单-->
+            SUM(
+                IF(
+                    mergeOrder.platform = ${@com.medusa.gruul.common.system.model.model.Platform @WECHAT_MINI_APP.value} 
+                    AND mergeOrder.packageStatus = ${@com.medusa.gruul.order.api.enums.PackageStatus @WAITING_FOR_DELIVER.value},
+                    1,
+                    0
+                )   
+             ) AS mpUnDelivery,
+        <!-- 待收货的订单 -->
+            SUM(
+                IF(
+                    mergeOrder.packageStatus = ${@com.medusa.gruul.order.api.enums.PackageStatus @WAITING_FOR_RECEIVE.value},1,0
+                )
+            ) AS unReceive
+            
+        FROM (
+            SELECT 
+                ANY_VALUE(ord.`status`) AS ordStatus,
+                ANY_VALUE(ord.platform) AS platform,
+                IF(ord.`status` = ${@com.medusa.gruul.order.api.enums.OrderStatus @PAID.value},item.package_status ,null)AS packageStatus
+            FROM  t_order AS ord
+            INNER JOIN t_shop_order_item AS item ON item.order_no = ord.`no` AND item.deleted = 0
+            WHERE ord.deleted = 0
+            <if test="query.orderNo != null and query.orderNo != ''">
+                AND ord.`no` LIKE CONCAT('%',#{query.orderNo},'%')
+            </if>
+            <if test="query.buyerNickname != null and query.buyerNickname != ''">
+                AND ord.buyer_nickname LIKE CONCAT('%',#{query.buyerNickname},'%')
+            </if>
+            <if test="query.time.start != null">
+                AND ord.create_time >= #{query.time.start}
+            </if>
+            <if test="query.time.end != null">
+                AND #{query.time.end} >= ord.create_time
+            </if>
+            <if test="query.distributionMode != null">
+                AND ord.distribution_mode = #{query.distributionMode.value}
+            </if>
+            <if test="query.platform != null">
+                AND ord.`platform` = #{query.platform}
+            </if>
+            <!-- order receiver  -->
+            <if test="query.receiverName != null and query.receiverName != ''">
+                AND  EXISTS(
+                SELECT 1 FROM t_order_receiver AS receiver
+                WHERE  receiver.order_no = ord.`no`
+                AND receiver.deleted = 0
+                AND receiver.`name` LIKE CONCAT('%',#{query.receiverName},'%')
+                )
+            </if>
+            <!-- shop order  -->
+            <if test="query.shopIds != null and query.shopIds.size > 0">
+                AND EXISTS(
+                SELECT COUNT(*) FROM t_shop_order AS shopOrder
+                WHERE shopOrder.order_no = ord.`no`
+                AND shopOrder.deleted = 0
+                AND shopOrder.shop_id IN
+                <foreach collection="query.shopIds" open="(" separator="," close=")" item="shopId">
+                    #{shopId}
+                </foreach>
+                )
+            </if>
+            <!-- shop order item -->
+            <if test="productNameNotEmpty or supplierIdNotNull or sellTypeNotNull">
+                AND EXISTS(
+                SELECT 1 FROM t_shop_order_item AS item
+                WHERE item.order_no = ord.`no`
+                AND item.deleted = 0
+                <if test="productNameNotEmpty">
+                    AND item.product_name  LIKE CONCAT('%',#{query.productName},'%')
+                </if>
+                <if test="supplierIdNotNull">
+                    AND item.supplier_id = #{query.supplierId}
+                </if>
+                <if test="sellTypeNotNull">
+                    AND item.sell_type = #{query.sellType.value}
+                </if>
+                )
+            </if>
+            GROUP BY ord.`no`,item.package_status
+        ) AS mergeOrder
+    </select>
+</mapper>

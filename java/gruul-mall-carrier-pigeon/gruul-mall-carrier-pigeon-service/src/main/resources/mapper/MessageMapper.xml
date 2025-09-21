@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.carrier.pigeon.service.mp.mapper.MessageMapper">
+
+    <resultMap id="messagePageMap" type="com.medusa.gruul.carrier.pigeon.service.model.vo.MessageAndShopAdminVO">
+        <id column="msgId" property="id"/>
+        <result column="userId" property="userId"/>
+        <result column="nickname" property="nickname"/>
+        <result column="msgShopId" property="shopId"/>
+        <result column="msgAdminId" property="adminId"/>
+        <result column="msgUserId" property="userId"/>
+        <result column="msgSenderType" property="senderType"/>
+        <result column="msgReceiverType" property="receiverType"/>
+        <result column="msgMessageType" property="messageType"/>
+        <result column="msgMessage" property="message"/>
+        <result column="msgRead" property="read"/>
+        <result column="msgCreateTime" property="createTime"/>
+    </resultMap>
+    <select id="messagePage" resultMap="messagePageMap">
+        SELECT
+            admin.user_id AS userId,
+            admin.nickname AS nickname,
+            message.id AS msgId,
+            message.shop_id AS msgShopId,
+            message.admin_id AS msgAdminId,
+            message.user_id AS msgUserId,
+            message.sender_type AS msgSenderType,
+            message.receiver_type AS msgReceiverType,
+            message.message_type AS msgMessageType,
+            message.message AS msgMessage,
+            message.`read` AS msgRead,
+            message.create_time AS msgCreateTime
+        FROM t_message AS message
+        LEFT JOIN t_message_shop_admin AS admin ON admin.shop_id = message.shop_id
+        AND admin.deleted = 0
+        <where>
+            <if test="query.userId != null">
+                AND message.user_id = #{query.userId}
+            </if>
+            <if test="query.shopId != null">
+                AND message.shop_id = #{query.shopId}
+            </if>
+        </where>
+        ORDER BY message.create_time DESC
+    </select>
+
+    <select id="getShopUnRead" resultType="java.lang.Integer">
+        SELECT
+            SUM(1)
+        FROM
+            t_message AS m
+        WHERE
+            m.shop_id = #{shopId}
+          AND
+            m.user_id = #{userId}
+          AND
+            m.sender_type = ${@com.medusa.gruul.carrier.pigeon.api.enums.UserType @CONSUMER.value}
+          AND
+            m.`read`=0
+          AND
+            (m.admin_id is NULL OR m.admin_id=#{adminId})
+    </select>
+</mapper>

@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.afs.service.mp.mapper.AfsOrderMapper">
+
+    <resultMap id="afsOrderPageMap" type="com.medusa.gruul.afs.service.mp.entity.AfsOrder">
+        <id column="afsId" property="id"/>
+        <result column="afsNo" property="no"/>
+        <result column="afsType" property="type"/>
+        <result column="afsStatus" property="status"/>
+        <result column="afsPackageId" property="packageId"/>
+        <result column="afsPackageStatus" property="packageStatus"/>
+        <result column="afsReason" property="reason"/>
+        <result column="afsBuyerId" property="buyerId"/>
+        <result column="afsBuyerNickname" property="buyerNickname"/>
+        <result column="afsBuyerPhone" property="buyerPhone"/>
+        <result column="afsOrderNo" property="orderNo"/>
+        <result column="afsSupplierId" property="supplierId"/>
+        <result column="afsShopId" property="shopId"/>
+        <result column="afsShopName" property="shopName"/>
+        <result column="afsShopLogo" property="shopLogo"/>
+        <result column="afsItemId" property="shopOrderItemId"/>
+        <result column="afsRefundAmount" property="refundAmount"/>
+        <result column="afsExplain" property="explain"/>
+        <result column="afsRemark" property="remark"/>
+        <result column="quicknessAfs" property="quicknessAfs"/>
+        <result column="afsKeyNodeTimeout" property="keyNodeTimeout"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+        <result column="afsCreateTime" property="createTime"/>
+        <result column="afsUpdateTime" property="updateTime"/>
+        <result column="afsVersion" property="version"/>
+        <association property="afsOrderItem"  javaType="com.medusa.gruul.afs.service.mp.entity.AfsOrderItem">
+            <id column="item" property="id"/>
+            <result column="itemProductId" property="productId"/>
+            <result column="itemProductName" property="productName"/>
+            <result column="itemProductType" property="productType"/>
+            <result column="itemSkuId" property="skuId"/>
+            <result column="sellType" property="sellType"/>
+            <result column="itemSpecs" property="specs"
+                    typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+            <result column="itemImage" property="image"/>
+            <result column="itemNum" property="num"/>
+            <result column="itemServices" property="services"
+                    typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+            <result column="itemSalePrice" property="salePrice"/>
+            <result column="itemDealPrice" property="dealPrice"/>
+            <result column="itemCreateTime" property="createTime"/>
+            <result column="itemUpdateTime" property="updateTime"/>
+            <result column="itemVersion" property="version"/>
+        </association>
+        <association property="afsOrderReceiver" javaType="com.medusa.gruul.afs.service.mp.entity.AfsOrderReceiver">
+            <result column="receiverName" property="name"/>
+            <result column="receiverMobile" property="mobile"/>
+            <result column="receiverArea" property="area"
+                    typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+            <result column="receiverAddress" property="address"/>
+        </association>
+    </resultMap>
+
+
+    <select id="afsOrderPage" resultMap="afsOrderPageMap">
+        SELECT
+        afs.id as afsId,
+        afs.`no` AS afsNo,
+        afs.type AS afsType,
+        afs.`status` AS afsStatus,
+        afs.package_id AS afsPackageId,
+        afs.package_status AS afsPackageStatus,
+        afs.reason AS afsReason,
+        afs.buyer_id AS afsBuyerId,
+        afs.buyer_nickname AS afsBuyerNickname,
+        afs.order_no AS afsOrderNo,
+        afs.supplier_id AS afsSupplierId,
+        afs.shop_id AS afsShopId,
+        afs.shop_name AS afsShopName,
+        afs.shop_logo AS afsShopLogo,
+        afs.shop_order_item_id AS afsItemId,
+        afs.refund_amount AS afsRefundAmount,
+        afs.`explain` AS afsExplain,
+        afs.key_node_timeout AS afsKeyNodeTimeout,
+        afs.remark as afsRemark,
+        afs.create_time AS afsCreateTime,
+        afs.update_time AS afsUpdateTime,
+        afs.version AS afsVersion,
+        afs.quickness_afs as quicknessAfs,
+        item.id AS itemId,
+        item.product_id AS itemProductId,
+        item.product_name AS itemProductName,
+        item.product_type as itemProductType,
+        item.sku_id AS itemSkuId,
+        item.specs AS itemSpecs,
+        item.image AS itemImage,
+        item.num AS itemNum,
+        item.services AS itemServices,
+        item.sale_price AS itemSalePrice,
+        item.deal_price AS itemDealPrice,
+        item.create_time AS itemCreateTime,
+        item.update_time AS itemUpdateTime,
+        item.version AS itemVersion,
+        item.sell_type as sellType,
+
+        receiver.`name` AS receiverName,
+        receiver.mobile AS receiverMobile,
+        receiver.area AS receiverArea,
+        receiver.address AS receiverAddress
+        FROM t_afs_order AS afs
+        INNER JOIN t_afs_order_item AS item ON item.afs_no = afs.`no` AND item.deleted = 0
+        LEFT JOIN t_afs_order_receiver AS receiver ON receiver.afs_no = afs.`no` AND receiver.deleted = 0
+        WHERE afs.deleted = 0
+        <if test="query.keywords !=null and query.keywords!= ''">
+            AND (
+            afs.`no` LIKE CONCAT('%',#{query.keywords},'%')
+            OR
+            item.product_name LIKE CONCAT('%',#{query.keywords},'%')
+            )
+        </if>
+        <if test="query.exportAfsOrderNos!=null and query.exportAfsOrderNos.size()>0">
+            <!--只导出指定的工单-->
+            and afs.no in
+            <foreach  item="item" index="index" open="(" close=")" collection="query.exportAfsOrderNos" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        <if test="query.afsNo != null and query.afsNo != ''">
+            AND afs.`no` LIKE CONCAT(#{query.afsNo},'%')
+        </if>
+        <if test="query.productName != null and query.productName != ''">
+            AND item.product_name like CONCAT('%',#{query.productName},'%')
+        </if>
+        <if test="query.shopId != null">
+            AND afs.shop_id = #{query.shopId}
+        </if>
+
+        <if test="query.shopType != null">
+            AND afs.shop_type = #{query.shopType}
+        </if>
+        <if test="query.distributionMode != null">
+            AND afs.extra ->'$.distributionMode' = #{query.distributionMode.name}
+        </if>
+
+        <if test="query.supplierId != null">
+            AND afs.supplier_id = #{query.supplierId}
+        </if>
+        <if test="query.buyerId != null">
+            AND afs.buyer_id = #{query.buyerId}
+        </if>
+        <if test="query.buyerNickname != null and query.buyerNickname != ''">
+            AND afs.buyer_nickname like CONCAT('%',#{query.buyerNickname},'%')
+        </if>
+        <if test="query.receiverName != null and query.receiverName != ''">
+            AND receiver.name like CONCAT('%',#{query.receiverName},'%')
+        </if>
+        <if test="query.startTime != null">
+            AND afs.create_time > #{query.startTime}
+        </if>
+        <if test="query.endTime != null">
+            AND afs.create_time <![CDATA[<]]> #{query.endTime}
+        </if>
+        <if test="query.status != null">
+            <choose>
+                <!--待处理 /  退款申请,退货退款申请-->
+                <when test="query.status == @com.medusa.gruul.afs.service.model.AfsOrderQueryStatus @PENDING">
+                    AND afs.`status` IN (
+                    ${@com.medusa.gruul.common.module.app.afs.AfsStatus @REFUND_REQUEST.value},
+                    ${@com.medusa.gruul.common.module.app.afs.AfsStatus @RETURN_REFUND_REQUEST.value}
+                    )
+                </when>
+                <!--处理中/  退货退款已同意,退货退款 买家已发货-->
+                <when test="query.status == @com.medusa.gruul.afs.service.model.AfsOrderQueryStatus @PROCESSING">
+                    AND afs.`status` IN (
+                    ${@com.medusa.gruul.common.module.app.afs.AfsStatus @RETURN_REFUND_AGREE.value},
+                    ${@com.medusa.gruul.common.module.app.afs.AfsStatus @RETURNED_REFUND.value}
+                    )
+                </when>
+                <!--已完成  /
+                退款已同意 ,已退款 退货退款 ,卖家已确认收货, 已退货退款 已完成-->
+                <when test="query.status == @com.medusa.gruul.afs.service.model.AfsOrderQueryStatus @COMPLETED">
+                    AND afs.`status` IN (
+                    ${@com.medusa.gruul.common.module.app.afs.AfsStatus @REFUND_AGREE.value},
+                    ${@com.medusa.gruul.common.module.app.afs.AfsStatus @REFUNDED.value},
+                    ${@com.medusa.gruul.common.module.app.afs.AfsStatus @RETURNED_REFUND_CONFIRM.value},
+                    ${@com.medusa.gruul.common.module.app.afs.AfsStatus @RETURNED_REFUNDED.value}
+                    )
+                </when>
+                <otherwise>
+                    <!-- 已关闭-->
+                    AND afs.`status` IN (
+                    ${@com.medusa.gruul.common.module.app.afs.AfsStatus @REFUND_REJECT.value},
+                    ${@com.medusa.gruul.common.module.app.afs.AfsStatus @RETURN_REFUND_REJECT.value},
+                    ${@com.medusa.gruul.common.module.app.afs.AfsStatus @RETURNED_REFUND_REJECT.value},
+                    ${@com.medusa.gruul.common.module.app.afs.AfsStatus @BUYER_CLOSED.value}
+                    )
+                </otherwise>
+            </choose>
+        </if>
+        ORDER BY afs.create_time DESC
+    </select>
+
+
+    <resultMap id="getAfsOrderDetailMap" type="com.medusa.gruul.afs.service.mp.entity.AfsOrder">
+        <id column="afsId" property="id"/>
+        <result column="afsNo" property="no"/>
+        <result column="afsType" property="type"/>
+        <result column="afsStatus" property="status"/>
+        <result column="afsPackageId" property="packageId"/>
+        <result column="afsPackageStatus" property="packageStatus"/>
+        <result column="afsReason" property="reason"/>
+        <result column="afsBuyerId" property="buyerId"/>
+        <result column="afsBuyerNickname" property="buyerNickname"/>
+        <result column="afsOrderNo" property="orderNo"/>
+        <result column="afsSupplierId" property="supplierId"/>
+        <result column="afsShopId" property="shopId"/>
+        <result column="afsShopName" property="shopName"/>
+        <result column="afsShopLogo" property="shopLogo"/>
+        <result column="afsItemId" property="shopOrderItemId"/>
+        <result column="afsRefundAmount" property="refundAmount"/>
+        <result column="afsExplain" property="explain"/>
+        <result column="afsKeyNodeTimeout" property="keyNodeTimeout"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+        <result column="afsCreateTime" property="createTime"/>
+        <result column="afsUpdateTime" property="updateTime"/>
+        <result column="afsVersion" property="version"/>
+        <association property="afsOrderItem" javaType="com.medusa.gruul.afs.service.mp.entity.AfsOrderItem">
+            <id column="item" property="id"/>
+            <result column="itemProductId" property="productId"/>
+            <result column="itemProductName" property="productName"/>
+            <result column="itemSkuId" property="skuId"/>
+            <result column="itemSpecs" property="specs"
+                    typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+            <result column="itemImage" property="image"/>
+            <result column="itemNum" property="num"/>
+            <result column="itemServices" property="services"
+                    typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+            <result column="itemSalePrice" property="salePrice"/>
+            <result column="itemDealPrice" property="dealPrice"/>
+            <result column="itemCreateTime" property="createTime"/>
+            <result column="itemUpdateTime" property="updateTime"/>
+            <result column="itemVersion" property="version"/>
+        </association>
+        <association property="afsPackage" javaType="com.medusa.gruul.afs.service.mp.entity.AfsPackage">
+            <id column="packageId" property="id"/>
+            <result column="packageType" property="type"/>
+            <result column="packageReceiverName" property="receiverName"/>
+            <result column="packageReceiverMobile" property="receiverMobile"/>
+            <result column="packageReceiverAddress" property="receiverAddress"/>
+            <result column="packageRefundType" property="refundType"/>
+            <result column="packageBuyerReturnedInfo" property="buyerReturnedInfo"
+                    typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+            <result column="packageCreateTime" property="createTime"/>
+            <result column="packageUpdateTime" property="updateTime"/>
+            <result column="packageVersion" property="version"/>
+
+        </association>
+        <collection property="histories" ofType="com.medusa.gruul.afs.service.mp.entity.AfsHistory">
+            <id column="historyId" property="id"/>
+            <result column="historyAfsStatus" property="afsStatus"/>
+            <result column="histroyPackageStatus" property="packageStatus"/>
+            <result column="historyRemark" property="remark"/>
+            <result column="historyEvidences" property="evidences"
+                    typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+            <result column="historyCreateTime" property="createTime"/>
+            <result column="historyUpdateTime" property="updateTime"/>
+            <result column="historyBuyerReturnedInfo" property="historyBuyerReturnedInfo"
+                    typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+        </collection>
+    </resultMap>
+
+
+    <select id="getAfsOrderDetail" resultMap="getAfsOrderDetailMap">
+        SELECT
+        afs.id as afsId,
+        afs.`no` AS afsNo,
+        afs.type AS afsType,
+        afs.`status` AS afsStatus,
+        afs.package_id AS afsPackageId,
+        afs.package_status AS afsPackageStatus,
+        afs.reason AS afsReason,
+        afs.buyer_id AS afsBuyerId,
+        afs.buyer_nickname AS afsBuyerNickname,
+        afs.order_no AS afsOrderNo,
+        afs.supplier_id AS afsSupplierId,
+        afs.shop_id AS afsShopId,
+        afs.shop_name AS afsShopName,
+        afs.shop_logo AS afsShopLogo,
+        afs.shop_order_item_id AS afsItemId,
+        afs.refund_amount AS afsRefundAmount,
+        afs.`explain` AS afsExplain,
+        afs.key_node_timeout AS afsKeyNodeTimeout,
+        afs.create_time AS afsCreateTime,
+        afs.update_time AS afsUpdateTime,
+        afs.version AS afsVersion,
+
+        item.id AS itemId,
+        item.product_id AS itemProductId,
+        item.product_name AS itemProductName,
+        item.sku_id AS itemSkuId,
+        item.specs AS itemSpecs,
+        item.image AS itemImage,
+        item.num AS itemNum,
+        item.services AS itemServices,
+        item.sale_price AS itemSalePrice,
+        item.deal_price AS itemDealPrice,
+        item.create_time AS itemCreateTime,
+        item.update_time AS itemUpdateTime,
+        item.version AS itemVersion,
+
+        package.id As packageId,
+        package.type AS packageType,
+        package.receiver_name AS packageReceiverName,
+        package.receiver_mobile AS packageReceiverMobile,
+        package.receiver_address AS packageReceiverAddress,
+        package.refund_type AS packageRefundType,
+        package.buyer_returned_info AS packageBuyerReturnedInfo,
+        package.create_time AS packageCreateTime,
+        package.update_time AS packageUpdateTime,
+        package.version AS packageVersion
+        <if test="query.history != null and query.history">
+            ,
+            history.id AS historyId,
+            history.afs_status as historyAfsStatus,
+            history.package_status AS histroyPackageStatus,
+            history.remark as historyRemark,
+            history.evidences as historyEvidences,
+            history.create_time AS historyCreateTime,
+            history.update_time AS historyUpdateTime,
+            CASE WHEN history.afs_status =  ${@com.medusa.gruul.common.module.app.afs.AfsStatus @RETURNED_REFUND.value}
+                THEN package.buyer_returned_info ELSE NULL END AS historyBuyerReturnedInfo
+        </if>
+        FROM
+        t_afs_order AS afs
+        INNER JOIN t_afs_order_item AS item ON item.afs_no = afs.`no` AND item.deleted = 0
+        LEFT JOIN t_afs_package AS package ON package.afs_no = afs.`no` AND package.deleted = 0
+        <if test="query.history != null and query.history">
+            LEFT JOIN t_afs_history AS history ON history.afs_no = afs.`no` AND history.deleted = 0
+        </if>
+        WHERE
+        afs.deleted = 0
+        <if test="query.afsNo != null and query.afsNo!= ''">
+            AND afs.`no` = #{query.afsNo}
+        </if>
+        <if test="query.shopId != null">
+            AND afs.shop_id = #{query.shopId}
+        </if>
+        <if test="query.buyerId != null">
+            AND afs.buyer_id = #{query.buyerId}
+        </if>
+        <if test="query.itemId != null">
+            AND afs.shop_order_item_id = #{query.itemId}
+        </if>
+        <if test="query.productId != null">
+            AND item.product_id = #{query.productId}
+        </if>
+        ORDER BY afs.create_time DESC
+        <if test="query.history != null and query.history">
+            , history.create_time DESC
+        </if>
+
+    </select>
+
+    <select id="staticsStatusCount" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM t_afs_order AS afs
+        INNER JOIN t_afs_order_item AS item ON item.afs_no = afs.`no` AND item.deleted = 0
+        LEFT JOIN t_afs_order_receiver AS receiver ON receiver.afs_no = afs.`no` AND receiver.deleted = 0
+        WHERE afs.deleted = 0
+        <if test="query.keywords !=null and query.keywords!= ''">
+            AND (
+            afs.`no` LIKE CONCAT('%',#{query.keywords},'%')
+            OR
+            item.product_name LIKE CONCAT('%',#{query.keywords},'%')
+            )
+        </if>
+        <if test="query.exportAfsOrderNos!=null and query.exportAfsOrderNos.size()>0">
+            <!--只导出指定的工单-->
+            and afs.no in
+            <foreach  item="item" index="index" open="(" close=")" collection="query.exportAfsOrderNos" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        <if test="query.afsNo != null and query.afsNo != ''">
+            AND afs.`no` LIKE CONCAT(#{query.afsNo},'%')
+        </if>
+        <if test="query.productName != null and query.productName != ''">
+            AND item.product_name like CONCAT('%',#{query.productName},'%')
+        </if>
+        <if test="query.shopId != null">
+            AND afs.shop_id = #{query.shopId}
+        </if>
+
+        <if test="query.shopType != null">
+            AND afs.shop_type = #{query.shopType}
+        </if>
+        <if test="query.distributionMode != null">
+            AND afs.extra ->'$.distributionMode' = #{query.distributionMode.name}
+        </if>
+
+        <if test="query.supplierId != null">
+            AND afs.supplier_id = #{query.supplierId}
+        </if>
+        <if test="query.buyerId != null">
+            AND afs.buyer_id = #{query.buyerId}
+        </if>
+        <if test="query.buyerNickname != null and query.buyerNickname != ''">
+            AND afs.buyer_nickname like CONCAT('%',#{query.buyerNickname},'%')
+        </if>
+        <if test="query.receiverName != null and query.receiverName != ''">
+            AND receiver.name like CONCAT('%',#{query.receiverName},'%')
+        </if>
+        <if test="query.startTime != null">
+            AND afs.create_time > #{query.startTime}
+        </if>
+        <if test="query.endTime != null">
+            AND afs.create_time <![CDATA[<]]> #{query.endTime}
+        </if>
+        <if test="query.status != null">
+            <choose>
+                <!--待处理 /  退款申请,退货退款申请-->
+                <when test="query.status == @com.medusa.gruul.afs.service.model.AfsOrderQueryStatus @PENDING">
+                    AND afs.`status` IN (
+                    ${@com.medusa.gruul.common.module.app.afs.AfsStatus @REFUND_REQUEST.value},
+                    ${@com.medusa.gruul.common.module.app.afs.AfsStatus @RETURN_REFUND_REQUEST.value}
+                    )
+                </when>
+                <!--处理中/  退货退款已同意,退货退款 买家已发货-->
+                <when test="query.status == @com.medusa.gruul.afs.service.model.AfsOrderQueryStatus @PROCESSING">
+                    AND afs.`status` IN (
+                    ${@com.medusa.gruul.common.module.app.afs.AfsStatus @RETURN_REFUND_AGREE.value},
+                    ${@com.medusa.gruul.common.module.app.afs.AfsStatus @RETURNED_REFUND.value}
+                    )
+                </when>
+                <!--已完成  /
+                退款已同意 ,已退款 退货退款 ,卖家已确认收货, 已退货退款 已完成-->
+                <when test="query.status == @com.medusa.gruul.afs.service.model.AfsOrderQueryStatus @COMPLETED">
+                    AND afs.`status` IN (
+                    ${@com.medusa.gruul.common.module.app.afs.AfsStatus @REFUND_AGREE.value},
+                    ${@com.medusa.gruul.common.module.app.afs.AfsStatus @REFUNDED.value},
+                    ${@com.medusa.gruul.common.module.app.afs.AfsStatus @RETURNED_REFUND_CONFIRM.value},
+                    ${@com.medusa.gruul.common.module.app.afs.AfsStatus @RETURNED_REFUNDED.value}
+                    )
+                </when>
+                <otherwise>
+                    <!-- 已关闭-->
+                    AND afs.`status` IN (
+                    ${@com.medusa.gruul.common.module.app.afs.AfsStatus @REFUND_REJECT.value},
+                    ${@com.medusa.gruul.common.module.app.afs.AfsStatus @RETURN_REFUND_REJECT.value},
+                    ${@com.medusa.gruul.common.module.app.afs.AfsStatus @RETURNED_REFUND_REJECT.value},
+                    ${@com.medusa.gruul.common.module.app.afs.AfsStatus @BUYER_CLOSED.value}
+                    )
+                </otherwise>
+            </choose>
+        </if>
+
+    </select>
+</mapper>

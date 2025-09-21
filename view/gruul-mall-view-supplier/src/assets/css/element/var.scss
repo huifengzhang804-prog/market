@@ -1,0 +1,17 @@
+@import '../global';
+body {
+    --el-border-radius-round: 4px;
+    --el-color-primary: rgb(85, 92, 253);
+    --el-color-primary-light-3: #7579f8;
+    --el-color-primary-light-5: #7579f8;
+    --el-color-primary-dark-2: #373cc7;
+    .el-button {
+        line-height: 32px;
+        &.is-disabled.is-link {
+            color: #a8abb2;
+            &:hover {
+                color: #a8abb2;
+            }
+        }
+    }
+}

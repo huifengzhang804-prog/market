@@ -1,0 +1,18 @@
+{
+    "<script setup lang='ts'>": {
+        "prefix": ["vb", "v3", "Vue3.2+"],
+        "body": [
+            "<script setup lang='ts'>",
+            "\t$1",
+            "</script>\n",
+            "<template>",
+            "\t<div>\n",
+            "\t</div>",
+            "</template>\n",
+            "<style lang='scss' scoped>\n",
+            "</style>",
+            ""
+        ],
+        "description": "Vue3 setup + ts + scss + scoped 模板"
+    }
+}

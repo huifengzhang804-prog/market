@@ -1,0 +1,4 @@
+{
+    "references.preferredLocation": "view",
+    "typescript.tsdk": "node_modules\\typescript\\lib"
+}

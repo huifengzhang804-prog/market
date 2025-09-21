@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.payment.service.mp.mapper.PaymentRefundMapper">
+
+    <select id="querySumRefundAmount" resultType="java.lang.Long">
+<!-- json_extract 获取json格式中字段对应内容-->
+        SELECT
+            SUM(json_extract(asyn_request,'$.refundAmount'))
+        FROM
+            t_payment_refund WHERE order_num =#{orderNum}
+            AND
+            deleted = 0
+
+    </select>
+</mapper>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.payment.service.mp.mapper.PaymentInfoMapper">
+    <resultMap id="BaseResultMap" type="com.medusa.gruul.payment.api.entity.PaymentInfo">
+        <id column="id" property="id"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="version" property="version"/>
+        <result column="deleted" jdbcType="BOOLEAN" property="deleted"/>
+        <result column="shop_id" property="shopId"/>
+        <result column="open_id" property="openId"/>
+        <result column="user_id" property="userId"/>
+        <result column="app_id" property="appId"/>
+        <result column="order_num" property="orderNum"/>
+        <result column="pay_type" property="payType"/>
+        <result column="subject" property="subject"/>
+        <result column="body" property="body"/>
+        <result column="route_key" property="routeKey"/>
+        <result column="fee_type" property="feeType"/>
+        <result column="total_fee" property="totalFee"/>
+        <result column="seconds" property="seconds"/>
+        <result column="attach" property="attach"/>
+        <result column="terminal_ip" property="terminalIp"/>
+        <result column="transaction_id" property="transactionId"/>
+        <result column="business_notify_url" property="businessNotifyUrl"/>
+        <result column="third_party_notify_status" property="thirdPartyNotifyStatus"/>
+        <result column="business_notify_status" property="businessNotifyStatus"/>
+        <result column="trade_status" property="tradeStatus"/>
+        <result column="third_party_notify_number" property="thirdPartyNotifyNumber"/>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+        id, create_time, update_time, version, deleted, shop_id, open_id, user_id, app_id,
+        order_num, pay_type, subject, body, route_key, fee_type, total_fee, `seconds`, attach,
+        terminal_ip, transaction_id, business_notify_url, third_party_notify_status, business_notify_status,
+        trade_status, third_party_notify_number
+  </sql>
+
+</mapper>

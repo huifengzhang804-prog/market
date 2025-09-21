@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.goods.service.mp.mapper.SupplierMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.medusa.gruul.goods.service.model.vo.SupplierVO">
+        <result column="id" property="id"/>
+        <result column="supplier_sn" property="supplierSn"/>
+        <result column="name" property="name"/>
+        <result column="mobile" property="mobile"/>
+        <result column="province" property="province"/>
+        <result column="city" property="city"/>
+        <result column="country" property="country"/>
+        <result column="address" property="address"/>
+        <result column="area" property="area"/>
+        <result column="address_code" property="addressCode"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+        <result column="product_info" property="productInfo"/>
+        <result column="status" property="status"/>
+        <result column="score" property="score"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, create_time, supplier_sn, `name`, mobile, province,city,country,address,address_code,area,product_info,
+	STATUS,score
+    </sql>
+    <select id="querySupplierList" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        t_supplier
+        <where>
+            deleted = 0
+            <if test="supplierParam.supplierSn!=null">
+                AND supplier_sn LIKE CONCAT('%',#{supplierParam.supplierSn},'%')
+            </if>
+            <if test="supplierParam.name!=null and supplierParam.name!=''">
+                AND name LIKE CONCAT('%',#{supplierParam.name},'%')
+            </if>
+            <if test="supplierParam.mobile!=null and supplierParam.mobile!=''">
+                AND mobile LIKE CONCAT('%',#{supplierParam.mobile},'%')
+            </if>
+            <if test="supplierParam.status!=null">
+                AND status = #{supplierParam.status}
+            </if>
+        </where>
+        ORDER BY
+        create_time
+        DESC
+    </select>
+
+
+</mapper>

@@ -1,0 +1,1328 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.goods.service.mp.mapper.ProductMapper">
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.medusa.gruul.goods.api.entity.Product">
+        <result column="id" property="id"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="version" property="version"/>
+        <result column="deleted" property="deleted"/>
+        <result column="provider_id" property="providerId"/>
+        <result column="freight_template_id" property="freightTemplateId"/>
+        <result column="name" property="name"/>
+        <result column="pic" property="pic"/>
+        <result column="wide_pic" property="widePic"/>
+        <result column="album_pics" property="albumPics"/>
+        <result column="video_url" property="videoUrl"/>
+        <result column="status" property="status"/>
+        <result column="shop_id" property="shopId"/>
+        <result column="sell_type" property="sellType"/>
+        <result column="sort" property="sort"/>
+        <result column="service_ids" property="serviceIds"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+        <result column="detail" property="detail"/>
+        <result column="is_open_specs" property="openSpecs"/>
+        <result column="sale_describe" property="saleDescribe"/>
+        <result column="score" property="score"/>
+        <result column="distribution_mode" property="distributionMode"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+        <result column="sale_prices" property="salePrices"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+        <result column="collection_url" property="collectionUrl"/>
+        <result column="label_id" property="labelId"/>
+        <result column="product_type" property="productType"/>
+        <result column="extra" property="extra"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+    </resultMap>
+
+    <resultMap id="BaseQuantityResultMap" type="com.medusa.gruul.goods.service.model.vo.ProductStatusQuantityVO">
+        <result column="quantity" property="quantity"/>
+        <result column="status" property="status"/>
+    </resultMap>
+
+
+    <resultMap id="ResultProductNumVoMap" type="com.medusa.gruul.goods.service.model.vo.ProductNumVO">
+        <result column="num" property="num"/>
+        <result column="platformCategoryId" property="platformCategoryId"/>
+    </resultMap>
+
+    <!-- 通用Vo查询映射结果 -->
+    <resultMap id="BaseVoResultMap" type="com.medusa.gruul.goods.api.model.vo.ProductVO">
+        <result column="id" property="id"/>
+        <result column="create_time" property="createTime"/>
+        <result column="provider_id" property="providerId"/>
+        <result column="freight_template_id" property="freightTemplateId"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="name" property="name"/>
+        <result column="pic" property="pic"/>
+        <result column="wide_pic" property="widePic"/>
+        <result column="album_pics" property="albumPics"/>
+        <result column="video_url" property="videoUrl"/>
+        <result column="status" property="status"/>
+        <result column="sort" property="sort"/>
+        <result column="service_ids" property="serviceIds"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+        <result column="detail" property="detail"/>
+        <result column="is_open_specs" property="openSpecs"/>
+        <result column="sale_describe" property="saleDescribe"/>
+        <result column="score" property="score"/>
+        <result column="distribution_mode" property="distributionMode"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+        <association property="productCategory"
+                     javaType="com.medusa.gruul.goods.api.entity.ProductCategory"
+                     column="{categoryId=category_id}" select="queryProductCategory"/>
+    </resultMap>
+
+
+    <!-- 通用Vo查询映射结果 -->
+    <resultMap id="BaseVoListResultMap" type="com.medusa.gruul.goods.api.model.vo.ProductVO">
+        <result column="id" property="id"/>
+        <result column="supplier_id" property="supplierId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="provider_id" property="providerId"/>
+        <result column="freight_template_id" property="freightTemplateId"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="name" property="name"/>
+        <result column="pic" property="pic"/>
+        <result column="wide_pic" property="widePic"/>
+        <result column="album_pics" property="albumPics"/>
+        <result column="video_url" property="videoUrl"/>
+        <result column="status" property="status"/>
+        <result column="sell_type" property="sellType"/>
+        <result column="sort" property="sort"/>
+        <result column="service_ids" property="serviceIds"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+        <result column="detail" property="detail"/>
+        <result column="is_open_specs" property="openSpecs"/>
+        <result column="sale_describe" property="saleDescribe"/>
+        <result column="score" property="score"/>
+        <result column="extra" property="extra"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+        <result column="distribution_mode" property="distributionMode"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+        <result column="sale_price" property="salePrice"/>
+    </resultMap>
+
+
+    <resultMap id="ProductCategoryResultMap"
+               type="com.medusa.gruul.goods.api.entity.ProductCategory">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="category_img" property="categoryImg"/>
+    </resultMap>
+
+
+    <resultMap id="PlatformProductResultMap" type="com.medusa.gruul.goods.api.model.vo.PlatformProductVO">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="create_time" property="createTime"/>
+        <result column="pic" property="pic"/>
+        <result column="status" property="productStatus"/>
+        <result column="provider_name" property="providerName"/>
+        <result column="sale_describe" property="saleDescribe"/>
+        <result column="album_pics" property="albumPics"/>
+        <result column="sell_type" property="sellType"/>
+        <result column="supplier_id" property="supplierId"/>
+        <result column="shop_id" property="shopId"/>
+        <result column="labelId" property="labelId"/>
+        <result column="product_type" property="productType"/>
+        <result column="salePrices" property="salePrices"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+        <result column="extra" property="extra"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+    </resultMap>
+
+    <resultMap id="BaseListResultMap" type="com.medusa.gruul.goods.api.model.vo.ApiPlatformProductVO">
+        <id column="id" property="id"/>
+        <result column="create_time" property="createTime"/>
+        <result column="name" property="name"/>
+        <result column="pic" property="pic"/>
+        <result column="wide_pic" property="widePic"/>
+        <result column="album_pics" property="albumPics"/>
+        <result column="distribution_mode" property="distributionMode"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+        <result column="shop_id" property="shopId"/>
+        <result column="sell_type" property="sellType"/>
+        <result column="supplier_id" property="supplierId"/>
+        <result column="extra" property="extra"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+    </resultMap>
+
+    <resultMap id="ApiBaseResultMap" type="com.medusa.gruul.goods.api.model.vo.ApiProductVO">
+        <id column="id" property="id"/>
+        <result column="create_time" property="createTime"/>
+        <result column="name" property="name"/>
+        <result column="pic" property="pic"/>
+        <result column="album_pics" property="albumPics"/>
+        <result column="shop_id" property="shopId"/>
+        <result column="total_sales_volume" property="salesCount"/>
+        <result column="freight_template_id" property="freightTemplateId"/>
+        <result column="sale_prices" property="salePrices"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+    </resultMap>
+
+    <resultMap id="RandomGoodsResultMap" type="com.medusa.gruul.goods.api.entity.Product">
+        <id column="id" property="id"/>
+        <result column="shop_id" property="shopId"/>
+        <result column="name" property="name"/>
+        <result column="pic" property="pic"/>
+        <result column="supplier_id" property="supplierId"/>
+        <result column="sell_type" property="sellType"/>
+        <result column="extra" property="extra"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+        <result column="sale_prices" property="salePrices"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+    </resultMap>
+
+
+    <resultMap id="ProductMap" type="com.medusa.gruul.goods.api.entity.Product">
+        <result column="id" property="id"/>
+        <result column="providerId" property="providerId"/>
+        <result column="freightTemplateId" property="freightTemplateId"/>
+        <result column="categoryId" property="categoryId"/>
+        <result column="platformCategoryId" property="platformCategoryId"/>
+        <result column="brandId" property="brandId"/>
+        <result column="shopId" property="shopId"/>
+        <result column="name" property="name"/>
+        <result column="pic" property="pic"/>
+        <result column="widePic" property="widePic"/>
+        <result column="albumPics" property="albumPics"/>
+
+        <result column="videoUrl" property="videoUrl"/>
+        <result column="status" property="status"/>
+        <result column="sort" property="sort"/>
+        <result column="salePrice" property="salePrice"/>
+        <result column="productType" property="productType"/>
+        <result column="serviceIds" property="serviceIds"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+        <result column="detail" property="detail"/>
+        <result column="openSpecs" property="openSpecs"/>
+        <result column="saleDescribe" property="saleDescribe"/>
+        <result column="score" property="score"/>
+        <result column="distributionMode" property="distributionMode"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+        <result column="salePrices" property="salePrices"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+        <result column="deleted" property="deleted"/>
+        <result column="sellType" property="sellType"/>
+        <result column="supplierId" property="supplierId"/>
+        <result column="extra" property="extra"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+        <result column="createTime" property="createTime"/>
+        <result column="collectionUrl" property="collectionUrl"/>
+        <result column="labelId" property="labelId"/>
+    </resultMap>
+
+    <resultMap id="ProductStockVOMap" type="com.medusa.gruul.goods.api.model.vo.ProductStockVO">
+        <result column="id" property="id"/>
+        <result column="pic" property="pic"/>
+        <result column="shopId" property="shopId"/>
+        <result column="productName" property="productName"/>
+        <result column="productType" property="productType"/>
+        <result column="status" property="status"/>
+        <result column="albumPics" property="albumPics"/>
+        <result column="extra" property="extra"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+        <result column="isDeleted" property="isDeleted"/>
+    </resultMap>
+
+
+    <resultMap id="PurchaseIssueProductVOMap" type="com.medusa.gruul.goods.service.model.vo.SupplierIssueProductListVO">
+        <result column="id" property="id"/>
+        <result column="status" property="status"/>
+        <result column="pic" property="pic"/>
+        <result column="name" property="name"/>
+        <result column="shopId" property="shopId"/>
+        <result column="sell_type" property="sellType"/>
+        <result column="deleted" property="deleted"/>
+        <result column="supplierId" property="supplierId"/>
+        <result column="product_type" property="productType"/>
+        <result column="create_time" property="createTime"/>
+        <result column="extra" property="extra"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+        <result column="salePrices" property="salePrices"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+    </resultMap>
+
+    <resultMap id="queryGoodsByProductIdsMap" type="com.medusa.gruul.common.model.base.ShopProductKey">
+        <result column="id" property="productId"/>
+        <result column="shop_id" property="shopId"/>
+    </resultMap>
+
+
+    <resultMap id="LookProductMap" type="com.medusa.gruul.goods.api.model.vo.LookProductVO">
+        <result column="id" property="id"/>
+        <result column="sellType" property="sellType"/>
+        <result column="supplierId" property="supplierId"/>
+        <result column="name" property="name"/>
+        <result column="detail" property="detail"/>
+        <result column="collectionUrl" property="collectionUrl"/>
+        <result column="labelId" property="labelId"/>
+        <result column="extra" property="extra"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+    </resultMap>
+
+
+    <resultMap id="AuditProductMap" type="com.medusa.gruul.goods.api.model.vo.AuditProductVO">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="status" property="status"/>
+        <result column="shopId" property="shopId"/>
+        <result column="explain" property="explain"/>
+        <result column="pic" property="pic"/>
+        <result column="ProductAuditStatus" property="auditStatus"/>
+        <result column="auditTime" property="auditTime"/>
+        <result column="submitTime" property="submitTime"/>
+        <result column="productType" property="productType"/>
+        <result column="salePrices" property="salePrices"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+    </resultMap>
+
+    <!--   平台商品返回信息-->
+    <sql id="Platform_Product_Column_List">
+        p.id,p.sale_prices AS salePrices,p.label_id as labelId
+    ,p.`name`,p.pic,p.create_time,p.pic,p.status,p.supplier_id,
+        p.sale_describe, r.name AS provider_name,p.shop_id,p.extra,p.sell_type,p.product_type
+    </sql>
+
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id
+        ,
+        create_time,
+        update_time,
+        version,
+        deleted,
+        provider_id,  freight_template_id,  `name`, pic, wide_pic, album_pics, video_url, status,  csv_url, sort, weight, service_ids, detail, is_open_specs, sale_describe, score, distribution_mode
+    </sql>
+    <!--订单预检查询返回结果集-->
+    <sql id="Order_Check_List">
+        p
+        .
+        id
+        , p.`name`, p.pic,
+        s.id AS skuId ,s.pic,s.price,s.original_price,s.product_spec_names
+    </sql>
+
+    <!--商品查询结果集-->
+    <sql id="Base_Product_List">
+        p
+        .
+        id
+        ,p.label_id
+    ,p.shop_id,p.supplier_id, p.category_id ,p.create_time,p.provider_id, p.distribution_mode, p.freight_template_id,
+        p.name, p.pic, p.album_pics, p.video_url,p.status, p.sort, p.is_open_specs,p.extra, p.sell_type,
+        p.score, p.service_ids, p.detail,  p.deleted,p.product_type
+    </sql>
+
+
+    <sql id="Base_Sku_List">
+        s
+        .
+        id
+        AS s_id, s.version AS s_version, s.product_id AS s_product_id, s.sku_code AS s_sku_code, s.specs AS s_specs, s.weight as s_weight, s.pic AS s_pic,
+         s.price AS s_price, s.original_price AS s_original_price,  s.shop_id AS s_shop_id,
+         s.product_spec_ids as s_product_spec_ids,s.product_spec_names as s_product_spec_names
+    </sql>
+
+    <sql id="Base_Supplier_Product_List">
+        p
+        .
+        id
+        , p.create_time, p.provider_id, r.name as provider_name,
+        p.name, p.pic, p.album_pics, p.video_url,
+         p.status
+    </sql>
+    <update id="updateSupplierSellGoods">
+        UPDATE
+            t_product
+        SET deleted = 0,
+            status  = 1
+        WHERE id = #{id}
+          AND shop_id = #{shopId}
+    </update>
+
+
+    <select id="getProductById" resultMap="BaseVoResultMap" parameterType="java.lang.Long">
+        SELECT
+        *
+        FROM
+        t_product p
+        LEFT JOIN
+        t_supplier r ON p.provider_id = r.id AND r.deleted = 0
+        <where>
+            p.deleted = 0
+            and p.id = #{id}
+        </where>
+    </select>
+
+
+    <select id="queryProductInfoByParam" resultMap="PlatformProductResultMap"
+            parameterType="com.medusa.gruul.goods.api.model.param.PlatformProductParam">
+        SELECT
+        <include refid="Platform_Product_Column_List"/>
+        FROM
+        t_product p
+        LEFT JOIN
+        t_supplier r ON p.provider_id = r.id AND r.deleted = 0
+        WHERE
+        p.deleted = 0
+        <if test="platformProductParam.status == null ">
+            AND p.status != ${@com.medusa.gruul.goods.api.model.enums.ProductStatus @REFUSE.status}
+            AND p.status != ${@com.medusa.gruul.goods.api.model.enums.ProductStatus @UNDER_REVIEW.status}
+            AND p.status != ${@com.medusa.gruul.goods.api.model.enums.ProductStatus @UNUSABLE.status}
+        </if>
+        <if test="platformProductParam.platformCategoryId !=null">
+            AND p.platform_category_id = #{platformProductParam.platformCategoryId}
+        </if>
+        <if test="platformProductParam.name != null and platformProductParam.name != ''">
+            AND p.name LIKE CONCAT('%',#{platformProductParam.name},'%')
+        </if>
+        <if test="platformProductParam.status != null">
+            <choose>
+                <when test="platformProductParam.status == @com.medusa.gruul.goods.api.model.enums.ProductStatus @SELL_OFF">
+                    AND p.status IN (
+                    ${@com.medusa.gruul.goods.api.model.enums.ProductStatus @SUPPLIER_SELL_OFF.status}
+                    ,${@com.medusa.gruul.goods.api.model.enums.ProductStatus @SELL_OFF.status}
+                    )
+                </when>
+                <otherwise>
+                    AND p.status = #{platformProductParam.status}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="platformProductParam.productType != null">
+            AND p.product_type = #{platformProductParam.productType}
+        </if>
+        <if test="platformProductParam.sellType != null">
+            AND p.sell_type = #{platformProductParam.sellType}
+        </if>
+        <if test="platformProductParam.createBeginTime != null and platformProductParam.createBeginTime != ''">
+            AND DATE_FORMAT(p.create_time,'%Y-%m-%d') <![CDATA[>=]]> #{platformProductParam.createBeginTime}
+        </if>
+        <if test="platformProductParam.createEndTime!=null and platformProductParam.createEndTime != ''">
+            AND DATE_FORMAT(p.create_time,'%Y-%m-%d') <![CDATA[<=]]> #{platformProductParam.createEndTime}
+        </if>
+        <if test="platformProductParam.shopId !=null and platformProductParam.shopId != ''">
+            AND p.shop_id = #{platformProductParam.shopId}
+        </if>
+        <if test="platformProductParam.sort != null">
+            <choose>
+                <when test="platformProductParam.sort == @com.medusa.gruul.goods.api.enums.ProductSortEnum @SALE_PRICE_ASC">
+                    ORDER BY p.sale_price ASC
+                </when>
+                <when test="platformProductParam.sort == @com.medusa.gruul.goods.api.enums.ProductSortEnum @SALE_PRICE_DESC">
+                    ORDER BY p.sale_price DESC
+                </when>
+            </choose>
+        </if>
+        <if test="platformProductParam.sort == null">
+            ORDER BY p.create_time DESC
+        </if>
+    </select>
+
+    <select id="queryProductList" resultMap="BaseVoListResultMap"
+            parameterType="com.medusa.gruul.goods.api.model.param.ProductParam">
+        SELECT
+        <include refid="Base_Product_List"/>
+        FROM
+        t_product p
+        <where>
+            p.deleted = 0
+            <!--商品列表需要排除审核中 已拒绝  的商品-->
+            and p.status not in(
+            ${@com.medusa.gruul.goods.api.model.enums.ProductStatus @REFUSE.status},
+            ${@com.medusa.gruul.goods.api.model.enums.ProductStatus @UNDER_REVIEW.status}
+            )
+            <if test="productParam.id != null ">
+                AND p.id = #{productParam.id}
+            </if>
+            <if test="productParam.secondPlatformCategoryId !=null">
+                and JSON_EXTRACT(p.extra, '$.platformCategory.two')=#{productParam.secondPlatformCategoryId}
+            </if>
+            <if test="productParam.categoryId != null">
+                AND p.category_id = #{productParam.categoryId}
+            </if>
+            <if test="productParam.name != null and productParam.name != ''">
+                AND INSTR(p.`name`,#{productParam.name})
+            </if>
+            <if test="productParam.status != null ">
+                <choose>
+                    <!--已售完-->
+                    <when test="productParam.status == @com.medusa.gruul.goods.api.model.enums.ProductStatus @SELL_OUT">
+                        and p.total_stock=0
+                        and sell_type != ${@com.medusa.gruul.common.model.enums.SellType @CONSIGNMENT.value}
+                        and p.status !=
+                        ${@com.medusa.gruul.goods.api.model.enums.ProductStatus @PLATFORM_SELL_OFF.status}
+                    </when>
+                    <!--库存预警-->
+                    <when test="productParam.status == @com.medusa.gruul.goods.api.model.enums.ProductStatus @STOCK_ALERT">
+                        and p.total_stock &lt;= 10 and p.total_stock>0
+                        and sell_type != ${@com.medusa.gruul.common.model.enums.SellType @CONSIGNMENT.value}
+                        and p.status !=
+                        ${@com.medusa.gruul.goods.api.model.enums.ProductStatus @PLATFORM_SELL_OFF.status}
+                    </when>
+                    <!--下架 包含下架和供应商下架-->
+                    <when test="productParam.status == @com.medusa.gruul.goods.api.model.enums.ProductStatus @SELL_OFF">
+                        AND p.status IN (
+                        ${@com.medusa.gruul.goods.api.model.enums.ProductStatus @SUPPLIER_SELL_OFF.status}
+                        ,${@com.medusa.gruul.goods.api.model.enums.ProductStatus @SELL_OFF.status}
+                        )
+                    </when>
+                    <otherwise>
+                        AND p.status = #{productParam.status}
+                    </otherwise>
+                </choose>
+            </if>
+            <!-- 全部时不查询 商品状态为 REFUSE and UNDER_REVIEW-->
+            <if test="productParam.status == null ">
+                AND p.status != ${@com.medusa.gruul.goods.api.model.enums.ProductStatus   @REFUSE.status}
+                AND p.status != ${@com.medusa.gruul.goods.api.model.enums.ProductStatus   @UNDER_REVIEW.status}
+            </if>
+            <if test="productParam.productType != null ">
+                AND p.product_type = #{productParam.productType}
+            </if>
+            <if test="productParam.sellType != null ">
+                AND p.sell_type = #{productParam.sellType}
+            </if>
+            <if test="productParam.createBeginTime != null and productParam.createBeginTime != ''">
+                AND DATE_FORMAT(p.create_time,'%Y-%m-%d') <![CDATA[>=]]> #{productParam.createBeginTime}
+            </if>
+            <if test="productParam.createEndTime!=null and productParam.createEndTime != ''">
+                AND DATE_FORMAT(p.create_time,'%Y-%m-%d') <![CDATA[<=]]> #{productParam.createEndTime}
+            </if>
+        </where>
+        <if test="productParam.sort != null">
+            order by
+            <choose>
+                <when test="productParam.sort == @com.medusa.gruul.goods.api.enums.ProductSortEnum @SALE_PRICE_ASC">
+                    p.sale_price ASC
+                </when>
+                <when test="productParam.sort == @com.medusa.gruul.goods.api.enums.ProductSortEnum @SALE_PRICE_DESC">
+                    p.sale_price DESC
+                </when>
+                <when test="productParam.sort == @com.medusa.gruul.goods.api.enums.ProductSortEnum @SALE_COUNT_ASC">
+                    p.total_sales_volume ASC
+                </when>
+                <when test="productParam.sort == @com.medusa.gruul.goods.api.enums.ProductSortEnum @SALE_COUNT_DESC">
+                    p.total_sales_volume DESC
+                </when>
+                <when test="productParam.sort == @com.medusa.gruul.goods.api.enums.ProductSortEnum @STOCK_ASC">
+                    <!--无限库存的放在最后-->
+                    IF(p.total_stock IS NULL, 1, 0),
+                    p.total_stock ASC
+                </when>
+                <when test="productParam.sort == @com.medusa.gruul.goods.api.enums.ProductSortEnum @STOCK_DESC">
+                    IF(p.total_stock IS NULL, 1, 0),
+                    p.total_stock DESC
+                </when>
+            </choose>
+        </if>
+        <!-- 默认排序条件-->
+        <if test="productParam.sort == null">
+            ORDER BY p.create_time DESC
+        </if>
+    </select>
+
+
+    <select id="queryProductCategory" resultMap="ProductCategoryResultMap">
+        SELECT *
+        FROM t_product_category category
+        WHERE category.deleted = 0
+          AND category.parent_id != 0
+          AND category.id = #{categoryId}
+    </select>
+
+
+    <select id="getSupplierProductList" resultMap="BaseResultMap"
+            parameterType="com.medusa.gruul.goods.service.model.param.SupplierProductParam">
+        SELECT
+        <include refid="Base_Supplier_Product_List"/>
+        FROM
+        t_product p
+        LEFT JOIN t_supplier r ON p.provider_id = r.id AND r.deleted = 0
+        <where>
+            p.deleted = 0
+            AND r.id = #{supplierProductParam.providerId}
+        </where>
+        ORDER BY
+        p.create_time
+        DESC
+    </select>
+
+
+    <select id="queryProductInfoByPlatformCategoryIds" resultMap="BaseListResultMap">
+        SELECT
+        product.id AS id,
+        product.create_time ,
+        product.name ,
+        product.pic ,
+        product.wide_pic,
+        product.album_pics,
+        product.distribution_mode,
+        product.shop_id,
+        product.supplier_id,
+        product.sell_type,
+        product.extra
+        FROM
+        t_product product
+        WHERE
+        product.deleted = 0 AND product.status =
+        ${@com.medusa.gruul.goods.api.model.enums.ProductStatus @SELL_ON.status} AND
+        <if test="platformCategoryParam.productName != null and platformCategoryParam.productName != ''">
+            product.`name` LIKE CONCAT('%',#{platformCategoryParam.productName},'%') AND
+        </if>
+        product.platform_category_id IN
+        <foreach collection="levelCategoryList" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        GROUP BY product.id
+    </select>
+
+    <select id="getProductInfoByParam" resultMap="ApiBaseResultMap">
+        SELECT
+        product.id AS id,
+        product.create_time ,
+        product.name ,
+        product.pic ,
+        product.wide_pic,
+        product.album_pics,
+        product.shop_id
+        FROM
+        t_product product
+        WHERE
+        product.deleted = 0
+
+        <if test="apiProductParam.productName != null and apiProductParam.productName != ''">
+            AND product.name LIKE CONCAT('%',#{apiProductParam.productName},'%') AND
+        </if>
+        GROUP BY product.id
+        <if test="apiProductParam.sortType !=null">
+            ORDER BY #{apiProductParam.sortType}
+        </if>
+    </select>
+
+    <select id="getProductInfoByPlatformThirdlyCategoryId"
+            resultMap="BaseListResultMap">
+        SELECT
+        product.id AS id,
+        product.create_time ,
+        product.name ,
+        product.pic ,
+        product.wide_pic,
+        product.album_pics,
+        product.distribution_mode,
+        product.shop_id
+        FROM
+        t_product product
+        WHERE
+        product.deleted = 0
+        <if test="platformCategoryParam.productName != null and platformCategoryParam.productName != ''">
+            AND product.name LIKE CONCAT('%',#{platformCategoryParam.productName},'%') AND
+        </if>
+        product.platform_category_id = #{platformCategoryParam.platformCategoryId}
+        GROUP BY product.id
+    </select>
+
+
+    <select id="getProductNumByPlatformThirdCategoryId" resultMap="ResultProductNumVoMap">
+        SELECT
+        COUNT(*) AS num,
+        platform_category_id AS platformCategoryId
+        FROM
+        t_product
+        WHERE
+        deleted = 0
+        AND
+        platform_category_id
+        IN
+        <foreach collection="thirdIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        GROUP BY platform_category_id
+    </select>
+    <select id="randomGoods" resultMap="RandomGoodsResultMap">
+        SELECT
+        product.id,
+        product.shop_id,
+        product.name,
+        product.pic,
+        product.sale_prices,
+        product.supplier_id,
+        product.sell_type,
+        product.extra
+        FROM
+        t_product product
+        WHERE
+        product.deleted = 0
+        <if test="productRandomParam.shopId != null and productRandomParam.shopId != ''">
+            AND product.shop_id = #{productRandomParam.shopId}
+        </if>
+          <if test="productRandomParam.excludeProductId!=null">
+              and product.id != #{productRandomParam.excludeProductId}
+          </if>
+        AND
+        product.status = ${@com.medusa.gruul.goods.api.model.enums.ProductStatus @SELL_ON.status}
+        ORDER BY RAND()
+    </select>
+
+
+    <select id="queryGoodsQuantity" resultMap="BaseQuantityResultMap">
+        SELECT count(id) AS quantity,
+               `status`  AS status
+        FROM t_product
+        WHERE deleted = 0
+          AND `status` != ${@com.medusa.gruul.goods.api.model.enums.ProductStatus @REFUSE.status}
+          AND `status` != ${@com.medusa.gruul.goods.api.model.enums.ProductStatus @UNDER_REVIEW.status}
+        GROUP BY status
+    </select>
+
+    <select id="queryTodayAddGoodsQuantity" resultType="java.lang.Long">
+        SELECT
+        count(id)
+        FROM
+        t_product
+        WHERE
+        deleted = 0
+        <!-- 平台查询不走shopId-->
+        <if test="shopId != 0">
+            AND shop_id = #{shopId}
+        </if>
+        AND
+        TO_DAYS(create_time) = TO_DAYS(NOW())
+    </select>
+
+    <select id="getProductInfoByCategoryId" resultMap="ApiBaseResultMap">
+        SELECT
+        product.id AS id,
+        product.create_time ,
+        product.name ,
+        product.pic ,
+        product.wide_pic,
+        product.album_pics,
+        product.sale_prices,
+        product.shop_id
+        FROM
+        t_product product
+        WHERE
+        product.deleted = 0
+        and product.status = ${@com.medusa.gruul.goods.api.model.enums.ProductStatus @SELL_ON.status}
+        AND category_id
+        IN
+        <foreach collection="categoryRank.ids" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="getApiProductInfoByPlatformCategoryId" resultMap="ApiBaseResultMap">
+        SELECT
+        product.id AS id,
+        product.shop_id,
+        product.create_time ,
+        product.name ,
+        product.pic ,
+        product.wide_pic,
+        product.album_pics,
+        product.sale_prices,
+        product.total_sales_volume,
+        product.freight_template_id
+        FROM
+        t_product product
+        WHERE
+        product.deleted = 0 AND
+        (
+        product.`status` = ${@com.medusa.gruul.goods.api.model.enums.ProductStatus @SELL_ON.status}
+        OR
+        product.`status` = ${@com.medusa.gruul.goods.api.model.enums.ProductStatus @SELL_OUT.status}
+        )
+
+        AND
+        platform_category_id
+        IN
+        <foreach collection="categoryRank.ids" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        order by product.id
+    </select>
+
+    <select id="getConditionProductInfo" resultMap="BaseResultMap">
+        SELECT *
+        FROM t_product p
+        WHERE p.shop_id = #{shopId}
+          AND p.id = #{productId}
+    </select>
+
+    <select id="getProductBatch" resultMap="BaseResultMap">
+        SELECT
+        *
+        FROM t_product
+        WHERE deleted = 0
+        AND (shop_id,id) in
+        <foreach collection="shopProductKeys" index="index" item="shopProductKey" open="(" separator="," close=")">
+            (#{shopProductKey.shopId},#{shopProductKey.productId})
+        </foreach>
+    </select>
+
+    <select id="querySigningCategoryProduct" resultType="java.lang.Boolean">
+        SELECT EXISTS (
+        SELECT 1
+        FROM t_product
+        WHERE JSON_CONTAINS(JSON_ARRAY(
+        <foreach item="categoryId" collection="signingCategorySecondIds" separator=",">
+            #{categoryId}
+        </foreach>
+        ), extra->'$.platformCategory.two')
+        AND shop_id = #{shopId}
+        AND deleted = 0
+        ) AS exists_flag
+    </select>
+
+    <select id="getProductListBatch" resultMap="BaseResultMap">
+        SELECT
+        id,
+        shop_id,
+        sell_type,
+        create_time,
+        update_time,
+        deleted,
+        provider_id,
+        freight_template_id,
+        `name`,
+        pic,
+        wide_pic,
+        album_pics,
+        video_url,
+        `status`,
+        sort,
+        service_ids,
+        detail,
+        is_open_specs,
+        sale_describe,
+        score,
+        distribution_mode,
+        sale_prices
+        FROM t_product
+        WHERE (shop_id,id) in
+        <foreach collection="shopProductKeys" index="index" item="shopProductKey" open="(" separator="," close=")">
+            (#{shopProductKey.shopId},#{shopProductKey.productId})
+        </foreach>
+    </select>
+
+
+    <select id="getProductInfoById" resultMap="ProductMap">
+        SELECT id,
+        provider_id AS providerId,
+        freight_template_id AS freightTemplateId,
+        category_id AS categoryId,
+        platform_category_id AS platformCategoryId,
+        brand_id AS brandId,
+        shop_id AS shopId,
+        name,
+        pic,
+        wide_pic AS widePic,
+        album_pics AS albumPics,
+        video_url AS videoUrl,
+        status,
+        sort,
+        sale_price AS salePrice,
+        product_type AS productType,
+        service_ids AS serviceIds,
+        detail,
+        is_open_specs AS openSpecs,
+        sale_describe AS saleDescribe,
+        score,
+        distribution_mode AS distributionMode,
+        sale_prices AS salePrices,
+        sell_type AS sellType,
+        supplier_id AS supplierId,
+        extra AS extra,
+        deleted AS deleted,
+        create_time AS createTime,
+        label_id AS labelId,
+        collection_url AS collectionUrl
+        FROM t_product
+        WHERE
+        id = #{productId} AND shop_id = #{shopId}
+        <if test="isQueryDelete  == false ">
+            AND deleted = 0
+        </if>
+    </select>
+
+    <select id="queryProductStockBaseInfo" resultMap="ProductStockVOMap">
+        SELECT
+        id ,
+        pic,
+        shop_id AS shopId ,
+        album_pics AS albumPics,
+        status ,
+        `name` AS productName,
+        extra,
+        deleted AS isDeleted,
+        product_type as   productType
+        FROM
+        t_product
+        WHERE sell_type != ${@com.medusa.gruul.common.model.enums.SellType @CONSIGNMENT.value}
+        <if test="excludeProductIds!=null and excludeProductIds.size()>0">
+            and id NOT IN
+            <foreach collection="excludeProductIds" index="index" item="item" open="("
+                     separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="param.productId != null ">
+            AND id = #{param.productId}
+        </if>
+        <if test="param.productName != null and param.productName != ''">
+            AND name LIKE CONCAT('%',#{param.productName},'%')
+        </if>
+        <if test="param.productType != null">
+            AND product_type = #{param.productType}
+        </if>
+        <if test="param.productIdList != null ">
+            AND id NOT IN
+            <foreach collection="param.productIdList" index="index" item="item" open="("
+                     separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="param.sellType != null">
+            AND sell_type = #{param.sellType}
+        </if>
+        <if test="param.shopCategoryId != null">
+            AND category_id = #{param.shopCategoryId}
+        </if>
+        <if test="param.status  != null and param.isDeleted  != true">
+            AND status = #{param.status}
+        </if>
+        <if test="param.isDeleted  == true ">
+            AND deleted = #{param.isDeleted}
+        </if>
+        <if test="param.isDeleted  != true ">
+            AND deleted = FALSE
+        </if>
+        ORDER BY create_time DESC
+    </select>
+    <select id="queryPurchaseIssueProducts"
+            resultMap="PurchaseIssueProductVOMap">
+        SELECT
+        id , shop_id AS shopId,`name`,
+        pic ,status ,sale_prices AS salePrices ,
+        supplier_id AS supplierId, extra ,deleted ,
+        product_type
+        FROM
+        t_product
+        WHERE
+        sell_type = ${@com.medusa.gruul.common.model.enums.SellType @PURCHASE.value}
+        <if test="param.productName != null and param.productName != '' ">
+            AND name LIKE CONCAT('%',#{param.productName},'%')
+        </if>
+        <if test="param.shopCategoryId != null">
+            AND category_id = #{param.shopCategoryId}
+        </if>
+
+        <if test="param.platformCategoryParentId != null">
+            AND JSON_UNQUOTE(JSON_EXTRACT(extra, '$.platformCategory.two')) = #{param.platformCategoryParentId}
+        </if>
+        <if test="param.supplierId != null">
+            AND supplier_id = #{param.supplierId}
+        </if>
+        <if test="param.status != null ">
+            AND status = #{param.status}
+        </if>
+        <if test="param.isDeleted != true">
+            AND deleted = 0
+        </if>
+    </select>
+
+    <select id="getPaveGoods" resultMap="PurchaseIssueProductVOMap">
+        SELECT
+        id , shop_id AS shopId,`name`, pic ,status ,sale_prices AS salePrices ,supplier_id AS supplierId, sell_type,
+        extra ,deleted,create_time
+        FROM
+        t_product
+        WHERE
+        sell_type = ${@com.medusa.gruul.common.model.enums.SellType @CONSIGNMENT.value}
+        and deleted = 0
+        <if test="param.productName != null and param.productName != '' ">
+            AND `name` LIKE CONCAT('%',#{param.productName},'%')
+        </if>
+        <if test="param.shopCategoryId != null">
+            AND category_id = #{param.shopCategoryId}
+        </if>
+        <if test="param.platformCategoryParentId != null">
+            AND extra -> '$.platformCategory.two' = #{param.platformCategoryParentId}
+        </if>
+        <if test="param.supplierId != null">
+            AND supplier_id = #{param.supplierId}
+        </if>
+        <!--铺货员手机号查询-->
+        <if test="param.deliveryUserPhone!= null and param.deliveryUserPhone!=''">
+            and extra->'$.deliveryUserPhone' like CONCAT('%',#{param.deliveryUserPhone},'%')
+        </if>
+        <if test="param.status == @com.medusa.gruul.goods.api.model.enums.ProductStatus @SELL_OFF">
+            AND status IN (
+            ${@com.medusa.gruul.goods.api.model.enums.ProductStatus @SUPPLIER_SELL_OFF.status}
+            ,${@com.medusa.gruul.goods.api.model.enums.ProductStatus @SELL_OFF.status}
+            )
+        </if>
+
+        <if test="param.status != null and param.status != @com.medusa.gruul.goods.api.model.enums.ProductStatus @SELL_OFF">
+            AND status = #{param.status}
+        </if>
+        <if test="param.deliveryStartTime!=null">
+            AND create_time >= #{param.deliveryStartTime}
+        </if>
+        <if test="param.deliveryEndTime!=null">
+            AND create_time &lt;= #{param.deliveryEndTime}
+        </if>
+    </select>
+
+    <!---->
+    <select id="getProductBySupplierIdAndProductId" resultType="com.medusa.gruul.goods.api.entity.Product">
+        SELECT
+        id,
+        provider_id AS providerId,
+        freight_template_id AS freightTemplateId,
+        category_id AS categoryId,
+        platform_category_id AS platformCategoryId,
+        brand_id AS brandId,
+        shop_id AS shopId,
+        name,
+        pic,
+        wide_pic AS widePic,
+        album_pics AS albumPics,
+        video_url AS videoUrl,
+        status,
+        sort,
+        sale_price AS salePrice,
+        product_type AS productType,
+        service_ids AS serviceIds,
+        detail,
+        is_open_specs AS openSpecs,
+        sale_describe AS saleDescribe,
+        score,
+        distribution_mode AS distributionMode,
+        sale_prices AS salePrices,
+        sell_type AS sellType,
+        extra AS extra,
+        deleted AS deleted,
+        create_time AS createTime
+        FROM
+        t_product
+        WHERE
+        id = #{productId} and supplier_id = #{supplierId}
+        <if test="isQueryDelete  == false ">
+            AND deleted = 0
+        </if>
+    </select>
+
+    <select id="queryGoodsByProductIds" resultMap="queryGoodsByProductIdsMap">
+        SELECT
+        id, shop_id
+        FROM
+        t_product
+        WHERE sell_type = ${@com.medusa.gruul.common.model.enums.SellType @CONSIGNMENT.value} AND
+        <if test="!hashProductId">
+            supplier_id IN
+            <foreach collection="keys" open="(" item="key" close=")" separator=",">
+                #{key.shopId}
+            </foreach>
+        </if>
+        <if test="hashProductId">
+            (supplier_id,id) IN
+            <foreach collection="keys" open="(" item="key" close=")" separator=",">
+                (#{key.shopId},#{key.productId})
+            </foreach>
+        </if>
+    </select>
+
+    <select id="queryLookProductInfo" resultMap="LookProductMap">
+        SELECT id,
+               `name`,
+               detail,
+               sell_type      AS sellType,
+               supplier_id    AS supplierId,
+               extra,
+               collection_url AS collectionUrl,
+               label_id       AS labelId
+        FROM t_product
+        WHERE deleted = 0
+          AND id = #{id}
+          AND shop_id = #{shopId} LIMIT 1
+    </select>
+    <select id="queryAuditProductList" resultMap="AuditProductMap">
+        SELECT
+        id, `name` , status , shop_id AS shopId,pic,
+        IF(
+        TRIM(JSON_EXTRACT(extra, '$.submitTime')) = 'null',
+        NULL,
+        extra->>'$.submitTime'
+        ) AS submitTime,
+        IF(
+        TRIM(JSON_EXTRACT(extra, '$.auditTime')) = 'null',
+        NULL,
+        extra->>'$.auditTime'
+        ) AS auditTime,
+        extra ->> '$.explain' AS `explain`,
+        sale_prices AS salePrices,
+        product_type as productType
+        FROM
+        t_product
+        WHERE sell_type = ${@com.medusa.gruul.common.model.enums.SellType @OWN.value}
+        AND deleted = 0
+        <if test="auditProductParam.name != null and auditProductParam.name != ''  ">
+            AND `name` LIKE CONCAT('%',#{auditProductParam.name},'%')
+        </if>
+
+        <if test="auditProductParam.categoryId != null   ">
+            AND category_id = #{auditProductParam.categoryId }
+        </if>
+
+        <if test="auditProductParam.platformCategoryId != null   ">
+            AND platform_category_id = #{auditProductParam.platformCategoryId}
+        </if>
+
+        <if test="auditProductParam.shopId != null and  auditProductParam.shopId != 0  ">
+            AND shop_id = #{auditProductParam.shopId}
+        </if>
+
+        <if test="auditProductParam.productType != null   ">
+            AND product_type = #{auditProductParam.productType }
+        </if>
+
+        <if test="auditProductParam.productAuditStatus !=null ">
+            <if test="auditProductParam.productAuditStatus == @com.medusa.gruul.goods.api.model.enums.ProductAuditStatus @REFUSE">
+                AND `status` = ${@com.medusa.gruul.goods.api.model.enums.ProductStatus @REFUSE.status}
+            </if>
+            <if test="auditProductParam.productAuditStatus == @com.medusa.gruul.goods.api.model.enums.ProductAuditStatus @UNDER_REVIEW">
+                AND `status` = ${@com.medusa.gruul.goods.api.model.enums.ProductStatus @UNDER_REVIEW.status}
+            </if>
+            <if test="auditProductParam.productAuditStatus == @com.medusa.gruul.goods.api.model.enums.ProductAuditStatus @ALREADY_PASSED">
+                AND `status` NOT IN (
+                ${@com.medusa.gruul.goods.api.model.enums.ProductStatus @UNDER_REVIEW.status},
+                ${@com.medusa.gruul.goods.api.model.enums.ProductStatus @REFUSE.status}
+                )
+            </if>
+        </if>
+        <!--排序规则-->
+        <if test="auditProductParam.sort != null">
+            order by
+            <if test="auditProductParam.sort == @com.medusa.gruul.goods.api.enums.ProductSortEnum @SUBMIT_TIME_ASC">
+                extra ->> '$.submitTime' ASC
+            </if>
+            <if test="auditProductParam.sort == @com.medusa.gruul.goods.api.enums.ProductSortEnum @SUBMIT_TIME_DESC">
+                extra ->> '$.submitTime' DESC
+            </if>
+            <if test="auditProductParam.sort == @com.medusa.gruul.goods.api.enums.ProductSortEnum @AUDIT_TIME_ASC">
+                extra ->> '$.auditTime' ASC
+            </if>
+            <if test="auditProductParam.sort == @com.medusa.gruul.goods.api.enums.ProductSortEnum @AUDIT_TIME_DESC">
+                extra ->> '$.auditTime' DESC
+            </if>
+            <if test="auditProductParam.sort == @com.medusa.gruul.goods.api.enums.ProductSortEnum @SALE_PRICE_ASC">
+                sale_price ASC
+            </if>
+            <if test="auditProductParam.sort == @com.medusa.gruul.goods.api.enums.ProductSortEnum @SALE_PRICE_DESC">
+                sale_price DESC
+            </if>
+        </if>
+        <if test="auditProductParam.sort == null">
+            ORDER BY create_time DESC
+        </if>
+        <!-- ORDER BY create_time DESC-->
+    </select>
+
+    <delete id="supplierForceGoodsStatus">
+        DELETE
+        FROM
+        t_product
+        WHERE sell_type = ${@com.medusa.gruul.common.model.enums.SellType @CONSIGNMENT.value} AND
+        (id,shop_id) IN
+        <foreach collection="shopProductKeys" item="shopProductKey" open="(" separator="," close=")">
+            (#{shopProductKey.productId},#{shopProductKey.shopId})
+        </foreach>
+    </delete>
+
+    <update id="updateProductName">
+        UPDATE t_product
+        SET name = #{name}
+        WHERE id = #{id}
+          AND shop_id = #{shopId}
+    </update>
+
+    <select id="getTopFiveProductOrderTime" resultMap="BaseVoListResultMap">
+        SELECT * FROM (
+        SELECT
+        id,
+        shop_id,
+        name,
+        pic,
+        wide_pic,
+        album_pics,
+        video_url,
+        sale_price,
+        row_number() over ( PARTITION BY shop_id ORDER BY create_time DESC ) AS rowNum
+        FROM
+        t_product
+        WHERE `status` = ${@com.medusa.gruul.goods.api.model.enums.ProductStatus @SELL_ON.status}
+        AND deleted = FALSE
+        AND shop_id IN
+        <foreach collection="shopIds" item="shopId" open="(" separator="," close=")">
+            #{shopId}
+        </foreach>
+        ) t
+        WHERE
+        t.rowNum <![CDATA[<=]]> 5
+    </select>
+
+    <select id="getShopIdListBySellOnProduct" resultType="java.lang.Long">
+        SELECT DISTINCT shop_id
+        FROM t_product
+        WHERE `status` = ${@com.medusa.gruul.goods.api.model.enums.ProductStatus @SELL_ON.status}
+          AND deleted = FALSE
+    </select>
+
+    <update id="clearLabel">
+        update t_product p
+        set p.label_id=null
+        where p.id = #{productId}
+    </update>
+
+    <select id="illegalProductCount" resultType="int">
+        SELECT COUNT(*) FROM
+        t_product p
+        LEFT JOIN
+        t_supplier r ON p.provider_id = r.id AND r.deleted = 0
+        WHERE
+        p.deleted = 0
+        <if test="platformProductParam.platformCategoryId !=null">
+            AND p.platform_category_id = #{platformProductParam.platformCategoryId}
+        </if>
+        <if test="platformProductParam.name != null and platformProductParam.name != ''">
+            AND p.name LIKE CONCAT('%',#{platformProductParam.name},'%')
+        </if>
+
+        AND p.status = #{platformProductParam.status}
+
+        <if test="platformProductParam.productType != null">
+            AND p.product_type = #{platformProductParam.productType}
+        </if>
+        <if test="platformProductParam.sellType != null">
+            AND p.sell_type = #{platformProductParam.sellType}
+        </if>
+        <if test="platformProductParam.createBeginTime != null and platformProductParam.createBeginTime != ''">
+            AND DATE_FORMAT(p.create_time,'%Y-%m-%d') <![CDATA[>=]]> #{platformProductParam.createBeginTime}
+        </if>
+        <if test="platformProductParam.createEndTime!=null and platformProductParam.createEndTime != ''">
+            AND DATE_FORMAT(p.create_time,'%Y-%m-%d') <![CDATA[<=]]> #{platformProductParam.createEndTime}
+        </if>
+        <if test="platformProductParam.shopId !=null and platformProductParam.shopId != ''">
+            AND p.shop_id = #{platformProductParam.shopId}
+        </if>
+    </select>
+
+    <select id="auditingCount" resultType="java.lang.Integer">
+        SELECT count(*)
+        FROM
+        t_product
+        WHERE sell_type = ${@com.medusa.gruul.common.model.enums.SellType @OWN.value}
+        AND deleted = 0
+        <if test="auditProductParam.name != null and auditProductParam.name != ''  ">
+            AND `name` LIKE CONCAT('%',#{auditProductParam.name},'%')
+        </if>
+
+        <if test="auditProductParam.categoryId != null   ">
+            AND category_id = #{auditProductParam.categoryId }
+        </if>
+
+        <if test="auditProductParam.platformCategoryId != null   ">
+            AND platform_category_id = #{auditProductParam.platformCategoryId}
+        </if>
+
+        <if test="auditProductParam.shopId != null and  auditProductParam.shopId != 0  ">
+            AND shop_id = #{auditProductParam.shopId}
+        </if>
+
+        <if test="auditProductParam.productType != null   ">
+            AND product_type = #{auditProductParam.productType }
+        </if>
+        <!--审核中的商品-->
+        AND `status` = ${@com.medusa.gruul.goods.api.model.enums.ProductStatus @UNDER_REVIEW.status}
+    </select>
+
+    <select id="productCount" resultType="java.lang.Long">
+        SELECT
+        count(*)
+        FROM
+        t_product p
+        <where>
+            p.deleted = 0
+
+            <if test="productParam.shopId != null">
+                and p.shop_id = #{productParam.shopId}
+            </if>
+            <if test="productParam.id != null ">
+                AND p.id = #{productParam.id}
+            </if>
+            <if test="productParam.secondPlatformCategoryId !=null">
+                and JSON_EXTRACT(p.extra, '$.platformCategory.two')=#{productParam.secondPlatformCategoryId}
+            </if>
+            <if test="productParam.categoryId != null">
+                AND p.category_id = #{productParam.categoryId}
+            </if>
+            <if test="productParam.name != null and productParam.name != ''">
+                AND INSTR(p.`name`,#{productParam.name})
+            </if>
+            <if test="productParam.status != null ">
+                <choose>
+                    <!--已售完-->
+                    <when test="productParam.status == @com.medusa.gruul.goods.api.model.enums.ProductStatus @SELL_OUT">
+                        and p.total_stock=0
+                        and sell_type != ${@com.medusa.gruul.common.model.enums.SellType @CONSIGNMENT.value}
+                    </when>
+                    <!--库存预警-->
+                    <when test="productParam.status == @com.medusa.gruul.goods.api.model.enums.ProductStatus @STOCK_ALERT">
+                        and p.total_stock &lt; 10
+                        and sell_type != ${@com.medusa.gruul.common.model.enums.SellType @CONSIGNMENT.value}
+                    </when>
+                    <otherwise>
+                        AND p.status = #{productParam.status}
+                    </otherwise>
+                </choose>
+            </if>
+
+            <if test="productParam.status == null ">
+                <!--不查询已拒绝或者审核中的商品-->
+                AND p.status != ${@com.medusa.gruul.goods.api.model.enums.ProductStatus   @REFUSE.status}
+                AND p.status != ${@com.medusa.gruul.goods.api.model.enums.ProductStatus   @UNDER_REVIEW.status}
+            </if>
+            <if test="productParam.productType != null ">
+                AND p.product_type = #{productParam.productType}
+            </if>
+            <if test="productParam.sellType != null ">
+                AND p.sell_type = #{productParam.sellType}
+            </if>
+            <if test="productParam.createBeginTime != null and productParam.createBeginTime != ''">
+                AND DATE_FORMAT(p.create_time,'%Y-%m-%d') <![CDATA[>=]]> #{productParam.createBeginTime}
+            </if>
+            <if test="productParam.createEndTime!=null and productParam.createEndTime != ''">
+                AND DATE_FORMAT(p.create_time,'%Y-%m-%d') <![CDATA[<=]]> #{productParam.createEndTime}
+            </if>
+        </where>
+    </select>
+
+    <select id="getNewUpShop" resultType="java.lang.Long">
+        select distinct (shop_id)
+        from t_product p
+        where p.deleted = false
+        <!--上架-->
+        AND p.status = ${@com.medusa.gruul.goods.api.model.enums.ProductStatus @SELL_ON.status}
+        AND JSON_UNQUOTE(JSON_EXTRACT(extra, '$.auditTime')) &gt;= #{startDate}
+        AND shop_id in
+        <foreach collection="shopIds" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </select>
+</mapper>

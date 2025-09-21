@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.addon.team.mp.mapper.TeamProductMapper">
+
+    <select id="teamProductCounts" resultType="com.medusa.gruul.addon.team.model.count.TeamProductCount">
+        SELECT
+            ANY_VALUE(product.shop_id) AS shopId,
+            ANY_VALUE(product.activity_id) AS activityId,
+            COUNT(DISTINCT product_id) AS productNum
+        FROM t_team_product AS product
+        WHERE product.deleted = FALSE AND (product.shop_id,product.activity_id) IN
+        <foreach collection="keys" item="key" open="(" separator="," close=")">
+            (#{key.shopId},#{key.activityId})
+        </foreach>
+        GROUP BY product.shop_id,product.activity_id
+    </select>
+
+
+    <resultMap id="activityProductPageMap" type="com.medusa.gruul.addon.team.model.vo.TeamActivityProductVO">
+        <result column="activityId" property="activityId" />
+        <result column="activityName" property="activityName" />
+        <result column="status" property="status" />
+        <result column="startTime" property="startTime" />
+        <result column="endTime" property="endTime" />
+        <result column="shopId" property="shopId" />
+        <result column="productId" property="productId" />
+        <result column="productName" property="productName" />
+        <result column="productImage" property="productImage" />
+        <result column="prices" property="prices" javaType="java.util.List"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler"/>
+    </resultMap>
+
+    <select id="activityProductPage" resultMap="activityProductPageMap">
+        SELECT
+            activity.id AS activityId,
+            ANY_VALUE(activity.name) AS activityName,
+        (
+        CASE
+            <!-- 是否已结束 -->
+            WHEN NOW() > ANY_VALUE(activity.end_time) THEN ${@com.medusa.gruul.addon.team.model.enums.TeamStatus @FINISHED.value}
+            <!-- 是否已开始 -->
+            WHEN  NOW() >= ANY_VALUE(activity.start_time)  THEN ${@com.medusa.gruul.addon.team.model.enums.TeamStatus @OPEN.value}
+            <!-- 即将开始 -->
+            ELSE ${@com.medusa.gruul.addon.team.model.enums.TeamStatus @OPENING.value}
+        END
+        ) AS `status`,
+        ANY_VALUE(activity.start_time) AS startTime,
+        ANY_VALUE(activity.end_time) AS endTime,
+        product.shop_id AS shopId,
+        product.product_id AS productId,
+        ANY_VALUE(product.product_name) AS productName,
+        ANY_VALUE(product.product_image) AS productImage,
+        JSON_ARRAYAGG(product.prices) AS prices
+        FROM t_team_product AS product
+        INNER JOIN t_team_activity AS activity
+            ON activity.id = product.activity_id AND activity.deleted = FALSE AND
+               activity.status not in(
+            ${@com.medusa.gruul.addon.team.model.enums.TeamStatus @VIOLATION.value},
+            ${@com.medusa.gruul.addon.team.model.enums.TeamStatus @SHOP_OFF_SHELF.value}
+        )
+        WHERE product.deleted = FALSE
+        AND activity.end_time >= now()
+        GROUP BY product.shop_id,product.activity_id,product.product_id
+        order by activity.start_time
+<!--        ORDER BY FIELD(`status`,-->
+<!--        ${@com.medusa.gruul.addon.team.model.enums.TeamStatus @OPEN.value},-->
+<!--        ${@com.medusa.gruul.addon.team.model.enums.TeamStatus @OPENING.value},-->
+<!--        ${@com.medusa.gruul.addon.team.model.enums.TeamStatus @FINISHED.value})-->
+    </select>
+    <select id="teamProductUserCounts"
+            resultType="com.medusa.gruul.addon.team.model.count.TeamProductUserCount">
+        SELECT
+            ord.activity_id AS activityId,
+            ord.shop_id AS shopId,
+            ord.product_id AS productId,
+            COUNT(DISTINCT ord.user_id) AS userNum
+        FROM t_team_order AS ord
+        WHERE  (ord.activity_id,ord.shop_id,ord.product_id) IN
+        <foreach collection="keys" item="key" open="(" separator="," close=")">
+            (#{key.activityId},#{key.shopId},#{key.productId})
+        </foreach>
+        GROUP BY ord.shop_id,ord.activity_id,ord.product_id
+    </select>
+    <select id="productsInfo" resultType="com.medusa.gruul.addon.team.model.count.TeamProductInfoCount">
+        SELECT
+            product.activity_id AS activityId,
+            product.shop_id AS shopId,
+            product.product_id AS productId,
+            product.product_name AS productName,
+            product.product_image AS productImage
+        FROM t_team_product AS product
+        WHERE
+            (product.shop_id,product.activity_id,product.product_id) IN
+            <foreach collection="keys" item="key" open="(" separator="," close=")">
+                (#{key.shopId},#{key.activityId},#{key.productId})
+            </foreach>
+    </select>
+
+    <select id="getCurrentTeamProduct" resultType="com.medusa.gruul.addon.team.mp.entity.TeamProduct">
+        SELECT
+            product.shop_id as shopId,
+            product.product_id productId,
+            product.sku_id skuId,
+            product.activity_id
+        FROM t_team_product product
+        WHERE deleted = FALSE
+        AND (shop_id, product_id, sku_id) IN
+        <foreach collection="skuList" item="sku" open="(" close=")" separator=",">
+            (#{sku.shopId}, #{sku.productId}, #{sku.id})
+        </foreach>
+        AND EXISTS
+        (
+            SELECT 1 FROM t_team_activity activity
+            WHERE activity.id = product.activity_id
+            AND NOW() <![CDATA[>=]]> activity.start_time
+            AND NOW() <![CDATA[<=]]> activity.end_time
+            AND activity.deleted = FALSE
+
+            AND activity.status not in   (
+                ${@com.medusa.gruul.addon.team.model.enums.TeamStatus @VIOLATION.value},
+                ${@com.medusa.gruul.addon.team.model.enums.TeamStatus @SHOP_OFF_SHELF.value}
+            )
+        )
+    </select>
+</mapper>

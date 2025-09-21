@@ -1,0 +1,21 @@
+{
+  "transaction_id": "4200002561202412210611863594",
+  "amount": {
+    "payer_total": 1,
+    "total": 1,
+    "currency": "CNY",
+    "payer_currency": "CNY"
+  },
+  "mchid": "1600472250",
+  "out_trade_no": "SS1870304876288851968",
+  "trade_state": "SUCCESS",
+  "bank_type": "ZJRCUB_DEBIT",
+  "appid": "wxe97a442e90b4ca1e",
+  "trade_state_desc": "支付成功",
+  "trade_type": "MWEB",
+  "attach": "订单编号：SS1870304876288851968",
+  "success_time": "2024-12-21T11:07:01+08:00",
+  "payer": {
+    "openid": "oKKTt5T6u27tYw_QRQB4MctoBgOw"
+  }
+}

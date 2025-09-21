@@ -1,0 +1,172 @@
+@include b(tree-container) {
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+@include b(cate) {
+    color: #858585;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 15px;
+    font-size: 14px;
+    font-weight: bold;
+    @include e(img) {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+}
+@include b(borderBox) {
+    @include e(first) {
+        background-color: #f2f2f6;
+        // padding: 0px 10px;
+        display: flex;
+        justify-content: space-between;
+        @include m(deal) {
+            margin-right: 10px;
+            display: flex;
+            justify-content: space-between;
+            width: 200px;
+            cursor: pointer;
+        }
+    }
+    @include e(child) {
+        padding: 15px 10px 15px 20px;
+        // border-bottom: 1px solid #f2f2f2;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        @include m(left) {
+            display: flex;
+            justify-content: space-between;
+            width: 350px;
+            padding-left: 10px;
+            align-items: center;
+        }
+        @include m(info) {
+            display: flex;
+            align-items: center;
+        }
+        @include m(right) {
+            display: flex;
+            justify-content: space-between;
+            width: 88px;
+            cursor: pointer;
+        }
+    }
+    :deep(.el-icon-arrow-right:before) {
+        content: '\e791';
+    }
+    :deep(.el-collapse-item__content) {
+        padding-bottom: 0;
+    }
+    :deep(.el-collapse-item__header) {
+        background-color: #f2f2f6;
+        padding-left: 10px;
+    }
+}
+@include b(dialog) {
+    width: 100%;
+    border: 1px solid #bababa;
+    @include e(header) {
+        padding: 0 5px;
+        height: 30px;
+        background: #bababa;
+        font-size: 14px;
+        color: #6a6a6a;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        @include m(name) {
+            display: inline-block;
+            width: 180px;
+        }
+        @include m(category) {
+            display: inline-block;
+            width: 140px;
+        }
+        @include m(percent) {
+            display: inline-block;
+            width: 140px;
+        }
+        @include m(img) {
+            display: inline-block;
+            width: 100px;
+        }
+    }
+    @include e(content) {
+        padding: 0 5px;
+        height: 60px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        @include m(tool) {
+            width: 70px;
+            @include flex(space-between);
+        }
+    }
+}
+@include b(add-btn) {
+    color: #2e99f3;
+    cursor: pointer;
+    &:hover {
+        color: #128cf0;
+    }
+}
+@include b(del-btn) {
+    color: #ff7417;
+    cursor: pointer;
+    &:hover {
+        color: #ff7417;
+    }
+}
+.borderBox__child:hover {
+    background-color: #f5f5f5;
+    cursor: move;
+}
+
+.emptyLine {
+    width: 100%;
+    height: 80px;
+    background-color: white;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    font-size: 14px;
+    color: #b3b3b3;
+    border-bottom: 1px solid #ebeef5;
+    border-top: 1px solid #ebeef5;
+}
+
+.avatar-uploader {
+    margin: 0 30px 0 20px;
+}
+
+.avatar-uploader .avatar {
+    width: 34px;
+    height: 34px;
+    display: block;
+}
+@include b(selectMaterialStyle) {
+    width: 34px;
+    height: 34px;
+    border-radius: 5px;
+    overflow: hidden;
+    border: 1px dashed #ccc;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    @include e(span) {
+        color: #999;
+        font-size: 20px;
+    }
+}

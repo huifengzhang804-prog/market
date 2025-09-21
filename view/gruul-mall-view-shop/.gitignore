@@ -1,0 +1,13 @@
+node_modules
+.DS_Store
+dist
+.log
+.lock
+*.local
+.idea
+# *.d.ts
+# package-lock.json
+.history/*
+types/auto-imports.d.ts
+types/components.d.ts
+stats.html

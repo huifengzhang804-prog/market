@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.addon.platform.mp.mapper.CategoryMapper">
+
+    <resultMap id="BaseVoResultMap" type="com.medusa.gruul.addon.platform.model.vo.CategoryVO">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="sort" property="sort"/>
+        <result column="level" property="level"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="ads" property="ads" typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
+        <collection property="secondCategoryVos" ofType="com.medusa.gruul.addon.platform.model.vo.CategorySecondVO"
+                    column="id" select="queryCategorySecond"></collection>
+    </resultMap>
+
+    <resultMap id="SecondResultMap" type="com.medusa.gruul.addon.platform.model.vo.CategorySecondVO">
+        <id column="id" property="id"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="name" property="name"/>
+        <result column="level" property="level"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="deduction_ratio" property="deductionRatio"/>
+        <result column="sort" property="sort"/>
+        <collection property="categoryThirdlyVos" ofType="com.medusa.gruul.addon.platform.model.vo.CategoryThirdlyVO"
+                    column="id" select="queryCategoryThirdly"></collection>
+    </resultMap>
+
+    <resultMap id="ThirdlyResultMap" type="com.medusa.gruul.addon.platform.model.vo.CategoryThirdlyVO">
+
+
+    </resultMap>
+
+    <resultMap id="BaseNameResultMap" type="com.medusa.gruul.goods.api.model.vo.CategoryLevelName">
+        <result column="oneName" property="oneName"/>
+        <result column="twoName" property="twoName"/>
+        <result column="threeName" property="threeName"/>
+    </resultMap>
+
+
+    <select id="getCategoryList" resultMap="BaseVoResultMap">
+        SELECT t.id,
+               t.name,
+               t.parent_id,
+               t.id AS category_id,
+               t.sort,
+               t.level,
+               t.ads
+        FROM t_platform_category t
+        WHERE t.parent_id = 0
+          AND t.deleted = 0
+        ORDER BY t.sort
+    </select>
+
+
+    <select id="queryCategorySecond" resultMap="SecondResultMap">
+        SELECT c.id,
+               c.name,
+               c.parent_id,
+               c.id AS category_id,
+               c.sort,
+               c.level,
+               c.category_img,
+               c.deduction_ratio
+        FROM t_platform_category c
+        WHERE c.parent_id = #{id}
+          AND c.deleted = 0
+        GROUP BY c.id, c.name
+        ORDER BY c.sort
+    </select>
+
+    <select id="queryCategoryThirdly" resultMap="ThirdlyResultMap">
+        SELECT *
+        FROM t_platform_category
+        WHERE parent_id = #{id}
+          AND deleted = 0
+        GROUP BY id, `name`
+        ORDER BY sort
+
+    </select>
+
+
+    <select id="getLevelCategoryList" resultType="java.lang.Long">
+        WITH RECURSIVE T
+                           AS (SELECT *
+                               FROM t_platform_category
+                               WHERE id = #{platformCategoryId}
+                               UNION ALL
+                               SELECT tpc.*
+                               FROM t_platform_category tpc
+                                        INNER JOIN T ON tpc.parent_id = T.id)
+        SELECT id
+        FROM T
+        WHERE `level` = ${@com.medusa.gruul.common.custom.aggregation.classify.enums.CategoryLevel @LEVEL_3.value}
+
+    </select>
+    <select id="queryPlatformCategoryLevelName" resultMap="BaseNameResultMap">
+        SELECT one.NAME   AS oneName,
+               two.NAME   AS twoName,
+               three.NAME AS threeName
+        FROM t_platform_category one
+                 JOIN t_platform_category two ON one.id = two.parent_id
+                 JOIN t_platform_category three ON two.id = three.parent_id
+        WHERE one.id IN (#{platformCategory.one}, #{platformCategory.two}, #{platformCategory.three})
+        ORDER BY CASE
+                     WHEN three.id = #{platformCategory.three} THEN 1
+        <!--保证需要的数据排在第一位-->
+                     ELSE 2
+                     END
+            LIMIT 1
+
+
+    </select>
+
+
+</mapper>
