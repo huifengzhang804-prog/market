@@ -16,7 +16,7 @@ spring:
       server-addr: localhost:8848
       discovery:
         namespace: ${spring.profiles.active}
-        ip: localhost # 192.168.1.129
+        ip: localhost #192.168.1.129
       config:
         namespace: ${spring.profiles.active}
         file-extension: yml
