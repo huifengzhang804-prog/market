@@ -112,6 +112,8 @@ public class UaaRpcServiceImpl implements UaaRpcService {
         smsService.checkSmsCode(smsType, mobile, inputCode);
     }
 
+
+
     /**
      * 检测门店用户 (新用户|旧用户)/赋值门店角色
      *
@@ -143,5 +145,11 @@ public class UaaRpcServiceImpl implements UaaRpcService {
     @Override
     public boolean delUserRoleByMobiles(String mobile, Roles roles) {
         return userRoleCancelService.delUserRoleByMobiles(mobile, roles);
+    }
+
+
+    @Override
+    public String getVerifyCode(String mobile) {
+       return smsService.sendSmsCode(SmsType.LOGIN, mobile);
     }
 }

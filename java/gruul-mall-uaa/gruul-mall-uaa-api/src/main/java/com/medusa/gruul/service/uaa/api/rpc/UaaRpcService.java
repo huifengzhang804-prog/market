@@ -87,4 +87,6 @@ public interface UaaRpcService {
      * @return 是否成功
      */
     boolean delUserRoleByMobiles(String mobile, Roles roles);
+
+    String getVerifyCode(String mobile);
 }

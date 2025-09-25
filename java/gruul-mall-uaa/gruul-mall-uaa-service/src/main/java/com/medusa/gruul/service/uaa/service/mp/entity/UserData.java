@@ -56,4 +56,8 @@ public class UserData extends BaseEntity {
      * 生日
      */
     private LocalDate birthday;
+
+    private String paymentPsw;
+    private String referralCode;
+    private Long numUserId;
 }

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medusa.gruul.service.uaa.service.mp.mapper.AccountMapper">
+
+
+<!--  <insert id="insertNewAccount" useGeneratedKeys="true" parameterType="com.medusa.gruul.user.service.mp.entity.Account">
+      INSERT INTO `pro-user`.t_account
+      ( username, password, paymentPsw, phone,numUserId,nickName, referralCode, status, create_time, update_time, deleted)
+      VALUES (#{username}, #{password}, #{paymentPsw}, #{phone}, #{numUserId}, #{nickName},#{referralCode}, 0, current_timestamp, current_timestamp, 0)
+  </insert>-->
+    <select id="countAccountByMobile">
+        select count(*) from  t_user where deleted=0  and mobile=#{phone}
+    </select>
+
+    <select id="countAccountByUserName">
+        select count(*) from t_user where deleted=0  and username=#{username}
+    </select>
+
+
+    <select id="getAccountByAccAndPwd" parameterType="com.medusa.gruul.service.uaa.service.model.dto.account.AccountDTO" resultType="com.medusa.gruul.service.uaa.service.model.dto.account.Account">
+        SELECT t2.user_id, t1.username , t2.nickname,
+               t2.avatar as headImgUrl,
+               t2.gender as sex, t2.birthday,
+               t2.payment_psw,
+               t2.num_user_id,
+               t1.mobile as phone,
+               t1.password,
+               t2.referral_Code referralCode
+        FROM t_user t1
+            left join `pro-security`.t_user_data t2
+        on t1.id=t2.user_id
+        where t1.deleted=0  and t2.deleted=0 and t1.username=#{username}
+    </select>
+
+        <select id="getUserListByPhone" parameterType="com.medusa.gruul.service.uaa.service.model.dto.account.AccountDTO" resultType="com.medusa.gruul.service.uaa.service.model.dto.account.Account">
+            select id user_id,username from t_user where deleted=0  and mobile=#{phone}
+        </select>
+
+        <select id="getUserByUserId" parameterType="com.medusa.gruul.service.uaa.service.model.dto.account.AccountDTO" resultType="com.medusa.gruul.service.uaa.service.model.dto.account.Account">
+            SELECT t2.user_id, t1.username , t2.nickname,
+                   t2.avatar as headImgUrl,
+                   t2.gender as sex, t2.birthday,
+                   t2.payment_psw,
+                   t2.num_user_id,
+                   t1.mobile as phone,
+                   t1.password,
+                   t2.referral_Code referralCode
+            FROM t_user t1
+                     left join `pro-security`.t_user_data t2
+                               on t1.id=t2.user_id
+            where t1.deleted=0  and t2.deleted=0 and t1.id=#{userId}
+        </select>
+
+        <update id="resetPassword">
+            update  t_user set password =#{newPsw} where id=#{userId}
+        </update>
+
+</mapper>
