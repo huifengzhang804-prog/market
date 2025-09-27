@@ -1,12 +1,15 @@
 package com.medusa.gruul.service.uaa.service.service.impl;
 
 
+import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSONObject;
 import com.medusa.gruul.common.security.model.enums.SecureCodes;
 import com.medusa.gruul.common.security.model.enums.UserStatus;
 import com.medusa.gruul.common.security.resource.exception.SecurityException;
+import com.medusa.gruul.service.uaa.api.dto.UserBaseDataDTO;
 import com.medusa.gruul.service.uaa.api.enums.Gender;
+import com.medusa.gruul.service.uaa.api.enums.UaaRabbit;
 import com.medusa.gruul.service.uaa.service.model.dto.account.Account;
 import com.medusa.gruul.service.uaa.service.model.dto.account.AccountDTO;
 import com.medusa.gruul.service.uaa.service.mp.entity.ShopUserData;
@@ -18,8 +21,10 @@ import com.medusa.gruul.service.uaa.service.mp.service.IUserDataService;
 import com.medusa.gruul.service.uaa.service.mp.service.IUserService;
 import com.medusa.gruul.service.uaa.service.service.AccountService;
 import com.medusa.gruul.service.uaa.service.service.UserDataHandlerService;
+import com.medusa.gruul.user.api.rpc.UserRpcService;
 import io.vavr.control.Option;
 import lombok.RequiredArgsConstructor;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -53,6 +58,8 @@ public class AccountServiceImpl implements AccountService {
     private final UserDataHandlerService userDataHandlerService;
     private final IUserDataService userDataService;
     private RestTemplate restTemplate;
+    private final RabbitTemplate rabbitTemplate;
+    private final UserRpcService userRpcService;
     @Value("${token.uri}")
     private String uri;
 
@@ -85,7 +92,7 @@ public class AccountServiceImpl implements AccountService {
 
         Long userId = user.getId();
 
-        UserData data = getUserDataOrGenerateDefault(userId)
+       UserData data = getUserDataOrGenerateDefault(userId)
                 .setAvatar(StrUtil.cleanBlank(account.getHeadImgUrl()))
                 .setUserName(account.getUsername())
                 .setNickname(account.getUsername())
@@ -94,6 +101,9 @@ public class AccountServiceImpl implements AccountService {
                 .setPaymentPsw(account.getPaymentPsw())
                 .setReferralCode(account.getReferralCode());
         this.userDataService.saveOrUpdate(data);
+
+        updateUserData(account.getPhone(), data);
+//    userDataHandlerService.generateUserDataAndSave(userId, account.getPhone());
 //        mapper.insertNewAccount(account);
     }
 
@@ -163,5 +173,30 @@ public class AccountServiceImpl implements AccountService {
         return token;
 
 
+    }
+
+
+
+    private void updateUserData(String mobile, UserData userData) {
+        Long userId = userData.getUserId();
+        String avatar = userData.getAvatar();
+        String nickname = userData.getNickname();
+        this.rabbitTemplate.convertAndSend(
+                UaaRabbit.UPDATE_DATA.exchange(), UaaRabbit.UPDATE_DATA.routingKey(),
+                new UserBaseDataDTO()
+                        .setUserId(userId)
+                        .setNickname(nickname)
+                        .setAvatar(avatar)
+        );
+        userRpcService.updateUser(
+                new com.medusa.gruul.user.api.model.dto.UserDataDTO()
+                        .setUserId(userId)
+                        .setUsername(userData.getUserName())
+                        .setNickname(nickname)
+                        .setAvatar(avatar)
+                        .setMobile(mobile)
+                        .setGender(userData.getGender().name())
+                        .setBirthday(userData.getBirthday())
+        );
     }
 }
