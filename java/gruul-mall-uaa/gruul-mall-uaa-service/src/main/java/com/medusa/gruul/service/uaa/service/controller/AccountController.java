@@ -1,24 +1,30 @@
 package com.medusa.gruul.service.uaa.service.controller;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.medusa.gruul.common.log.annotation.Log;
 import com.medusa.gruul.common.model.resp.Result;
 import com.medusa.gruul.common.security.model.enums.SecureCodes;
 import com.medusa.gruul.common.security.resource.exception.SecurityException;
+import com.medusa.gruul.common.security.resource.helper.ISecurity;
 import com.medusa.gruul.service.uaa.api.enums.SmsType;
 import com.medusa.gruul.service.uaa.api.rpc.UaaRpcService;
 
+import com.medusa.gruul.service.uaa.service.model.dto.SalesSectionNoPageDTO;
+import com.medusa.gruul.service.uaa.service.model.dto.SalesSectionPageDTO;
 import com.medusa.gruul.service.uaa.service.model.dto.account.Account;
 import com.medusa.gruul.service.uaa.service.model.dto.account.AccountDTO;
+import com.medusa.gruul.service.uaa.service.model.vo.ProductVO;
+import com.medusa.gruul.service.uaa.service.model.vo.SalesSectionListVO;
+import com.medusa.gruul.service.uaa.service.model.vo.UserPointVO;
+import com.medusa.gruul.service.uaa.service.model.vo.UserWithDataVO;
 import com.medusa.gruul.service.uaa.service.service.AccountService;
+import com.medusa.gruul.service.uaa.service.service.SalesSectionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -42,7 +48,7 @@ public class AccountController {
 
     private final AccountService service;
     private final UaaRpcService uaaRpcService;
-//    private final SmsSignService smsSignService;
+    private final SalesSectionService salesSectionService;
 
     /**
      * 分页查询会员信息
@@ -157,6 +163,36 @@ public class AccountController {
         //todo set token
         return Result.ok("验证码发送成功");
     }
+
+
+    @PostMapping("getSalesSectionList")
+    @Log("getSalesSectionList")
+    public Result<IPage<ProductVO>> getSalesSectionList(@RequestBody SalesSectionPageDTO dto) {
+
+        IPage<ProductVO> salesSectionList= salesSectionService.getSalesSectionList(dto);
+
+        return Result.ok(salesSectionList);
+    }
+
+    @GetMapping("getUserPointsInfo")
+    @Log("getUserPointsInfo")
+    public Result<List<UserPointVO>> getUserPointsInfo() {
+        Long userId=ISecurity.secureUser().getId();
+        log.info("当前登录用户的userId:{}",userId);
+        List<UserPointVO> userPointVOList= salesSectionService.getUserPointsInfo(userId);
+
+        return Result.ok(userPointVOList);
+    }
+
+    @PostMapping("getSectionName")
+    @Log("getSectionName")
+    public Result<String> getSectionName(@RequestBody SalesSectionNoPageDTO dto) {
+
+        String sectionName= salesSectionService.getSectionName(dto);
+
+        return Result.ok(sectionName);
+    }
+
     public static long generate9DigitId() {
         UUID uuid = UUID.randomUUID();
         long mostSignificantBits = uuid.getMostSignificantBits();
